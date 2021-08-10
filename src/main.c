@@ -14,6 +14,7 @@
 #define BG_BLUE     44
 #define BG_DEFAULT  49
 
+//TODO: f32, b8, etc..
 
 
 #define assert(expression) if(expression) {} else {  printf("[ERROR ASSERT]: [%s] returned false, in file: [%s], in function: [%s], at line: [%i]\n\n", #expression, __FILE__, __FUNCTION__, __LINE__); exit(-1); }
@@ -28,9 +29,9 @@
 
 int main(void) {
     
-    HDC hdc;
+    //HDC hdc;
     
-    HGLRC hglrc = wglCreateContext(hdc);
+    //HGLRC hglrc = wglCreateContext(hdc);
     
     int a = 1;
     assertf(a == 2, "goober");

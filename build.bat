@@ -3,7 +3,7 @@
 if not exist bin mkdir bin
 pushd bin
 
-set compileType=cl
+set compileType=gcc
 
 echo [HGE] compiling  main.c with compiler: [%compileType%]
 
