@@ -1,17 +1,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
 #include <GL/gl.h>
-#include "data_types.h"
 
+#include "HF/hf.h"
 
 //TODO: FINISH THE THEME
 
-
-#define assert(expression) if(expression) {} else {  printf("[ERROR ASSERT]: [%s] returned false, in file: [%s], in function: [%s], at line: [%i]\n\n", #expression, __FILE__, __FUNCTION__, __LINE__); exit(-1); }
-
-#define assertf(expression,msg) if(expression) {} else {  printf("[ERROR ASSERT]: [%s] returned false, with message: [%s], in file: [%s], in function: [%s], at line: [%i]\n\n", #expression, msg, __FILE__, __FUNCTION__, __LINE__); exit(-1); }
 
 const char classname[] = "gooberClass";
 
@@ -32,6 +27,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 int main(void){
+    
+    hf_window window = {};
+    create_window(&window);
     
     WNDCLASSEX wc;
     HWND hwnd;

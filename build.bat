@@ -17,7 +17,7 @@ start /b /wait "" "cl" ..\src\main.c /I..\ext\include /link opengl32.lib /libpat
 
 IF %compileType%==gcc (
 	
-gcc ..\src\main.c -o goober.exe -I..\ext\include -lopengl32
+gcc *.c -o goober.exe -I..\ext\include -I..\src -I..\src\HF -lopengl32
 
 )
 

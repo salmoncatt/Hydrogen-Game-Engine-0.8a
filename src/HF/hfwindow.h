@@ -3,15 +3,26 @@
 #ifndef _WINDOW_H
 #define _WINDOW_H
 
+//const char* hf_window_classname = "HF_WINDOW";
 
+// NOTE(salmoncatt): do platform specific functions like foo (calls wfoo or xfoo)
 
-struct hf_window {
+typedef struct {
+    u32 width;
+    u32 height;
+    u32 x;
+    u32 y;
     
+    HWND hwnd;
+    WNDCLASSEX wc;
+    MSG msg;
     
+    const char* title;
     
-};
+} hf_window;
 
 void create_window(hf_window* window);
+LRESULT CALLBACK window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 
 
