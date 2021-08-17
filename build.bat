@@ -1,13 +1,14 @@
 @echo off
 
 if not exist bin mkdir bin
-pushd bin
 
 set compileType=gcc
 
 echo [HGE] compiling  main.c with compiler: [%compileType%]
 
 if %compileType%==cl (
+
+echo [ERROR] cl has been buggy and not setup, please use gcc
 
 call vcvars32
 
@@ -17,8 +18,6 @@ start /b /wait "" "cl" ..\src\main.c /I..\ext\include /link opengl32.lib /libpat
 
 IF %compileType%==gcc (
 	
-gcc *.c -o goober.exe -I..\ext\include -I..\src -I..\src\HF -lopengl32
+make
 
 )
-
-popd

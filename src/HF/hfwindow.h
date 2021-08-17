@@ -5,6 +5,9 @@
 
 //const char* hf_window_classname = "HF_WINDOW";
 
+#include "math/hfmath.h"
+#include <windows.h>
+
 // NOTE(salmoncatt): do platform specific functions like foo (calls wfoo or xfoo)
 
 typedef struct {

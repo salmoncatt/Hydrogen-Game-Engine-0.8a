@@ -28,7 +28,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 int main(void){
     
-    hf_window window = {};
+    hf_window window;
     create_window(&window);
     
     WNDCLASSEX wc;
