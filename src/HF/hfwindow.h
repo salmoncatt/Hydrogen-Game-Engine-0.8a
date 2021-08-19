@@ -10,6 +10,7 @@
 
 // NOTE(salmoncatt): do platform specific functions like foo (calls wfoo or xfoo)
 
+
 typedef struct {
     u32 width;
     u32 height;

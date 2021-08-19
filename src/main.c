@@ -9,10 +9,6 @@
 
 
 
-
-
-
-
 int main(void){
     hf_window window = {};
     window.width = 1000;
@@ -23,9 +19,9 @@ int main(void){
         printf("created window\n");
     else
         printf("couldn't create window\n");
-    getchar();
     
-    while(hf_should_window_update(&window) > 0){
+    
+    while(hf_should_window_update(&window)){
         hf_update_window(&window);
     }
     
