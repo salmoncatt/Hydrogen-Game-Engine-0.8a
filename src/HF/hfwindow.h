@@ -17,10 +17,13 @@ typedef struct {
     u32 x;
     u32 y;
     
+    u32 bitsPerPixel;
+    
     HWND hwnd;
     WNDCLASSEX wc;
     MSG msg;
     HDC hdc;
+    HGLRC hrc;
     
     const char* title;
     

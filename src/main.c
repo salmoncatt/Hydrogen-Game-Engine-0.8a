@@ -13,6 +13,7 @@ int main(void){
     hf_window window = {};
     window.width = 1000;
     window.height = 600;
+    window.bitsPerPixel = 32;
     window.title = "what a goober";
     
     if(hf_create_window(&window))
