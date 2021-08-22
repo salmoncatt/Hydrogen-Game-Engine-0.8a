@@ -31,7 +31,7 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
     return 0;
 }
 
-// TODO(salmoncatt): add focusing support focus(hf_window*)
+// TODO(salmoncatt): add focusing support    focus(hf_window*)
 
 b8 hf_create_window(hf_window* w){
     // NOTE(salmoncatt): in case not using winmain
@@ -91,18 +91,18 @@ b8 hf_create_window(hf_window* w){
     
     
     // NOTE(salmoncatt): getting and setting pixel format
-    u32 pixelformat;
+    u32 pixelFormat = ChoosePixelFormat(w->hdc, &pfd);
     
-    if (!(pixelFormat = ChoosePixelFormat(g_hdc, &pfd)))
+    if (!pixelFormat)
     {
         MessageBox(NULL, "Can't find an appropriate pixel format", "Error", MB_OK | MB_ICONEXCLAMATION);
-        return FALSE;
+        return 0;
     }
     
-    if(!SetPixelFormat(g_hdc, pixelFormat,&pfd))
+    if(!SetPixelFormat(w->hdc, pixelFormat,&pfd))
     {
         MessageBox(NULL, "Unable to set pixel format", "Error", MB_OK | MB_ICONEXCLAMATION);
-        return FALSE;
+        return 0;
     }
     
     
@@ -110,7 +110,6 @@ b8 hf_create_window(hf_window* w){
     if(!wglMakeCurrent(w->hdc, w->hrc))
     {
         MessageBox(NULL,"Unable to activate OpenGL rendering context", "ERROR", MB_OK | MB_ICONEXCLAMATION);
-        return FALSE;
     }
     
     ShowWindow(w->hwnd, 1);

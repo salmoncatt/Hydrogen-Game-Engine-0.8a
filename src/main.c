@@ -18,8 +18,10 @@ int main(void){
     
     if(hf_create_window(&window))
         printf("created window\n");
-    else
+    else{
         printf("couldn't create window\n");
+        return -1;
+    }
     
     
     while(hf_should_window_update(&window)){
