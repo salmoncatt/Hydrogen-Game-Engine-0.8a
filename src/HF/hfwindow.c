@@ -1,5 +1,6 @@
 #include "hfwindow.h"
 #include <stdio.h>
+#include "hfutil.h"
 
 LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
     switch(msg)
@@ -11,19 +12,9 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
          */
         case WM_CLOSE:
         DestroyWindow(hwnd);
-        // release the RC
-        if (!wglMakeCurrent(NULL,NULL))
-        {
-            MessageBox(NULL, "Unable to release rendering context", "Error", MB_OK | MB_ICONINFORMATION);
-        }
         break;
         case WM_DESTROY:
         PostQuitMessage(0);
-        // release the RC
-        if (!wglMakeCurrent(NULL,NULL))
-        {
-            MessageBox(NULL, "Unable to release rendering context", "Error", MB_OK | MB_ICONINFORMATION);
-        }
         break;
         default:
         return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -35,7 +26,7 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 b8 hf_create_window(hf_window* w){
     // NOTE(salmoncatt): in case not using winmain
-    HINSTANCE hInstance = GetModuleHandle(NULL);
+    w->hInstance = GetModuleHandle(NULL);
     
     
     
@@ -45,7 +36,7 @@ b8 hf_create_window(hf_window* w){
     w->wc.lpfnWndProc = hf_window_procedure;
     w->wc.cbClsExtra = 0;
     w->wc.cbWndExtra = 0;
-    w->wc.hInstance = hInstance;
+    w->wc.hInstance = w->hInstance;
     w->wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     w->wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     w->wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
@@ -55,17 +46,28 @@ b8 hf_create_window(hf_window* w){
     
     // NOTE(salmoncatt): register window class into windows and check status
     if(!RegisterClassEx(&w->wc)){
+        print_windows_last_error();
         printf("couldn't register window: %s\n", w->title);
         MessageBox(NULL, "couldn't register window", "error", MB_ICONERROR | MB_OK);
         return 0;
     }
     
     // NOTE(salmoncatt): create window and check status
-    w->hwnd = CreateWindowEx(0, w->title, w->title, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, w->width, w->height, NULL, NULL, hInstance, NULL);
-    if(w->hwnd == NULL){
+    w->hwnd = CreateWindowEx(0, w->title, w->title, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, w->width, w->height, NULL, NULL, w->hInstance, NULL);
+    if(!w->hwnd){
+        print_windows_last_error();
         printf("couldn't create window: %s\n", w->title);
         MessageBox(NULL, "couldn't create window", "error", MB_ICONERROR | MB_OK);
         return 0;
+    }
+    
+    
+    // TODO(salmoncatt): add better error handling
+    
+    w->hdc = GetDC(w->hwnd);
+    if(!w->hdc){
+        print_windows_last_error();
+        MessageBox(NULL, "couldn't create device context", "error", MB_ICONERROR | MB_OK);
     }
     
     // NOTE(salmoncatt): pixel format description for wgl
@@ -95,25 +97,72 @@ b8 hf_create_window(hf_window* w){
     
     if (!pixelFormat)
     {
+        print_windows_last_error();
         MessageBox(NULL, "Can't find an appropriate pixel format", "Error", MB_OK | MB_ICONEXCLAMATION);
         return 0;
     }
     
     if(!SetPixelFormat(w->hdc, pixelFormat,&pfd))
     {
+        print_windows_last_error();
         MessageBox(NULL, "Unable to set pixel format", "Error", MB_OK | MB_ICONEXCLAMATION);
         return 0;
     }
     
-    
     // NOTE(salmoncatt): make opengl context
+    w->hrc = wglCreateContext(w->hdc);
+    if(!w->hrc)
+    {
+        print_windows_last_error();
+        MessageBox(NULL,"Unable to create OpenGL rendering context", "ERROR", MB_OK | MB_ICONEXCLAMATION);
+    }
+    
+    // NOTE(salmoncatt): make opengl context current
     if(!wglMakeCurrent(w->hdc, w->hrc))
     {
+        print_windows_last_error();
         MessageBox(NULL,"Unable to activate OpenGL rendering context", "ERROR", MB_OK | MB_ICONEXCLAMATION);
     }
     
     ShowWindow(w->hwnd, 1);
     UpdateWindow(w->hwnd);
+    
+    return 1;
+}
+
+b8 hf_destroy_window(hf_window* w){
+    
+    if(w->hrc){
+        // release the RC
+        if (!wglMakeCurrent(NULL,NULL))
+        {
+            print_windows_last_error();
+            MessageBox(NULL, "Unable to release rendering context", "Error", MB_OK | MB_ICONINFORMATION);
+        }
+        
+        if (!wglDeleteContext(w->hrc))
+        {
+            print_windows_last_error();
+            MessageBox(NULL, "Unable to delete rendering context", "Error", MB_OK | MB_ICONINFORMATION);
+        }
+    }
+    
+    if(w->hdc && !ReleaseDC(w->hwnd, w->hdc)){
+        print_windows_last_error();
+        MessageBox(NULL, "Unable to release device context", "Error", MB_OK | MB_ICONINFORMATION);
+        w->hdc = NULL;
+    }
+    
+    if(w->hwnd && !DestroyWindow(w->hwnd)){
+        print_windows_last_error();
+        MessageBox(NULL, "Unable to destroy window", "Error", MB_OK | MB_ICONINFORMATION);
+        w->hwnd = NULL;
+    }
+    
+    if(!UnregisterClass(w->title, w->hInstance)){
+        print_windows_last_error();
+        MessageBox(NULL, "Unable to unregister window class", "Error", MB_OK | MB_ICONINFORMATION);
+    }
     
     return 1;
 }

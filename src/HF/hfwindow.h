@@ -19,11 +19,13 @@ typedef struct {
     
     u32 bitsPerPixel;
     
+    HINSTANCE hInstance;
     HWND hwnd;
     WNDCLASSEX wc;
     MSG msg;
     HDC hdc;
     HGLRC hrc;
+    
     
     const char* title;
     
@@ -31,6 +33,7 @@ typedef struct {
 
 b8 hf_create_window(hf_window* window);
 void hf_update_window(hf_window* window);
+b8 hf_destroy_window(hf_window* window);
 b8 hf_should_window_update(hf_window* window);
 
 LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
