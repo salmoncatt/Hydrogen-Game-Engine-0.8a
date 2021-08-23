@@ -5,15 +5,7 @@
 LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
     switch(msg)
     {
-        /* 
-                case WM_ACTIVATE:
-                printf("goober0\n");
-                break;
-         */
         case WM_CLOSE:
-        DestroyWindow(hwnd);
-        break;
-        case WM_DESTROY:
         PostQuitMessage(0);
         break;
         default:
@@ -131,7 +123,7 @@ b8 hf_create_window(hf_window* w){
 }
 
 b8 hf_destroy_window(hf_window* w){
-    
+    // NOTE(salmoncatt): destroy windows window things
     if(w->hrc){
         // release the RC
         if (!wglMakeCurrent(NULL,NULL))
@@ -145,6 +137,7 @@ b8 hf_destroy_window(hf_window* w){
             print_windows_last_error();
             MessageBox(NULL, "Unable to delete rendering context", "Error", MB_OK | MB_ICONINFORMATION);
         }
+        w->hrc = NULL;
     }
     
     if(w->hdc && !ReleaseDC(w->hwnd, w->hdc)){
@@ -164,6 +157,10 @@ b8 hf_destroy_window(hf_window* w){
         MessageBox(NULL, "Unable to unregister window class", "Error", MB_OK | MB_ICONINFORMATION);
     }
     
+    // NOTE(salmoncatt): free callbacks
+    if(w->key_callback)
+        free(w->key_callback);
+    
     return 1;
 }
 
@@ -174,4 +171,16 @@ b8 hf_should_window_update(hf_window* w){
 void hf_update_window(hf_window* w){
     TranslateMessage(&w->msg);
     DispatchMessage(&w->msg);
+}
+
+
+
+// NOTE(salmoncatt): input handling and callbacks
+
+void hf_window_set_key_callback(hf_window* w, void (*hf_key_callback)(hf_window*, u32, u32)){
+    if(w->key_callback){
+        free(w->key_callback);
+    }
+    
+    w->key_callback = hf_key_callback;
 }

@@ -7,7 +7,7 @@ void print_windows_last_error(){
     
     DWORD errorID = GetLastError();
     if(!errorID){
-        printf("[ERROR] windows error returned with 0");
+        printf("[ERROR] windows error returned with 0\n");
         return;
     }
     
@@ -19,7 +19,7 @@ void print_windows_last_error(){
     strcpy(message, messageBuffer);
     
     // TODO(salmoncatt): make output something cooler than windows error
-    printf("[ERROR] windows error returned with: [ID]: %lu [MESSAGE]: %s", errorID, message);
+    printf("[ERROR] windows error returned with: [ID]: %lu [MESSAGE]: %s\n", errorID, message);
     
     LocalFree(message);
     free(message);
