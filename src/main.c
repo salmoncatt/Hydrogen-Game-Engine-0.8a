@@ -27,6 +27,10 @@ int main(void){
         return -1;
     }
     
+    hf_profile_scope() {
+        printf("what a goober inside scope\n");
+    }
+    
     hf_window_set_key_callback(&window, &test_callback);
     
     window.key_callback(NULL, 0, 0);

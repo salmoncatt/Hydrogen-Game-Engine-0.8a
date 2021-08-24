@@ -3,7 +3,7 @@
 #ifndef _WINDOW_H
 #define _WINDOW_H
 
-#include "math/hfmath.h"
+#include "../math/hfmath.h"
 #include <windows.h>
 
 // NOTE(salmoncatt): do platform specific functions like foo (calls wfoo or xfoo)
@@ -13,7 +13,7 @@
 
 
 // TODO(salmoncatt): get this to not error in console pls
-typedef (*hf_key_callback)(hf_window*, u32, u32);
+//typedef (*hf_key_callback)(hf_window*, u32, u32);
 
 // TODO(salmoncatt): come up with a better solution for callbacks than (typedef struct hf_def_window_struct)
 typedef struct hf_def_window_struct{
@@ -33,10 +33,12 @@ typedef struct hf_def_window_struct{
     
     //struct hf_window* test;
     // TODO(salmoncatt): get these callbacks to work
-    struct{
-        hf_key_callback key_callback;
-        
-    }callbacks;
+    /* 
+        struct{
+            hf_key_callback key_callback;
+            
+        }callbacks;
+     */
     
     void (*key_callback)(struct hf_def_window_struct*, u32, u32);
     

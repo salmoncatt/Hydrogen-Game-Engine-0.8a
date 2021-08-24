@@ -1,6 +1,6 @@
 #include "hfwindow.h"
 #include <stdio.h>
-#include "hfutil.h"
+#include "../hfutil.h"
 
 LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
     switch(msg)

@@ -14,7 +14,9 @@
 #include "hfgl.h"
 
 //#ifdef _WIN32 || _WIN64
-#include "hfwindow.h"
+#include "io/hfwindow.h"
 //#endif
+
+#include "time/hfprofiler.h"
 
 #endif //HF_H
