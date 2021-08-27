@@ -18,6 +18,6 @@
 
 
 // NOTE(salmoncatt): windows get last error
-void print_windows_last_error();
+void printWindowsLastError();
 
 #endif //HFUTIL_H

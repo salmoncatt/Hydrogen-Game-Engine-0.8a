@@ -8,7 +8,7 @@
 //#endif
 // TODO(salmoncatt): add linux headers n stuff pls
 
-#include "hfutil.h"
+#include "util/hfutil.h"
 #include "math/hfmath.h"
 
 #include "hfgl.h"

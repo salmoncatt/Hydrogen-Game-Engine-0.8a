@@ -45,38 +45,38 @@ typedef bool64    b64;
 
 
 // NOTE(salmoncatt): vector types
-typedef struct {
+typedef struct v2f{
     f32 x;
     f32 y;
     
-} v2;
+} v2f;
 
-typedef struct {
-    f32 x;
-    f32 y;
-    f32 z;
-    
-} v3;
-
-typedef struct {
+typedef struct v3f{
     f32 x;
     f32 y;
     f32 z;
     
-} v4;
+} v3f;
+
+typedef struct v4f{
+    f32 x;
+    f32 y;
+    f32 z;
+    
+} v4f;
 
 //adds a and b and returns the result
-v2 v2_add_v2(v2* a, v2* b);
+v2f v2f_add_v2f(v2f* a, v2f* b);
 //adds a and b and stores the result in a
-v2 v2_addsto_v2(v2* a, v2* b);
+v2f v2f_addsto_v2f(v2f* a, v2f* b);
 
 //adds a and b and returns the result
-v3 v3_add_v3(v3* a, v3* b);
+v3f v3f_add_v3f(v3f* a, v3f* b);
 //adds a and b and stores the result in a
-v3 v3_addsto_v3(v3* a, v3* b);
+v3f v3f_addsto_v3f(v3f* a, v3f* b);
 
 //adds a and b and returns the result
-v4 v4_add_v4(v4* a, v4* b);
+v4f v4f_add_v4f(v4f* a, v4f* b);
 //adds a and b and stores the result in a
-v4 v4_addsto_v4(v4* a, v4* b);
+v4f v4f_addsto_v4f(v4f* a, v4f* b);
 #endif //HFMATH_H

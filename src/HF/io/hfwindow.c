@@ -1,8 +1,8 @@
 #include "hfwindow.h"
 #include <stdio.h>
-#include "../hfutil.h"
+#include "../util/hfutil.h"
 
-LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
+LRESULT CALLBACK hfWindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
     switch(msg)
     {
         case WM_CLOSE:
@@ -16,7 +16,7 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 // TODO(salmoncatt): add focusing support    focus(hf_window*)
 
-b8 hf_create_window(hf_window* w){
+b8 hfCreateWindow(hf_window* w){
     // NOTE(salmoncatt): in case not using winmain
     w->hInstance = GetModuleHandle(NULL);
     
@@ -25,7 +25,7 @@ b8 hf_create_window(hf_window* w){
     // NOTE(salmoncatt): set windows parameters
     w->wc.cbSize = sizeof(WNDCLASSEX);
     w->wc.style = 0;
-    w->wc.lpfnWndProc = hf_window_procedure;
+    w->wc.lpfnWndProc = hfWindowProcedure;
     w->wc.cbClsExtra = 0;
     w->wc.cbWndExtra = 0;
     w->wc.hInstance = w->hInstance;
@@ -38,7 +38,7 @@ b8 hf_create_window(hf_window* w){
     
     // NOTE(salmoncatt): register window class into windows and check status
     if(!RegisterClassEx(&w->wc)){
-        print_windows_last_error();
+        printWindowsLastError();
         printf("couldn't register window: %s\n", w->title);
         MessageBox(NULL, "couldn't register window", "error", MB_ICONERROR | MB_OK);
         return 0;
@@ -47,7 +47,7 @@ b8 hf_create_window(hf_window* w){
     // NOTE(salmoncatt): create window and check status
     w->hwnd = CreateWindowEx(0, w->title, w->title, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, w->width, w->height, NULL, NULL, w->hInstance, NULL);
     if(!w->hwnd){
-        print_windows_last_error();
+        printWindowsLastError();
         printf("couldn't create window: %s\n", w->title);
         MessageBox(NULL, "couldn't create window", "error", MB_ICONERROR | MB_OK);
         return 0;
@@ -58,7 +58,7 @@ b8 hf_create_window(hf_window* w){
     
     w->hdc = GetDC(w->hwnd);
     if(!w->hdc){
-        print_windows_last_error();
+        printWindowsLastError();
         MessageBox(NULL, "couldn't create device context", "error", MB_ICONERROR | MB_OK);
     }
     
@@ -89,14 +89,14 @@ b8 hf_create_window(hf_window* w){
     
     if (!pixelFormat)
     {
-        print_windows_last_error();
+        printWindowsLastError();
         MessageBox(NULL, "Can't find an appropriate pixel format", "Error", MB_OK | MB_ICONEXCLAMATION);
         return 0;
     }
     
     if(!SetPixelFormat(w->hdc, pixelFormat,&pfd))
     {
-        print_windows_last_error();
+        printWindowsLastError();
         MessageBox(NULL, "Unable to set pixel format", "Error", MB_OK | MB_ICONEXCLAMATION);
         return 0;
     }
@@ -105,14 +105,14 @@ b8 hf_create_window(hf_window* w){
     w->hrc = wglCreateContext(w->hdc);
     if(!w->hrc)
     {
-        print_windows_last_error();
+        printWindowsLastError();
         MessageBox(NULL,"Unable to create OpenGL rendering context", "ERROR", MB_OK | MB_ICONEXCLAMATION);
     }
     
     // NOTE(salmoncatt): make opengl context current
     if(!wglMakeCurrent(w->hdc, w->hrc))
     {
-        print_windows_last_error();
+        printWindowsLastError();
         MessageBox(NULL,"Unable to activate OpenGL rendering context", "ERROR", MB_OK | MB_ICONEXCLAMATION);
     }
     
@@ -122,38 +122,38 @@ b8 hf_create_window(hf_window* w){
     return 1;
 }
 
-b8 hf_destroy_window(hf_window* w){
+b8 hfDestroyWindow(hf_window* w){
     // NOTE(salmoncatt): destroy windows window things
     if(w->hrc){
         // release the RC
         if (!wglMakeCurrent(NULL,NULL))
         {
-            print_windows_last_error();
+            printWindowsLastError();
             MessageBox(NULL, "Unable to release rendering context", "Error", MB_OK | MB_ICONINFORMATION);
         }
         
         if (!wglDeleteContext(w->hrc))
         {
-            print_windows_last_error();
+            printWindowsLastError();
             MessageBox(NULL, "Unable to delete rendering context", "Error", MB_OK | MB_ICONINFORMATION);
         }
         w->hrc = NULL;
     }
     
     if(w->hdc && !ReleaseDC(w->hwnd, w->hdc)){
-        print_windows_last_error();
+        printWindowsLastError();
         MessageBox(NULL, "Unable to release device context", "Error", MB_OK | MB_ICONINFORMATION);
         w->hdc = NULL;
     }
     
     if(w->hwnd && !DestroyWindow(w->hwnd)){
-        print_windows_last_error();
+        printWindowsLastError();
         MessageBox(NULL, "Unable to destroy window", "Error", MB_OK | MB_ICONINFORMATION);
         w->hwnd = NULL;
     }
     
     if(!UnregisterClass(w->title, w->hInstance)){
-        print_windows_last_error();
+        printWindowsLastError();
         MessageBox(NULL, "Unable to unregister window class", "Error", MB_OK | MB_ICONINFORMATION);
     }
     
@@ -164,20 +164,23 @@ b8 hf_destroy_window(hf_window* w){
     return 1;
 }
 
-b8 hf_should_window_update(hf_window* w){
+b8 hfShouldWindowUpdate(hf_window* w){
     return GetMessage(&w->msg, NULL, 0, 0);
 }
 
-void hf_update_window(hf_window* w){
+void hfUpdateWindow(hf_window* w){
     TranslateMessage(&w->msg);
     DispatchMessage(&w->msg);
 }
 
+void hfSwapBuffers(hf_window* w){
+    SwapBuffers(w->hdc);
+}
 
 
 // NOTE(salmoncatt): input handling and callbacks
 
-void hf_window_set_key_callback(hf_window* w, void (*hf_key_callback)(hf_window*, u32, u32)){
+void hfWindowSetKeyCallback(hf_window* w, void (*hf_key_callback)(hf_window*, u32, u32)){
     if(w->key_callback){
         free(w->key_callback);
     }

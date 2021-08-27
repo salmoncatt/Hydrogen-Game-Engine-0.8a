@@ -1,9 +1,9 @@
 #include "hfutil.h"
 #include <stdio.h>
-#include "math/hfmath.h"
+#include "../math/hfmath.h"
 #include <windows.h>
 
-void print_windows_last_error(){
+void printWindowsLastError(){
     
     DWORD errorID = GetLastError();
     if(!errorID){

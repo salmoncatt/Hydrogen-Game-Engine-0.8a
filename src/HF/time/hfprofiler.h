@@ -3,7 +3,7 @@
 #ifndef PROFILER_H
 #define PROFILER_H
 
-#define hf_profile_scope() for(i8 i = 0; i < 1; ++i, printf("what a goober\n"))
+#define hfProfileScope() for(i8 HF_PROFILE_SCOPE_MACRO_INDEX_VARIABLE = 0; HF_PROFILE_SCOPE_MACRO_INDEX_VARIABLE < 1; ++HF_PROFILE_SCOPE_MACRO_INDEX_VARIABLE, printf("what a goober\n"))
 
 
 #endif //PROFILER_H
