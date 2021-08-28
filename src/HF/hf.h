@@ -8,10 +8,19 @@
 //#endif
 // TODO(salmoncatt): add linux headers n stuff pls
 
+
+// TODO(salmoncatt): come up with a better header name pls
+#include "datatypes/hfdatatypes.h"
+#include "datatypes/hfvector.h"
+#include "datatypes/hflinkedlist.h"
+#include "datatypes/hfstring.h"
+
 #include "util/hfutil.h"
+#include "util/hfgl.h"
+
 #include "math/hfmath.h"
 
-#include "hfgl.h"
+#include "debug/hfdebug.h"
 
 //#ifdef _WIN32 || _WIN64
 #include "io/hfwindow.h"

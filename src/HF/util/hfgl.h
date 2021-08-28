@@ -3,6 +3,8 @@
 #ifndef HFGL_H
 #define HFGL_H
 
+#include "../math/hfmath.h"
+
 u32 hf_generate_VAO();
 
 u32 hf_generate_VBO();

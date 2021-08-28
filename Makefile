@@ -1,5 +1,5 @@
 LIBS  = -lopengl32 -lgdi32
-CFLAGS = -Wall
+CFLAGS = -Wall -mavx
 
 # Should be equivalent to your list of C files, if you don't build selectively
 #TODO: (salmoncatt) dont make me write * for every new sub directory added
