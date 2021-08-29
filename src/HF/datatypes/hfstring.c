@@ -10,25 +10,45 @@ u64 hfStringFind(const char* delimiter, const char* data){
 
 u64 hfStringFind(const char* delimiter, const char* data, u64 startingIndex){
     u64 out = hfstrfind(delimiter[0], data, startingIndex);
-    u64 end = hfstrlen(data);
-    
     if(out == hf_string_npos)
         return out;
     
-    u64 index = out;
+    u64 end = hfstrlen(delimiter);
+    //b8 inDelimiter = 0;
+    
+    //u64 end = hfstrlen(data);
+    //u64 index = out;
+    
     __m128i* mdata = (__m128i*)(data);
     __m128i* mdelimiter = (__m128i*)(delimiter);
     const __m128i currentDelimiter = _mm_loadu_si128(mdelimiter);
     
-    for(;index < end - 15; mdata++, index += 16){
-        
-        const __m128i currentData = _mm_loadu_si128(mdata);
-        i8 result = _mm_testz_si128(currentData, currentDelimiter);
-        
-        if(result){
-        }
+    for(;; mdata++){
+        const __m128i current = _mm_loadu_si128(pointer);
         
     }
+    
+    /* 
+        for(;; mdata++){
+            const __m128i currentData = _mm_loadu_si128(mdata);
+            i8 result = _mm_testz_si128(currentData, currentDelimiter);
+            
+            if(result)
+                inDelimiter = 1;
+        }
+     */
+    
+    /* 
+        for(;index < end - 15; mdata++, index += 16){
+            
+            const __m128i currentData = _mm_loadu_si128(mdata);
+            i8 result = _mm_testz_si128(currentData, currentDelimiter);
+            
+            if(result){
+            }
+            
+        }
+     */
     
     return hf_string_npos;
 }

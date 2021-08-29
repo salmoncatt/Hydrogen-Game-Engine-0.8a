@@ -41,8 +41,9 @@ int main(void){
     const char* goober = "what a goober ";
     hf_vector vector = {};
     hfVectorInit(&vector);
-    u64 index = hfstrfind(' ', goober, 7);
+    //u64 index = hfstrfind(' ', goober, 7);
     //u64 index = hfstrlen(goober);
+    u64 index = hfStringFind("a", goober, 0);
     printf("%lu\n", index);
     printf("%lu\n", hf_string_npos);
     /* 
