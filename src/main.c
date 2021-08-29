@@ -14,6 +14,7 @@ void test_callback(hf_window* w, u32 keycode, u32 action){
  */
 
 int main(void){
+    setvbuf(stdout, NULL, _IONBF, 0);
     /* 
         hf_window window = {};
         window.width = 1000;
@@ -37,8 +38,7 @@ int main(void){
         }
      */
     
-    
-    const char* goober = "what a goober ";
+    const char* goober = "ba      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n";
     hf_vector vector = {};
     hfVectorInit(&vector);
     //u64 index = hfstrfind(' ', goober, 7);
@@ -53,6 +53,9 @@ int main(void){
         printf("%s", (char*)vector.data[2]);
      */
     
+    //hf_free(bytes);
+    hfVectorFree(&vector);
+    
     //hf_window_set_key_callback(&window, &test_callback);
     
     //window.key_callback(NULL, 0, 0);
@@ -66,6 +69,8 @@ int main(void){
         if(hfDestroyWindow(&window))
             printf("destroyed window\n");
         
+
+
         return window.msg.wParam;
          */
     return 0;

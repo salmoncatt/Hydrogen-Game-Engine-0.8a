@@ -1,6 +1,7 @@
 #include "hfstring.h"
 #include "../util/hfutil.h"
 #include "../debug/hfdebug.h"
+#include <stdio.h>
 
 /* 
 u64 hfStringFind(const char* delimiter, const char* data){
@@ -12,20 +13,34 @@ u64 hfStringFind(const char* delimiter, const char* data, u64 startingIndex){
     u64 out = hfstrfind(delimiter[0], data, startingIndex);
     if(out == hf_string_npos)
         return out;
-    
     u64 end = hfstrlen(delimiter);
     //b8 inDelimiter = 0;
     
     //u64 end = hfstrlen(data);
     //u64 index = out;
     
-    __m128i* mdata = (__m128i*)(data);
+    __m128i* mdata = (__m128i*)(data + out);
     __m128i* mdelimiter = (__m128i*)(delimiter);
     const __m128i currentDelimiter = _mm_loadu_si128(mdelimiter);
     
     for(;; mdata++){
-        const __m128i current = _mm_loadu_si128(pointer);
+        const __m128i current = _mm_loadu_si128(mdata);
         
+        const __m128i compare = _mm_cmpeq_epi8(current, currentDelimiter);
+        
+        u8 mask = _mm_movemask_epi8(compare);
+        
+        if(mask){
+            u64 index = 0;
+            for(;index < end;){
+                
+            }
+            
+            printf("%u\n", ((char*)mdata - data));
+            hfPrintBits(sizeof(mask), &mask);
+            printf("ctz: %lu", hfCountTrailingZeros(mask));
+            break;
+        }
     }
     
     /* 
@@ -50,7 +65,7 @@ u64 hfStringFind(const char* delimiter, const char* data, u64 startingIndex){
         }
      */
     
-    return hf_string_npos;
+    return 23;
 }
 
 char* hfStringSubstr(const char* data, u64 start, u64 end){
@@ -64,10 +79,10 @@ char* hfStringSubstr(const char* data, u64 start, u64 end){
     
     if(end > size){
         u64 newLength = size - start;
-        out = (char*)hfmalloc(newLength + 1);
+        out = (char*)hf_malloc(newLength + 1);
         
     }else{
-        out = (char*)hfmalloc(end - start);
+        out = (char*)hf_malloc(end - start);
         
         hfmemcpy(out, data + start, start + end + 1);
         

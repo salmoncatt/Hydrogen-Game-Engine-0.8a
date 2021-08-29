@@ -135,6 +135,63 @@ extern char* hfstrcpy(char* destination, const char* source, u64 offset){
     return (char*)hfmemcpy(destination, source + offset, hfstrlen(source) + 1 - offset);
 }
 
-extern void* hfmalloc(u64 bytes){
+extern void* hf_malloc(u64 bytes){
     return malloc(bytes);
+}
+
+extern void hf_free(void* pointer){
+    free(pointer);
+}
+
+char* hfConvertToBits(u64 size, const void* data){
+    /* 
+        char* bytes = (char*)data;
+        char* out = (char*)hf_malloc((size * 8) + 1);
+        char byte;
+        int i, j;
+        
+        for(i = size - 1; i >= 0; i--){
+            for(j = 7; j >= 0; j--){
+                byte = (bytes[i] >> j) & 1;
+                //out[i * j] = byte;
+                //printf("%u", byte);
+            }
+        }
+        puts("");
+        
+        
+        out[size * 8] = '\0';
+        
+        return out;
+         */
+    return 0;
+}
+
+void hfPrintBits(u64 size, const void* data){
+    char* bytes = (char*)data;
+    char byte;
+    int i, j;
+    
+    for(i = size - 1; i >= 0; i--){
+        for(j = 7; j >= 0; j--){
+            byte = (bytes[i] >> j) & 1;
+            printf("%u", byte);
+        }
+    }
+    puts("");
+}
+
+u64 hfCountTrailingZeros(u64 in){
+    /* 
+        unsigned int v;      // 32-bit word input to count zero bits on right
+        unsigned int c = 32; // c will be the number of zero bits on the right
+        v &= -signed(v);
+        if (v) c--;
+        if (v & 0x0000FFFF) c -= 16;
+        if (v & 0x00FF00FF) c -= 8;
+        if (v & 0x0F0F0F0F) c -= 4;
+        if (v & 0x33333333) c -= 2;
+        if (v & 0x55555555) c -= 1;
+         */
+    return __builtin_ctz(in);
 }

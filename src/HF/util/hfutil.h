@@ -23,9 +23,16 @@ extern u64 hfstrfind(const char delimiter, const char* data, u64 startingIndex);
 
 extern char* hfstrcpy(char* destination, const char* source, u64 offset);
 
-extern void* hfmalloc(u64 bytes);
+extern void* hf_malloc(u64 bytes);
 
-//inline char* strcpywoffset
+extern void hf_free(void* pointer);
+
+// NOTE(salmoncatt): NEEDS TO BE A REFERENCE TO THE DATA
+char* hfConvertToBits(u64 size, const void* data);
+
+void hfPrintBits(u64 size, const void* data);
+
+u64 hfCountTrailingZeros(u64 in);
 
 
 // NOTE(salmoncatt): windows get last error
