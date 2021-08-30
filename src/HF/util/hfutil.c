@@ -84,12 +84,20 @@ extern u64 hfstrlen(const char* data){
     for (;; pointer++) {
         
         const __m128i current = _mm_loadu_si128(pointer);
+        const __m128i comparison = _mm_cmpeq_epi8(current, zeros);
+        u32 mask = _mm_movemask_epi8(comparison);
         
-        if (_mm_cmpistrc(current, zeros, _SIDD_UBYTE_OPS | _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_EQUAL_EACH)) {
-            int index = _mm_cmpistri(current, zeros, _SIDD_UBYTE_OPS | _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_EQUAL_EACH);
-            
-            return ((char*)(pointer) - data) + index;
+        if(mask){
+            return ((char*)(pointer) - data) + hf_ctzu32(mask);
         }
+        
+        /* 
+                if (_mm_cmpistrc(current, zeros, _SIDD_UBYTE_OPS | _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_EQUAL_EACH)) {
+                    int index = _mm_cmpistri(current, zeros, _SIDD_UBYTE_OPS | _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_EQUAL_EACH);
+                    
+                    return ((char*)(pointer) - data) + index;
+                }
+         */
     }
 }
 
@@ -100,33 +108,30 @@ extern u64 hfstrfind(const char d, const char* data, u64 startingIndex){
     const __m128i zeros = _mm_setzero_si128();
     __m128i* pointer = (__m128i*)(data + startingIndex);
     
-    for(;;){
+    u64 size = hfstrlen(data);
+    if(startingIndex >= size)
+        return hf_string_npos;
+    
+    for(;((char*)(pointer) - data) + 16 < size;){
         const __m128i current = _mm_loadu_si128(pointer);
+        __m128i comparison = _mm_cmpeq_epi8(current, delimiters);
+        u32 mask = _mm_movemask_epi8(comparison);
         
-        if (_mm_cmpistrc(current, delimiters, _SIDD_UBYTE_OPS | _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_EQUAL_EACH)) {
-            int index = _mm_cmpistri(current, delimiters, _SIDD_UBYTE_OPS | _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_EQUAL_EACH);
-            
-            return ((char*)(pointer) - data) + index;
-        }else if(_mm_cmpistrc(current, zeros, _SIDD_UBYTE_OPS | _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_EQUAL_EACH))
-            return hf_string_npos;
+        if(mask){
+            return ((char*)(pointer) - data) + hf_ctzu32(mask);
+        }
+        
+        /* 
+                if (_mm_cmpistrc(current, delimiters, _SIDD_UBYTE_OPS | _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_EQUAL_EACH)) {
+                    int index = _mm_cmpistri(current, delimiters, _SIDD_UBYTE_OPS | _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_EQUAL_EACH);
+                    
+                    return ((char*)(pointer) - data) + index;
+                }else if(_mm_cmpistrc(current, zeros, _SIDD_UBYTE_OPS | _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_EQUAL_EACH))
+                    return hf_string_npos;
+         */
         
         pointer++;
     }
-    
-    /* 
-        while(out + 16 < end){
-            const __m128i current = _mm_loadu_si128(pointer);
-            
-            if (_mm_cmpistrc(current, delimiters, _SIDD_UBYTE_OPS | _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_EQUAL_EACH)) {
-                int index = _mm_cmpistri(current, delimiters, _SIDD_UBYTE_OPS | _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_EQUAL_EACH);
-                
-                return out + index;
-            }
-            
-            pointer++;
-            out += 16;
-        }
-     */
     
     return hf_string_npos;
 }
@@ -145,25 +150,25 @@ extern void hf_free(void* pointer){
 
 char* hfConvertToBits(u64 size, const void* data){
     /* 
-        char* bytes = (char*)data;
-        char* out = (char*)hf_malloc((size * 8) + 1);
-        char byte;
-        int i, j;
-        
-        for(i = size - 1; i >= 0; i--){
-            for(j = 7; j >= 0; j--){
-                byte = (bytes[i] >> j) & 1;
-                //out[i * j] = byte;
-                //printf("%u", byte);
-            }
-        }
-        puts("");
-        
-        
-        out[size * 8] = '\0';
-        
-        return out;
-         */
+char* bytes = (char*)data;
+char* out = (char*)hf_malloc((size * 8) + 1);
+char byte;
+int i, j;
+
+for(i = size - 1; i >= 0; i--){
+for(j = 7; j >= 0; j--){
+byte = (bytes[i] >> j) & 1;
+//out[i * j] = byte;
+//printf("%u", byte);
+}
+}
+puts("");
+
+
+out[size * 8] = '\0';
+
+return out;
+*/
     return 0;
 }
 
@@ -181,17 +186,25 @@ void hfPrintBits(u64 size, const void* data){
     puts("");
 }
 
-u64 hfCountTrailingZeros(u64 in){
-    /* 
-        unsigned int v;      // 32-bit word input to count zero bits on right
-        unsigned int c = 32; // c will be the number of zero bits on the right
-        v &= -signed(v);
-        if (v) c--;
-        if (v & 0x0000FFFF) c -= 16;
-        if (v & 0x00FF00FF) c -= 8;
-        if (v & 0x0F0F0F0F) c -= 4;
-        if (v & 0x33333333) c -= 2;
-        if (v & 0x55555555) c -= 1;
-         */
-    return __builtin_ctz(in);
+u32 hf_ctzu32(u32 in){
+    u32 c = 32; // c will be the number of zero bits on the right
+    in &= -in;
+    if (in) c--;
+    if (in & 0x0000FFFF) c -= 16;
+    if (in & 0x00FF00FF) c -= 8;
+    if (in & 0x0F0F0F0F) c -= 4;
+    if (in & 0x33333333) c -= 2;
+    if (in & 0x55555555) c -= 1;
+    
+    return c;
+    //return __builtin_ctz(in);
+}
+
+u32 hfHighestOneBit(u32 in){
+    in |= (in >>  1);
+    in |= (in >>  2);
+    in |= (in >>  4);
+    in |= (in >>  8);
+    in |= (in >> 16);
+    return in - (in >> 1);
 }

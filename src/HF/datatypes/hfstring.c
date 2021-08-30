@@ -13,11 +13,17 @@ u64 hfStringFind(const char* delimiter, const char* data, u64 startingIndex){
     u64 out = hfstrfind(delimiter[0], data, startingIndex);
     if(out == hf_string_npos)
         return out;
-    u64 end = hfstrlen(delimiter);
-    //b8 inDelimiter = 0;
     
-    //u64 end = hfstrlen(data);
-    //u64 index = out;
+    u64 sizeDelimiter = hfstrlen(delimiter);
+    if(sizeDelimiter == 1)
+        return out; //no need to do all this shit if we already found the single character
+    
+    u64 size = hfstrlen(data);
+    
+    
+    
+    // NOTE(salmoncatt): population count (otherwise known as counting the ones in binary form)
+    u32 popcnt = 0;
     
     __m128i* mdata = (__m128i*)(data + out);
     __m128i* mdelimiter = (__m128i*)(delimiter);
@@ -25,22 +31,42 @@ u64 hfStringFind(const char* delimiter, const char* data, u64 startingIndex){
     
     for(;; mdata++){
         const __m128i current = _mm_loadu_si128(mdata);
-        
         const __m128i compare = _mm_cmpeq_epi8(current, currentDelimiter);
+        u32 mask = _mm_movemask_epi8(compare);
         
-        u8 mask = _mm_movemask_epi8(compare);
+        // NOTE(salmoncatt): can only do this if size < 16 rn
+        // NOTE(salmoncatt): this removes anything past the delimiter that may be true (such as null termination character, or just random memory)
+        mask = mask << (32 - sizeDelimiter); 
+        mask = mask >> (32 - sizeDelimiter);
         
-        if(mask){
-            u64 index = 0;
-            for(;index < end;){
-                
-            }
-            
-            printf("%u\n", ((char*)mdata - data));
-            hfPrintBits(sizeof(mask), &mask);
-            printf("ctz: %lu", hfCountTrailingZeros(mask));
-            break;
-        }
+        popcnt += _mm_popcnt_u32(mask);
+        
+        
+        hfPrintBits(sizeof(mask), &mask);
+        //printf("popcnt: %u\n", hf_ctzu32(mask));
+        
+        if(popcnt >= sizeDelimiter)
+            return ((char*)mdata - data);
+        else
+            return hf_string_npos;
+        
+        /* 
+                if(mask){
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    printf("hfstringfind: %u\n", (((char*)mdata - data)));
+                    printf("popcnt: %u\n", _mm_popcnt_u32(mask));
+                    hfPrintBits(sizeof(mask), &mask);
+                    //printf("ctz: %I32u", hf_ctzu32(mask));
+                    return hf_ctzu32(mask);
+                    break;
+                }
+         */
     }
     
     /* 
@@ -65,7 +91,7 @@ u64 hfStringFind(const char* delimiter, const char* data, u64 startingIndex){
         }
      */
     
-    return 23;
+    return hf_string_npos;
 }
 
 char* hfStringSubstr(const char* data, u64 start, u64 end){

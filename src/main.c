@@ -38,14 +38,28 @@ int main(void){
         }
      */
     
-    const char* goober = "ba      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n";
+    const char* goober = "eee   eebeee";
+    //char* goober = (char*)hf_malloc(111);
     hf_vector vector = {};
     hfVectorInit(&vector);
-    //u64 index = hfstrfind(' ', goober, 7);
+    //u64 index = hfstrfind('o', goober, 9);
     //u64 index = hfstrlen(goober);
-    u64 index = hfStringFind("a", goober, 0);
-    printf("%lu\n", index);
-    printf("%lu\n", hf_string_npos);
+    u64 index = hfStringFind("eee", goober, 3);
+    printf("hfsf output: %I64u\n", index);
+    printf("hf_string_npos: %I64u\n", hf_string_npos);
+    
+    
+    /* 
+        for(int i = 0; i < 100; ++i){
+            goober[i] = 'e';
+            goober[i + 1] = '\0';
+            u64 size = hfstrlen(goober);
+            if(size != i + 1)
+                printf("size of characters: %i, strlen: %I64u\n", i + 1, size);
+        }
+        hf_free(goober);
+     */
+    
     /* 
         hfStringSplit(&vector, " ", goober);
         printf("%s", (char*)vector.data[0]);

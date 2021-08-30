@@ -32,8 +32,10 @@ char* hfConvertToBits(u64 size, const void* data);
 
 void hfPrintBits(u64 size, const void* data);
 
-u64 hfCountTrailingZeros(u64 in);
+// NOTE(salmoncatt): count trailing zeros of a u32
+u32 hf_ctzu32(u32 in);
 
+u32 hfHighestOneBit(u32 in);
 
 // NOTE(salmoncatt): windows get last error
 void printWindowsLastError();
