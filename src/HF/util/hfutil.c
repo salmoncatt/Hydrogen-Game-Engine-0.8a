@@ -102,17 +102,15 @@ extern u64 hfstrlen(const char* data){
 }
 
 // TODO(salmoncatt): convert strlen and strfind to _mm256i
-extern u64 hfstrfind(const char d, const char* data, u64 startingIndex){
+extern u64 hfstrfind(const char d, const char* data, u64 startingIndex, u64 endingIndex){
     // TODO(salmoncatt): make this faster pls (and hfStringFind too)
     const __m128i delimiters = _mm_set_epi8(d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d);
-    const __m128i zeros = _mm_setzero_si128();
     __m128i* pointer = (__m128i*)(data + startingIndex);
     
-    u64 size = hfstrlen(data);
-    if(startingIndex >= size)
+    if(startingIndex >= endingIndex)
         return hf_string_npos;
     
-    for(;((char*)(pointer) - data) + 16 < size;){
+    for(;((char*)(pointer) - data) + 16 < endingIndex;){
         const __m128i current = _mm_loadu_si128(pointer);
         __m128i comparison = _mm_cmpeq_epi8(current, delimiters);
         u32 mask = _mm_movemask_epi8(comparison);
@@ -120,15 +118,6 @@ extern u64 hfstrfind(const char d, const char* data, u64 startingIndex){
         if(mask){
             return ((char*)(pointer) - data) + hf_ctzu32(mask);
         }
-        
-        /* 
-                if (_mm_cmpistrc(current, delimiters, _SIDD_UBYTE_OPS | _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_EQUAL_EACH)) {
-                    int index = _mm_cmpistri(current, delimiters, _SIDD_UBYTE_OPS | _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_EQUAL_EACH);
-                    
-                    return ((char*)(pointer) - data) + index;
-                }else if(_mm_cmpistrc(current, zeros, _SIDD_UBYTE_OPS | _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_EQUAL_EACH))
-                    return hf_string_npos;
-         */
         
         pointer++;
     }

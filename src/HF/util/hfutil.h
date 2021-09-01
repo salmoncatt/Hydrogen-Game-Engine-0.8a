@@ -19,7 +19,8 @@ extern void* hfmemcpy(void* destination, const void* source, u64 size);
 extern u64 hfstrlen(const char* data);
 
 extern const u64 hf_string_npos;
-extern u64 hfstrfind(const char delimiter, const char* data, u64 startingIndex);
+extern u64 hfstrfind(const char delimiter, const char* data, u64 startingIndex, u64 endingIndex);
+//extern u64 hfstrfind(const char delimiter, const char* data, u64 startingIndex);
 
 extern char* hfstrcpy(char* destination, const char* source, u64 offset);
 

@@ -10,15 +10,14 @@ u64 hfStringFind(const char* delimiter, const char* data){
  */
 
 u64 hfStringFind(const char* delimiter, const char* data, u64 startingIndex){
-    u64 out = hfstrfind(delimiter[0], data, startingIndex);
+    u64 size = hfstrlen(data);
+    u64 out = hfstrfind(delimiter[0], data, startingIndex, size);
     if(out == hf_string_npos)
         return out;
     
     u64 sizeDelimiter = hfstrlen(delimiter);
     if(sizeDelimiter == 1)
         return out; //no need to do all this shit if we already found the single character
-    
-    u64 size = hfstrlen(data);
     
     
     
