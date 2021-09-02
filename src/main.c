@@ -1,9 +1,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <GL/gl.h>
 
 #include "HF/hf.h"
+#include <GL/gl.h>
+
 
 //TODO: FINISH THE THEME
 
@@ -38,13 +39,13 @@ int main(void){
         }
      */
     
-    const char* goober = "eee   eebeee";
+    const char* goober = "eee  eebeee";
     //char* goober = (char*)hf_malloc(111);
-    hf_vector vector = {};
+    hf_vector vector = { 0 };
     hfVectorInit(&vector);
-    //u64 index = hfstrfind('o', goober, 9);
+    u64 index = hfstrfind('e', goober, 3, hfstrlen(goober));
     //u64 index = hfstrlen(goober);
-    u64 index = hfStringFind("eee", goober, 3);
+    //u64 index = hfStringFind("eee", goober, 3);
     printf("hfsf output: %I64u\n", index);
     printf("hf_string_npos: %I64u\n", hf_string_npos);
     

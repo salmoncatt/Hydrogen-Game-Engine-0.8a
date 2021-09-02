@@ -107,16 +107,25 @@ extern u64 hfstrfind(const char d, const char* data, u64 startingIndex, u64 endi
     const __m128i delimiters = _mm_set_epi8(d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d);
     __m128i* pointer = (__m128i*)(data + startingIndex);
     
+    // NOTE(salmoncatt): do this once so we dont have to do it every loop
+    u64 endingPointer = (u64)(data + endingIndex);
+    
     if(startingIndex >= endingIndex)
         return hf_string_npos;
     
-    for(;((char*)(pointer) - data) + 16 < endingIndex;){
+    //see
+    for(;(u32)(pointer) < endingPointer;){
         const __m128i current = _mm_loadu_si128(pointer);
         __m128i comparison = _mm_cmpeq_epi8(current, delimiters);
         u32 mask = _mm_movemask_epi8(comparison);
         
         if(mask){
-            return ((char*)(pointer) - data) + hf_ctzu32(mask);
+            // NOTE(salmoncatt): pointer subraction instead of keeping track of index variable, then count trailing zeros
+            u64 out = ((char*)(pointer) - data) + hf_ctzu32(mask);
+            if(out < endingIndex)
+                return ((char*)(pointer) - data) + hf_ctzu32(mask);
+            else
+                break;
         }
         
         pointer++;
