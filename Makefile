@@ -1,3 +1,4 @@
+CC=gcc
 LIBS  = -lopengl32 -lgdi32
 CFLAGS = -Wall -mavx
 
