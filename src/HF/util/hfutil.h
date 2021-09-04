@@ -37,6 +37,7 @@ void hfPrintBits(u64 size, const void* data);
 u32 hf_ctzu32(u32 in);
 
 u32 hfHighestOneBit(u32 in);
+u32 hfHighestZeroBit(u32 in);
 
 // NOTE(salmoncatt): windows get last error
 void printWindowsLastError();

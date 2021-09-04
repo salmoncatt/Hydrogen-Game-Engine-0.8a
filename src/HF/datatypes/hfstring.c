@@ -19,76 +19,42 @@ u64 hfStringFind(const char* delimiter, const char* data, u64 startingIndex){
     if(sizeDelimiter == 1)
         return out; //no need to do all this shit if we already found the single character
     
-    
+    uptr endingPointer = (uptr)(data + size);
     
     // NOTE(salmoncatt): population count (otherwise known as counting the ones in binary form)
-    u32 popcnt = 0;
+    u32 totalPopcnt = 0;
+    
+    /* 
+        __m256i* mdata = (__m256i*)(data + out);
+        __m256i* mdelimiter = (__m256i*)(delimiter);
+        const __m256i currentDelimiter = _mm256_loadu_si256(mdelimiter);
+        
+        for(;; mdata++){
+            const __m256i current = _mm256_loadu_si256(mdata);
+            const __m256i compare = _mm256_cmpeq_epi8(current, currentDelimiter);
+            u32 mask = _mm256_movemask_epi8(compare);
+     */
     
     __m128i* mdata = (__m128i*)(data + out);
     __m128i* mdelimiter = (__m128i*)(delimiter);
     const __m128i currentDelimiter = _mm_loadu_si128(mdelimiter);
     
-    for(;; mdata++){
+    for(;(uptr)mdata < endingPointer; mdata++){
         const __m128i current = _mm_loadu_si128(mdata);
         const __m128i compare = _mm_cmpeq_epi8(current, currentDelimiter);
-        u32 mask = _mm_movemask_epi8(compare);
-        
-        // NOTE(salmoncatt): can only do this if size < 16 rn
-        // NOTE(salmoncatt): this removes anything past the delimiter that may be true (such as null termination character, or just random memory)
-        mask = mask << (32 - sizeDelimiter); 
-        mask = mask >> (32 - sizeDelimiter);
-        
-        popcnt += _mm_popcnt_u32(mask);
-        
+        // NOTE(salmoncatt): u16 so i dont have to chop off anything past the 16th bit
+        u16 mask = _mm_movemask_epi8(compare);
+        u32 popcnt = _mm_popcnt_u32(mask);
+        totalPopcnt = popcnt;
         
         hfPrintBits(sizeof(mask), &mask);
-        //printf("popcnt: %u\n", hf_ctzu32(mask));
         
-        if(popcnt >= sizeDelimiter)
+        if(totalPopcnt >= sizeDelimiter){
             return ((char*)mdata - data);
-        else
-            return hf_string_npos;
-        
-        /* 
-                if(mask){
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    printf("hfstringfind: %u\n", (((char*)mdata - data)));
-                    printf("popcnt: %u\n", _mm_popcnt_u32(mask));
-                    hfPrintBits(sizeof(mask), &mask);
-                    //printf("ctz: %I32u", hf_ctzu32(mask));
-                    return hf_ctzu32(mask);
-                    break;
-                }
-         */
+        }else if(popcnt < 16 && hf_ctzu32(popcnt) == 0){
+            totalPopcnt = 0;
+        }
     }
-    
-    /* 
-        for(;; mdata++){
-            const __m128i currentData = _mm_loadu_si128(mdata);
-            i8 result = _mm_testz_si128(currentData, currentDelimiter);
-            
-            if(result)
-                inDelimiter = 1;
-        }
-     */
-    
-    /* 
-        for(;index < end - 15; mdata++, index += 16){
-            
-            const __m128i currentData = _mm_loadu_si128(mdata);
-            i8 result = _mm_testz_si128(currentData, currentDelimiter);
-            
-            if(result){
-            }
-            
-        }
-     */
     
     return hf_string_npos;
 }

@@ -39,16 +39,16 @@ int main(void){
         }
      */
     
-    const char* goober = "eee  eebeee";
+    const char* goober = "eee ee ee ee eeee ee ee ee";
     //char* goober = (char*)hf_malloc(111);
     hf_vector vector = { 0 };
     hfVectorInit(&vector);
-    u64 index = hfstrfind('e', goober, 3, hfstrlen(goober));
+    //u64 index = hfstrfind('e', goober, 3, hfstrlen(goober));
     //u64 index = hfstrlen(goober);
-    //u64 index = hfStringFind("eee", goober, 3);
+    u64 index = hfStringFind("eeee", goober, 0);
     printf("hfsf output: %I64u\n", index);
     printf("hf_string_npos: %I64u\n", hf_string_npos);
-    
+    //printf("ctz: %u\n", hf_ctzu32(8));
     
     /* 
         for(int i = 0; i < 100; ++i){

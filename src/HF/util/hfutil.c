@@ -108,13 +108,13 @@ extern u64 hfstrfind(const char d, const char* data, u64 startingIndex, u64 endi
     __m128i* pointer = (__m128i*)(data + startingIndex);
     
     // NOTE(salmoncatt): do this once so we dont have to do it every loop
-    u64 endingPointer = (u64)(data + endingIndex);
+    uptr endingPointer = (uptr)(data + endingIndex);
     
     if(startingIndex >= endingIndex)
         return hf_string_npos;
     
     //see
-    for(;(u32)(pointer) < endingPointer;){
+    for(;(uptr)(pointer) < endingPointer; pointer++){
         const __m128i current = _mm_loadu_si128(pointer);
         __m128i comparison = _mm_cmpeq_epi8(current, delimiters);
         u32 mask = _mm_movemask_epi8(comparison);
@@ -123,12 +123,10 @@ extern u64 hfstrfind(const char d, const char* data, u64 startingIndex, u64 endi
             // NOTE(salmoncatt): pointer subraction instead of keeping track of index variable, then count trailing zeros
             u64 out = ((char*)(pointer) - data) + hf_ctzu32(mask);
             if(out < endingIndex)
-                return ((char*)(pointer) - data) + hf_ctzu32(mask);
+                return out;
             else
                 break;
         }
-        
-        pointer++;
     }
     
     return hf_string_npos;
@@ -205,4 +203,13 @@ u32 hfHighestOneBit(u32 in){
     in |= (in >>  8);
     in |= (in >> 16);
     return in - (in >> 1);
+}
+
+u32 hfHighestZeroBit(u32 in){
+    in |= !(in >>  1);
+    in |= !(in >>  2);
+    in |= !(in >>  4);
+    in |= !(in >>  8);
+    in |= !(in >> 16);
+    return in - !(in >> 1);
 }

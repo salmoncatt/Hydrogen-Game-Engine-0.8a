@@ -24,6 +24,9 @@ typedef int16     bool16;
 typedef int32     bool32;
 typedef int64     bool64;
 
+typedef intptr_t  intptr;
+typedef uintptr_t  uintptr;
+
 // NOTE(salmoncatt): data types
 typedef int8      i8;
 typedef int16     i16;
@@ -41,5 +44,8 @@ typedef bool8     b8;
 typedef bool16    b16;
 typedef bool32    b32;
 typedef bool64    b64;
+
+typedef intptr    iptr;
+typedef uintptr   uptr;
 
 #endif //DATATYPES_H
