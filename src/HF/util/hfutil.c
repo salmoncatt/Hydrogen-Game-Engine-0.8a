@@ -197,6 +197,7 @@ u32 hf_ctzu32(u32 in){
 }
 
 u32 hfHighestOneBit(u32 in){
+    return hf_ctzu32(in);
     in |= (in >>  1);
     in |= (in >>  2);
     in |= (in >>  4);
@@ -206,10 +207,5 @@ u32 hfHighestOneBit(u32 in){
 }
 
 u32 hfHighestZeroBit(u32 in){
-    in |= !(in >>  1);
-    in |= !(in >>  2);
-    in |= !(in >>  4);
-    in |= !(in >>  8);
-    in |= !(in >> 16);
-    return in - !(in >> 1);
+    return hf_ctzu32(!in);
 }

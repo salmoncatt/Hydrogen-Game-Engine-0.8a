@@ -44,6 +44,13 @@ u64 hfStringFind(const char* delimiter, const char* data, u64 startingIndex){
         const __m128i compare = _mm_cmpeq_epi8(current, currentDelimiter);
         // NOTE(salmoncatt): u16 so i dont have to chop off anything past the 16th bit
         u16 mask = _mm_movemask_epi8(compare);
+        
+        u32 highestZero = hfHighestOneBit(mask);
+        
+        printf("%u\n", highestZero);
+        mask <<= highestZero;
+        mask >>= highestZero;
+        
         u32 popcnt = _mm_popcnt_u32(mask);
         totalPopcnt = popcnt;
         

@@ -45,7 +45,7 @@ int main(void){
     hfVectorInit(&vector);
     //u64 index = hfstrfind('e', goober, 3, hfstrlen(goober));
     //u64 index = hfstrlen(goober);
-    u64 index = hfStringFind("eeee", goober, 0);
+    u64 index = hfStringFind("eee", goober, 1);
     printf("hfsf output: %I64u\n", index);
     printf("hf_string_npos: %I64u\n", hf_string_npos);
     //printf("ctz: %u\n", hf_ctzu32(8));
