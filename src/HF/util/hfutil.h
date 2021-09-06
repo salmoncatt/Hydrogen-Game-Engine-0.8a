@@ -14,32 +14,36 @@
 
 // TODO(salmoncatt): add static asserts pls
 
-extern void* hfmemcpy(void* destination, const void* source, u64 size);
+extern void* hf_memcpy(void* destination, const void* source, u64 size);
 
-extern u64 hfstrlen(const char* data);
+extern b8 hf_memcmp();
+
+extern u64 hf_strlen(const char* data);
 
 extern const u64 hf_string_npos;
-extern u64 hfstrfind(const char delimiter, const char* data, u64 startingIndex, u64 endingIndex);
+extern u64 hf_strfind(const char delimiter, const char* data, u64 startingIndex, u64 endingIndex);
 //extern u64 hfstrfind(const char delimiter, const char* data, u64 startingIndex);
 
-extern char* hfstrcpy(char* destination, const char* source, u64 offset);
+extern char* hf_strcpy(char* destination, const char* source, u64 offset);
 
 extern void* hf_malloc(u64 bytes);
 
 extern void hf_free(void* pointer);
 
 // NOTE(salmoncatt): NEEDS TO BE A REFERENCE TO THE DATA
-char* hfConvertToBits(u64 size, const void* data);
+char* hf_convert_to_bits(u64 size, const void* data);
 
-void hfPrintBits(u64 size, const void* data);
+void hf_print_bits(u64 size, const void* data);
 
 // NOTE(salmoncatt): count trailing zeros of a u32
 u32 hf_ctzu32(u32 in);
 
+/* 
 u32 hfHighestOneBit(u32 in);
 u32 hfHighestZeroBit(u32 in);
+ */
 
 // NOTE(salmoncatt): windows get last error
-void printWindowsLastError();
+void print_windows_last_error();
 
 #endif //HFUTIL_H

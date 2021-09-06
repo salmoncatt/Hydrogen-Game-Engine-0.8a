@@ -45,11 +45,10 @@ u64 hfStringFind(const char* delimiter, const char* data, u64 startingIndex){
         // NOTE(salmoncatt): u16 so i dont have to chop off anything past the 16th bit
         u16 mask = _mm_movemask_epi8(compare);
         
-        u32 highestZero = hfHighestOneBit(mask);
-        
-        printf("%u\n", highestZero);
-        mask <<= highestZero;
-        mask >>= highestZero;
+        if(sizeDelimiter <= 16){
+            mask <<= 16 - sizeDelimiter;
+            mask >>= 16 - sizeDelimiter;
+        }
         
         u32 popcnt = _mm_popcnt_u32(mask);
         totalPopcnt = popcnt;
@@ -57,10 +56,13 @@ u64 hfStringFind(const char* delimiter, const char* data, u64 startingIndex){
         hfPrintBits(sizeof(mask), &mask);
         
         if(totalPopcnt >= sizeDelimiter){
-            return ((char*)mdata - data);
-        }else if(popcnt < 16 && hf_ctzu32(popcnt) == 0){
-            totalPopcnt = 0;
+            return ((char*)mdata - data)
         }
+        /* 
+                }else if(popcnt < 16 && hf_ctzu32(popcnt) == 0){
+                    totalPopcnt = 0;
+                }
+         */
     }
     
     return hf_string_npos;
