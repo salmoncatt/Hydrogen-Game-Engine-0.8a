@@ -3,9 +3,9 @@
 #ifndef MESH_H
 #define MESH_H
 
-typedef struct Mesh{
+typedef struct hf_mesh{
     
     
-}Mesh;
+}hf_mesh;
 
 #endif //MESH_H

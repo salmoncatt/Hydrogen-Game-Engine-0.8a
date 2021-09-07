@@ -16,7 +16,11 @@
 
 extern void* hf_memcpy(void* destination, const void* source, u64 size);
 
-extern b8 hf_memcmp();
+// NOTE(salmoncatt): compares two memory addresses for equality
+extern b8 hf_memcmp(const void* a, const void* b, size_t bytes);
+
+// NOTE(salmoncatt): returns index at which memcmp fails
+extern b8 hf_memcmp_ri(const void* a, const void* b, size_t bytes, size_t* return_index);
 
 extern u64 hf_strlen(const char* data);
 
@@ -31,9 +35,9 @@ extern void* hf_malloc(u64 bytes);
 extern void hf_free(void* pointer);
 
 // NOTE(salmoncatt): NEEDS TO BE A REFERENCE TO THE DATA
-char* hf_convert_to_bits(u64 size, const void* data);
+//char* hf_convert_to_bits(u64 size, const void* data);
 
-void hf_print_bits(u64 size, const void* data);
+void hf_print_bits(const void* data, u64 size);
 
 // NOTE(salmoncatt): count trailing zeros of a u32
 u32 hf_ctzu32(u32 in);
@@ -44,6 +48,6 @@ u32 hfHighestZeroBit(u32 in);
  */
 
 // NOTE(salmoncatt): windows get last error
-void print_windows_last_error();
+void hf_print_windows_last_error();
 
 #endif //HFUTIL_H

@@ -45,20 +45,20 @@ typedef struct hf_window{
 } hf_window;
 
 
-b8 hfCreateWindow(hf_window* window);
-b8 hfDestroyWindow(hf_window* window);
+b8 hf_create_window(hf_window* window);
+b8 hf_destroy_window(hf_window* window);
 
-b8 hfShouldWindowUpdate(hf_window* window);
-void hfUpdateWindow(hf_window* window);
-void hfSwapBuffers(hf_window* window);
+b8 hf_should_window_update(hf_window* window);
+void hf_update_window(hf_window* window);
+void hf_swap_buffers(hf_window* window);
 
-LRESULT CALLBACK hfWindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 
 // NOTE(salmoncatt): input handling and callbacks
 
 // NOTE(salmoncatt):     window handle      [callback function]         [keycode] [key up or down]
-void hfWindowSetKeyCallback(hf_window* window, void (*hf_key_callback)(hf_window*, u32, u32));
+void hf_window_set_key_callback(hf_window* window, void (*hf_key_callback)(hf_window*, u32, u32));
 
 
 #endif //_WINDOW_H

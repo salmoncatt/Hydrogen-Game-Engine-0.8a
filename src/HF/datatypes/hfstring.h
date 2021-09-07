@@ -6,12 +6,12 @@
 #include "hfvector.h"
 #include "hfdatatypes.h"
 
-void hfStringSplit(hf_vector* vector, const char* delimiter, const char* data);
+void hf_string_split(hf_vector* vector, const char* delimiter, const char* data);
 
 //u64 hfStringFind(const char* delimiter, const char* data);
 
-u64 hfStringFind(const char* delimiter, const char* data, u64 startingIndex);
+u64 hf_string_find(const char* delimiter, const char* data, u64 startingIndex);
 
-char* hfStringSubstr(const char* data, u64 start, u64 end);
+char* hf_string_substr(const char* data, u64 start, u64 end);
 
 #endif //HFSTRING_H

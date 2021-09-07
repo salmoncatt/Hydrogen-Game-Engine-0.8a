@@ -9,13 +9,13 @@ u64 hfStringFind(const char* delimiter, const char* data){
 }
  */
 
-u64 hfStringFind(const char* delimiter, const char* data, u64 startingIndex){
-    u64 size = hfstrlen(data);
-    u64 out = hfstrfind(delimiter[0], data, startingIndex, size);
+u64 hf_string_find(const char* delimiter, const char* data, u64 startingIndex){
+    u64 size = hf_strlen(data);
+    u64 out = hf_strfind(delimiter[0], data, startingIndex, size);
     if(out == hf_string_npos)
         return out;
     
-    u64 sizeDelimiter = hfstrlen(delimiter);
+    u64 sizeDelimiter = hf_strlen(delimiter);
     if(sizeDelimiter == 1)
         return out; //no need to do all this shit if we already found the single character
     
@@ -53,10 +53,10 @@ u64 hfStringFind(const char* delimiter, const char* data, u64 startingIndex){
         u32 popcnt = _mm_popcnt_u32(mask);
         totalPopcnt = popcnt;
         
-        hfPrintBits(sizeof(mask), &mask);
+        hf_print_bits(&mask, sizeof(mask));
         
         if(totalPopcnt >= sizeDelimiter){
-            return ((char*)mdata - data)
+            return ((char*)mdata - data);
         }
         /* 
                 }else if(popcnt < 16 && hf_ctzu32(popcnt) == 0){
@@ -68,12 +68,12 @@ u64 hfStringFind(const char* delimiter, const char* data, u64 startingIndex){
     return hf_string_npos;
 }
 
-char* hfStringSubstr(const char* data, u64 start, u64 end){
-    u64 size = hfstrlen(data);
+char* hf_string_substr(const char* data, u64 start, u64 end){
+    u64 size = hf_strlen(data);
     char* out;
     
     if(start > size){
-        hfDebugErr("err");
+        hf_debug_err("err string substr");
         return NULL;
     }
     
@@ -84,7 +84,7 @@ char* hfStringSubstr(const char* data, u64 start, u64 end){
     }else{
         out = (char*)hf_malloc(end - start);
         
-        hfmemcpy(out, data + start, start + end + 1);
+        hf_memcpy(out, data + start, start + end + 1);
         
         out[end] = '\0';
     }
@@ -92,15 +92,15 @@ char* hfStringSubstr(const char* data, u64 start, u64 end){
     return out;
 }
 
-void hfStringSplit(hf_vector* vector, const char* delimiter, const char* data){
+void hf_string_split(hf_vector* vector, const char* delimiter, const char* data){
     u64 index;
     
     // NOTE(salmoncatt): cring scalar code
-    while((index = hfStringFind(delimiter, data, index)) != hf_string_npos){
-        hfVectorPushBack(vector, hfStringSubstr(data, index, index + hfstrlen(delimiter)));
-        index += hfstrlen(delimiter);
+    while((index = hf_string_find(delimiter, data, index)) != hf_string_npos){
+        hf_vector_push_back(vector, hf_string_substr(data, index, index + hf_strlen(delimiter)));
+        index += hf_strlen(delimiter);
     }
     
-    if((index = hfStringFind(delimiter, data, index)) != hf_string_npos)
-        hfVectorPushBack(vector, hfStringSubstr(data, index, index + hfstrlen(delimiter)));
+    if((index = hf_string_find(delimiter, data, index)) != hf_string_npos)
+        hf_vector_push_back(vector, hf_string_substr(data, index, index + hf_strlen(delimiter)));
 }

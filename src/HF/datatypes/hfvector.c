@@ -4,13 +4,13 @@
 #include "../util/hfutil.h"
 #include <immintrin.h>
 
-void hfVectorInit(hf_vector* vector) {
+void hf_vector_init(hf_vector* vector) {
 	vector->capacity = HF_VECTOR_INIT_CAPACITY;
 	vector->size = 0;
-	vector->data = malloc(sizeof(void*) * vector->capacity);
+	vector->data = hf_malloc(sizeof(void*) * vector->capacity);
 }
 
-u32 hfVectorResize(hf_vector* vector, u64 capacity) {
+u32 hf_vector_resize(hf_vector* vector, u64 capacity) {
 	u32 status = HF_VECTOR_FAIL;
     
 	if (vector) {
@@ -28,12 +28,12 @@ u32 hfVectorResize(hf_vector* vector, u64 capacity) {
 	return status;
 }
 
-u32 hfVectorPushBack(hf_vector* vector, void* in) {
+u32 hf_vector_push_back(hf_vector* vector, void* in) {
 	u32 status = HF_VECTOR_FAIL;
     
 	if (vector) {
 		if (vector->size >= vector->capacity) {
-			status = hfVectorResize(vector, vector->capacity * 2);
+			status = hf_vector_resize(vector, vector->capacity * 2);
 			if (status) {
 				vector->data[vector->size] = in;
 				vector->size += 1;
@@ -49,7 +49,7 @@ u32 hfVectorPushBack(hf_vector* vector, void* in) {
 	return status;
 }
 
-u32 hfVectorSet(hf_vector* vector, u64 index, void* in) {
+u32 hf_vector_set(hf_vector* vector, u64 index, void* in) {
 	u32 status = HF_VECTOR_FAIL;
     
 	if (vector) {
@@ -62,7 +62,7 @@ u32 hfVectorSet(hf_vector* vector, u64 index, void* in) {
 	return status;
 }
 
-void* hfVectorGet(hf_vector* vector, u64 index) {
+void* hf_vector_get(hf_vector* vector, u64 index) {
 	void* out = NULL;
     
 	if (vector) {
@@ -74,7 +74,7 @@ void* hfVectorGet(hf_vector* vector, u64 index) {
 	return out;
 }
 
-u32 hfVectorErase(hf_vector* vector, u64 index, u64 length) {
+u32 hf_vector_erase(hf_vector* vector, u64 index, u64 length) {
 	u32 status = HF_VECTOR_FAIL;
     
 	if (vector) {
@@ -100,7 +100,7 @@ u32 hfVectorErase(hf_vector* vector, u64 index, u64 length) {
 			vector->size -= length;
             
 			if (vector->size > 0 && vector->size <= vector->capacity / 4) {
-				status = hfVectorResize(vector, vector->capacity / 2);
+				status = hf_vector_resize(vector, vector->capacity / 2);
 			}
 			else
 				status = HF_VECTOR_SUCCESS;
@@ -110,7 +110,7 @@ u32 hfVectorErase(hf_vector* vector, u64 index, u64 length) {
 	return status;
 }
 
-u32 hfVectorFree(hf_vector* vector) {
+u32 hf_vector_free(hf_vector* vector) {
     u32 status = HF_VECTOR_FAIL;
     
 	if (vector) {

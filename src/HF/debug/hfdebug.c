@@ -2,18 +2,18 @@
 #include "stdio.h"
 #include "../datatypes/hfstring.h"
 
-void hfDebugInit(){
+void hf_debug_init(){
     
 }
 
-void hfDebugSetTextColor(v3f foregroundColor, v3f backgroundColor){
+void hf_debug_set_text_color(v3f foregroundColor, v3f backgroundColor){
     
 }
 
-void hfDebugErr(const char* msg, ...){
+void hf_debug_err(const char* msg, ...){
     printf("%s finish the freaking debug err pls", msg);
 }
 
-void hfDebugErrMsgBox(const char* title, const char* msg, u32 format, ...){
+void hf_debug_err_msg_box(const char* title, const char* msg, u32 format, ...){
     
 }

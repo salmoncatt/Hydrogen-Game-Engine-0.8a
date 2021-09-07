@@ -7,12 +7,12 @@
 
 // NOTE(salmoncatt): in hf app have current foreground and background color pls cool thanks
 
-void hfDebugInit();
-void hfDebugSetTextColor(v3f foregroundColor, v3f backgroundColor);
+void hf_debug_init();
+void hf_debug_set_text_color(v3f foregroundColor, v3f backgroundColor);
 
 //                                                                       $hf color code
 // NOTE(salmoncatt): when displaying text add color codes to the output: $hfcc{255,255,255} would be white or $hfcc{red} would be 255, 0, 0
-void hfDebugErr(const char* msg, ...);
-void hfDebugErrMsgBox(const char* title, const char* msg, u32 format, ...);
+void hf_debug_err(const char* msg, ...);
+void hf_debug_err_msg_box(const char* title, const char* msg, u32 format, ...);
 
 #endif //HFDEBUG_H

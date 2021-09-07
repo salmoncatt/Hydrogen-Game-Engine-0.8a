@@ -6,7 +6,7 @@
 
 const u64 hf_string_npos = -1;
 
-void printWindowsLastError(){
+void hf_print_windows_last_error(){
     
     DWORD errorID = GetLastError();
     if(!errorID){
@@ -28,7 +28,7 @@ void printWindowsLastError(){
     free(message);
 }
 
-extern void* hfmemcpy(void* destination, const void* source, u64 size){
+extern void* hf_memcpy(void* destination, const void* source, u64 size){
     char* dest = (char*)destination;
     const char* src = (const char*)source;
     
@@ -76,7 +76,7 @@ extern void* hfmemcpy(void* destination, const void* source, u64 size){
     return destination;
 }
 
-extern u64 hfstrlen(const char* data){
+extern u64 hf_strlen(const char* data){
     // TODO(salmoncatt): make this faster pls (and hfStringFind too)
     const __m128i zeros = _mm_setzero_si128();
     __m128i* pointer = (__m128i*)(data);
@@ -102,7 +102,7 @@ extern u64 hfstrlen(const char* data){
 }
 
 // TODO(salmoncatt): convert strlen and strfind to _mm256i
-extern u64 hfstrfind(const char d, const char* data, u64 startingIndex, u64 endingIndex){
+extern u64 hf_strfind(const char d, const char* data, u64 startingIndex, u64 endingIndex){
     // TODO(salmoncatt): make this faster pls (and hfStringFind too)
     const __m128i delimiters = _mm_set_epi8(d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d);
     __m128i* pointer = (__m128i*)(data + startingIndex);
@@ -132,8 +132,8 @@ extern u64 hfstrfind(const char d, const char* data, u64 startingIndex, u64 endi
     return hf_string_npos;
 }
 
-extern char* hfstrcpy(char* destination, const char* source, u64 offset){
-    return (char*)hfmemcpy(destination, source + offset, hfstrlen(source) + 1 - offset);
+extern char* hf_strcpy(char* destination, const char* source, u64 offset){
+    return (char*)hf_memcpy(destination, source + offset, hf_strlen(source) + 1 - offset);
 }
 
 extern void* hf_malloc(u64 bytes){
@@ -144,7 +144,86 @@ extern void hf_free(void* pointer){
     free(pointer);
 }
 
-char* hfConvertToBits(u64 size, const void* data){
+extern b8 hf_memcmp(const void* aPointer, const void* bPointer, size_t bytes){
+    /* 
+        if(a == NULL || b == NULL)
+            return 0;
+     */
+    
+    __m128i* mAPointer = (__m128i*)aPointer;
+    __m128i* mBPointer = (__m128i*)bPointer;
+    
+    while(bytes >= 16){
+        __m128i a = _mm_loadu_si128(mAPointer);
+        __m128i b = _mm_loadu_si128(mBPointer);
+        
+        __m128i comparison = _mm_cmpeq_epi8(a, b);
+        u16 mask = _mm_movemask_epi8(comparison);
+        
+        
+        // NOTE(salmoncatt): wont work if bytes > 16
+        if(mask != (u16)((INT16_MIN + INT16_MAX)))
+            break;
+        
+        bytes -= 16;
+        mAPointer += 1;
+        mBPointer += 1;
+    }
+    
+    if(bytes > 0){
+        __m128i a = _mm_loadu_si128((__m128i*)aPointer);
+        __m128i b = _mm_loadu_si128((__m128i*)bPointer);
+        
+        __m128i comparison = _mm_cmpeq_epi8(a, b);
+        u16 mask = _mm_movemask_epi8(comparison);
+        
+        //remove unnecessary bits from comparison
+        mask <<= 16 - bytes;
+        
+        // NOTE(salmoncatt): min = 10000... max = 011111... min + max = 11111...
+        return mask == (u16)((INT16_MIN + INT16_MAX) << 16 - bytes);
+    }else
+        return 1;
+    
+    
+    /* 
+        if(bytes <= 16){
+            __m128i a = _mm_loadu_si128((__m128i*)aPointer);
+            __m128i b = _mm_loadu_si128((__m128i*)bPointer);
+            
+            __m128i comparison = _mm_cmpeq_epi8(a, b);
+            u16 mask = _mm_movemask_epi8(comparison);
+            
+            //remove unnecessary bits from comparison
+            mask <<= 16 - bytes;
+            
+            // NOTE(salmoncatt): min = 10000... max = 011111... min + max = 11111...
+            return mask == (u16)((INT16_MIN + INT16_MAX) << 16 - bytes);
+        }else{
+            __m128i* mAPointer = (__m128i*)aPointer;
+            __m128i* mBPointer = (__m128i*)bPointer;
+            
+            while(bytes > 16){
+                __m128i a = _mm_loadu_si128(mAPointer);
+                __m128i b = _mm_loadu_si128(mBPointer);
+                
+                __m128i comparison = _mm_cmpeq_epi64(a, b);
+                u16 mask = _mm_movemask_epi8(comparison);
+                
+                if(!mask){
+                    return 12;
+                }
+                
+                bytes -= 16;
+                mAPointer += 1;
+                mBPointer += 1;
+            }
+        }
+     */
+}
+
+/* 
+char* hf_convert_to_bits(u64 size, const void* data){
     /* 
 char* bytes = (char*)data;
 char* out = (char*)hf_malloc((size * 8) + 1);
@@ -165,10 +244,11 @@ out[size * 8] = '\0';
 
 return out;
 */
-    return 0;
-}
+//return 0;
+//}
+//*/
 
-void hfPrintBits(u64 size, const void* data){
+void hf_print_bits(const void* data, u64 size){
     char* bytes = (char*)data;
     char byte;
     int i, j;
@@ -196,7 +276,8 @@ u32 hf_ctzu32(u32 in){
     //return __builtin_ctz(in);
 }
 
-u32 hfHighestOneBit(u32 in){
+/* 
+u32 hf_highestOneBit(u32 in){
     return hf_ctzu32(in);
     in |= (in >>  1);
     in |= (in >>  2);
@@ -209,3 +290,4 @@ u32 hfHighestOneBit(u32 in){
 u32 hfHighestZeroBit(u32 in){
     return hf_ctzu32(!in);
 }
+ */
