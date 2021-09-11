@@ -149,7 +149,6 @@ extern b8 hf_memcmp(const void* aPointer, const void* bPointer, size_t bytes){
         if(a == NULL || b == NULL)
             return 0;
      */
-    
     __m128i* mAPointer = (__m128i*)aPointer;
     __m128i* mBPointer = (__m128i*)bPointer;
     
@@ -171,55 +170,23 @@ extern b8 hf_memcmp(const void* aPointer, const void* bPointer, size_t bytes){
     }
     
     if(bytes > 0){
-        __m128i a = _mm_loadu_si128((__m128i*)aPointer);
-        __m128i b = _mm_loadu_si128((__m128i*)bPointer);
+        __m128i a = _mm_loadu_si128((__m128i*)mAPointer);
+        __m128i b = _mm_loadu_si128((__m128i*)mBPointer);
         
         __m128i comparison = _mm_cmpeq_epi8(a, b);
         u16 mask = _mm_movemask_epi8(comparison);
         
         //remove unnecessary bits from comparison
-        mask <<= 16 - bytes;
+        mask <<= (16 - bytes);
+        
+        //u16 test = (u16)((INT16_MIN + INT16_MAX) << (16 - bytes));
+        //hf_print_bits(&test, sizeof(u16));
+        //hf_print_bits(&mask, sizeof(u16));
         
         // NOTE(salmoncatt): min = 10000... max = 011111... min + max = 11111...
         return mask == (u16)((INT16_MIN + INT16_MAX) << 16 - bytes);
     }else
         return 1;
-    
-    
-    /* 
-        if(bytes <= 16){
-            __m128i a = _mm_loadu_si128((__m128i*)aPointer);
-            __m128i b = _mm_loadu_si128((__m128i*)bPointer);
-            
-            __m128i comparison = _mm_cmpeq_epi8(a, b);
-            u16 mask = _mm_movemask_epi8(comparison);
-            
-            //remove unnecessary bits from comparison
-            mask <<= 16 - bytes;
-            
-            // NOTE(salmoncatt): min = 10000... max = 011111... min + max = 11111...
-            return mask == (u16)((INT16_MIN + INT16_MAX) << 16 - bytes);
-        }else{
-            __m128i* mAPointer = (__m128i*)aPointer;
-            __m128i* mBPointer = (__m128i*)bPointer;
-            
-            while(bytes > 16){
-                __m128i a = _mm_loadu_si128(mAPointer);
-                __m128i b = _mm_loadu_si128(mBPointer);
-                
-                __m128i comparison = _mm_cmpeq_epi64(a, b);
-                u16 mask = _mm_movemask_epi8(comparison);
-                
-                if(!mask){
-                    return 12;
-                }
-                
-                bytes -= 16;
-                mAPointer += 1;
-                mBPointer += 1;
-            }
-        }
-     */
 }
 
 /* 

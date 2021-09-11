@@ -51,7 +51,7 @@ int main(void){
     //printf("ctz: %u\n", hf_ctzu32(8));
     
     const char* a = "abaaaaabaaaaaaaaaaaabaaaa";
-    const char* b = "abaaaaabaaaaaaaaaaaaaaaaa";
+    const char* b = "abaaaaabaaaaaaaaaaaabaaaa";
     
     printf("%d\n", hf_memcmp(a, b, hf_strlen(a)));
     
