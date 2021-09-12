@@ -20,7 +20,7 @@ echo start /b /wait "" "cl" src\main.c /I..\ext\include /link opengl32.lib /libp
 )
 
 IF %compileType%==gcc (
-	
+
 make
 
 )
