@@ -39,7 +39,7 @@ int main(void){
         }
      */
     
-    const char* goober = "what a goober";
+    const char* goober = "what  a  goober";
     //char* goober = (char*)hf_malloc(111);
     hf_vector vector = { 0 };
     hf_vector_init(&vector);
@@ -66,13 +66,22 @@ int main(void){
         hf_free(goober);
      */
     
-    hf_string_split(&vector, " ", goober);
+    hf_string_split(&vector, "  ", goober);
     printf("1: %s\n", (char*)vector.data[0]);
     printf("2: %s\n", (char*)vector.data[1]);
     printf("3: %s\n", (char*)vector.data[2]);
     
+    //const char* splitgoober = hf_string_substr(goober, 6, 7);
     
-    //printf("%s\n", hf_string_substr("goober", 1, 4));
+    
+    char* splitgoober = hf_malloc(2);
+    //char* splitgoober2 = "b";
+    hf_memcpy(splitgoober, &goober[4], 1);
+    splitgoober[1] = '\0';
+    
+    
+    printf("4: %s\n", splitgoober);
+    printf("4 len: %u\n", hf_strlen(splitgoober));
     
     
     //hf_free(bytes);
