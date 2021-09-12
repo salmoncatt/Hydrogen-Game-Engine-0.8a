@@ -16,7 +16,7 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 // TODO(salmoncatt): add focusing support    focus(hf_window*)
 
-b8 hfCreateWindow(hf_window* w){
+b8 hf_create_window(hf_window* w){
     // NOTE(salmoncatt): in case not using winmain
     w->hInstance = GetModuleHandle(NULL);
     
@@ -122,7 +122,7 @@ b8 hfCreateWindow(hf_window* w){
     return 1;
 }
 
-b8 hfDestroyWindow(hf_window* w){
+b8 hf_destroy_window(hf_window* w){
     // NOTE(salmoncatt): destroy windows window things
     if(w->hrc){
         // release the RC
@@ -164,23 +164,23 @@ b8 hfDestroyWindow(hf_window* w){
     return 1;
 }
 
-b8 hfShouldWindowUpdate(hf_window* w){
+b8 hf_should_window_update(hf_window* w){
     return GetMessage(&w->msg, NULL, 0, 0);
 }
 
-void hfUpdateWindow(hf_window* w){
+void hf_update_window(hf_window* w){
     TranslateMessage(&w->msg);
     DispatchMessage(&w->msg);
 }
 
-void hfSwapBuffers(hf_window* w){
+void hf_swap_buffers(hf_window* w){
     SwapBuffers(w->hdc);
 }
 
 
 // NOTE(salmoncatt): input handling and callbacks
 
-void hfWindowSetKeyCallback(hf_window* w, void (*hf_key_callback)(hf_window*, u32, u32)){
+void hf_window_set_key_callback(hf_window* w, void (*hf_key_callback)(hf_window*, u32, u32)){
     if(w->key_callback){
         free(w->key_callback);
     }

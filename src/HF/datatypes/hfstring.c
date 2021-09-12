@@ -59,14 +59,6 @@ void hf_string_split(hf_vector* vector, const char* delimiter, const char* data)
     u64 size = hf_strlen(data);
     //char* current = (char*)data;
     
-    /* 
-        while((index = hf_string_find(delimiter, current, index)) != hf_string_npos){
-            hf_vector_push_back(vector, hf_string_substr(data, 0, index + sizeDelimiter));
-            data += index + sizeDelimiter;
-        }
-     */
-    
-    
     while((index = hf_string_find(delimiter, data, index)) != hf_string_npos){
         hf_vector_push_back(vector, hf_string_substr(data, previousIndex, index));
         //printf("cur: %u %u\n", previousIndex, index);
