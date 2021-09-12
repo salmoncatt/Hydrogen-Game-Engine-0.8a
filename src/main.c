@@ -39,15 +39,15 @@ int main(void){
         }
      */
     
-    const char* goober = "a bb ababbabbababaa";
+    const char* goober = "what a goober";
     //char* goober = (char*)hf_malloc(111);
     hf_vector vector = { 0 };
     hf_vector_init(&vector);
     //u64 index = hfstrfind('e', goober, 3, hfstrlen(goober));
     //u64 index = hfstrlen(goober);
-    u64 index = hf_string_find("aa", goober, 1);
-    printf("hfsf output: %I64u\n", index);
-    printf("hf_string_npos: %I64u\n", hf_string_npos);
+    //u64 index = hf_string_find("aa", goober, 1);
+    //printf("hfsf output: %I64u\n", index);
+    //printf("hf_string_npos: %I64u\n", hf_string_npos);
     //printf("ctz: %u\n", hf_ctzu32(8));
     
     //const char* a = "abaaaaabaaaaaaaaaaaabaaaa";
@@ -66,12 +66,14 @@ int main(void){
         hf_free(goober);
      */
     
-    /* 
-        hfStringSplit(&vector, " ", goober);
-        printf("%s", (char*)vector.data[0]);
-        printf("%s", (char*)vector.data[1]);
-        printf("%s", (char*)vector.data[2]);
-     */
+    hf_string_split(&vector, " ", goober);
+    printf("1: %s\n", (char*)vector.data[0]);
+    printf("2: %s\n", (char*)vector.data[1]);
+    printf("3: %s\n", (char*)vector.data[2]);
+    
+    
+    //printf("%s\n", hf_string_substr("goober", 1, 4));
+    
     
     //hf_free(bytes);
     hf_vector_free(&vector);

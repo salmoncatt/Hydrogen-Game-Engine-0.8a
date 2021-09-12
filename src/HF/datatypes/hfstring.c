@@ -50,14 +50,27 @@ char* hf_string_substr(const char* data, u64 start, u64 end){
 }
 
 void hf_string_split(hf_vector* vector, const char* delimiter, const char* data){
-    u64 index;
+    u64 index = 0;
+    u64 previousIndex = 0;
+    u64 sizeDelimiter = hf_strlen(delimiter);
+    //char* current = (char*)data;
     
-    // NOTE(salmoncatt): cring scalar code
+    /* 
+        while((index = hf_string_find(delimiter, current, index)) != hf_string_npos){
+            hf_vector_push_back(vector, hf_string_substr(data, 0, index + sizeDelimiter));
+            data += index + sizeDelimiter;
+        }
+     */
+    
+    
     while((index = hf_string_find(delimiter, data, index)) != hf_string_npos){
-        hf_vector_push_back(vector, hf_string_substr(data, index, index + hf_strlen(delimiter)));
-        index += hf_strlen(delimiter);
+        hf_vector_push_back(vector, hf_string_substr(data, previousIndex, index));
+        printf("cur: %u %u\n", previousIndex, index);
+        previousIndex = index;
+        index += sizeDelimiter;
     }
     
-    if((index = hf_string_find(delimiter, data, index)) != hf_string_npos)
-        hf_vector_push_back(vector, hf_string_substr(data, index, index + hf_strlen(delimiter)));
+    
+    //if((index = hf_string_find(delimiter, data, index)) != hf_string_npos)
+    //hf_vector_push_back(vector, hf_string_substr(data, index, index + sizeDelimiter));
 }
