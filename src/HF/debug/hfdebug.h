@@ -12,6 +12,8 @@ void hf_debug_set_text_color(v3f foregroundColor, v3f backgroundColor);
 
 //                                                                       $hf color code
 // NOTE(salmoncatt): when displaying text add color codes to the output: $hfcc{255,255,255} would be white or $hfcc{red} would be 255, 0, 0
+
+// NOTE(salmoncatt): maybe just hex values for color ex. FF00A0
 void hf_debug_err(const char* msg, ...);
 void hf_debug_err_msg_box(const char* title, const char* msg, u32 format, ...);
 

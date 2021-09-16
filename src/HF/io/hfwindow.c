@@ -70,7 +70,7 @@ b8 hf_create_window(hf_window* w){
             PFD_SUPPORT_OPENGL |            // OpenGL support
             PFD_DOUBLEBUFFER,               // double buffering support
         PFD_TYPE_RGBA,                  // RGBA color mode
-        w->bitsPerPixel,                // color mode
+        w->bits_per_pixel,                // color mode
         0, 0, 0, 0, 0, 0,               // ignore color bits, non-palettized mode
         0,                              // no alpha buffer
         0,                              // ignore shift bit

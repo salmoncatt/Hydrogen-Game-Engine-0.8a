@@ -21,7 +21,7 @@ typedef struct hf_window{
     u32 height;
     u32 x;
     u32 y;
-    u32 bitsPerPixel;
+    u32 bits_per_pixel;
     const char* title;
     
     HINSTANCE hInstance;

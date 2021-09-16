@@ -20,7 +20,7 @@ int main(void){
     hf_window window = {};
     window.width = 1000;
     window.height = 600;
-    window.bitsPerPixel = 32;
+    window.bits_per_pixel = 32;
     window.title = "what a goober";
     
     setvbuf(stdout, NULL, _IONBF, 0); 
@@ -39,7 +39,7 @@ int main(void){
         }
      */
     
-    const char* goober = "what a goober";
+    const char* goober = "$hfcc{red}what a goober $hfcc{blue}super goober";
     hf_debug_err(goober);
     
     
