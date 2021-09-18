@@ -14,6 +14,7 @@ void test_callback(hf_window* w, u32 keycode, u32 action){
 }
  */
 
+
 int main(void){
     setvbuf(stdout, NULL, _IONBF, 0);
     
@@ -39,7 +40,7 @@ int main(void){
         }
      */
     
-    const char* goober = "$hfcc{red}what a goober $hfcc{blue}super goober";
+    const char* goober = "$hfcc{0xFF0000}what a goober $hfcc{0x0000FF}super goober";
     hf_debug_err(goober);
     
     

@@ -16,7 +16,7 @@ void hf_debug_err(const char* msg, ...){
     
     hf_string_split(&split_at_colors, "$hfcc{", msg);
     for(u64 i = 0; i < split_at_colors.size; ++i){
-        printf("%s\n", (char*)(hf_vector_get(&split_at_colors, i)));
+        printf("%s\n", (char*)(hf_vector_get(&split_at_colors, i) + hf_strfind()));
     }
     
     hf_vector_free(&split_at_colors);
