@@ -1,6 +1,7 @@
 #include "hfdebug.h"
 #include "stdio.h"
 #include "../datatypes/hfstring.h"
+#include "../util/hfutil.h"
 
 void hf_debug_init(){
     
@@ -16,7 +17,8 @@ void hf_debug_err(const char* msg, ...){
     
     hf_string_split(&split_at_colors, "$hfcc{", msg);
     for(u64 i = 0; i < split_at_colors.size; ++i){
-        printf("%s\n", (char*)(hf_vector_get(&split_at_colors, i) + hf_strfind()));
+        u64 index = hf_strfind('}', hf_vector_get(&split_at_colors, i), 0, 7);
+        printf("%s\n", (char*)(hf_vector_get(&split_at_colors, i) + index));
     }
     
     hf_vector_free(&split_at_colors);

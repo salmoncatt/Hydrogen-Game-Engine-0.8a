@@ -10,7 +10,7 @@ void hf_vector_init(hf_vector* vector) {
 	vector->data = hf_malloc(sizeof(void*) * vector->capacity);
 }
 
-u32 hf_vector_resize(hf_vector* vector, u64 capacity) {
+b8 hf_vector_resize(hf_vector* vector, u64 capacity) {
 	u32 status = HF_VECTOR_FAIL;
     
 	if (vector) {
@@ -28,7 +28,7 @@ u32 hf_vector_resize(hf_vector* vector, u64 capacity) {
 	return status;
 }
 
-u32 hf_vector_push_back(hf_vector* vector, void* in) {
+b8 hf_vector_push_back(hf_vector* vector, void* in) {
 	u32 status = HF_VECTOR_FAIL;
     
 	if (vector) {
@@ -49,7 +49,7 @@ u32 hf_vector_push_back(hf_vector* vector, void* in) {
 	return status;
 }
 
-u32 hf_vector_set(hf_vector* vector, u64 index, void* in) {
+b8 hf_vector_set(hf_vector* vector, u64 index, void* in) {
 	u32 status = HF_VECTOR_FAIL;
     
 	if (vector) {
@@ -74,7 +74,7 @@ void* hf_vector_get(hf_vector* vector, u64 index) {
 	return out;
 }
 
-u32 hf_vector_erase(hf_vector* vector, u64 index, u64 length) {
+b8 hf_vector_erase(hf_vector* vector, u64 index, u64 length) {
 	u32 status = HF_VECTOR_FAIL;
     
 	if (vector) {
@@ -110,7 +110,7 @@ u32 hf_vector_erase(hf_vector* vector, u64 index, u64 length) {
 	return status;
 }
 
-u32 hf_vector_free(hf_vector* vector) {
+b8 hf_vector_free(hf_vector* vector) {
     u32 status = HF_VECTOR_FAIL;
     
 	if (vector) {
@@ -122,4 +122,13 @@ u32 hf_vector_free(hf_vector* vector) {
 	}
     
 	return status;
+}
+
+
+u64 hf_vector_find(hf_vector* vector, void* pointer){
+    
+}
+
+u64 hf_vector_find_value(hf_vector* vector, void* value){
+    
 }
