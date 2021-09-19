@@ -31,7 +31,7 @@ char* hf_string_substr(const char* data, u64 start, u64 end){
     
     
     if(start > size){
-        hf_debug_err("err string substr");
+        //hf_debug_err("$hfcc{FF0000}err string substr");
         printf("err string substr");
         return NULL;
     }
@@ -39,9 +39,12 @@ char* hf_string_substr(const char* data, u64 start, u64 end){
     
     if(end > size){
         u64 newLength = size - start;
-        out = (char*)hf_malloc(sizeof(char) * (newLength + 1));
-        hf_memcpy(out, data + start, newLength);
-        out[size] = '\0';
+        if(newLength > 0){
+            out = (char*)hf_malloc(sizeof(char) * (newLength + 1));
+            hf_memcpy(out, data + start, newLength);
+            out[size] = '\0';
+        }else
+            return NULL;
         
     }else{
         out = hf_malloc(sizeof(char) * (end - start + 1));
@@ -57,11 +60,11 @@ void hf_string_split(hf_vector* vector, const char* delimiter, const char* data)
     u64 previousIndex = 0;
     u64 sizeDelimiter = hf_strlen(delimiter);
     u64 size = hf_strlen(data);
-    //char* current = (char*)data;
     
     while((index = hf_string_find(delimiter, data, index)) != hf_string_npos){
-        hf_vector_push_back(vector, hf_string_substr(data, previousIndex, index));
-        //printf("cur: %u %u\n", previousIndex, index);
+        //incase delimiter is at index 0
+        if(index != 0)
+            hf_vector_push_back(vector, hf_string_substr(data, previousIndex, index));
         
         index += sizeDelimiter;
         previousIndex = index;
@@ -70,7 +73,5 @@ void hf_string_split(hf_vector* vector, const char* delimiter, const char* data)
     
     if(previousIndex < size){
         hf_vector_push_back(vector, hf_string_substr(data, previousIndex, size));
-        
-        //printf("cur: %u %u\n", previousIndex + 1, size);
     }
 }

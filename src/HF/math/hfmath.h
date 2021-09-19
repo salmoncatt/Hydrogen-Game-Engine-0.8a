@@ -40,4 +40,7 @@ v3f v3f_addsto_v3f(v3f* a, v3f* b);
 v4f v4f_add_v4f(v4f* a, v4f* b);
 //adds a and b and stores the result in a
 v4f v4f_addsto_v4f(v4f* a, v4f* b);
+
+u32 hf_hash_str(const char* str);
+
 #endif //HFMATH_H
