@@ -5,12 +5,18 @@
 
 #include <immintrin.h>
 #include "../datatypes/hfdatatypes.h"
+#include "../debug/hfdebug.h"
 
 // NOTE(salmoncatt): assert functions
 
-#define assert(expression) if(expression) {} else {  printf("[ERROR ASSERT]: [%s] returned false, in file: [%s], in function: [%s], at line: [%i]\n\n", #expression, __FILE__, __FUNCTION__, __LINE__); exit(-1); }
+#define assert(expression) if(expression) {} else { hf_debug_err("$hfcc{red}[$hfcc{yellow}HF Error$hfcc{red}]: ($hfcc{aqua}expression: $hfcc{yellow}%s) threw at: [$hfcc{aqua}file: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}function: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}line: $hfcc{yellow}%i$hfcc{red}]\n", #expression, __FILE__, __FUNCTION__, __LINE__); exit(-1); }
 
-#define assertf(expression,msg) if(expression) {} else {  printf("[ERROR ASSERT]: [%s] returned false, with message: [%s], in file: [%s], in function: [%s], at line: [%i]\n\n", #expression, msg, __FILE__, __FUNCTION__, __LINE__); exit(-1); }
+#define assertf(expression,msg) if(expression) {} else { hf_debug_err("$hfcc{red}[$hfcc{yellow}HF Error$hfcc{red}]: ($hfcc{aqua}expression: $hfcc{red}[$hfcc{yellow}%s$hfcc{red}] $hfcc{aqua}with msg: $hfcc{red}[$hfcc{yellow}%s$hfcc{red}]) threw at: [$hfcc{aqua}file: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}function: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}line: $hfcc{yellow}%i$hfcc{red}]\n", #expression, msg, __FILE__, __FUNCTION__, __LINE__);  }
+
+
+/* 
+printf("[ERROR ASSERT]: [%s] returned false, with message: [%s], in file: [%s], in function: [%s], at line: [%i]\n\n", #expression, msg, __FILE__, __FUNCTION__, __LINE__); exit(-1); }
+ */
 
 // TODO(salmoncatt): add static asserts pls
 

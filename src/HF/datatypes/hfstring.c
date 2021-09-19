@@ -31,8 +31,8 @@ char* hf_string_substr(const char* data, u64 start, u64 end){
     
     
     if(start > size){
-        //hf_debug_err("$hfcc{FF0000}err string substr");
-        printf("err string substr");
+        hf_debug_err("$hfcc{red}[HF Error]: [$hfcc{yellow}substr start index > length$hfcc{red}], [$hfcc{aqua}string: $hfcc{yellow}%s$hfcc{red}]\n", data);
+        //printf("err string substr");
         return NULL;
     }
     

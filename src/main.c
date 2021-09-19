@@ -40,8 +40,9 @@ int main(void){
         }
      */
     
-    const char* goober = "$hfcc{red}what a goober$hfcc{green}super goober";
-    hf_debug_err(goober);
+    const char* goober = "what a super goober";
+    
+    
     
     
     //hf_free(bytes);

@@ -53,8 +53,19 @@ void hf_debug_set_text_color(hf_debug_color foregroundColor, hf_debug_color back
 // NOTE(salmoncatt): lets you use hf color codes: $hfcc{FF0000} makes it red
 void hf_log(const char* msg, ...);
 
+void hf_vlog(const char* msg, va_list list);
+
 // NOTE(salmoncatt): maybe just hex values for color ex. $hfcc{FF00A0}
-void hf_debug_err(const char* msg);
+void hf_debug_err(const char* msg, ...);
+
+
+#define hf_err(msg) hf_debug_err("$hfcc{red}[$hfcc{yellow}HF Error$hfcc{red}]: ($hfcc{yellow}%s$hfcc{red}) threw at: [$hfcc{aqua}file: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}function: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}line: $hfcc{yellow}%i$hfcc{red}]\n", msg, __FILE__, __FUNCTION__, __LINE__);
+
+
+
+/* 
+#define hf_err(msg) hf_debug_err("$hfcc{red}[$hfcc{yellow}HF Error$hfcc{red}]: ($hfcc{yellow}%s$hfcc{red}) threw at", msg);
+ */
 
 //void hf_debug_err_msg_box(const char* title, const char* msg, u32 format, ...);
 

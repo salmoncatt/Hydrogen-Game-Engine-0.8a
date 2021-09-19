@@ -1,8 +1,9 @@
+#include <windows.h>
+#include <stdarg.h>
 #include "hfdebug.h"
 #include "stdio.h"
 #include "../datatypes/hfstring.h"
 #include "../util/hfutil.h"
-#include <windows.h>
 #include "../math/hfmath.h"
 
 void hf_debug_init(){
@@ -15,10 +16,36 @@ void hf_debug_set_text_color(hf_debug_color foregroundColor, hf_debug_color back
 }
 
 void hf_log(const char* msg, ...){
+    va_list args;
+    va_start(args, msg);
+    hf_vlog(msg, args);
+    va_end(args);
+}
+
+void hf_vlog(const char* msg, va_list args){
+    
+    // NOTE(salmoncatt): format the msg itself
+    u64 buffer_size = 0;
+    char* formatted_msg = (char*)hf_malloc(256);;
+    i32 length = vsnprintf(formatted_msg, 256, msg, args);
+    
+    if(length > 256){
+        i32 old_length = length;
+        hf_free(formatted_msg);
+        formatted_msg = (char*)hf_malloc(length + 64);
+        length = vsnprintf(formatted_msg, length + 64, msg, args);
+        
+        if(length > old_length + 64){
+            printf("hf log not doin so good");
+            // TODO(salmoncatt): add break here
+        }
+    }
+    
+    // NOTE(salmoncatt): format the color codes
     hf_vector split_at_colors = {};
     hf_vector_init(&split_at_colors);
     
-    hf_string_split(&split_at_colors, "$hfcc{", msg);
+    hf_string_split(&split_at_colors, "$hfcc{", formatted_msg);
     for(u64 i = 0; i < split_at_colors.size; ++i){
         //current msg
         char* current = hf_vector_get(&split_at_colors, i);
@@ -89,7 +116,7 @@ void hf_log(const char* msg, ...){
         char* msg_without_color_codes = hf_string_substr(current, index + 1, length);
         
         if(msg_without_color_codes != NULL)
-            printf("%s\n", msg_without_color_codes);
+            printf("%s", msg_without_color_codes);
         
         hf_free(msg_without_color_codes);
     }
@@ -99,36 +126,13 @@ void hf_log(const char* msg, ...){
     hf_vector_free(&split_at_colors);
 }
 
-void hf_debug_err(const char* msg){
-    hf_log(msg);
-    /* 
-        hf_vector split_at_colors = {};
-        hf_vector_init(&split_at_colors);
-        
-        hf_string_split(&split_at_colors, "$hfcc{", msg);
-        for(u64 i = 0; i < split_at_colors.size; ++i){
-            //current msg
-            char* current = hf_vector_get(&split_at_colors, i);
-            //length of current msg
-            u64 length = hf_strlen(current);
-            // NOTE(salmoncatt): finds index of terminating hf color code: $hfcc{FF00FF} <- last one
-            u64 index = hf_strfind('}', current, 0, length);
-            
-            
-            if(index == hf_string_npos){
-                printf("[HF Err]: msg doesn't have correct color formating\n");
-            }
-            
-            char* color_hex = hf_string_substr(current, 0, index);
-            printf("char hex:%s\n", color_hex);
-            
-            u32 color = strtol(color_hex, NULL, 16);
-            printf("%u\n", color);
-            //printf("%s\n", (char*)(hf_string_substr(hf_vector_get(&split_at_colors, i), index, hf_strlen(hf_vector_get(&split_at_colors, i)))));
-        }
-        
-        hf_vector_free(&split_at_colors);
-     */
+void hf_debug_err(const char* msg, ...){
+    va_list args;
+    va_start(args, msg);
+    // NOTE(salmoncatt): prints [HF] (Error):
+    //hf_log("$hfcc{red}[$hfcc{yellow}HF$hfcc{red}] ($hfcc{yellow}Error$hfcc{red}): ");
+    hf_vlog(msg, args);
+    va_end(args);
 }
 
 /* 
