@@ -5,9 +5,6 @@
 #include "HF/hf.h"
 #include <GL/gl.h>
 
-
-//TODO: FINISH THE THEME
-
 /* 
 void test_callback(hf_window* w, u32 keycode, u32 action){
     printf("skibidi bop mm dada\n");
@@ -42,14 +39,34 @@ int main(void){
     
     const char* goober = "what a super goober";
     
+    hf_vector vector = {};
+    hf_vector_init(&vector);
     
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, &goober);
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
     
+    //hf_vector_find(&vector, &goober);
     
-    //hf_free(bytes);
-    /* 
-        hf_vector_free(&vector);
-     */
+    printf("%I64u\n", hf_vector_find(&vector, &goober));
     
+    hf_vector_free(&vector);
     //hf_window_set_key_callback(&window, &test_callback);
     
     //window.key_callback(NULL, 0, 0);
