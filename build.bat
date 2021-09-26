@@ -1,10 +1,12 @@
 @echo off
 
 if not exist bin mkdir bin
+if not exist bin\hfpch mkdir bin\hfpch
 
 set compileType=gcc
 
 echo [HGE] compiling...
+
 
 
 if %compileType%==cl (
@@ -21,8 +23,14 @@ echo start /b /wait "" "cl" src\main.c /I..\ext\include /link opengl32.lib /libp
 
 IF %compileType%==gcc (
 
-make
+echo[
+echo [HGE] compiling hfpch.h
+make hfpch
+echo[
+echo [HGE] compiling HF
+make main
 
 )
 
+echo[
 echo [HGE] done compiling

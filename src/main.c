@@ -1,6 +1,8 @@
 
+/* 
 #include <stdio.h>
 #include <stdlib.h>
+ */
 
 #include "HF/hf.h"
 #include <GL/gl.h>
@@ -47,12 +49,12 @@ int main(void){
     hf_vector_push_back(&vector, "goober");
     hf_vector_push_back(&vector, "goober");
     hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, "goober");
     hf_vector_push_back(&vector, &goober);
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
     hf_vector_push_back(&vector, "goober");
     hf_vector_push_back(&vector, "goober");
     hf_vector_push_back(&vector, "goober");
@@ -65,6 +67,8 @@ int main(void){
     //hf_vector_find(&vector, &goober);
     
     printf("%I64u\n", hf_vector_find(&vector, &goober));
+    
+    printf("%I64u\n", hf_get_time());
     
     hf_vector_free(&vector);
     //hf_window_set_key_callback(&window, &test_callback);

@@ -126,32 +126,33 @@ b8 hf_vector_free(hf_vector* vector) {
 
 
 u64 hf_vector_find(hf_vector* vector, void* pointer){
+    
+    for(u64 i = 0; i < vector->size; i++){
+        if(pointer == vector->data[i]){
+            //printf("%p, %p\n", pointer, vector->data[i]);
+            return i;
+        }
+    }
+    
+    
+    
     /* 
-        for(u64 i = 0; i < vector->size; i++){
-            if(pointer == vector->data[i]){
-                printf("%p, %p\n", pointer, vector->data[i]);
-                return i;
+        __m128i* mm_data = (__m128i*)(vector->data);
+        __m128i mm_pointer = _mm_set_epi64x((u64)(pointer), (u64)(pointer));
+        //__m128i mm_pointer = _mm_loadu_si128((__m128i*)(pointer));
+        u64 out = vector->size;
+        
+        for(u64 i = 0; i < vector->size - 2; i += 2, mm_data++){
+            __m128i current = _mm_loadu_si128(mm_data);
+            __m128i comparision = _mm_cmpeq_epi64(current, mm_pointer);
+            u32 mask = _mm_movemask_epi8(comparision);
+            
+            if(mask){
+                return i + (hf_ctzu32(mask) / 8);
             }
+            
         }
      */
-    
-    
-    __m128i* mm_data = (__m128i*)(vector->data);
-    __m128i mm_pointer = _mm_loadu_si128((__m128i*)(pointer));
-    u64 out = vector->size;
-    
-    for(u64 i = 0; i < vector->size - 4; i += 4, mm_data++){
-        __m128i current = _mm_loadu_si128(mm_data);
-        __m128i comparision = _mm_cmpeq_epi8(current, mm_pointer);
-        u32 mask = _mm_movemask_epi8(comparision);
-        
-        if(mask){
-            hf_print_bits(&mask, sizeof(mask));
-            return (mask / 128) + (hf_ctzu32(mask) / 128);
-            //break;
-        }
-        
-    }
     
     return vector->size;
 }
