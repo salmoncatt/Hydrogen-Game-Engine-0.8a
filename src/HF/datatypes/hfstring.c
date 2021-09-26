@@ -1,13 +1,4 @@
 #include "hfstring.h"
-//#include "hfpch.h"
-//#include "../util/hfutil.h"
-//#include <stdio.h>
-
-/* 
-u64 hfStringFind(const char* delimiter, const char* data){
-    return 0;
-}
- */
 
 u64 hf_string_find(const char* delimiter, const char* data, u64 startingIndex){
     u64 size = hf_strlen(data);

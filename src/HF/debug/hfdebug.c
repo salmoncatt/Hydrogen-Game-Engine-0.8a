@@ -1,11 +1,4 @@
 #include "hfdebug.h"
-//#include "hfpch.h"
-//#include <windows.h>
-//#include <stdarg.h>
-//#include "stdio.h"
-#include "../datatypes/hfstring.h"
-//#include "../util/hfutil.h"
-//#include "../math/hfmath.h"
 
 void hf_debug_init(){
     

@@ -3,8 +3,6 @@
 #ifndef HFVECTOR_H
 #define HFVECTOR_H
 
-#include "hfdatatypes.h"
-
 #define HF_VECTOR_INIT_CAPACITY 10
 #define HF_VECTOR_SUCCESS 1
 #define HF_VECTOR_FAIL 0

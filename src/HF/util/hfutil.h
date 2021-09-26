@@ -3,10 +3,6 @@
 #ifndef HFUTIL_H
 #define HFUTIL_H
 
-#include <immintrin.h>
-#include "../datatypes/hfdatatypes.h"
-#include "../debug/hfdebug.h"
-
 // NOTE(salmoncatt): assert functions
 
 #define assert(expression) if(expression) {} else { hf_debug_err("$hfcc{red}[$hfcc{yellow}HF Error$hfcc{red}]: ($hfcc{aqua}expression: $hfcc{yellow}%s) threw at: [$hfcc{aqua}file: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}function: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}line: $hfcc{yellow}%i$hfcc{red}]\n", #expression, __FILE__, __FUNCTION__, __LINE__); exit(-1); }

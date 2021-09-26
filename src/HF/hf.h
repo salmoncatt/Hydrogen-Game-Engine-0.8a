@@ -3,9 +3,6 @@
 #ifndef HF_H
 #define HF_H
 
-//#ifdef _WIN32 || _WIN64
-#include <windows.h>
-//#endif
 // TODO(salmoncatt): add linux headers n stuff pls
 
 
@@ -27,5 +24,7 @@
 //#endif
 
 #include "time/hfprofiler.h"
+
+#include "time/hftime.h"
 
 #endif //HF_H

@@ -3,9 +3,6 @@
 #ifndef _WINDOW_H
 #define _WINDOW_H
 
-#include "../math/hfmath.h"
-//#include <windows.h>
-
 // NOTE(salmoncatt): do platform specific functions like foo (calls wfoo or xfoo)
 
 //https://www.cprogramming.com/tutorial/opengl_projections.html the god send of a website

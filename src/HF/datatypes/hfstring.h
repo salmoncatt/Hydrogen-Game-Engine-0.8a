@@ -4,7 +4,6 @@
 #define HFSTRING_H
 
 #include "hfvector.h"
-#include "hfdatatypes.h"
 
 void hf_string_split(hf_vector* vector, const char* delimiter, const char* data);
 

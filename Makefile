@@ -8,6 +8,7 @@ OBJS = $(SRC:.c=.o)
 
 PCH_SRC = src/HF/hfpch.h
 PCH_OUT = src/HF/hfpch.h.gch
+#PCH_OUT = bin/hfpch/hfpch.h.gch
 
 main: $(SRC)
 	 $(CC) -include $(PCH_SRC) -o bin\goober $^ $(CFLAGS) $(LIBS)

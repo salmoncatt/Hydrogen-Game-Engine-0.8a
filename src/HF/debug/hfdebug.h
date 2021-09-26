@@ -3,8 +3,6 @@
 #ifndef HFDEBUG_H
 #define HFDEBUG_H
 
-#include "../math/hfmath.h"
-
 // NOTE(salmoncatt): in hf app have current foreground and background color pls cool thanks
 
 // NOTE(salmoncatt): debug text colors (see here for color codes)

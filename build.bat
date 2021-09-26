@@ -36,3 +36,6 @@ make main
 
 echo[
 echo [HGE] done compiling
+
+
+pause
