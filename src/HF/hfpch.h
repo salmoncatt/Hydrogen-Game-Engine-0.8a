@@ -5,11 +5,14 @@
 #ifndef HFPCH_H
 #define HFPCH_H
 
+#include <GL/gl.h>
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <immintrin.h>
+
 #include "math/hfmath.h"
 #include "util/hfutil.h"
+#include "debug/hfdebug.h"
 
 #endif //HFPCH_H

@@ -1,5 +1,5 @@
 #include "hfmath.h"
-
+//#include "hfpch.h"
 
 // NOTE(salmoncatt): djb2 hash algorithm: http://www.cse.yorku.ca/~oz/hash.html
 u32 hf_hash_str(const char* str){

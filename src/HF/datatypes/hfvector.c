@@ -1,8 +1,9 @@
 #include "hfvector.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include "../util/hfutil.h"
-#include <immintrin.h>
+//#include "hfpch.h"
+//#include <stdlib.h>
+//#include <stdio.h>
+//#include "../util/hfutil.h"
+//#include <immintrin.h>
 
 void hf_vector_init(hf_vector* vector) {
 	vector->capacity = HF_VECTOR_INIT_CAPACITY;

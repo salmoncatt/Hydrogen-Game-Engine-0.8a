@@ -4,7 +4,7 @@
 #define _WINDOW_H
 
 #include "../math/hfmath.h"
-#include <windows.h>
+//#include <windows.h>
 
 // NOTE(salmoncatt): do platform specific functions like foo (calls wfoo or xfoo)
 

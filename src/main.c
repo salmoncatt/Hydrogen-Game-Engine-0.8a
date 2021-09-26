@@ -5,8 +5,8 @@
  */
 
 #include "HF/hf.h"
-#include "HF/hfpch.h"
-#include <GL/gl.h>
+//#include "HF/hfpch.h"
+//#include <GL/gl.h>
 
 /* 
 void test_callback(hf_window* w, u32 keycode, u32 action){

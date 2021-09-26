@@ -1,29 +1,20 @@
 CC=gcc
 LIBS  = -lopengl32 -lgdi32
-CFLAGS = -mavx -m64 -Ibin\hfpch
+CFLAGS = -mavx -m64 -Isrc/HF
 #TODO: (salmoncatt) dont make me write * for every new sub directory added
 SRC=$(wildcard src/*.c) $(wildcard src/*/*.c) $(wildcard src/*/*/*.c)
 OBJS = $(SRC:.c=.o)
 
 
 PCH_SRC = src/HF/hfpch.h
-PCH_OUT = bin\hfpch\hfpch.h.gch
-
-#main: $(OBJS)
-#	 $(CC) -o bin\goober $^ $(CFLAGS) $(LIBS)
-#	 $(CC) -include $(PCH_SRC) -o bin\goober $^ $(CFLAGS) $(LIBS)
-
+PCH_OUT = src/HF/hfpch.h.gch
 
 main: $(SRC)
 	 $(CC) -include $(PCH_SRC) -o bin\goober $^ $(CFLAGS) $(LIBS)
 
-#obj: $(SRC)
-#	 $(CC) -include $(PCH_SRC) -o $^ $(CFLAGS) $(LIBS)
-
-
 # compile precompiled header file here
 hfpch: $(PCH_SRC)
-	$(CC) -c -o $(PCH_OUT) $< $(CFLAGS) $(LIBS)
+	$(CC) -c -o $(PCH_OUT) $< $(CFLAGS) $(LIBS) 
 
 
 

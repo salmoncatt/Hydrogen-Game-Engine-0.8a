@@ -1,7 +1,7 @@
 #include "hfstring.h"
-#include "../util/hfutil.h"
-#include "../debug/hfdebug.h"
-#include <stdio.h>
+//#include "hfpch.h"
+//#include "../util/hfutil.h"
+//#include <stdio.h>
 
 /* 
 u64 hfStringFind(const char* delimiter, const char* data){

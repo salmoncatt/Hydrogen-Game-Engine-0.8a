@@ -1,6 +1,7 @@
 #include "hfutil.h"
+//#include "hfpch.h"
 //#include <stdio.h>
-#include "../math/hfmath.h"
+//#include "../math/hfmath.h"
 //#include <windows.h>
 //#include <immintrin.h>
 
