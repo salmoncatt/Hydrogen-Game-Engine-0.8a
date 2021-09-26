@@ -5,6 +5,7 @@
  */
 
 #include "HF/hf.h"
+#include "HF/hfpch.h"
 #include <GL/gl.h>
 
 /* 
