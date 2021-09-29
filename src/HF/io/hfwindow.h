@@ -41,6 +41,8 @@ typedef struct hf_window{
     
 } hf_window;
 
+//sets default values for a window
+void hf_window_init(hf_window* window);
 
 b8 hf_create_window(hf_window* window);
 b8 hf_destroy_window(hf_window* window);

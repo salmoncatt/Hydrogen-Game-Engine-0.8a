@@ -7,6 +7,8 @@
 
 
 // TODO(salmoncatt): come up with a better header name pls
+#include "core/hfapp.h"
+
 #include "datatypes/hfdatatypes.h"
 #include "datatypes/hfvector.h"
 #include "datatypes/hflinkedlist.h"

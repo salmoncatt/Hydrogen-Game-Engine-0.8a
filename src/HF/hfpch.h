@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <immintrin.h>
+#include <time.h>
 
 #include "math/hfmath.h"
 #include "util/hfutil.h"

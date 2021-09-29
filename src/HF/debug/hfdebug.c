@@ -127,6 +127,10 @@ void hf_debug_err(const char* msg, ...){
     //hf_log("$hfcc{red}[$hfcc{yellow}HF$hfcc{red}] ($hfcc{yellow}Error$hfcc{red}): ");
     hf_vlog(msg, args);
     va_end(args);
+    
+#ifndef HF_DEBUG
+    MessageBox(NULL, msg, "HF Error!", MB_OK | MB_ICONERROR);
+#endif
 }
 
 /* 

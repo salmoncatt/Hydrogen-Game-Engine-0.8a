@@ -60,11 +60,4 @@ void hf_debug_err(const char* msg, ...);
 #define hf_err(msg) hf_debug_err("$hfcc{red}[$hfcc{yellow}HF Error$hfcc{red}]: ($hfcc{yellow}%s$hfcc{red}) threw at: [$hfcc{aqua}file: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}function: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}line: $hfcc{yellow}%i$hfcc{red}]\n", msg, __FILE__, __FUNCTION__, __LINE__);
 
 
-
-/* 
-#define hf_err(msg) hf_debug_err("$hfcc{red}[$hfcc{yellow}HF Error$hfcc{red}]: ($hfcc{yellow}%s$hfcc{red}) threw at", msg);
- */
-
-//void hf_debug_err_msg_box(const char* title, const char* msg, u32 format, ...);
-
 #endif //HFDEBUG_H

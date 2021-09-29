@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
  */
-
+#define HF_DEBUG
 #include "HF/hf.h"
 //#include "HF/hfpch.h"
 //#include <GL/gl.h>
@@ -16,15 +16,15 @@ void test_callback(hf_window* w, u32 keycode, u32 action){
 
 
 int main(void){
-    setvbuf(stdout, NULL, _IONBF, 0);
+    hf_app app = {};
+    hf_app_init(&app);
+    hf_app_start(&app);
     
     hf_window window = {};
-    window.width = 1000;
-    window.height = 600;
-    window.bits_per_pixel = 32;
-    window.title = "what a goober";
+    //set some default values
+    hf_window_init(&window);
     
-    setvbuf(stdout, NULL, _IONBF, 0); 
+    //setvbuf(stdout, NULL, _IONBF, 0); 
     
     if(hf_create_window(&window)){
         printf("created window\n");
@@ -33,45 +33,33 @@ int main(void){
         return -1;
     }
     
+    hf_err("skibibopmmdada");
     
+    //Sleep(1000);
     /* 
         hf_profile_scope() {
             printf("what a goober inside scope\n");
         }
      */
     
-    const char* goober = "what a super goober";
+    /* 
+        const char* goober = "what a super goober";
+        
+        hf_vector vector = {};
+        hf_vector_init(&vector);
+        
+        hf_vector_push_back(&vector, "goober");
+        hf_vector_push_back(&vector, &goober);
+        hf_vector_push_back(&vector, "goober");
+        
+        //hf_vector_find(&vector, &goober);
+        
+        printf("%I64u\n", hf_vector_find(&vector, &goober));
+     */
     
-    hf_vector vector = {};
-    hf_vector_init(&vector);
+    printf("time: %lf\n", hf_get_time(&app));
     
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, &goober);
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, "goober");
-    
-    //hf_vector_find(&vector, &goober);
-    
-    printf("%I64u\n", hf_vector_find(&vector, &goober));
-    
-    printf("%I64u\n", hf_get_time());
-    
-    hf_vector_free(&vector);
+    //hf_vector_free(&vector);
     //hf_window_set_key_callback(&window, &test_callback);
     
     //window.key_callback(NULL, 0, 0);

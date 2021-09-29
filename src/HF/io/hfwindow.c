@@ -165,6 +165,13 @@ b8 hf_destroy_window(hf_window* w){
     return 1;
 }
 
+void hf_window_init(hf_window* window){
+    window->width = 1000;
+    window->height = 600;
+    window->bits_per_pixel = 32;
+    window->title = "what a goober";
+}
+
 b8 hf_should_window_update(hf_window* w){
     return GetMessage(&w->msg, NULL, 0, 0);
 }
