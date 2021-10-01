@@ -16,7 +16,7 @@ b8 hf_vector_resize(hf_vector* vector, u64 capacity) {
     
 	if (vector) {
 		void** data = realloc(vector->data, sizeof(void*) * capacity);
-		assertf(data, "Vector resize realloc failed");
+		hf_assertf(data, "Vector resize realloc failed");
         
 		if (data) {
 			vector->data = data;
@@ -81,7 +81,7 @@ b8 hf_vector_erase(hf_vector* vector, u64 index, u64 length) {
 	if (vector) {
 		if (index < vector->size && index + length <= vector->size) {
             
-			assertf(sizeof(float*) == 8, "Pointer is not 8 bytes, need to add fix for this");
+			hf_assertf(sizeof(float*) == 8, "Pointer is not 8 bytes, need to add fix for this");
             
 			//NOTE: k so basically i was working on this for like 3 days and if you dont use & in load and store for memory addresses it doesnt like that and just kinda breaks
 			while (index + 4 + length < vector->size) {

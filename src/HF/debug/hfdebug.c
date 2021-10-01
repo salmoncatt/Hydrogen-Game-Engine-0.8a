@@ -19,27 +19,33 @@ void hf_log(const char* msg, ...){
 void hf_vlog(const char* msg, va_list args){
     
     // NOTE(salmoncatt): format the msg itself
-    u64 buffer_size = 0;
-    char* formatted_msg = (char*)hf_malloc(256);;
-    i32 length = vsnprintf(formatted_msg, 256, msg, args);
-    
-    if(length > 256){
-        i32 old_length = length;
-        hf_free(formatted_msg);
-        formatted_msg = (char*)hf_malloc(length + 64);
-        length = vsnprintf(formatted_msg, length + 64, msg, args);
+    /* 
+        u64 buffer_size = 0;
+        char* formatted_msg = (char*)hf_malloc(256);;
+        i32 length = vsnprintf(formatted_msg, 256, msg, args);
         
-        if(length > old_length + 64){
-            printf("hf log not doin so good");
-            // TODO(salmoncatt): add break here
+        if(length > 256){
+            i32 old_length = length;
+            hf_free(formatted_msg);
+            formatted_msg = (char*)hf_malloc(length + 64);
+            length = vsnprintf(formatted_msg, length + 64, msg, args);
+            
+            if(length > old_length + 64){
+                printf("hf log not doin so good");
+                // TODO(salmoncatt): add break here
+            }
         }
-    }
+     */
+    
+    char* formatted_msg = hf_vformat_string(msg, args);
     
     // NOTE(salmoncatt): format the color codes
     hf_vector split_at_colors = {};
     hf_vector_init(&split_at_colors);
-    
     hf_string_split(&split_at_colors, "$hfcc{", formatted_msg);
+    
+    hf_free(formatted_msg);
+    
     for(u64 i = 0; i < split_at_colors.size; ++i){
         //current msg
         char* current = hf_vector_get(&split_at_colors, i);
@@ -128,7 +134,7 @@ void hf_debug_err(const char* msg, ...){
     hf_vlog(msg, args);
     va_end(args);
     
-#ifndef HF_DEBUG
+#ifdef HF_DEBUG
     MessageBox(NULL, msg, "HF Error!", MB_OK | MB_ICONERROR);
 #endif
 }

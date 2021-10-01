@@ -33,7 +33,8 @@ int main(void){
         return -1;
     }
     
-    hf_err("skibibopmmdada");
+    //hf_err("skibibopmmdada %s %s", "235235", "ajsdogijaw");
+    hf_assertf(22 == 8, "stinkin goober");
     
     //Sleep(1000);
     /* 

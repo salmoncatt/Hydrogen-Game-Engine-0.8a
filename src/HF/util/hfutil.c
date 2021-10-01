@@ -137,8 +137,15 @@ extern char* hf_strcpy(char* destination, const char* source, u64 offset){
     return (char*)hf_memcpy(destination, source + offset, hf_strlen(source) + 1 - offset);
 }
 
-extern void* hf_malloc(u64 bytes){
-    return malloc(bytes);
+extern void* hf_malloc_func(u64 bytes, const char* file, const char* function, u64 line){
+    void* out = malloc(bytes);
+    if(out)
+        return out;
+    else{
+        hf_err("hf_malloc failed to allocate: %I64U bytes", bytes);
+        return NULL;
+    }
+    
 }
 
 extern void hf_free(void* pointer){
@@ -243,6 +250,46 @@ u32 hf_ctzu32(u32 in){
     return c;
     //return __builtin_ctz(in);
 }
+
+char* hf_concat(const char* a, const char* b){
+    u64 size_a = hf_strlen(a);
+    
+    char* out = (char*)hf_malloc(size_a + hf_strlen(b));
+    
+    
+    hf_strcpy(out, a, 0);
+    hf_strcpy(out, b, size_a);
+    
+    return out;
+}
+
+
+char* hf_format_string(const char* msg, ...){
+    va_list args;
+    va_start(args, msg);
+    hf_vformat_string(msg, args);
+    va_end(args);
+}
+
+char* hf_vformat_string(const char* msg, va_list args){
+    u64 buffer_size = 0;
+    char* formatted_msg = (char*)hf_malloc(256);;
+    i32 length = vsnprintf(formatted_msg, 256, msg, args);
+    
+    if(length > 256){
+        i32 old_length = length;
+        hf_free(formatted_msg);
+        formatted_msg = (char*)hf_malloc(length + 64);
+        length = vsnprintf(formatted_msg, length + 64, msg, args);
+        
+        if(length > old_length + 64){
+            hf_err("hf_format_string couldn't allocate enough memory for string: %s", msg);
+        }
+    }
+    
+    return formatted_msg;
+}
+
 
 /* 
 u32 hf_highestOneBit(u32 in){
