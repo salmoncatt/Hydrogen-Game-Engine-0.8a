@@ -56,6 +56,11 @@ void hf_vlog(const char* msg, va_list list);
 // NOTE(salmoncatt): maybe just hex values for color ex. $hfcc{FF00A0}
 void hf_debug_err(const char* msg, ...);
 
+void hf_print_windows_last_error();
+
+void hf_print_gcc_last_error();
+
+void hf_print_errors();
 
 // TODO(salmoncatt): finish this
 /* 
@@ -69,9 +74,9 @@ MessageBox(NULL, msg, __FILE__, MB_OK | MB_ICONERROR)
  */
 
 #ifdef HF_DEBUG
-#define hf_err(msg, ...) do{ char* HF_FORMATTED_MSG_STRING = hf_format_string(msg, ##__VA_ARGS__); hf_debug_err("$hfcc{red}[$hfcc{yellow}HF Error$hfcc{red}]: ($hfcc{yellow}%s$hfcc{red}) threw at: [$hfcc{aqua}file: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}function: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}line: $hfcc{yellow}%i$hfcc{red}]\n", HF_FORMATTED_MSG_STRING, __FILE__, __FUNCTION__, __LINE__); MessageBox(NULL, msg, __FILE__, MB_OK | MB_ICONERROR); hf_free(HF_FORMATTED_MSG_STRING);} while(0)
+#define hf_err(msg, ...) do{ char* HF_FORMATTED_MSG_STRING = hf_format_string(msg, ##__VA_ARGS__); hf_debug_err("$hfcc{red}[$hfcc{yellow}HF Error$hfcc{red}]: ($hfcc{yellow}%s$hfcc{red}) threw at: [$hfcc{aqua}file: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}function: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}line: $hfcc{yellow}%i$hfcc{red}]\n", HF_FORMATTED_MSG_STRING, __FILE__, __FUNCTION__, __LINE__); MessageBox(NULL, msg, __FILE__, MB_OK | MB_ICONERROR); hf_print_errors(); hf_free(HF_FORMATTED_MSG_STRING);} while(0)
 #else
-#define hf_err(msg, ...) do{ char* HF_FORMATTED_MSG_STRING = hf_format_string(msg, ##__VA_ARGS__); hf_debug_err("$hfcc{red}[$hfcc{yellow}HF Error$hfcc{red}]: ($hfcc{yellow}%s$hfcc{red}) threw at: [$hfcc{aqua}file: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}function: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}line: $hfcc{yellow}%i$hfcc{red}]\n", HF_FORMATTED_MSG_STRING, __FILE__, __FUNCTION__, __LINE__); hf_free(HF_FORMATTED_MSG_STRING);} while(0)
+#define hf_err(msg, ...) do{ char* HF_FORMATTED_MSG_STRING = hf_format_string(msg, ##__VA_ARGS__); hf_debug_err("$hfcc{red}[$hfcc{yellow}HF Error$hfcc{red}]: ($hfcc{yellow}%s$hfcc{red}) threw at: [$hfcc{aqua}file: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}function: $hfcc{yellow}%s$hfcc{red}] [$hfcc{aqua}line: $hfcc{yellow}%i$hfcc{red}]\n", HF_FORMATTED_MSG_STRING, __FILE__, __FUNCTION__, __LINE__); hf_print_errors(); hf_free(HF_FORMATTED_MSG_STRING);} while(0)
 #endif
 
 #define hf_exit(exit_code) do{hf_log("$hfcc{red}[$hfcc{yellow}HF$hfcc{red}] ($hfcc{yellow}exiting with error code:$hfcc{aqua} %i$hfcc{red})\n", exit_code); exit(exit_code);} while(0)

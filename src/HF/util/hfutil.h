@@ -54,7 +54,7 @@ u32 hfHighestZeroBit(u32 in);
  */
 
 // NOTE(salmoncatt): windows get last error
-void hf_print_windows_last_error();
+//void hf_print_windows_last_error();
 
 //pls remember to hf_free the string
 char* hf_format_string(const char* msg, ...);

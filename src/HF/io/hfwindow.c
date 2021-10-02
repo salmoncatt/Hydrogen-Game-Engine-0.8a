@@ -39,18 +39,14 @@ b8 hf_create_window(hf_window* w){
     
     // NOTE(salmoncatt): register window class into windows and check status
     if(!RegisterClassEx(&w->wc)){
-        hf_print_windows_last_error();
-        printf("couldn't register window: %s\n", w->title);
-        MessageBox(NULL, "couldn't register window", "error", MB_ICONERROR | MB_OK);
+        hf_err("couldn't register window: $hfcc{aqua}%s$hfcc{red}", w->title);
         return 0;
     }
     
     // NOTE(salmoncatt): create window and check status
     w->hwnd = CreateWindowEx(0, w->title, w->title, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, w->width, w->height, NULL, NULL, w->hInstance, NULL);
     if(!w->hwnd){
-        hf_print_windows_last_error();
-        printf("couldn't create window: %s\n", w->title);
-        MessageBox(NULL, "couldn't create window", "error", MB_ICONERROR | MB_OK);
+        hf_err("couldn't create window: $hfcc{aqua}%s$hfcc{red}", w->title);
         return 0;
     }
     
@@ -58,10 +54,8 @@ b8 hf_create_window(hf_window* w){
     // TODO(salmoncatt): add better error handling
     
     w->hdc = GetDC(w->hwnd);
-    if(!w->hdc){
-        hf_print_windows_last_error();
-        MessageBox(NULL, "couldn't create device context", "error", MB_ICONERROR | MB_OK);
-    }
+    if(!w->hdc)
+        hf_err("couldn't create device context for window: $hfcc{aqua}%s$hfcc{red}", w->title);
     
     // NOTE(salmoncatt): pixel format description for wgl
     PIXELFORMATDESCRIPTOR pfd = {
@@ -90,32 +84,24 @@ b8 hf_create_window(hf_window* w){
     
     if (!pixelFormat)
     {
-        hf_print_windows_last_error();
-        MessageBox(NULL, "Can't find an appropriate pixel format", "Error", MB_OK | MB_ICONEXCLAMATION);
+        hf_err("can't find an appropriate pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
         return 0;
     }
     
     if(!SetPixelFormat(w->hdc, pixelFormat,&pfd))
     {
-        hf_print_windows_last_error();
-        MessageBox(NULL, "Unable to set pixel format", "Error", MB_OK | MB_ICONEXCLAMATION);
+        hf_err("unable to set pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
         return 0;
     }
     
     // NOTE(salmoncatt): make opengl context
     w->hrc = wglCreateContext(w->hdc);
     if(!w->hrc)
-    {
-        hf_print_windows_last_error();
-        MessageBox(NULL,"Unable to create OpenGL rendering context", "ERROR", MB_OK | MB_ICONEXCLAMATION);
-    }
+        hf_err("unable to create OpenGL rendering context for window: $hfcc{aqua}%s$hfcc{red}", w->title);
     
     // NOTE(salmoncatt): make opengl context current
     if(!wglMakeCurrent(w->hdc, w->hrc))
-    {
-        hf_print_windows_last_error();
-        MessageBox(NULL,"Unable to activate OpenGL rendering context", "ERROR", MB_OK | MB_ICONEXCLAMATION);
-    }
+        hf_err("unable to make OpenGL rendering context current for window: $hfcc{aqua}%s$hfcc{red}", w->title);
     
     ShowWindow(w->hwnd, 1);
     UpdateWindow(w->hwnd);
@@ -128,34 +114,26 @@ b8 hf_destroy_window(hf_window* w){
     if(w->hrc){
         // release the RC
         if (!wglMakeCurrent(NULL,NULL))
-        {
-            hf_print_windows_last_error();
-            MessageBox(NULL, "Unable to release rendering context", "Error", MB_OK | MB_ICONINFORMATION);
-        }
+            hf_err("unable to release rendering context for window: $hfcc{aqua}%s$hfcc{red}", w->title);
         
         if (!wglDeleteContext(w->hrc))
-        {
-            hf_print_windows_last_error();
-            MessageBox(NULL, "Unable to delete rendering context", "Error", MB_OK | MB_ICONINFORMATION);
-        }
+            hf_err("unable to delete rendering context for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+        
         w->hrc = NULL;
     }
     
     if(w->hdc && !ReleaseDC(w->hwnd, w->hdc)){
-        hf_print_windows_last_error();
-        MessageBox(NULL, "Unable to release device context", "Error", MB_OK | MB_ICONINFORMATION);
+        hf_err("unable to release device context for window: $hfcc{aqua}%s$hfcc{red}", w->title);
         w->hdc = NULL;
     }
     
     if(w->hwnd && !DestroyWindow(w->hwnd)){
-        hf_print_windows_last_error();
-        MessageBox(NULL, "Unable to destroy window", "Error", MB_OK | MB_ICONINFORMATION);
+        hf_err("unable to destroy window: $hfcc{aqua}%s$hfcc{red}", w->title);
         w->hwnd = NULL;
     }
     
     if(!UnregisterClass(w->title, w->hInstance)){
-        hf_print_windows_last_error();
-        MessageBox(NULL, "Unable to unregister window class", "Error", MB_OK | MB_ICONINFORMATION);
+        hf_err("unable to unregister window class for window: $hfcc{aqua}%s$hfcc{red}", w->title);
     }
     
     // NOTE(salmoncatt): free callbacks

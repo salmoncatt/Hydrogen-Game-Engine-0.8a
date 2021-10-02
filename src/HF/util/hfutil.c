@@ -7,28 +7,6 @@
 
 const u64 hf_string_npos = -1;
 
-void hf_print_windows_last_error(){
-    
-    DWORD errorID = GetLastError();
-    if(!errorID){
-        printf("[ERROR] windows error returned with 0\n");
-        return;
-    }
-    
-    LPSTR messageBuffer = NULL;
-    
-    u64 size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM| FORMAT_MESSAGE_IGNORE_INSERTS, NULL, errorID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
-    
-    char message[size];
-    strcpy(message, messageBuffer);
-    
-    // TODO(salmoncatt): make output something cooler than windows error
-    printf("[ERROR] windows error returned with: [ID]: %lu [MESSAGE]: %s\n", errorID, message);
-    
-    LocalFree(message);
-    free(message);
-}
-
 extern void* hf_memcpy(void* destination, const void* source, u64 size){
     char* dest = (char*)destination;
     const char* src = (const char*)source;

@@ -34,7 +34,7 @@ int main(void){
     }
     
     //hf_err("skibibopmmdada %s %s", "235235", "ajsdogijaw");
-    hf_assertf(22 == 8, "stinkin goober");
+    //hf_assertf(22 == 8, "stinkin goober");
     
     //Sleep(1000);
     /* 
@@ -74,6 +74,8 @@ int main(void){
     if(hf_destroy_window(&window))
         printf("destroyed window\n");
     
+    
+    getchar();
     
     return window.msg.wParam;
 }

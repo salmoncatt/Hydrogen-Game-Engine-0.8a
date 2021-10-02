@@ -129,18 +129,35 @@ void hf_vlog(const char* msg, va_list args){
 void hf_debug_err(const char* msg, ...){
     va_list args;
     va_start(args, msg);
-    // NOTE(salmoncatt): prints [HF] (Error):
-    //hf_log("$hfcc{red}[$hfcc{yellow}HF$hfcc{red}] ($hfcc{yellow}Error$hfcc{red}): ");
     hf_vlog(msg, args);
     va_end(args);
-    
-#ifdef HF_DEBUG
-    MessageBox(NULL, msg, "HF Error!", MB_OK | MB_ICONERROR);
-#endif
 }
 
-/* 
-void hf_debug_err_msg_box(const char* title, const char* msg, u32 format, ...){
+void hf_print_windows_last_error(){
+    DWORD errorID = GetLastError();
+    if(!errorID){
+        hf_debug_err("$hfcc{red}[$hfcc{yellow}HF Error$hfcc{red}] $hfcc{yellow}windows error returned with $hfcc{aqua}0\n");
+        return;
+    }
+    
+    LPSTR messageBuffer = NULL;
+    
+    u64 size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM| FORMAT_MESSAGE_IGNORE_INSERTS, NULL, errorID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
+    
+    char message[size];
+    strcpy(message, messageBuffer);
+    
+    // TODO(salmoncatt): make output something cooler than windows error
+    hf_debug_err("$hfcc{red}[$hfcc{yellow}HF Error$hfcc{red}] $hfcc{yellow}windows error returned with$hfcc{red}: [$hfcc{yellow}ID$hfcc{red}]: $hfcc{aqua}%lu$hfcc{red} [$hfcc{yellow}MESSAGE$hfcc{red}]: $hfcc{aqua}%s\n", errorID, message);
+    
+    LocalFree(message);
+    free(message);
+}
+
+void hf_print_gcc_last_error(){
     
 }
- */
+
+void hf_print_errors(){
+    hf_print_windows_last_error();
+}
