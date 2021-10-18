@@ -1,9 +1,4 @@
 #include "hfutil.h"
-//#include "hfpch.h"
-//#include <stdio.h>
-//#include "../math/hfmath.h"
-//#include <windows.h>
-//#include <immintrin.h>
 
 const u64 hf_string_npos = -1;
 

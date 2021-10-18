@@ -14,6 +14,7 @@
 
 #include "math/hfmath.h"
 #include "util/hfutil.h"
+#include "util/hfmemutil.h"
 #include "debug/hfdebug.h"
 #include "datatypes/hfstring.h"
 #include "datatypes/hfvector.h"
