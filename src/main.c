@@ -33,6 +33,8 @@ int main(void){
         return -1;
     }
     
+    
+    
     //hf_err("skibibopmmdada %s %s", "235235", "ajsdogijaw");
     //hf_assertf(22 == 8, "stinkin goober");
     
@@ -43,20 +45,20 @@ int main(void){
         }
      */
     
-    /* 
-        const char* goober = "what a super goober";
-        
-        hf_vector vector = {};
-        hf_vector_init(&vector);
-        
-        hf_vector_push_back(&vector, "goober");
-        hf_vector_push_back(&vector, &goober);
-        hf_vector_push_back(&vector, "goober");
-        
-        //hf_vector_find(&vector, &goober);
-        
-        printf("%I64u\n", hf_vector_find(&vector, &goober));
-     */
+    
+    const char* goober = "what a super goober";
+    
+    hf_vector vector = {};
+    hf_vector_init(&vector);
+    
+    hf_vector_push_back(&vector, "goober");
+    hf_vector_push_back(&vector, &goober);
+    hf_vector_push_back(&vector, "goober");
+    
+    //hf_vector_find(&vector, &goober);
+    
+    printf("%I64u\n", hf_vector_find(&vector, &goober));
+    
     
     printf("time: %lf\n", hf_get_time(&app));
     

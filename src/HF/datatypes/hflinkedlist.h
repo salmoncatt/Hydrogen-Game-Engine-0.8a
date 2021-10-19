@@ -13,32 +13,16 @@ typedef struct hf_node{
 
 
 typedef struct hf_linked_list{
-    node* head = NULL;
-    node* current = NULL;
-}
+    hf_node* head;
+    hf_node* current;
+}hf_linked_list;
 
-b8 hf_linked_list_empty(const hf_linked_list* list){
-    return list->head == NULL;
-}
+b8 hf_linked_list_empty(const hf_linked_list* list);
 
-void hf_linked_list_free_first(const hf_linked_list* list){
-    hf_node* temp = list->head;
-    
-    list->head = list->head->next;
-    
-    hf_free(temp);
-}
+void hf_linked_list_free_first(hf_linked_list* list);
 
-hf_node* hf_linked_list_remove_first(const hf_linked_list* list){
-    hf_node* temp = list->head;
-    
-    list->head = list->head->next;
-    
-    return temp;
-}
+hf_node* hf_linked_list_remove_first(hf_linked_list* list);
 
-u64 hf_linked_list_length(){
-    
-}
+u64 hf_linked_list_length();
 
 #endif //HFLINKEDLIST_H

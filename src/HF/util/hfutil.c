@@ -112,8 +112,18 @@ extern char* hf_strcpy(char* destination, const char* source, u64 offset){
 
 extern void* hf_malloc_func(u64 bytes, const char* file, const char* function, u64 line){
     void* out = malloc(bytes);
-    if(out)
+    
+    if(out){
+        
+        hf_allocation allocation = {};
+        allocation.file = file;
+        allocation.func = function;
+        allocation.line = line;
+        
+        hf_add_mem_allocation(&allocation);
+        
         return out;
+    }
     else{
         hf_err("hf_malloc failed to allocate: %I64U bytes", bytes);
         return NULL;
