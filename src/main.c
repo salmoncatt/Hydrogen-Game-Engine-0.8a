@@ -33,7 +33,7 @@ int main(void){
         return -1;
     }
     
-    
+    char* kasjodigjawoiejg = malloc(20);
     
     //hf_err("skibibopmmdada %s %s", "235235", "ajsdogijaw");
     //hf_assertf(22 == 8, "stinkin goober");

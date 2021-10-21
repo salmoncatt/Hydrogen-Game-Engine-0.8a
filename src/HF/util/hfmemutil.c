@@ -1,4 +1,5 @@
 #include "hfmemutil.h"
+#include <malloc.h>
 
 
 void hf_mem_util_start(){

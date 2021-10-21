@@ -5,8 +5,6 @@
 
 // TODO(salmoncatt): add linux headers n stuff pls
 
-
-// TODO(salmoncatt): come up with a better header name pls
 #include "core/hfapp.h"
 
 #include "datatypes/hfdatatypes.h"
