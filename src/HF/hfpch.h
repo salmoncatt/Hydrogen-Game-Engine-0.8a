@@ -5,6 +5,10 @@
 #ifndef HFPCH_H
 #define HFPCH_H
 
+
+// NOTE(salmoncatt): this gets removed or left depending on how you compile in the makefile
+#define HF_DEBUG
+
 #include <GL/gl.h>
 #include <windows.h>
 #include <stdio.h>

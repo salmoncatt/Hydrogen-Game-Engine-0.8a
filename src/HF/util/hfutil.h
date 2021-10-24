@@ -31,13 +31,6 @@ extern u64 hf_strfind(const char delimiter, const char* data, u64 startingIndex,
 
 extern char* hf_strcpy(char* destination, const char* source, u64 offset);
 
-extern void* hf_malloc_func(u64 bytes, const char* file, const char* function, u64 line);
-
-#define hf_malloc(bytes) hf_malloc_func(bytes, __FILE__, __FUNCTION__, __LINE__);
-
-
-extern void hf_free(void* pointer);
-
 char* hf_concat(const char* a, const char* b);
 
 // NOTE(salmoncatt): NEEDS TO BE A REFERENCE TO THE DATA

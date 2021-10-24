@@ -7,16 +7,31 @@ OBJS = $(SRC:.c=.o)
 
 
 PCH_SRC = src/HF/hfpch.h
+D_PCH_SRC = bin/dhfpch.h
 PCH_OUT = src/HF/hfpch.h.gch
 #PCH_OUT = bin/hfpch/hfpch.h.gch
 
 main: $(SRC)
-	 $(CC) -include $(PCH_SRC) -o bin\goober $^ $(CFLAGS) $(LIBS)
+	 $(CC) -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober $^ $(CFLAGS) $(LIBS)
+
+main_release: $(SRC)
+	 $(CC) -O2 -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober_debug $^ $(CFLAGS) $(LIBS)
 
 # compile precompiled header file here
-hfpch: $(PCH_SRC)
+
+#this pch has the HF_DEBUG removed
+hfpch: $(D_PCH_SRC)
 	$(CC) -c -o $(PCH_OUT) $< $(CFLAGS) $(LIBS) 
 
+
+#this removes the HF_DEBUG in hfpch
+hfpch_remove_debug:
+	grep -v '#define HF_DEBUG' $(PCH_SRC) > $(D_PCH_SRC)
+
+
+#this leave HF_DEBUG in hfpch to enable debugging mode
+hfpch_debug: $(PCH_SRC)
+	$(CC) -c -o $(PCH_OUT) $< $(CFLAGS) $(LIBS) 
 
 
 

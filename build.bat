@@ -26,6 +26,7 @@ IF %compileType%==gcc (
 echo[
 
 echo [HGE] compiling hfpch.h
+make hfpch_remove_debug
 make hfpch
 echo[
 

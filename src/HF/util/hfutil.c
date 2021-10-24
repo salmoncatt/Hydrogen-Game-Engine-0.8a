@@ -110,31 +110,6 @@ extern char* hf_strcpy(char* destination, const char* source, u64 offset){
     return (char*)hf_memcpy(destination, source + offset, hf_strlen(source) + 1 - offset);
 }
 
-extern void* hf_malloc_func(u64 bytes, const char* file, const char* function, u64 line){
-    void* out = malloc(bytes);
-    
-    if(out){
-        
-        hf_allocation allocation = {};
-        allocation.file = file;
-        allocation.func = function;
-        allocation.line = line;
-        
-        hf_add_mem_allocation(&allocation);
-        
-        return out;
-    }
-    else{
-        hf_err("hf_malloc failed to allocate: %I64U bytes", bytes);
-        return NULL;
-    }
-    
-}
-
-extern void hf_free(void* pointer){
-    free(pointer);
-}
-
 extern b8 hf_memcmp(const void* aPointer, const void* bPointer, size_t bytes){
     /* 
         if(a == NULL || b == NULL)

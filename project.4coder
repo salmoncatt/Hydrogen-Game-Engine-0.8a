@@ -1,6 +1,6 @@
 version(1);
 
-project_name = "Opengl test";
+project_name = "Hydrogen Game Engine";
 
 patterns = {
 	"*.c",
@@ -38,6 +38,17 @@ command_list = {
 	},
 	
 	{
+		.name = "build_debug",
+		.out = "*compilation*",
+		.footer_panel = true,
+		.save_dirty_files = true,
+		.cursor_at_end = false,
+		.cmd = {
+			{ "build_debug.bat", .os = "win" },
+		},
+	},
+	
+	{
 		.name = "run",
 		.out = "*compilation*",
 		.footer_panel = true,
@@ -61,5 +72,8 @@ command_list = {
 };
 
 fkey_command[1] = "build";
-fkey_command[2] = "clean";
+fkey_command[5] = "build_debug";
+
 fkey_command[3] = "run";
+
+fkey_command[2] = "clean";

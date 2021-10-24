@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
  */
-#define HF_DEBUG
+//#define HF_DEBUG
 #include "HF/hf.h"
 //#include "HF/hfpch.h"
 //#include <GL/gl.h>
