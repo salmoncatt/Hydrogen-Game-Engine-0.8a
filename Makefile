@@ -12,10 +12,10 @@ PCH_OUT = src/HF/hfpch.h.gch
 #PCH_OUT = bin/hfpch/hfpch.h.gch
 
 main: $(SRC)
-	 $(CC) -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober $^ $(CFLAGS) $(LIBS)
+	 $(CC) -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober $^ $(CFLAGS) $(LIBS) -limagehlp
 
 main_release: $(SRC)
-	 $(CC) -O2 -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober_debug $^ $(CFLAGS) $(LIBS)
+	 $(CC) -O2 -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober_debug $^ $(CFLAGS) $(LIBS) -limagehlp
 
 # compile precompiled header file here
 

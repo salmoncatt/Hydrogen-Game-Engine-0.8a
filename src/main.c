@@ -62,7 +62,7 @@ int main(void){
     
     printf("time: %lf\n", hf_get_time(&app));
     
-    //hf_vector_free(&vector);
+    hf_vector_free(&vector);
     //hf_window_set_key_callback(&window, &test_callback);
     
     //window.key_callback(NULL, 0, 0);

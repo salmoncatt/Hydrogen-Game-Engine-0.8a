@@ -1,6 +1,6 @@
 #include "hfmemutil.h"
 #include <malloc.h>
-
+#include <dbghelp.h>
 
 void hf_mem_util_start(){
     
@@ -12,9 +12,28 @@ extern void* __wrap_malloc(u64  bytes){
     
     if(out){
 #ifdef HF_DEBUG
-        printf("allocated memory\n");
+        HANDLE process;
+        u16 frames;
+        SYMBOL_INFO* symbol;
+        void* stack[100];
         
-        //CaptureStackBackTrace( 0, 100, stack, NULL );
+        
+        process = GetCurrentProcess();
+        SymInitialize(process, NULL, 1);
+        
+        frames = CaptureStackBackTrace(0, 100, stack, NULL);
+        symbol = (SYMBOL_INFO*) calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1);
+        symbol->MaxNameLen = 255;
+        symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+        
+        for(u16 i = 0; i < frames; ++i){
+            SymFromAddr(process, (DWORD64)(stack[i]), 0, symbol);
+            
+            printf( "%i: %s - 0x%0X\n", frames - i - 1, symbol->Name, symbol->Address );
+        }
+        
+        
+        //printf("allocated memory\n");
 #endif
         /* 
                                         hf_allocation allocation = {};
