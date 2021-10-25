@@ -3,18 +3,24 @@
 #ifndef HFMEMUTIL_H
 #define HFMEMUTIL_H
 
+#include "../core/hfapp.h"
+
 typedef struct hf_allocation{
     
-    const void* data;
-    const char* file;
-    const char* func;
-    u64 line;
-    
+    void* data;
+    char** files;
+    char** funcs;
+    u64* lines;
+    u64 num_of_back_traces;
+    u64 bytes;
     
 }hf_allocation;
 
-void hf_mem_util_start();
+extern hf_app* hf_MLD_current_app;
 
+
+// NOTE(salmoncatt): MLD = memory leak detector
+void hf_MLD_start(hf_app* app);
 
 extern void* __real_malloc(u64 bytes);
 //extern void* __wrap_malloc(u64 bytes, const char* file, const char* function, u64 line);
@@ -36,7 +42,7 @@ void hf_add_mem_allocation(hf_allocation* allocation);
 
 void hf_remove_mem_allocation(hf_allocation* allocation);
 
-void hf_mem_util_close();
+void hf_MLD_close(hf_app* app);
 
 
 #endif //HFMEMUTIL_H

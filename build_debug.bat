@@ -14,7 +14,12 @@ make hfpch_debug
 echo[
 
 echo [HGE] (DEBUG) compiling HF
-make main
+make main_debug
+
+echo[
+
+echo [HGE] (DEBUG) generating pdb files
+call "cv2pdb" bin\goober_debug.exe
 
 
 

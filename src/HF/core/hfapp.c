@@ -9,8 +9,14 @@ void hf_app_init(hf_app* app){
     setvbuf(stdout, NULL, _IONBF, 0);
 #endif
     
+    hf_time_init(app);
 }
 
 void hf_app_start(hf_app* app){
-    hf_time_init(app);
+    hf_app_init(app);
+    hf_MLD_start(app);
+}
+
+void hf_app_stop(hf_app* app){
+    hf_MLD_close(app);
 }

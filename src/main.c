@@ -17,7 +17,7 @@ void test_callback(hf_window* w, u32 keycode, u32 action){
 
 int main(void){
     hf_app app = {};
-    hf_app_init(&app);
+    app.name = "main";
     hf_app_start(&app);
     
     hf_window window = {};
@@ -51,9 +51,12 @@ int main(void){
     hf_vector vector = {};
     hf_vector_init(&vector);
     
-    hf_vector_push_back(&vector, "goober");
-    hf_vector_push_back(&vector, &goober);
-    hf_vector_push_back(&vector, "goober");
+    
+    /* 
+        hf_vector_push_back(&vector, "goober");
+        hf_vector_push_back(&vector, &goober);
+        hf_vector_push_back(&vector, "goober");
+     */
     
     //hf_vector_find(&vector, &goober);
     
@@ -77,7 +80,9 @@ int main(void){
         printf("destroyed window\n");
     
     
-    getchar();
+    //getchar();
+    
+    hf_app_stop(&app);
     
     return window.msg.wParam;
 }

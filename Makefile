@@ -14,6 +14,9 @@ PCH_OUT = src/HF/hfpch.h.gch
 main: $(SRC)
 	 $(CC) -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober $^ $(CFLAGS) $(LIBS) -limagehlp
 
+main_debug: $(SRC)
+	 $(CC) -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober_debug $^ $(CFLAGS) $(LIBS) -limagehlp -g
+
 main_release: $(SRC)
 	 $(CC) -O2 -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober_debug $^ $(CFLAGS) $(LIBS) -limagehlp
 

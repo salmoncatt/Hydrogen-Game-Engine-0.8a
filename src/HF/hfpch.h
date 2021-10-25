@@ -16,6 +16,9 @@
 #include <immintrin.h>
 #include <time.h>
 
+//for __debugbreak();
+#include <signal.h>
+
 #include "math/hfmath.h"
 #include "util/hfutil.h"
 #include "util/hfmemutil.h"

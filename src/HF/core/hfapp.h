@@ -5,9 +5,13 @@
 
 #define HF_DONT_BUFFER_STDOUT
 
+#include "../datatypes/hfvector.h"
+
 typedef struct hf_app{
+    const char* name;
     
-    
+    //for MLD
+    hf_vector allocations;
     
     
     
@@ -37,5 +41,7 @@ typedef struct hf_app{
 void hf_app_init(hf_app* app);
 
 void hf_app_start(hf_app* app);
+
+void hf_app_stop(hf_app* app);
 
 #endif //HFAPP_H

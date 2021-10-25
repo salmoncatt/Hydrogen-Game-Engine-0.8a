@@ -54,4 +54,7 @@ char* hf_format_string(const char* msg, ...);
 
 char* hf_vformat_string(const char* msg, va_list args);
 
+void hf_print_stack();
+
+
 #endif //HFUTIL_H

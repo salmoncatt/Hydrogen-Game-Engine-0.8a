@@ -1,4 +1,5 @@
 #include "hfutil.h"
+#include <dbghelp.h>
 
 const u64 hf_string_npos = -1;
 
@@ -248,6 +249,54 @@ char* hf_vformat_string(const char* msg, va_list args){
     return formatted_msg;
 }
 
+void hf_print_stack() {
+    unsigned int   i;
+    void         * stack[ 100 ];
+    unsigned short frames;
+    SYMBOL_INFO  * symbol;
+    HANDLE         process;
+    
+    process = GetCurrentProcess();
+    
+    SymInitialize( process, NULL, TRUE );
+    
+    frames               = CaptureStackBackTrace( 0, 100, stack, NULL );
+    symbol               = ( SYMBOL_INFO * )calloc( sizeof( SYMBOL_INFO ) + 256 * sizeof( char ), 1 );
+    symbol->MaxNameLen   = 255;
+    symbol->SizeOfStruct = sizeof( SYMBOL_INFO );
+    
+    DWORD displacement;
+    IMAGEHLP_LINE64 line;
+    line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
+    
+    printf("printing stack... \n");
+    
+    for( i = 0; i < frames; i++ )
+    {
+        DWORD64 address = (DWORD64)(stack[i]);
+        SymFromAddr( process, address, 0, symbol );
+        
+        if(SymGetLineFromAddr64(process, address, &displacement, &line)){
+            printf("%i: %s - 0x%pS, file: %s, line: %lu\n", frames - i - 1, symbol->Name, symbol->Address, line.FileName, line.LineNumber);
+        }else{
+            printf("%i:%s - 0x%pS\n", frames - i - 1, symbol->Name, symbol->Address);
+        }
+        
+        
+        /* 
+                if(SymGetLineFromAddr64(process, address, &displacement, &line)){
+                    hf_log( "$hfcc{aqua}%i$hfcc{white}: $hfcc{green}%s $hfcc{white} - $hfcc{blue}0x%pS$hfcc{white}, $hfcc{aqua}file$hfcc{white}: $hfcc{green}%s$hfcc{white}, $hfcc{aqua}line$hfcc{white}: $hfcc{blue}%lu\n", frames - i - 1, symbol->Name, symbol->Address, line.FileName, line.LineNumber);
+                }else{
+                    hf_log( "$hfcc{aqua}%i$hfcc{white}:$hfcc{green}%s $hfcc{white} - $hfcc{blue}0x%pS\n", frames - i - 1, symbol->Name, symbol->Address);
+                }
+         */
+        
+    }
+    
+    printf("\n");
+    
+    __real_free(symbol);
+}
 
 /* 
 u32 hf_highestOneBit(u32 in){
