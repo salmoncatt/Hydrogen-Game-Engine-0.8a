@@ -4,6 +4,7 @@
 #include <dbghelp.h>
 
 hf_app* hf_MLD_current_app;
+u32 called_amount;
 
 void hf_MLD_start(hf_app* app){
     hf_log("starting MLD for app: %s\n", app->name);
@@ -112,18 +113,24 @@ void hf_add_mem_allocation(hf_allocation* allocation){
     // TODO(salmoncatt): add realloc bc it changes the pointer and MLD will lose track of it
     
     //hf_vector_push_back(&hf_MLD_current_app->allocations, allocation);
-    printf("test:\n");
+    printf("test: %u\n", called_amount);
     if(hf_MLD_current_app != NULL){
         printf("good\n\n");
-        //hf_vector_push_back(&hf_MLD_current_app->allocations, allocation);
+        
+        if(hf_MLD_current_app->allocations.capacity > 0)
+            printf("MLD current app is good\n");
+        
+        hf_vector_push_back(&hf_MLD_current_app->allocations, allocation);
         
         printf("allocation stack: \n");
         
-        for(u32 i = 0; i < allocation->num_of_back_traces; ++i){
-            printf("allocation: %s, %s, %i with bytes: %lu\n", allocation->files[i], allocation->funcs[i], allocation->lines[i], allocation->bytes);
-        }
+        /* 
+                for(u32 i = 0; i < allocation->num_of_back_traces; ++i){
+                    printf("allocation: %s, %s, %i with bytes: %lu\n", allocation->files[i], allocation->funcs[i], allocation->lines[i], allocation->bytes);
+                }
+         */
     }
-    
+    called_amount += 1;
     __real_free(allocation);
 }
 

@@ -17,7 +17,7 @@ typedef struct hf_allocation{
 }hf_allocation;
 
 extern hf_app* hf_MLD_current_app;
-
+extern u32 called_amount;
 
 // NOTE(salmoncatt): MLD = memory leak detector
 void hf_MLD_start(hf_app* app);
