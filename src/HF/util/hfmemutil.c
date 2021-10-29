@@ -3,14 +3,23 @@
 #include <malloc.h>
 #include <dbghelp.h>
 
-hf_app* hf_MLD_current_app;
-u32 called_amount;
+//hf_app* hf_MLD_current_app;
+//u32 called_amount;
+hf_vector hf_MLD_allocations;
 
-void hf_MLD_start(hf_app* app){
-    hf_log("starting MLD for app: %s\n", app->name);
+void hf_MLD_start(){
+    //hf_log("starting MLD for app: %s\n", app->name);
+    hf_log("[HF] (DEBUG) starting MLD\n");
     
-    hf_MLD_current_app = app;
-    hf_vector_init(&app->allocations);
+#ifndef HF_DEBUG
+    hf_log("$hfcc{red}[$hfcc{yellow}HF$hfcc{red}] ($hfcc{yellow}ERROR$hfcc{red}) $hfcc{yellow}please compile with $hfcc{aqua}HF_DEBUG $hfcc{yellow}enabled\n");
+#endif
+    
+    hf_MLD_allocations = {};
+    
+    //hf_MLD_current_app = app;
+    //hf_vector_init(&app->allocations);
+    hf_vector_init(&hf_MLD_allocations);
 }
 
 //extern void* __wrap_malloc(u64 bytes, const char* file, const char* function, u64 line){
@@ -100,8 +109,10 @@ extern void __wrap_free(void* pointer){
 #ifdef HF_DEBUG
     
     printf("freed:\n");
-    if(hf_MLD_current_app != NULL)
-        printf("freed good\n\n");
+    /* 
+        if(hf_MLD_current_app != NULL)
+            printf("freed good\n\n");
+     */
     
 #endif
     
@@ -113,33 +124,35 @@ void hf_add_mem_allocation(hf_allocation* allocation){
     // TODO(salmoncatt): add realloc bc it changes the pointer and MLD will lose track of it
     
     //hf_vector_push_back(&hf_MLD_current_app->allocations, allocation);
-    printf("test: %u\n", called_amount);
-    if(hf_MLD_current_app != NULL){
+    //printf("test: %u\n", called_amount);
+    if(hf_MLD_allocations.capacity > 0){
         printf("good\n\n");
         
-        if(hf_MLD_current_app->allocations.capacity > 0)
-            printf("MLD current app is good\n");
+        //if(hf_MLD_allocations.capacity > 0)
+        //printf("MLD current app is good\n");
         
-        hf_vector_push_back(&hf_MLD_current_app->allocations, allocation);
+        hf_vector_push_back(&hf_MLD_allocations, allocation);
         
         printf("allocation stack: \n");
         
-        /* 
-                for(u32 i = 0; i < allocation->num_of_back_traces; ++i){
-                    printf("allocation: %s, %s, %i with bytes: %lu\n", allocation->files[i], allocation->funcs[i], allocation->lines[i], allocation->bytes);
-                }
-         */
+        
+        for(u32 i = 0; i < allocation->num_of_back_traces; ++i){
+            printf("allocation: %s, %s, %i with bytes: %lu\n", allocation->files[i], allocation->funcs[i], allocation->lines[i], allocation->bytes);
+        }
+        
     }
-    called_amount += 1;
-    __real_free(allocation);
+    //called_amount += 1;
+    //__real_free(allocation);
 }
 
 void hf_remove_mem_allocation(hf_allocation* allocation){
     //hf_vector_erase(&hf_MLD_current_app->allocations, hf_vector_find(&hf_MLD_current_app->allocations, allocation), 1);
 }
 
-void hf_MLD_close(hf_app* app){
-    hf_log("closing MLD for app: %s\n", app->name);
+void hf_MLD_close(){
+    //hf_log("closing MLD for app: %s\n", app->name);
+    hf_log("closing MLD\n");
     
-    hf_vector_free(&app->allocations);
+    //hf_vector_free(&app->allocations);
+    hf_vector_free(&hf_MLD_allocations);
 }

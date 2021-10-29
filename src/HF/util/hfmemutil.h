@@ -3,7 +3,7 @@
 #ifndef HFMEMUTIL_H
 #define HFMEMUTIL_H
 
-#include "../core/hfapp.h"
+#include "../datatypes/hfvector.h"
 
 typedef struct hf_allocation{
     
@@ -16,11 +16,13 @@ typedef struct hf_allocation{
     
 }hf_allocation;
 
-extern hf_app* hf_MLD_current_app;
-extern u32 called_amount;
+//extern hf_app* hf_MLD_current_app;
+extern hf_vector hf_MLD_allocations;
+//extern u32 called_amount;
 
 // NOTE(salmoncatt): MLD = memory leak detector
-void hf_MLD_start(hf_app* app);
+void hf_MLD_start();
+//void hf_MLD_start(hf_app* app);
 
 extern void* __real_malloc(u64 bytes);
 //extern void* __wrap_malloc(u64 bytes, const char* file, const char* function, u64 line);
@@ -42,7 +44,8 @@ void hf_add_mem_allocation(hf_allocation* allocation);
 
 void hf_remove_mem_allocation(hf_allocation* allocation);
 
-void hf_MLD_close(hf_app* app);
+void hf_MLD_close();
+//void hf_MLD_close(hf_app* app);
 
 
 #endif //HFMEMUTIL_H

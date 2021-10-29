@@ -14,9 +14,9 @@ void hf_app_init(hf_app* app){
 
 void hf_app_start(hf_app* app){
     hf_app_init(app);
-    hf_MLD_start(app);
+    //hf_MLD_start(app);
 }
 
 void hf_app_stop(hf_app* app){
-    hf_MLD_close(app);
+    //hf_MLD_close(app);
 }

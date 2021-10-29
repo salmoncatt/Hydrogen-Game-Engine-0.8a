@@ -16,6 +16,7 @@ void test_callback(hf_window* w, u32 keycode, u32 action){
 
 
 int main(void){
+    hf_MLD_start();
     hf_app app = {};
     app.name = "main";
     hf_app_start(&app);
@@ -84,6 +85,7 @@ int main(void){
     
     hf_app_stop(&app);
     
+    hf_MLD_close();
     return window.msg.wParam;
 }
 
