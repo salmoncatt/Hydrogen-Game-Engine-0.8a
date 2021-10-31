@@ -16,7 +16,7 @@ void test_callback(hf_window* w, u32 keycode, u32 action){
 
 
 int main(void){
-    hf_MLD_start();
+    //hf_MLD_start();
     hf_app app = {};
     app.name = "main";
     hf_app_start(&app);
@@ -53,6 +53,8 @@ int main(void){
     hf_vector_init(&vector);
     
     
+    //printf("is this changing\n");
+    
     /* 
         hf_vector_push_back(&vector, "goober");
         hf_vector_push_back(&vector, &goober);
@@ -61,7 +63,7 @@ int main(void){
     
     //hf_vector_find(&vector, &goober);
     
-    printf("%I64u\n", hf_vector_find(&vector, &goober));
+    //printf("%I64u\n", hf_vector_find(&vector, &goober));
     
     
     printf("time: %lf\n", hf_get_time(&app));
@@ -77,15 +79,15 @@ int main(void){
         hf_swap_buffers(&window);
     }
     
-    if(hf_destroy_window(&window))
-        printf("destroyed window\n");
+    //if(hf_destroy_window(&window))
+    //printf("destroyed window\n");
     
     
     //getchar();
     
     hf_app_stop(&app);
     
-    hf_MLD_close();
+    //hf_MLD_stop();
     return window.msg.wParam;
 }
 
