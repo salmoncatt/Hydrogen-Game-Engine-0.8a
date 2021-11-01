@@ -201,7 +201,7 @@ void hf_MLD_stop(){
     printf("MLD stats:\n");
     printf("    MLD allocations leftover: %u\n", hf_MLD_allocations.size);
     printf("    MLD total bytes allocated: %lu\n\n", bytes_allocated);
-    printf("    printing leftover mallocs:\n\n");
+    printf("MLD printing leftover mallocs:\n (some may be blank because they were called by the system or something))\n");
     
     for(u32 i = 0; i < hf_MLD_allocations.size; ++i){
         
@@ -209,7 +209,7 @@ void hf_MLD_stop(){
             hf_allocation* allocation = (hf_allocation*)hf_MLD_allocations.data[i];
             
             printf("allocation stack: \n");
-            for(u32 j = 0; j < allocation->num_of_back_traces - 4; ++j){
+            for(u32 j = 1; j < allocation->num_of_back_traces - 4; ++j){
                 printf("allocation: (file) [%s], (function) [%s], (line) [%i], (bytes) [%lu]\n", allocation->files[j], allocation->funcs[j], allocation->lines[j], allocation->bytes);
             }
             printf("\n");

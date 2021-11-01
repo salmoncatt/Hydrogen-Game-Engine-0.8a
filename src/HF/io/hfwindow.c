@@ -21,7 +21,8 @@ b8 hf_create_window(hf_window* w){
     // NOTE(salmoncatt): in case not using winmain
     w->hInstance = GetModuleHandle(NULL);
     
-    
+    // NOTE(salmoncatt): for memory leak detection
+    w->allocated = malloc(sizeof(void*));
     
     // NOTE(salmoncatt): set windows parameters
     w->wc.cbSize = sizeof(WNDCLASSEX);
@@ -43,7 +44,7 @@ b8 hf_create_window(hf_window* w){
         return 0;
     }
     
-    // NOTE(salmoncatt): create window and check status
+    // NOTE(salmoncatt): create window and check status 
     w->hwnd = CreateWindowEx(0, w->title, w->title, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, w->width, w->height, NULL, NULL, w->hInstance, NULL);
     if(!w->hwnd){
         hf_err("couldn't create window: $hfcc{aqua}%s$hfcc{red}", w->title);
@@ -135,6 +136,8 @@ b8 hf_destroy_window(hf_window* w){
     if(!UnregisterClass(w->title, w->hInstance)){
         hf_err("unable to unregister window class for window: $hfcc{aqua}%s$hfcc{red}", w->title);
     }
+    
+    hf_free(w->allocated);
     
     // NOTE(salmoncatt): free callbacks
     if(w->key_callback)

@@ -16,14 +16,16 @@ typedef struct hf_allocation{
     
 }hf_allocation;
 
-#undef malloc
-
 //extern hf_app* hf_MLD_current_app;
 extern hf_vector hf_MLD_allocations;
 extern u64 bytes_allocated;
 
 // NOTE(salmoncatt): MLD = memory leak detector
+#ifdef HF_DEBUG
 void hf_MLD_start() __attribute__ ((constructor));
+#else
+void hf_MLD_start();
+#endif
 //void hf_MLD_start(hf_app* app);
 
 extern void* __real_malloc(u64 bytes);
@@ -46,7 +48,11 @@ void hf_add_mem_allocation(hf_allocation* allocation);
 
 void hf_remove_mem_allocation(void* pointer);
 
+#ifdef HF_DEBUG
 void hf_MLD_stop() __attribute__ ((destructor));
+#else
+void hf_MLD_stop();
+#endif
 //void hf_MLD_close(hf_app* app);
 
 

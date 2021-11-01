@@ -21,6 +21,8 @@ typedef struct hf_window{
     u32 bits_per_pixel;
     const char* title;
     
+    void* allocated;
+    
     HINSTANCE hInstance;
     HWND hwnd;
     WNDCLASSEX wc;

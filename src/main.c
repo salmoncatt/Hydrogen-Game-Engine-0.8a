@@ -79,8 +79,8 @@ int main(void){
         hf_swap_buffers(&window);
     }
     
-    //if(hf_destroy_window(&window))
-    //printf("destroyed window\n");
+    if(hf_destroy_window(&window))
+        printf("destroyed window\n");
     
     
     //getchar();
