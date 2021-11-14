@@ -37,18 +37,29 @@ int main(void){
     
     hf_ecs ecs = {};
     hf_ecs_init(&ecs);
-    u32 component_id = hf_ecs_register_component(&ecs, poopy);
+    //u32 component_id = hf_ecs_register_component(&ecs, poopy);
     
-    printf("id (should be 0): %u\n", component_id);
-    printf("%s\n", ((hf_ecs_component*)ecs.component_types.data[0])->name);
+    //printf("id (should be 0): %u\n", component_id);
+    //printf("%s\n", ((hf_ecs_component*)ecs.component_types.data[0])->name);
     
     hf_entity entity = hf_ecs_create_entity(&ecs);
     
     poopy poopy_yes = {};
-    poopy_yes.num_of_poopies = 10;
+    poopy_yes.num_of_poopies = 50;
     
     
     hf_ecs_add_component(&ecs, entity, poopy, &poopy_yes);
+    
+    poopy* poopy_get = (poopy*)hf_ecs_get_component(&ecs, entity, poopy);
+    //poopy_get->num_of_poopies = 0;
+    printf("num of poopies: %u\n", poopy_get->num_of_poopies);
+    
+    hf_ecs_remove_component(&ecs, entity, poopy);
+    
+    poopy_get = (poopy*)hf_ecs_get_component(&ecs, entity, poopy);
+    
+    printf("is null: %u\n", (poopy_get == NULL));
+    //printf("num of poopies: %u\n", poopy_get->num_of_poopies);
     
     //printf("%u\n", hf_ecs_create_entity(&ecs));
     

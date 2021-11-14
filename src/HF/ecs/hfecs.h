@@ -6,7 +6,7 @@
 #include "../datatypes/hfvector.h"
 #include "../datatypes/hfqueue.h"
 
-#define HF_ECS_MAX_ENITIES 10000
+#define HF_ECS_MAX_ENITIES (u32)(10000)
 
 typedef struct hf_ecs_component{
     const char* name;
@@ -42,11 +42,15 @@ void hf_ecs_destroy_entity(hf_ecs* ecs, hf_entity entity);
 
 hf_ecs_component* hf_ecs_internal_create_component_id(hf_ecs* ecs, const char* name, u64 size);
 
-#define hf_ecs_register_component(ecs, id) hf_ecs_internal_register_component(ecs, hf_ecs_internal_create_component_id(ecs, #id, sizeof(id)));
-void hf_ecs_internal_add_component(hf_ecs* ecs, hf_entity entity, const char* name, void* data);
-#define hf_ecs_add_component(ecs, entity, component, data) hf_ecs_internal_add_component(ecs, entity, #component, data);
+#define hf_ecs_register_component(ecs, component) hf_ecs_internal_register_component(ecs, hf_ecs_internal_create_component_id(ecs, #component, sizeof(component)));
+void hf_ecs_internal_add_component(hf_ecs* ecs, hf_entity entity, const char* name, u64 size, void* data);
+#define hf_ecs_add_component(ecs, entity, component, data) hf_ecs_internal_add_component(ecs, entity, #component, sizeof(component), data);
 
-void hf_ecs_internal_remove_component();
+void* hf_ecs_internal_get_component(hf_ecs* ecs, hf_entity entity, const char* name);
+#define hf_ecs_get_component(ecs, entity, component) hf_ecs_internal_get_component(ecs, entity, #component);
+
+void hf_ecs_internal_remove_component(hf_ecs* ecs, hf_entity entity, const char* name);
+#define hf_ecs_remove_component(ecs, entity, component) hf_ecs_internal_remove_component(ecs, entity, #component);
 
 
 

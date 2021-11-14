@@ -66,10 +66,49 @@ b8 hf_vector_set(hf_vector* vector, u64 index, void* in) {
     
 	if (vector) {
 		if(vector->data != NULL){
-            if (index < vector->size) {
+            if (index < vector->capacity) {
                 vector->data[index] = in;
                 status = HF_VECTOR_SUCCESS;
+            }else{
+                //printf("vector size: %u\n", vector->capacity);
+                status = hf_vector_resize(vector, vector->capacity * 2);
+                if (status) {
+                    vector->data[index] = in;
+                }
+                status = HF_VECTOR_SUCCESS;
             }
+            
+            if(index >= vector->size)
+                vector->size += 1;
+            
+            /* 
+                        if(index < vector->size){
+                            if (index < vector->capacity) {
+                                vector->data[index] = in;
+                                status = HF_VECTOR_SUCCESS;
+                            }else{
+                                status = hf_vector_resize(vector, vector->capacity * 2);
+                                if (status) {
+                                    vector->data[index] = in;
+                                }
+                                status = HF_VECTOR_SUCCESS;
+                            }
+                        }else{
+                            if (index < vector->capacity) {
+                                vector->data[index] = in;
+                                status = HF_VECTOR_SUCCESS;
+                                vector->size += 1;
+                            }else{
+                                status = hf_vector_resize(vector, vector->capacity * 2);
+                                if (status) {
+                                    vector->data[index] = in;
+                                    vector->size += 1;
+                                }
+                                status = HF_VECTOR_SUCCESS;
+                            }
+                        }
+             */
+            
         }
 	}
     
@@ -135,13 +174,38 @@ b8 hf_vector_free(hf_vector* vector) {
     
 	if (vector) {
         if(vector->data != NULL){
+            for(u64 i = 0; i < vector->size; i++){
+                /* 
+                                if(i == 9997)
+                                    printf("0x%pS\n", vector->data[i]);
+                 */
+                free(vector->data[i]);
+            }
             free(vector->data);
             vector->data = NULL;
             vector->size = 0;
             vector->capacity = 0;
             status = HF_VECTOR_SUCCESS;
         }
-		
+	}
+    
+	return status;
+}
+
+b8 hf_vector_free_double_vector(hf_vector* vector){
+    u32 status = HF_VECTOR_FAIL;
+    
+	if (vector) {
+        if(vector->data != NULL){
+            for(u64 i = 0; i < vector->size; i++){
+                hf_vector_free((hf_vector*)vector->data[i]);
+            }
+            free(vector->data);
+            vector->data = NULL;
+            vector->size = 0;
+            vector->capacity = 0;
+            status = HF_VECTOR_SUCCESS;
+        }
 	}
     
 	return status;

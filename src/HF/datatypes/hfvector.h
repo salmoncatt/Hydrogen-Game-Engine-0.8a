@@ -30,6 +30,8 @@ b8 hf_vector_erase(hf_vector* vector, u64 index, u64 length);
 
 b8 hf_vector_free(hf_vector* vector);
 
+b8 hf_vector_free_double_vector(hf_vector* vector);
+
 u64 hf_vector_find(hf_vector* vector, void* pointer);
 
 u64 hf_vector_find_value(hf_vector* vector, void* value);

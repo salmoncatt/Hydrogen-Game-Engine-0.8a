@@ -6,7 +6,9 @@
 //hf_app* hf_MLD_current_app;
 //u32 called_amount;
 hf_vector hf_MLD_allocations = {};
-u64 bytes_allocated = 0;
+u64 hf_mem_util_bytes_allocated = 0;
+u64 hf_mem_util_bytes_leftover = 0;
+u64 hf_mem_util_num_allocated = 0;
 
 void hf_MLD_start(){
     //hf_log("starting MLD for app: %s\n", app->name);
@@ -55,13 +57,16 @@ extern void* __wrap_malloc(u64  bytes){
         IMAGEHLP_LINE64 line;
         line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
         
-        bytes_allocated += bytes;
+        hf_mem_util_bytes_allocated += bytes;
+        hf_mem_util_bytes_leftover += bytes;
         
         hf_allocation* allocation = (hf_allocation*)__real_malloc(sizeof(hf_allocation));
         allocation->data = out; 
         allocation->bytes = bytes;
         allocation->num_of_back_traces = frames;
+        allocation->allocation_num = hf_mem_util_num_allocated;
         
+        hf_mem_util_num_allocated += 1;
         
         allocation->files = __real_malloc(sizeof(void*) * frames);
         allocation->funcs = __real_malloc(sizeof(void*) * frames);
@@ -185,6 +190,7 @@ void hf_remove_mem_allocation(void* pointer){
     for(u32 i = 0; i < hf_MLD_allocations.size; ++i){
         //printf("remove: 0x%pS - 0x%pS\n", hf_MLD_allocations.data[i], pointer);
         if(((hf_allocation*)hf_MLD_allocations.data[i])->data == pointer){
+            hf_mem_util_bytes_leftover -= ((hf_allocation*)hf_MLD_allocations.data[i])->bytes;
             //printf("i: %u\n", i);
             //printf("removed\n");
             hf_vector_erase(&hf_MLD_allocations, i, 1);
@@ -200,7 +206,8 @@ void hf_MLD_stop(){
     printf("\n\nclosing MLD\n");
     printf("MLD stats:\n");
     printf("    MLD allocations leftover: %u\n", hf_MLD_allocations.size);
-    printf("    MLD total bytes allocated: %lu\n\n", bytes_allocated);
+    printf("    MLD total bytes allocated: %lu\n", hf_mem_util_bytes_allocated);
+    printf("    MLD total bytes leftover: %lu\n\n", hf_mem_util_bytes_leftover);
     printf("MLD printing leftover mallocs:\n (some may be blank because they were called by the system or something))\n");
     
     for(u32 i = 0; i < hf_MLD_allocations.size; ++i){
@@ -208,7 +215,7 @@ void hf_MLD_stop(){
         if(hf_MLD_allocations.data[i] != NULL){
             hf_allocation* allocation = (hf_allocation*)hf_MLD_allocations.data[i];
             
-            printf("allocation stack: \n");
+            printf("(0x%pS): allocation number: [%u] \n printing stack:\n", allocation->data, allocation->allocation_num);
             for(u32 j = 1; j < allocation->num_of_back_traces - 4; ++j){
                 printf("allocation: (file) [%s], (function) [%s], (line) [%i], (bytes) [%lu]\n", allocation->files[j], allocation->funcs[j], allocation->lines[j], allocation->bytes);
             }

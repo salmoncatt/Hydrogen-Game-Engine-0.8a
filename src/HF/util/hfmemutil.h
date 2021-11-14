@@ -13,12 +13,15 @@ typedef struct hf_allocation{
     u64* lines;
     u64 num_of_back_traces;
     u64 bytes;
+    u64 allocation_num;
     
 }hf_allocation;
 
 //extern hf_app* hf_MLD_current_app;
 extern hf_vector hf_MLD_allocations;
-extern u64 bytes_allocated;
+extern u64 hf_mem_util_bytes_allocated;
+extern u64 hf_mem_util_bytes_leftover;
+extern u64 hf_mem_util_num_allocated;
 
 // NOTE(salmoncatt): MLD = memory leak detector
 #ifdef HF_DEBUG
