@@ -8,9 +8,13 @@
 void hf_vector_init(hf_vector* vector) {
     if(vector->capacity == 0){
         if(vector->data == NULL){
-            vector->capacity = HF_VECTOR_INIT_CAPACITY;
-            vector->size = 0;
+            if(vector->init_capacity == 0)
+                vector->capacity = HF_VECTOR_INIT_CAPACITY;
+            else
+                vector->capacity = vector->init_capacity;
+            
             vector->data = hf_malloc(sizeof(void*) * vector->capacity);
+            vector->size = 0;
         }
     }
 }

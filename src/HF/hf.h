@@ -7,6 +7,8 @@
 
 #include "core/hfapp.h"
 
+#include "ecs/hfecs.h"
+
 #include "datatypes/hfdatatypes.h"
 #include "datatypes/hfvector.h"
 #include "datatypes/hflinkedlist.h"

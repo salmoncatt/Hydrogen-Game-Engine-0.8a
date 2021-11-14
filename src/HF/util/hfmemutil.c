@@ -186,7 +186,7 @@ void hf_remove_mem_allocation(void* pointer){
         //printf("remove: 0x%pS - 0x%pS\n", hf_MLD_allocations.data[i], pointer);
         if(((hf_allocation*)hf_MLD_allocations.data[i])->data == pointer){
             //printf("i: %u\n", i);
-            printf("removed\n");
+            //printf("removed\n");
             hf_vector_erase(&hf_MLD_allocations, i, 1);
         }
     }

@@ -14,6 +14,9 @@ void test_callback(hf_window* w, u32 keycode, u32 action){
 }
  */
 
+typedef struct poopy{
+    u32 num_of_poopies;
+}poopy;
 
 int main(void){
     //hf_MLD_start();
@@ -25,8 +28,6 @@ int main(void){
     //set some default values
     hf_window_init(&window);
     
-    //setvbuf(stdout, NULL, _IONBF, 0); 
-    
     if(hf_create_window(&window)){
         printf("created window\n");
     }else{
@@ -34,7 +35,25 @@ int main(void){
         return -1;
     }
     
-    char* kasjodigjawoiejg = malloc(20);
+    hf_ecs ecs = {};
+    hf_ecs_init(&ecs);
+    u32 component_id = hf_ecs_register_component(&ecs, poopy);
+    
+    printf("id (should be 0): %u\n", component_id);
+    printf("%s\n", ((hf_ecs_component*)ecs.component_types.data[0])->name);
+    
+    hf_entity entity = hf_ecs_create_entity(&ecs);
+    
+    poopy poopy_yes = {};
+    poopy_yes.num_of_poopies = 10;
+    
+    
+    hf_ecs_add_component(&ecs, entity, poopy, &poopy_yes);
+    
+    //printf("%u\n", hf_ecs_create_entity(&ecs));
+    
+    //char* kasjodigjawoiejg = malloc(20);
+    
     
     //hf_err("skibibopmmdada %s %s", "235235", "ajsdogijaw");
     //hf_assertf(22 == 8, "stinkin goober");
@@ -86,6 +105,8 @@ int main(void){
     //getchar();
     
     hf_app_stop(&app);
+    
+    hf_ecs_destroy(&ecs);
     
     //hf_MLD_stop();
     return window.msg.wParam;

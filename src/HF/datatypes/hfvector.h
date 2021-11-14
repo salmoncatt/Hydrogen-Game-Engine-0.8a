@@ -11,6 +11,7 @@ typedef struct hf_vector{
 	void** data;
     u64 size;
     u64 capacity;
+    u64 init_capacity;
     b8 should_free_on_delete;
 } hf_vector;
 
