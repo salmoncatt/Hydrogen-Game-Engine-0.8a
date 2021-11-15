@@ -23,6 +23,7 @@
 
 //#ifdef _WIN32 || _WIN64
 #include "io/hfwindow.h"
+#include "io/hfinput.h"
 //#endif
 
 #include "time/hfprofiler.h"

@@ -104,9 +104,11 @@ int main(void){
     //window.key_callback(NULL, 0, 0);
     
     
-    while(hf_should_window_update(&window)){
+    while(hf_should_window_update(&window) && !hf_input_get_key(HF_KEY_ESCAPE)){
         hf_update_window(&window);
         hf_swap_buffers(&window);
+        if(hf_input_get_key(HF_KEY_SLASH))
+            printf("key pressed\n");
     }
     
     if(hf_destroy_window(&window))

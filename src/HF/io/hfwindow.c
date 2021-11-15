@@ -1,18 +1,27 @@
 #include "hfwindow.h"
+#include "hfinput.h"
 //#include <stdio.h>
 //#include "hfpch.h"
 //#include "../util/hfutil.h"
 
 LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
+    memset(&hf_input_keys, 0, HF_KEY_LAST);
+    
     switch(msg)
     {
         case WM_CLOSE:
         PostQuitMessage(0);
         break;
+        case WM_CHAR:
+        {
+            hf_input_keys[toupper(wParam)] = 1;
+            
+            return DefWindowProc(hwnd, msg, wParam, lParam);
+        } break;
         default:
         return DefWindowProc(hwnd, msg, wParam, lParam);
     }
-    return 0;
+    //return 0;
 }
 
 // TODO(salmoncatt): add focusing support    focus(hf_window*)
