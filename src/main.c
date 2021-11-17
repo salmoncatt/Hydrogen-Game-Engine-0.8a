@@ -43,6 +43,7 @@ int main(void){
     //printf("%s\n", ((hf_ecs_component*)ecs.component_types.data[0])->name);
     
     hf_entity entity = hf_ecs_create_entity(&ecs);
+    hf_entity entity2 = hf_ecs_create_entity(&ecs);
     
     poopy poopy_yes = {};
     poopy_yes.num_of_poopies = 50;
@@ -50,15 +51,25 @@ int main(void){
     
     hf_ecs_add_component(&ecs, entity, poopy, &poopy_yes);
     
+    poopy_yes.num_of_poopies = 70;
+    hf_ecs_add_component(&ecs, entity2, poopy, &poopy_yes);
+    
     poopy* poopy_get = (poopy*)hf_ecs_get_component(&ecs, entity, poopy);
     //poopy_get->num_of_poopies = 0;
     printf("num of poopies: %u\n", poopy_get->num_of_poopies);
     
-    hf_ecs_remove_component(&ecs, entity, poopy);
     
-    poopy_get = (poopy*)hf_ecs_get_component(&ecs, entity, poopy);
+    poopy_get = (poopy*)hf_ecs_get_component(&ecs, entity2, poopy);
+    //poopy_get->num_of_poopies = 0;
+    printf("num of poopies: %u\n", poopy_get->num_of_poopies);
     
-    printf("is null: %u\n", (poopy_get == NULL));
+    /* 
+        hf_ecs_remove_component(&ecs, entity, poopy);
+        
+        poopy_get = (poopy*)hf_ecs_get_component(&ecs, entity, poopy);
+        
+        printf("is null: %u\n", (poopy_get == NULL));
+     */
     //printf("num of poopies: %u\n", poopy_get->num_of_poopies);
     
     //printf("%u\n", hf_ecs_create_entity(&ecs));
@@ -107,7 +118,7 @@ int main(void){
     while(hf_should_window_update(&window) && !hf_input_get_key(HF_KEY_ESCAPE)){
         hf_update_window(&window);
         hf_swap_buffers(&window);
-        if(hf_input_get_key(HF_KEY_SLASH))
+        if(hf_input_get_key(HF_KEY_SEMICOLON))
             printf("key pressed\n");
     }
     

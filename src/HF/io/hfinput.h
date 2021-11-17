@@ -47,40 +47,40 @@ void hf_input_destroy();
 #define HF_KEY_D8 56 /* 8 */
 #define HF_KEY_D9 57 /* 9 */
 
-#define HF_KEY_SEMICOLON VK_OEM_1 /* ; */
-#define HF_KEY_EQUAL VK_OEM_PLUS /* = */
+#define HF_KEY_SEMICOLON 59 /* ; */
+#define HF_KEY_EQUAL 60  /* = */ //bad
 
-#define HF_KEY_A VK_A
-#define HF_KEY_B VK_B
-#define HF_KEY_C VK_C
-#define HF_KEY_D VK_D
-#define HF_KEY_E VK_E
-#define HF_KEY_F VK_F
-#define HF_KEY_G VK_G
-#define HF_KEY_H VK_H
-#define HF_KEY_I VK_I
-#define HF_KEY_J VK_J
-#define HF_KEY_K VK_K
-#define HF_KEY_L VK_L
-#define HF_KEY_M VK_M
-#define HF_KEY_N VK_N
-#define HF_KEY_O VK_O
-#define HF_KEY_P VK_P
-#define HF_KEY_Q VK_Q
-#define HF_KEY_R VK_R
-#define HF_KEY_S VK_S
-#define HF_KEY_T VK_T
-#define HF_KEY_U VK_U
-#define HF_KEY_V VK_V
-#define HF_KEY_W VK_W
-#define HF_KEY_X VK_X
-#define HF_KEY_Y VK_Y
-#define HF_KEY_Z VK_Z
+#define HF_KEY_A 65
+#define HF_KEY_B 66
+#define HF_KEY_C 67
+#define HF_KEY_D 68
+#define HF_KEY_E 69
+#define HF_KEY_F 70
+#define HF_KEY_G 71
+#define HF_KEY_H 72
+#define HF_KEY_I 73
+#define HF_KEY_J 74
+#define HF_KEY_K 75
+#define HF_KEY_L 76
+#define HF_KEY_M 77
+#define HF_KEY_N 78
+#define HF_KEY_O 79
+#define HF_KEY_P 80
+#define HF_KEY_Q 81
+#define HF_KEY_R 82
+#define HF_KEY_S 83
+#define HF_KEY_T 84
+#define HF_KEY_U 85
+#define HF_KEY_V 86
+#define HF_KEY_W 87
+#define HF_KEY_X 88
+#define HF_KEY_Y 89
+#define HF_KEY_Z 90
 
 #define HF_KEY_LEFT_BRACKET 91  /* [ */
 #define HF_KEY_BACKSLASH 92  /* \ */
 #define HF_KEY_RIGHT_BRACKET 93  /* ] */
-#define HF_KEY_GRAVE_ACCENT 96  /* ` */
+#define HF_KEY_GRAVE_ACCENT 96  /* ` */  //bad
 
 //#define HF_KEY_WORLD_1 161 /* non-US #1 */
 //#define HF_KEY_WORLD_2 162 /* non-US #2 */
@@ -90,7 +90,7 @@ void hf_input_destroy();
 #define HF_KEY_ENTER VK_RETURN
 #define HF_KEY_TAB VK_TAB
 #define HF_KEY_BACKSPACE VK_BACK
-#define HF_KEY_INSERT VK_INSERT
+#define HF_KEY_INSERT VK_INSERT //bad
 #define HF_KEY_DELETE VK_DELETE
 #define HF_KEY_RIGHT VK_RIGHT
 #define HF_KEY_LEFT VK_LEFT
