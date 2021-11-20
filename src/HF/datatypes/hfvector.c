@@ -244,6 +244,10 @@ u64 hf_vector_find(hf_vector* vector, void* pointer){
     return vector->size;
 }
 
+b8 hf_vector_empty(hf_vector* vector){
+    return (vector->size == 0);
+}
+
 u64 hf_vector_find_value(hf_vector* vector, void* value){
     
 }

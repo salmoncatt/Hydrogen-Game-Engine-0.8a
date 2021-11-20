@@ -24,6 +24,8 @@ b8 hf_vector_push_back(hf_vector* vector, void* in);
 
 b8 hf_vector_set(hf_vector* vector, u64 index, void* in);
 
+b8 hf_vector_empty(hf_vector* vector);
+
 void* hf_vector_get(hf_vector* vector, u64 index);
 
 b8 hf_vector_erase(hf_vector* vector, u64 index, u64 length);
