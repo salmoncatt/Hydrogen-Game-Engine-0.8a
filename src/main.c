@@ -117,9 +117,12 @@ int main(void){
     
     while(hf_should_window_update(&window) && !hf_input_get_key(HF_KEY_ESCAPE)){
         hf_update_window(&window);
-        hf_swap_buffers(&window);
-        if(hf_input_get_key(HF_KEY_SEMICOLON))
+        
+        if(hf_input_get_key_down(HF_KEY_MINUS))
             printf("key pressed\n");
+        
+        
+        hf_swap_buffers(&window);
     }
     
     if(hf_destroy_window(&window))

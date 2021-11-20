@@ -1,6 +1,7 @@
 #include "hfinput.h"
 
 b8 hf_input_keys[HF_KEY_LAST];
+b8 hf_input_keys_down[HF_KEY_LAST];
 
 void hf_input_init(){
     //hf_log("[HF Input] initializing...\n");
@@ -15,9 +16,12 @@ b8 hf_input_get_key(u32 key){
     return hf_input_keys[key];
 }
 
-/* 
-b8 hf_input_get_key_down();
 
+b8 hf_input_get_key_down(u32 key){
+    return (hf_input_keys[key] && !hf_input_keys_down[key]);
+}
+
+/*
 b8 hf_input_get_key_up();
 
 void hf_input_set_clipboard(const char* text);

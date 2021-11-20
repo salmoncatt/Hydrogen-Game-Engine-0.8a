@@ -9,12 +9,13 @@
 //#include "../datatypes/hfvector.h"
 
 extern b8 hf_input_keys[HF_KEY_LAST];
+extern b8 hf_input_keys_down[HF_KEY_LAST];
 
 void hf_input_init();
 
 b8 hf_input_get_key(u32 key);
 
-b8 hf_input_get_key_down();
+b8 hf_input_get_key_down(u32 key);
 
 b8 hf_input_get_key_up();
 
@@ -77,10 +78,10 @@ void hf_input_destroy();
 #define HF_KEY_Y 89
 #define HF_KEY_Z 90
 
-#define HF_KEY_LEFT_BRACKET 91  /* [ */
-#define HF_KEY_BACKSLASH 92  /* \ */
-#define HF_KEY_RIGHT_BRACKET 93  /* ] */
-#define HF_KEY_GRAVE_ACCENT 96  /* ` */  //bad
+#define HF_KEY_LEFT_BRACKET VK_OEM_4   /* [ */
+#define HF_KEY_BACKSLASH VK_OEM_5   /* \ */
+#define HF_KEY_RIGHT_BRACKET VK_OEM_6   /* ] */
+#define HF_KEY_GRAVE_ACCENT VK_OEM_3  /* ` */  //bad
 
 //#define HF_KEY_WORLD_1 161 /* non-US #1 */
 //#define HF_KEY_WORLD_2 162 /* non-US #2 */

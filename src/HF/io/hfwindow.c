@@ -4,22 +4,34 @@
 //#include "hfpch.h"
 //#include "../util/hfutil.h"
 
-LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
-    memset(&hf_input_keys, 0, HF_KEY_LAST);
+LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM l_param){
+    //memset(&hf_input_keys, 0, HF_KEY_LAST);
+    i8 was_down = !!(l_param & (1 << 30));
+    i8 is_down =   !(l_param & (1 << 31));
+    u64 key = w_param;
+    
+    if(msg == WM_SYSKEYDOWN || msg == WM_SYSKEYUP ||
+       msg == WM_KEYDOWN || msg == WM_KEYUP){
+        hf_input_keys_down[key] = was_down;
+        hf_input_keys[key] = is_down;
+    }
+    //printf("key: %u\n", key, is_down);
     
     switch(msg)
     {
         case WM_CLOSE:
         PostQuitMessage(0);
         break;
-        case WM_CHAR:
-        {
-            hf_input_keys[toupper(wParam)] = 1;
-            
-            return DefWindowProc(hwnd, msg, wParam, lParam);
-        } break;
+        /* 
+                case WM_CHAR:
+                {
+                    hf_input_keys[key] = is_down;
+                    
+                    return DefWindowProc(hwnd, msg, w_param, l_param);
+                } break;
+         */
         default:
-        return DefWindowProc(hwnd, msg, wParam, lParam);
+        return DefWindowProc(hwnd, msg, w_param, l_param);
     }
     //return 0;
 }
