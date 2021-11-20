@@ -27,5 +27,6 @@
 #include "debug/hfdebug.h"
 #include "datatypes/hfstring.h"
 #include "datatypes/hfvector.h"
+#include "io/hfinput.h"
 
 #endif //HFPCH_H

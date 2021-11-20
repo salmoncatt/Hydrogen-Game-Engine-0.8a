@@ -10,6 +10,8 @@ void hf_app_init(hf_app* app){
 #endif
     
     hf_time_init(app);
+    //app->window = {0};
+    hf_window_init(&app->window);
 }
 
 void hf_app_start(hf_app* app){
@@ -17,6 +19,16 @@ void hf_app_start(hf_app* app){
     //hf_MLD_start(app);
 }
 
+void hf_app_update(hf_app* app){
+    hf_input_update();
+}
+
+b8 hf_app_should_update(hf_app* app){
+    hf_app_update(app);
+    return hf_should_window_update(&app->window);
+}
+
 void hf_app_stop(hf_app* app){
+    hf_destroy_window(&app->window);
     //hf_MLD_close(app);
 }

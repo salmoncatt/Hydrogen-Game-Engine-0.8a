@@ -6,14 +6,18 @@
 
 LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM l_param){
     //memset(&hf_input_keys, 0, HF_KEY_LAST);
-    i8 was_down = !!(l_param & (1 << 30));
+    //i8 was_down = !!(l_param & (1 << 30));
     i8 is_down =   !(l_param & (1 << 31));
     u64 key = w_param;
     
     if(msg == WM_SYSKEYDOWN || msg == WM_SYSKEYUP ||
        msg == WM_KEYDOWN || msg == WM_KEYUP){
-        hf_input_keys_down[key] = was_down;
+        
+        //hf_input_keys_old[key] = hf_input_keys[key];
         hf_input_keys[key] = is_down;
+        
+        //printf("key pressed: %u %u\n", hf_input_keys[HF_KEY_MINUS], hf_input_keys_old[HF_KEY_MINUS]);
+        
     }
     //printf("key: %u\n", key, is_down);
     
@@ -175,16 +179,19 @@ void hf_window_init(hf_window* window){
 }
 
 b8 hf_should_window_update(hf_window* w){
+    hf_update_window(w);
     return GetMessage(&w->msg, NULL, 0, 0);
 }
 
 void hf_update_window(hf_window* w){
+    SwapBuffers(w->hdc);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     TranslateMessage(&w->msg);
     DispatchMessage(&w->msg);
 }
 
 void hf_swap_buffers(hf_window* w){
-    SwapBuffers(w->hdc);
+    //SwapBuffers(w->hdc);
 }
 
 

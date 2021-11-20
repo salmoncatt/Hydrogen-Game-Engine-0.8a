@@ -9,9 +9,9 @@
 //#include "../datatypes/hfvector.h"
 
 extern b8 hf_input_keys[HF_KEY_LAST];
-extern b8 hf_input_keys_down[HF_KEY_LAST];
+extern b8 hf_input_keys_old[HF_KEY_LAST];
 
-void hf_input_init();
+void hf_input_update();
 
 b8 hf_input_get_key(u32 key);
 

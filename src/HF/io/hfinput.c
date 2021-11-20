@@ -1,9 +1,15 @@
 #include "hfinput.h"
 
 b8 hf_input_keys[HF_KEY_LAST];
-b8 hf_input_keys_down[HF_KEY_LAST];
+b8 hf_input_keys_old[HF_KEY_LAST];
 
-void hf_input_init(){
+void hf_input_update(){
+    //hf_input_keys_old[key] = hf_input_keys[key];
+    
+    hf_memcpy(hf_input_keys_old, hf_input_keys, (sizeof(b8) * HF_KEY_LAST));
+    
+    
+    
     //hf_log("[HF Input] initializing...\n");
     
     //hf_input_keys.init_capacity = HF_KEY_LAST;
@@ -18,7 +24,7 @@ b8 hf_input_get_key(u32 key){
 
 
 b8 hf_input_get_key_down(u32 key){
-    return (hf_input_keys[key] && !hf_input_keys_down[key]);
+    return (hf_input_keys[key] && !hf_input_keys_old[key]);
 }
 
 /*
