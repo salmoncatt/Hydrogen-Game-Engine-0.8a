@@ -11,7 +11,11 @@ void hf_app_init(hf_app* app){
     
     hf_time_init(app);
     //app->window = {0};
+    
+    
     hf_window_init(&app->window);
+    
+    //hf_gl_init();
 }
 
 void hf_app_start(hf_app* app){
@@ -30,5 +34,6 @@ b8 hf_app_should_update(hf_app* app){
 
 void hf_app_stop(hf_app* app){
     hf_destroy_window(&app->window);
+    hf_gl_close();
     //hf_MLD_close(app);
 }

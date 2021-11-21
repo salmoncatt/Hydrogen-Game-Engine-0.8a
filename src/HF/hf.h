@@ -15,7 +15,7 @@
 #include "datatypes/hfstring.h"
 
 #include "util/hfutil.h"
-#include "util/hfgl.h"
+#include "opengl/hfgl.h"
 
 #include "math/hfmath.h"
 

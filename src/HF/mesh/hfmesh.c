@@ -1,13 +1,16 @@
 #include "hfmesh.h"
-#include "../util/hfgl.h"
+#include "../opengl/hfgl.h"
 
 void hf_mesh_create(hf_mesh* mesh){
     
-    if(!hf_vector_empty(&mesh->vertices))
-        hf_push_data_to_VBO(0, mesh->type, &mesh->vertices);
+    hf_generate_VBO();
+    //glGenBuffers(0, NULL);
     
-    if(!hf_vector_empty(&mesh->texture_coords))
-        hf_push_data_to_VBO(0, 2, &mesh->texture_coords);
+    //if(!hf_vector_empty(&mesh->vertices))
+    //hf_push_data_to_VBO(0, mesh->type, &mesh->vertices);
+    
+    //if(!hf_vector_empty(&mesh->texture_coords))
+    //hf_push_data_to_VBO(0, 2, &mesh->texture_coords);
     
     // TODO(salmoncatt): normals
     
@@ -16,6 +19,7 @@ void hf_mesh_create(hf_mesh* mesh){
             hf_push_data_to_IBO(&mesh->indices, );
      */
     
+    mesh->created = 1;
 }
 
 void hf_mesh_destroy(hf_mesh* mesh){

@@ -3,15 +3,16 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include "../datatypes/hfvector.h"
+//#include "../datatypes/hfvector.h"
 
 typedef struct hf_mesh{
     
-    //texture
+    // TODO(salmoncatt): normals
     
     hf_vector vertices;
     hf_vector texture_coords;
     hf_vector indices;
+    // TODO(salmoncatt): normals
     
     u32 vao;
     u32 ibo;
@@ -19,6 +20,7 @@ typedef struct hf_mesh{
     // NOTE(salmoncatt): 2d = 2, 3d = 3
     u32 type;
     
+    b8 created;
 }hf_mesh;
 
 void hf_mesh_create(hf_mesh* mesh);

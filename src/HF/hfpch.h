@@ -30,4 +30,6 @@
 #include "datatypes/hfvector.h"
 #include "io/hfinput.h"
 
+#include "opengl/hfgl.h"
+
 #endif //HFPCH_H

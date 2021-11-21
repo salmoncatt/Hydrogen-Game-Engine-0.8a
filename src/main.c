@@ -26,10 +26,11 @@ int main(void){
     
     //hf_window window = {};
     //set some default values
-    hf_window_init(&app.window);
+    //hf_window_init(&app.window);
     
     if(hf_create_window(&app.window)){
         printf("created window\n");
+        hf_gl_init();
     }else{
         printf("couldn't create window\n");
         return -1;
@@ -40,10 +41,19 @@ int main(void){
     
     hf_mesh mesh = {};
     
-    //mesh.vertices
+    float vertices[] = {
+        -0.5f, 0.5f, 0,
+        -0.5f, -0.5f, 0,
+        0.5f, -0.5f, 0,
+        0.5f, -0.5f, 0,
+        0.5f, 0.5f, 0,
+        -0.5f, 0.5f, 0
+    };
+    
     
     hf_mesh_create(&mesh);
     
+    mesh.vertices.data[0] = vertices;
     
     //u32 component_id = hf_ecs_register_component(&ecs, poopy);
     
@@ -127,9 +137,17 @@ int main(void){
     //window.key_callback(NULL, 0, 0);
     
     
+    glClearColor(0.5, 0.5, 0.5, 1);
+    
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
         //hf_update_window(&window);
         
+        glBegin(GL_TRIANGLES);
+        glVertex2i(0, 0);
+        glVertex2i(100, 0);
+        glVertex2i(100, 100);
+        
+        glEnd();
         
         if(hf_input_get_key_down(HF_KEY_MINUS)){
             
