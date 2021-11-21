@@ -1,4 +1,5 @@
 #include "hfmesh.h"
+#include "../util/hfgl.h"
 
 void hf_mesh_create(hf_mesh* mesh){
     

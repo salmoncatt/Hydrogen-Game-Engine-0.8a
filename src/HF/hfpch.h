@@ -13,6 +13,7 @@
 #include "util/hfmemutil.h"
 
 #include <GL/gl.h>
+//#include <GL/glext.h>
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>

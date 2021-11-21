@@ -37,6 +37,14 @@ int main(void){
     
     hf_ecs ecs = {};
     hf_ecs_init(&ecs);
+    
+    hf_mesh mesh = {};
+    
+    //mesh.vertices
+    
+    hf_mesh_create(&mesh);
+    
+    
     //u32 component_id = hf_ecs_register_component(&ecs, poopy);
     
     //printf("id (should be 0): %u\n", component_id);
@@ -141,6 +149,8 @@ int main(void){
     //getchar();
     
     hf_app_stop(&app);
+    
+    hf_mesh_destroy(&mesh);
     
     hf_ecs_destroy(&ecs);
     

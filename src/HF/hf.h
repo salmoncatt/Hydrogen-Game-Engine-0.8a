@@ -27,7 +27,8 @@
 //#endif
 
 #include "time/hfprofiler.h"
-
 #include "time/hftime.h"
+
+#include "mesh/hfmesh.h"
 
 #endif //HF_H
