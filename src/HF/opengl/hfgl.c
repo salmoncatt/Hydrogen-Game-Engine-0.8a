@@ -16,6 +16,18 @@ b8 hf_gl_init(){
 }
 
 b8 hf_gl_load_extensions(){
+    hf_log("[HF GL] loading opengl32.dll\n");
+    HINSTANCE gl_dll = LoadLibraryA("opengl32.dll");
+    typedef PROC WINAPI wglGetProcAddressproc(LPCSTR lpszProc);
+    if(gl_dll){
+        hf_log("[HF GL] loaded opengl32.dll\n");
+    }else{
+        hf_err("[HF GL] couldn't load opengl32.dll\n");
+        return 0;
+    }
+    
+    wglGetProcAddressproc* wglGetProcAddress = (wglGetProcAddressproc*)GetProcAddress(gl_dll, "wglGetProcAddress");
+    
     hf_log("[HF GL] loading extensions...\n");
     if(!wglGetCurrentContext()){
         hf_err("[HF GL] opengl context is null, please create a context before calling hf_gl_init()\n");
