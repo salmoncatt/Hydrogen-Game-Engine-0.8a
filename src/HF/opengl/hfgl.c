@@ -1,18 +1,54 @@
 #include "hfgl.h"
 
+b8 hf_gl_created = 0;
 
 // NOTE(salmoncatt): give definitions to opengl extenion functions
 #define HF_GLE(type, name, ...) name##proc* gl##name;
+#define HF_WGL(type, name, ...) name##proc* wgl##name;
 HF_GL_FUNC_LIST
 #undef HF_GLE
+#undef HF_WGL
 
 
 b8 hf_gl_init(){
-    b8 result = 0;
-    hf_log("[HF GL] initializing...\n");
-    result = hf_gl_load_extensions();
-    hf_log("[HF GL] initialized\n\n");
-    return result;
+    if(!hf_gl_created){
+        b8 result = 0;
+        hf_log("[HF GL] initializing...\n");
+        result = hf_gl_load_extensions();
+        
+        u32 major, minor;
+        hf_gl_get_version(&major, &minor);
+        hf_log("[HF GL] version: [%u, %u]\n", major, minor);
+        
+        
+        hf_log("[HF GL] initialized\n\n");
+        
+        hf_gl_created = result;
+        
+        return result;
+    }
+    else
+        return 1;
+}
+
+void hf_gl_get_version(u32* major, u32* minor){
+    // for all versions
+    char* ver = (char*)glGetString(GL_VERSION); // ver = "3.2.0"
+    
+    *major = ver[0] - '0';
+    if( *major >= 3)
+    {
+        // for GL 3.x
+        glGetIntegerv(GL_MAJOR_VERSION, major); // major = 3
+        glGetIntegerv(GL_MINOR_VERSION, minor); // minor = 2
+    }
+    else
+    {
+        *minor = ver[2] - '0';
+    }
+    
+    // GLSL
+    ver = (char*)glGetString(GL_SHADING_LANGUAGE_VERSION); // ver = "1.50 NVIDIA via Cg compiler"
 }
 
 b8 hf_gl_load_extensions(){
@@ -45,9 +81,18 @@ hf_err("[HF GL] couldn't load fuction: gl" #name " from opengl lib\n");\
 return 0;\
 }\
     
+#define HF_WGL(type, name, ...)\
+wgl##name = (name##proc*)wglGetProcAddress("wgl" #name);\
+i += 1;\
+if(!wgl##name){\
+hf_err("[HF GL] couldn't load fuction: wgl" #name " from opengl lib\n");\
+return 0;\
+}\
+    
     HF_GL_FUNC_LIST
         
 #undef HF_GLE
+#undef HF_WGL
     
     hf_log("[HF GL] loaded %u extensions\n", i);
     return 1;

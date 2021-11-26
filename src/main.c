@@ -30,7 +30,7 @@ int main(void){
     
     if(hf_create_window(&app.window)){
         printf("created window\n");
-        hf_gl_init();
+        //hf_gl_init();
     }else{
         printf("couldn't create window\n");
         return -1;
@@ -41,19 +41,23 @@ int main(void){
     
     hf_mesh mesh = {};
     
-    float vertices[] = {
-        -0.5f, 0.5f, 0,
-        -0.5f, -0.5f, 0,
-        0.5f, -0.5f, 0,
-        0.5f, -0.5f, 0,
-        0.5f, 0.5f, 0,
-        -0.5f, 0.5f, 0
-    };
+    
+    /* 
+        float vertices[] = {
+            -0.5f, 0.5f, 0,
+            -0.5f, -0.5f, 0,
+            0.5f, -0.5f, 0,
+            0.5f, -0.5f, 0,
+            0.5f, 0.5f, 0,
+            -0.5f, 0.5f, 0
+        };
+     */
+    
     
     
     hf_mesh_create(&mesh);
     
-    mesh.vertices.data[0] = vertices;
+    //mesh.vertices.data[0] = vertices;
     
     //u32 component_id = hf_ecs_register_component(&ecs, poopy);
     
@@ -168,7 +172,7 @@ int main(void){
     
     hf_app_stop(&app);
     
-    hf_mesh_destroy(&mesh);
+    //hf_mesh_destroy(&mesh);
     
     hf_ecs_destroy(&ecs);
     
