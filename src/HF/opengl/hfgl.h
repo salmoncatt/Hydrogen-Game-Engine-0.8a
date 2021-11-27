@@ -26,6 +26,8 @@ HF_GLE(void, VertexAttribPointer, GLuint index, GLint size, GLenum type, GLboole
 HF_GLE(void, DeleteBuffers, GLsizei n, const GLuint *buffers)\
 HF_GLE(void, GenVertexArrays, GLsizei n, GLuint *arrays);\
 HF_GLE(void, BindVertexArray, GLuint array);\
+HF_GLE(void, EnableVertexAttribArray, GLuint index);\
+HF_GLE(void, DisableVertexAttribArray, GLuint index);\
 
 
 // NOTE(salmoncatt): give declarations of opengl extension functions
@@ -46,7 +48,7 @@ u32 hf_generate_VBO();
 void hf_gl_get_version(u32* major, u32* minor);
 
 // NOTE(salmoncatt): has to be float data
-void hf_push_data_to_VBO(u32 index, u32 size, hf_vector* data);
+void hf_push_data_to_VBO(u32 index, u32 type, float* data, u32 length);
 
 void hf_push_data_to_IBO(u32 index, u32 size, const void* data);
 

@@ -3,4 +3,8 @@
 #ifndef HFSHADER_H
 #define HFSHADER_H
 
+typedef struct hf_shader{
+    
+}hf_shader;
+
 #endif //HFSHADER_H

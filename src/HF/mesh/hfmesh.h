@@ -9,9 +9,13 @@ typedef struct hf_mesh{
     
     // TODO(salmoncatt): normals
     
-    hf_vector vertices;
-    hf_vector texture_coords;
-    hf_vector indices;
+    /* 
+        hf_vector vertices;
+        hf_vector texture_coords;
+        hf_vector indices;
+     */
+    float* vertices;
+    float vertices_amount;
     // TODO(salmoncatt): normals
     
     u32 vao;

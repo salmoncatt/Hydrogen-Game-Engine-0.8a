@@ -26,6 +26,12 @@ typedef struct v4f{
     
 } v4f;
 
+typedef struct hf_transform{
+    v3f pos;
+    v3f rot;
+    v3f scale;
+} hf_transform;
+
 //adds a and b and returns the result
 v2f v2f_add_v2f(v2f* a, v2f* b);
 //adds a and b and stores the result in a

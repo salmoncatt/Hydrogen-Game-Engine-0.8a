@@ -102,6 +102,7 @@ u32 hf_generate_VAO(){
     u32 vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
+    // TODO(salmoncatt): add vao to list
     return vao;
 }
 
@@ -113,13 +114,13 @@ u32 hf_generate_VBO(){
     
 }
 
-void hf_push_data_to_VBO(u32 index, u32 size, hf_vector* data){
+void hf_push_data_to_VBO(u32 index, u32 type, float* data, u32 length){
     
     u32 vbo = hf_generate_VBO();
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     
-    glBufferData(GL_ARRAY_BUFFER, data->size * sizeof(float), &data->data[0], GL_STATIC_DRAW);
-    glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, sizeof(float) * size, 0);
+    glBufferData(GL_ARRAY_BUFFER, length * sizeof(float), data, GL_STATIC_DRAW);
+    glVertexAttribPointer(index, type, GL_FLOAT, GL_FALSE, sizeof(float) * type, 0);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     

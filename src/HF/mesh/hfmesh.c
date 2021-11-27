@@ -3,11 +3,11 @@
 
 void hf_mesh_create(hf_mesh* mesh){
     
-    hf_generate_VBO();
+    mesh->vao = hf_generate_VAO();
     //glGenBuffers(0, NULL);
     
-    //if(!hf_vector_empty(&mesh->vertices))
-    //hf_push_data_to_VBO(0, mesh->type, &mesh->vertices);
+    if(mesh->vertices_amount)
+        hf_push_data_to_VBO(0, mesh->type, mesh->vertices, mesh->vertices_amount);
     
     //if(!hf_vector_empty(&mesh->texture_coords))
     //hf_push_data_to_VBO(0, 2, &mesh->texture_coords);

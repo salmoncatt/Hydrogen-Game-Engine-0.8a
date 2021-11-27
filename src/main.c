@@ -42,20 +42,25 @@ int main(void){
     hf_mesh mesh = {};
     
     
-    /* 
-        float vertices[] = {
-            -0.5f, 0.5f, 0,
-            -0.5f, -0.5f, 0,
-            0.5f, -0.5f, 0,
-            0.5f, -0.5f, 0,
-            0.5f, 0.5f, 0,
-            -0.5f, 0.5f, 0
-        };
-     */
+    float vertices[] = {
+        -0.5f, 0.5f, 0,
+        -0.5f, -0.5f, 0,
+        0.5f, -0.5f, 0,
+        0.5f, -0.5f, 0,
+        0.5f, 0.5f, 0,
+        -0.5f, 0.5f, 0
+    };
     
-    
+    mesh.vertices = vertices;
+    mesh.vertices_amount = 18; 
+    mesh.type = 3;
     
     hf_mesh_create(&mesh);
+    
+    v3f pos = {0, 0, 0};
+    v3f rot = {0, 0, 0};
+    v3f scale = {1, 1, 1};
+    hf_transform transform = {pos, rot, scale};
     
     //mesh.vertices.data[0] = vertices;
     
@@ -146,12 +151,16 @@ int main(void){
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
         //hf_update_window(&window);
         
-        glBegin(GL_TRIANGLES);
-        glVertex2i(0, 0);
-        glVertex2i(100, 0);
-        glVertex2i(100, 100);
+        /* 
+                glBegin(GL_TRIANGLES);
+                glVertex2i(0, 0);
+                glVertex2i(100, 0);
+                glVertex2i(100, 100);
+                
+                glEnd();
+         */
         
-        glEnd();
+        hf_render_mesh(&mesh, transform);
         
         if(hf_input_get_key_down(HF_KEY_MINUS)){
             
