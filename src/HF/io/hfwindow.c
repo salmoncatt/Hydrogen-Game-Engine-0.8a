@@ -139,6 +139,9 @@ b8 hf_create_window(hf_window* w){
     if(!wglMakeCurrent(w->hdc, w->hrc))
         hf_err("unable to make OpenGL rendering context current for window: $hfcc{aqua}%s$hfcc{red}", w->title);
     
+    // NOTE(salmoncatt): set the window size (and pos aparently)
+    SetWindowPos(w->hwnd, NULL, w->x, w->y, w->width, w->height, SWP_SHOWWINDOW);
+    
     ShowWindow(w->hwnd, 1);
     UpdateWindow(w->hwnd);
     
@@ -157,7 +160,10 @@ b8 hf_create_window(hf_window* w){
         0
     };
     
+    
     w->hrc = wglCreateContextAttribsARB(w->hdc, 0, attribs);
+    
+    hf_log("[HF] created window: [%s], size: [%u, %u], pos: [%u, %u]\n\n", w->title, w->width, w->height, w->x, w->y);
     
     return 1;
 }
@@ -201,8 +207,10 @@ b8 hf_destroy_window(hf_window* w){
 void hf_window_init(hf_window* window){
     window->width = 1000;
     window->height = 600;
+    window->x = 300;
+    window->y = 200;
     window->bits_per_pixel = 32;
-    window->title = "what a goober";
+    window->title = "HF window";
 }
 
 b8 hf_should_window_update(hf_window* w){

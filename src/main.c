@@ -24,17 +24,24 @@ int main(void){
     app.name = "main";
     hf_app_start(&app);
     
+    app.window.title = "what a goober";
+    
     //hf_window window = {};
     //set some default values
     //hf_window_init(&app.window);
     
-    if(hf_create_window(&app.window)){
-        printf("created window\n");
-        //hf_gl_init();
-    }else{
-        printf("couldn't create window\n");
+    if(!hf_create_window(&app.window))
         return -1;
-    }
+    
+    /* 
+        if(hf_create_window(&app.window)){
+            printf("created window\n");
+            //hf_gl_init();
+        }else{
+            printf("couldn't create window\n");
+            return -1;
+        }
+     */
     
     hf_ecs ecs = {};
     hf_ecs_init(&ecs);
