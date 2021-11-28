@@ -33,6 +33,16 @@ int main(void){
     if(!hf_create_window(&app.window))
         return -1;
     
+    // NOTE(salmoncatt): please put all opengl things after this danks
+    
+    
+    hf_shader shader = {};
+    shader.name = "goober shader";
+    
+    hf_shader_create(&shader, "../res/shaders/vertex.glsl", "../res/shaders/fragment.glsl");
+    
+    hf_shader_destroy(&shader);
+    
     /* 
         if(hf_create_window(&app.window)){
             printf("created window\n");

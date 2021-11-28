@@ -28,6 +28,21 @@ HF_GLE(void, GenVertexArrays, GLsizei n, GLuint *arrays);\
 HF_GLE(void, BindVertexArray, GLuint array);\
 HF_GLE(void, EnableVertexAttribArray, GLuint index);\
 HF_GLE(void, DisableVertexAttribArray, GLuint index);\
+HF_GLE(GLuint, CreateProgram, void);\
+HF_GLE(GLuint, CreateShader, GLenum type);\
+HF_GLE(void, GetShaderInfoLog, GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog);\
+HF_GLE(void, GetShaderiv, GLuint shader, GLenum pname, GLint *params);\
+HF_GLE(GLint, GetUniformLocation, GLuint program, const GLchar *name);\
+HF_GLE(void, LinkProgram, GLuint program);\
+HF_GLE(void, UseProgram, GLuint program);\
+HF_GLE(void, AttachShader, GLuint program, GLuint shader);\
+HF_GLE(void, CompileShader, GLuint shader);\
+HF_GLE(void, GetProgramInfoLog, GLuint program, GLsizei bufSize, GLsizei *length, char *infoLog);\
+HF_GLE(void, GetProgramiv, GLuint program, GLenum pname, GLint *params);\
+HF_GLE(void, DeleteShader, GLuint shader);\
+HF_GLE(void, DetachShader, GLuint program, GLuint shader);\
+HF_GLE(void, ValidateProgram, GLuint program);\
+HF_GLE(void, ShaderSource, GLuint shader, GLsizei count, const GLchar* const *string, const GLint *length);\
 
 
 // NOTE(salmoncatt): give declarations of opengl extension functions
@@ -56,9 +71,8 @@ void hf_push_data_to_IBO(u32 index, u32 size, const void* data);
 
 void hf_gl_close();
 
-//PFNGLBINDBUFFERPROC glBindBuffer;
-//PFNGLGENBUFFERSPROC glGenBuffers;
+void hf_gl_compile_shader(u32 id, const char* shader_code, const char* shader_name);
 
-
+void hf_gl_link_and_validate_shader(u32 program_id);
 
 #endif //HFGL_H

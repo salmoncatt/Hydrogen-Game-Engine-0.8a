@@ -313,3 +313,33 @@ u32 hfHighestZeroBit(u32 in){
     return hf_ctzu32(!in);
 }
  */
+
+
+char* hf_load_file_as_string(const char* file_path){
+    FILE* file = fopen(file_path, "r");
+    char* out;
+    u64 length;
+    
+    if(file){
+        fseek(file, 0, SEEK_END);
+        length = ftell(file);
+        fseek(file, 0, SEEK_SET);
+        
+        out = hf_malloc(length);
+        
+        if(out){
+            fread(out, 1, length, file);
+        }else{
+            hf_err("couldn't allocated buffer for file: %s", file_path);
+            fclose(file);
+            return NULL;
+        }
+        
+        fclose(file);
+    }else{
+        hf_err("couldn't read file: %s", file_path);
+        return NULL;
+    }
+    
+    return out;
+}

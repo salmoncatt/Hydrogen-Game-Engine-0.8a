@@ -32,6 +32,7 @@
 #include "mesh/hfmesh.h"
 
 #include "rendering/hfrenderer.h"
+#include "rendering/hfshader.h"
 
 
 #endif //HF_H

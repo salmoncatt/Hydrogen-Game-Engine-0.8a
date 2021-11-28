@@ -56,5 +56,6 @@ char* hf_vformat_string(const char* msg, va_list args);
 
 void hf_print_stack();
 
+char* hf_load_file_as_string(const char* file_path);
 
 #endif //HFUTIL_H

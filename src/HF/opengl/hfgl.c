@@ -126,6 +126,46 @@ void hf_push_data_to_VBO(u32 index, u32 type, float* data, u32 length){
     
 }
 
+void hf_gl_compile_shader(u32 id, const char* shader_code, const char* shader_name){
+    glShaderSource(id, 1, &shader_code, NULL);
+    glCompileShader(id);
+    
+    int compile_code = 0;
+    glGetShaderiv(id, GL_COMPILE_STATUS, &compile_code);
+    if (compile_code != GL_TRUE) {
+        char error_msg[1024];
+        glGetShaderInfoLog(id, 1024, NULL, error_msg);
+        
+        hf_log("$hfcc{yellow}[$hfcc{red}HF$hfcc{yellow}] $hfcc{red} compiling shader: %s has failed with error: %s\n", shader_name, error_msg);
+        return;
+    }
+    
+    hf_log("[HF] compiled shader code: %s\n", shader_name);
+}
+
+void hf_gl_link_and_validate_shader(u32 program_id){
+    glLinkProgram(program_id);
+    u32 compile_code = 0;
+    
+    glGetProgramiv(program_id, GL_LINK_STATUS, &compile_code);
+    if(compile_code != GL_TRUE){
+        char error_msg[1024];
+        glGetProgramInfoLog(program_id, 1024, NULL, error_msg);
+        
+        hf_log("$hfcc{yellow}[$hfcc{red}HF$hfcc{yellow}] $hfcc{red} linking shader failed with error:$hfcc{yellow} %s \n", error_msg);
+    }
+    
+    glValidateProgram(program_id);
+    
+    glGetProgramiv(program_id, GL_LINK_STATUS, &compile_code);
+    if(compile_code != GL_TRUE){
+        char error_msg[1024];
+        glGetProgramInfoLog(program_id, 1024, NULL, error_msg);
+        
+        hf_log("$hfcc{yellow}[$hfcc{red}HF$hfcc{yellow}] $hfcc{red} validating shader failed with error:$hfcc{yellow} %s \n", error_msg);
+    }
+}
+
 void hf_gl_close(){
     
 }
