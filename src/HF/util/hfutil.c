@@ -325,10 +325,11 @@ char* hf_load_file_as_string(const char* file_path){
         length = ftell(file);
         fseek(file, 0, SEEK_SET);
         
-        out = hf_malloc(length);
+        out = hf_malloc(length + 1);
         
         if(out){
             fread(out, 1, length, file);
+            out[length] = '\0';
         }else{
             hf_err("couldn't allocated buffer for file: %s", file_path);
             fclose(file);

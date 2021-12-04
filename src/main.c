@@ -41,6 +41,8 @@ int main(void){
     
     hf_shader_create(&shader, "../res/shaders/vertex.glsl", "../res/shaders/fragment.glsl");
     
+    //printf("shader code: %s\n", shader.fragment_shader);
+    
     hf_shader_destroy(&shader);
     
     /* 
@@ -176,8 +178,11 @@ int main(void){
                 
                 glEnd();
          */
+        hf_shader_bind(&shader);
         
         hf_render_mesh(&mesh, transform);
+        
+        hf_shader_unbind(&shader);
         
         if(hf_input_get_key_down(HF_KEY_MINUS)){
             
