@@ -24,6 +24,7 @@
 //#ifdef _WIN32 || _WIN64
 #include "io/hfwindow.h"
 #include "io/hfinput.h"
+#include "io/hfserial.h" //for arduino n stuff
 //#endif
 
 #include "time/hfprofiler.h"

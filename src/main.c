@@ -35,6 +35,12 @@ int main(void){
     
     // NOTE(salmoncatt): please put all opengl things after this danks
     
+    hf_serial_list_open_ports();
+    
+    hf_serial_port port = {};
+    port = hf_serial_open_port("COM4", 9600);
+    
+    
     
     hf_shader shader = {};
     shader.name = "goober shader";
@@ -163,6 +169,7 @@ int main(void){
     //hf_window_set_key_callback(&window, &test_callback);
     
     //window.key_callback(NULL, 0, 0);
+    char buffer[1000];
     
     
     glClearColor(0.5, 0.5, 0.5, 1);
@@ -186,10 +193,17 @@ int main(void){
         
         if(hf_input_get_key_down(HF_KEY_MINUS)){
             
+            const char* goober_msg = "goober\n";
+            hf_serial_write(&port, goober_msg, hf_strlen(goober_msg) + 1);
+            
             //printf("key pressed: %u %u\n", hf_input_keys[HF_KEY_MINUS], hf_input_keys_old[HF_KEY_MINUS]);
-            printf("key pressed\n");
+            //printf("key pressed\n");
         }
         
+        
+        if(hf_serial_read(&port, buffer, 900) > 0){
+            hf_log("%s\n", buffer);
+        }
         
         
         //hf_swap_buffers(&window);
@@ -198,6 +212,7 @@ int main(void){
     //if(hf_destroy_window(&window))
     //printf("destroyed window\n");
     
+    hf_serial_close_port(&port);
     
     //getchar();
     
