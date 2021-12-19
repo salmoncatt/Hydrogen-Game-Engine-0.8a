@@ -38,7 +38,7 @@ int main(void){
     hf_serial_list_open_ports();
     
     hf_serial_port port = {};
-    port = hf_serial_open_port("COM4", 9600);
+    port = hf_serial_open_port("COM4", 115200);
     
     
     
@@ -169,45 +169,65 @@ int main(void){
     //hf_window_set_key_callback(&window, &test_callback);
     
     //window.key_callback(NULL, 0, 0);
-    char buffer[1000];
+    char buffer[255] = "";
     
     
     glClearColor(0.5, 0.5, 0.5, 1);
     
-    while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
-        //hf_update_window(&window);
-        
-        /* 
-                glBegin(GL_TRIANGLES);
-                glVertex2i(0, 0);
-                glVertex2i(100, 0);
-                glVertex2i(100, 100);
+    
+    while(1){
+        if(hf_serial_read(&port, buffer, 255) > 0){
+            
+            if(!hf_strcmp(buffer, "goober")){
+                hf_log("%s\n", buffer);
                 
-                glEnd();
-         */
-        hf_shader_bind(&shader);
-        
-        hf_render_mesh(&mesh, transform);
-        
-        hf_shader_unbind(&shader);
-        
-        if(hf_input_get_key_down(HF_KEY_MINUS)){
-            
-            const char* goober_msg = "goober\n";
-            hf_serial_write(&port, goober_msg, hf_strlen(goober_msg) + 1);
-            
-            //printf("key pressed: %u %u\n", hf_input_keys[HF_KEY_MINUS], hf_input_keys_old[HF_KEY_MINUS]);
-            //printf("key pressed\n");
+            }
         }
-        
-        
-        if(hf_serial_read(&port, buffer, 900) > 0){
-            hf_log("%s\n", buffer);
-        }
-        
-        
-        //hf_swap_buffers(&window);
+        Sleep(10);
     }
+    
+    
+    
+    /* 
+        while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
+            //hf_update_window(&window);
+            
+            
+             
+                    //glBegin(GL_TRIANGLES);
+                    //glVertex2i(0, 0);
+                    //glVertex2i(100, 0);
+                    //glVertex2i(100, 100);
+                    
+                    //glEnd();
+             
+            
+            hf_shader_bind(&shader);
+            
+            hf_render_mesh(&mesh, transform);
+            
+            hf_shader_unbind(&shader);
+            
+            if(hf_input_get_key_down(HF_KEY_MINUS)){
+                
+                const char* goober_msg = "goober\n";
+                hf_serial_write(&port, goober_msg, hf_strlen(goober_msg) + 1);
+                
+                //printf("key pressed: %u %u\n", hf_input_keys[HF_KEY_MINUS], hf_input_keys_old[HF_KEY_MINUS]);
+                //printf("key pressed\n");
+            }
+            
+            
+            if(hf_serial_read(&port, buffer, 255) > 0){
+                hf_log("%s\n", buffer);
+            }
+            
+            //Sleep(500);
+            
+            //hf_swap_buffers(&window);
+        }
+     */
+    
     
     //if(hf_destroy_window(&window))
     //printf("destroyed window\n");

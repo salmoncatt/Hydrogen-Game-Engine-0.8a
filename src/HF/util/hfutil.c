@@ -51,6 +51,10 @@ extern void* hf_memcpy(void* destination, const void* source, u64 size){
     return destination;
 }
 
+extern b8 hf_strcmp(const char* a, const char* b){
+    return hf_memcmp(a, b, hf_min(hf_strlen(a), hf_strlen(b)));
+}
+
 extern u64 hf_strlen(const char* data){
     // TODO(salmoncatt): make this faster pls (and hfStringFind too)
     const __m128i zeros = _mm_setzero_si128();

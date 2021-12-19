@@ -23,6 +23,8 @@ extern void* hf_memcpy(void* destination, const void* source, u64 size);
 // NOTE(salmoncatt): compares two memory addresses for equality
 extern b8 hf_memcmp(const void* a, const void* b, size_t bytes);
 
+extern b8 hf_strcmp(const char* a, const char* b);
+
 extern u64 hf_strlen(const char* data);
 
 extern const u64 hf_string_npos;

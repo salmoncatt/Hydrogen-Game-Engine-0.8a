@@ -5,6 +5,16 @@
 
 #include "../datatypes/hfdatatypes.h"
 
+#define hf_min(a,b) \
+({ __typeof__ (a) _a = (a); \
+__typeof__ (b) _b = (b); \
+_a < _b ? _a : _b; }) \
+
+#define hf_max(a,b) \
+({ __typeof__ (a) _a = (a); \
+__typeof__ (b) _b = (b); \
+_a > _b ? _a : _b; }) \
+
 // NOTE(salmoncatt): vector types
 typedef struct v2f{
     f32 x;
