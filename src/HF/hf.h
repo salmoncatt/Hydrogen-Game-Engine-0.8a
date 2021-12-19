@@ -25,6 +25,7 @@
 #include "io/hfwindow.h"
 #include "io/hfinput.h"
 #include "io/hfserial.h" //for arduino n stuff
+#include "io/hf3dprint.h"
 //#endif
 
 #include "time/hfprofiler.h"

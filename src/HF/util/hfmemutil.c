@@ -135,8 +135,9 @@ extern void __wrap_free(void* pointer){
      */
     
 #endif
-    
-    __real_free(pointer);
+    if(pointer != NULL)
+        __real_free(pointer);
+    pointer = NULL;
 }
 
 
