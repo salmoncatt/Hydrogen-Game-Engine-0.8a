@@ -85,7 +85,7 @@ b8 hf_serial_write(hf_serial_port* port, const char* buffer, u32 length){
         return 1;
 }
 
-u32 hf_serial_read(hf_serial_port* port, char* buffer, u32 length){
+u32 hf_serial_read(hf_serial_port* port, char* buffer, u32 length, const char ending_character){
     if(!port->connected){
         hf_log("[HF SERIAL] error, trying to read from port: %s but it's closed\n", port->name);
         return 0;
@@ -110,6 +110,51 @@ u32 hf_serial_read(hf_serial_port* port, char* buffer, u32 length){
     
     return 0;
 }
+
+u32 hf_serial_read_data_waiting(hf_serial_port* port){
+    if(!port->connected)
+        return 0;
+    
+    ClearCommError(port->port, &port->errors, &port->status);
+    
+    return (u32)(port->status.cbInQue);
+}
+
+b8 hf_serial_wait_for_data(hf_serial_port* port){
+    while(hf_serial_read_data_waiting(port) == 0){
+        Sleep(1);
+    }
+    
+    return 1;
+}
+
+/* 
+u32 hf_serial_read_until(hf_serial_port* port, char* buffer, u32 length){
+    if(!port->connected){
+        hf_log("[HF SERIAL] error, trying to read from port: %s but it's closed\n", port->name);
+        return 0;
+    }
+    
+    DWORD bytes_read;
+    u32 to_read;
+    
+    ClearCommError(port->port, &port->errors, &port->status);
+    
+    if(port->status.cbInQue > 0){
+        
+        if(port->status.cbInQue > length){
+            to_read = length;
+        }else
+            to_read = port->status.cbInQue;
+        
+        if(ReadFile(port->port, buffer, to_read, &bytes_read, NULL)){
+            return bytes_read;
+        }
+    }
+    
+    return 0;
+}
+ */
 
 void hf_serial_close_port(hf_serial_port* port){
     CloseHandle(port->port);

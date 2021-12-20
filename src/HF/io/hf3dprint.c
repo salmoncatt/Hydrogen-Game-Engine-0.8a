@@ -24,15 +24,18 @@ void hf_3d_printer_run_gcode(hf_serial_port* port, const char* gcode_file){
             
             //Sleep(100);
             
+            hf_serial_wait_for_data(port);
+            hf_serial_read(port, buffer, 512, '\n');
             
             
-            
-            while(1){
-                if(hf_serial_read(port, buffer, 512) > 0)
-                    break;
-                
-                Sleep(1); //just wait for 3d printer to respond with success or fail
-            }
+            /* 
+                        while(1){
+                            if(hf_serial_read(port, buffer, 512) > 0)
+                                break;
+                            
+                            Sleep(1); //just wait for 3d printer to respond with success or fail
+                        }
+             */
             
             
             hf_log("code recieved: [%s]\n", buffer);
