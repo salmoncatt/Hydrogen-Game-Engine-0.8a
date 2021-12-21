@@ -30,6 +30,7 @@ int main(){
     port = hf_serial_open_port("COM4", 115200);
     
     
+    
     hf_3d_printer_run_gcode(&port, "../res/test.gcode");
     
     /* 

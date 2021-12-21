@@ -63,7 +63,7 @@ hf_serial_port hf_serial_open_port(const char* port_name, u32 baud_rate){
                 out.connected = 1;
                 out.name = port_name;
                 hf_log("[HF SERIAL] successfully opened port: %s with baud rate: %u\n", port_name, baud_rate);
-                //Sleep(hf_arduino_wait_time);
+                Sleep(hf_arduino_wait_time);
             }
         }
     }
@@ -72,10 +72,12 @@ hf_serial_port hf_serial_open_port(const char* port_name, u32 baud_rate){
 }
 
 b8 hf_serial_write(hf_serial_port* port, const char* buffer, u32 length){
-    if(!port->connected){
-        hf_log("[HF SERIAL] error, trying to read from port: %s but it's closed\n", port->name);
-        return 0;
-    }
+    /* 
+        if(!port->connected){
+            hf_log("[HF SERIAL] error, trying to read from port: %s but it's closed\n", port->name);
+            return 0;
+        }
+     */
     DWORD bytes_sent;
     
     if(!WriteFile(port->port, (void*)buffer, length, &bytes_sent, 0)){
@@ -86,13 +88,15 @@ b8 hf_serial_write(hf_serial_port* port, const char* buffer, u32 length){
 }
 
 u32 hf_serial_read(hf_serial_port* port, char* buffer, u32 length, const char ending_character){
-    if(!port->connected){
-        hf_log("[HF SERIAL] error, trying to read from port: %s but it's closed\n", port->name);
-        return 0;
-    }
+    /* 
+        if(!port->connected){
+            hf_log("[HF SERIAL] error, trying to read from port: %s but it's closed\n", port->name);
+            return 0;
+        }
+     */
     
     DWORD bytes_read;
-    u32 to_read;
+    u32 to_read = 0;
     
     ClearCommError(port->port, &port->errors, &port->status);
     
@@ -122,7 +126,7 @@ u32 hf_serial_read_data_waiting(hf_serial_port* port){
 
 b8 hf_serial_wait_for_data(hf_serial_port* port){
     while(hf_serial_read_data_waiting(port) == 0){
-        Sleep(1);
+        Sleep(10);
     }
     
     return 1;
@@ -159,5 +163,5 @@ u32 hf_serial_read_until(hf_serial_port* port, char* buffer, u32 length){
 void hf_serial_close_port(hf_serial_port* port){
     CloseHandle(port->port);
     port->connected = 0;
-    hf_log("[HF SERIAL] successfully closed port: %s\n", port->name);
+    hf_log("[HF SERIAL] closed port: %s\n", port->name);
 }
