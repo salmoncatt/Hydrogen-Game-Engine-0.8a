@@ -4,7 +4,6 @@ void hf_3d_printer_run_gcode(hf_serial_port* port, const char* gcode_file){
     FILE* file = fopen(gcode_file, "r");
     u64 length;
     char line[1024];
-    char* line_code = NULL;
     char buffer[512];
     
     u64 index = 0;
@@ -13,13 +12,17 @@ void hf_3d_printer_run_gcode(hf_serial_port* port, const char* gcode_file){
         while(fgets(line, 1024, file) != NULL){
             
             //hf_log("%s\n", line);
-            hf_log("running command: [%s]\n", line);
             
-            strcat(line, "\n");
+            char* code = hf_string_substr(line, 0, hf_strfind(';', line, 0, hf_strlen(line)));
+            
+            
+            hf_log("running command: [%s]\n", code);
+            
+            strcat(code, "\n");
             
             //line_code = hf_concat(line, "\n"); // NOTE(salmoncatt): make sure theres a new line to show the end of a command
             
-            hf_serial_write(port, line, hf_strlen(line) + 1);
+            hf_serial_write(port, code, hf_strlen(line) + 1);
             
             
             //Sleep(100);
@@ -41,7 +44,7 @@ void hf_3d_printer_run_gcode(hf_serial_port* port, const char* gcode_file){
             hf_log("code recieved: [%s]\n", buffer);
             
             
-            hf_free(line_code);
+            hf_free(code);
             
             /* 
                         hf_serial_write(port, line, hf_strlen(line) + 1);
