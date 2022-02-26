@@ -30,6 +30,14 @@ void hf_shader_unbind(){
     glUseProgram(0);
 }
 
+u32 hf_shader_get_uniform_location(hf_shader* shader, const char* name){
+    return glGetUniformLocation(shader->program_id, name);
+}
+
+u32 hf_shader_get_attribute_location(hf_shader* shader, const char* name){
+    return glGetAttribLocation(shader->program_id, name);
+}
+
 void hf_shader_destroy(hf_shader* shader){
     glDetachShader(shader->program_id, shader->vertex_id);
     glDetachShader(shader->program_id, shader->fragment_id);
@@ -41,14 +49,29 @@ void hf_shader_destroy(hf_shader* shader){
 }
 
 void hf_shader_set_uniform_u32(hf_shader* shader, const char* name, u32 data){
-    
+    glUniform1f(hf_shader_get_uniform_location(shader, name), data);
 }
 
 void hf_shader_set_uniform_b8(hf_shader* shader, const char* name, b8 data){
-    
+    glUniform1f(hf_shader_get_uniform_location(shader, name), data ? (GLfloat)1 : (GLfloat)0);
 }
 
 void hf_shader_set_uniform_f32(hf_shader* shader, const char* name, f32 data){
+    glUniform1f(hf_shader_get_uniform_location(shader, name), data);
+}
+
+void hf_shader_set_uniform_v2f(hf_shader* shader, const char* name, v2f* data){
+    glUniform2f(hf_shader_get_uniform_location(shader, name), data->x, data->y);
+    
+}
+
+void hf_shader_set_uniform_v3f(hf_shader* shader, const char* name, v3f* data){
+    glUniform3f(hf_shader_get_uniform_location(shader, name), data->x, data->y, data->z);
+    
+}
+
+void hf_shader_set_uniform_v4f(hf_shader* shader, const char* name, v4f* data){
+    glUniform4f(hf_shader_get_uniform_location(shader, name), data->x, data->y, data->z, data->w);
     
 }
 

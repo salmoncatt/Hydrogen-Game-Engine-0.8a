@@ -1,7 +1,9 @@
 #include "hfapp.h"
-#include "../time/hftime.h"
+#include "../rendering/hfrenderer.h"
+#include "../rendering/hfrenderer2d.h"
 
 void hf_app_init(hf_app* app){
+    hf_log("[HF] initializing HF app...\n");
     app->cpu_freq = 0;
     app->time_start = 0;
     
@@ -10,12 +12,15 @@ void hf_app_init(hf_app* app){
 #endif
     
     hf_time_init(app);
+    hf_renderer_init(app);
+    hf_renderer_init_2d(app);  
     //app->window = {0};
     
     
     hf_window_init(&app->window);
     
     //hf_gl_init();
+    hf_log("[HF] initialized HF app\n\n");
 }
 
 void hf_app_start(hf_app* app){

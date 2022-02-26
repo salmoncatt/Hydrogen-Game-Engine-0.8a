@@ -33,8 +33,18 @@ typedef struct v4f{
     f32 x;
     f32 y;
     f32 z;
+    f32 w;
     
 } v4f;
+
+// TODO(salmoncatt): do this
+typedef struct m4f{
+    f32 x;
+    f32 y;
+    f32 z;
+    f32 w;
+    
+} m4f;
 
 typedef struct hf_transform{
     v3f pos;

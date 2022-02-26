@@ -24,6 +24,7 @@
 #include <signal.h>
 
 #include "math/hfmath.h"
+#include "time/hftime.h"
 #include "util/hfutil.h"
 #include "debug/hfdebug.h"
 #include "datatypes/hfstring.h"

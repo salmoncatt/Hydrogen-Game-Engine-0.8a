@@ -19,15 +19,20 @@ typedef struct hf_shader{
 }hf_shader;
 
 void hf_shader_create(hf_shader* shader, const char* vertex_path, const char* fragment_path);
-
-void hf_shader_bind(hf_shader* shader);
-
-void hf_shader_unbind();
-
 void hf_shader_destroy(hf_shader* shader);
 
-void hf_shader_set_uniform_u32(hf_shader* shader, const char* name, u32 data);
+void hf_shader_bind(hf_shader* shader);
+void hf_shader_unbind();
+
+u32 hf_shader_get_uniform_location(hf_shader* shader, const char* name);
+u32 hf_shader_get_attribute_location(hf_shader* shader, const char* name);
+
 void hf_shader_set_uniform_b8(hf_shader* shader, const char* name, b8 data);
+void hf_shader_set_uniform_u32(hf_shader* shader, const char* name, u32 data);
 void hf_shader_set_uniform_f32(hf_shader* shader, const char* name, f32 data);
+void hf_shader_set_uniform_v2f(hf_shader* shader, const char* name, v2f* data);
+void hf_shader_set_uniform_v3f(hf_shader* shader, const char* name, v3f* data);
+void hf_shader_set_uniform_v4f(hf_shader* shader, const char* name, v4f* data);
+void hf_shader_set_uniform_m4f(hf_shader* shader, const char* name, m4f* data);
 
 #endif //HFSHADER_H

@@ -1,5 +1,13 @@
 #include "hfrenderer.h"
 
+void hf_renderer_init(hf_app* app) {
+    hf_log("[HF] initialized HF Renderer\n");
+}
+
+void hf_renderer_destroy(hf_app* app) {
+    hf_log("[HF] destroyed HF Renderer\n");
+}
+
 void hf_render_mesh(hf_mesh* mesh, hf_transform transform){
     glBindVertexArray(mesh->vao);
     glEnableVertexAttribArray(0);
@@ -9,3 +17,4 @@ void hf_render_mesh(hf_mesh* mesh, hf_transform transform){
     glDisableVertexAttribArray(0);
     glBindVertexArray(0);
 }
+

@@ -34,6 +34,7 @@
 #include "mesh/hfmesh.h"
 
 #include "rendering/hfrenderer.h"
+#include "rendering/hfrenderer2d.h"
 #include "rendering/hfshader.h"
 
 

@@ -63,6 +63,8 @@ b8 hf_create_window(hf_window* w){
     w->wc.lpszClassName = w->title;
     w->wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
     
+    w->timer_id = 0;
+    
     // NOTE(salmoncatt): register window class into windows and check status
     if(!RegisterClassEx(&w->wc)){
         hf_err("couldn't register window: $hfcc{aqua}%s$hfcc{red}", w->title);
@@ -163,6 +165,9 @@ b8 hf_create_window(hf_window* w){
     
     w->hrc = wglCreateContextAttribsARB(w->hdc, 0, attribs);
     
+    //set a basic 60fps window
+    hf_window_set_ups(w, 60);
+    
     hf_log("[HF] created window: [%s], size: [%u, %u], pos: [%u, %u]\n\n", w->title, w->width, w->height, w->x, w->y);
     
     return 1;
@@ -225,8 +230,15 @@ void hf_update_window(hf_window* w){
     DispatchMessage(&w->msg);
 }
 
-void hf_swap_buffers(hf_window* w){
-    //SwapBuffers(w->hdc);
+// NOTE(salmoncatt): windows needs this because the window needs some event to update it and a timer updates it at intervals
+void hf_window_set_ups(hf_window* window, u32 ups){
+    u32 interval = (u32)((f32)((1 / (f32)ups) * 1000));
+    //hf_log("%i\n", interval);
+    window->timer_id = SetTimer(window->hwnd, window->timer_id, interval, NULL);
+}
+
+void hf_window_remove_ups_constraint(hf_window* window){
+    
 }
 
 

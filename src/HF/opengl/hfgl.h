@@ -18,31 +18,41 @@ extern b8 hf_gl_created;
 
 // NOTE(salmoncatt): these are the opengl extension functions that are going to be loaded (add more as needed)
 #define HF_GL_FUNC_LIST \
-HF_WGL(HGLRC, CreateContextAttribsARB, HDC hDC, HGLRC hShareContext, const int *attribList);\
-HF_GLE(void, BindBuffer, GLenum target, GLuint buffer)\
-HF_GLE(void, GenBuffers, GLsizei n, GLuint* buffers)\
-HF_GLE(void, BufferData, GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage)\
-HF_GLE(void, VertexAttribPointer, GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer)\
-HF_GLE(void, DeleteBuffers, GLsizei n, const GLuint *buffers)\
-HF_GLE(void, GenVertexArrays, GLsizei n, GLuint *arrays);\
-HF_GLE(void, BindVertexArray, GLuint array);\
-HF_GLE(void, EnableVertexAttribArray, GLuint index);\
-HF_GLE(void, DisableVertexAttribArray, GLuint index);\
+HF_WGL(HGLRC,  CreateContextAttribsARB, HDC hDC, HGLRC hShareContext, const int *attribList);\
+HF_GLE(void,   BindBuffer, GLenum target, GLuint buffer)\
+HF_GLE(void,   GenBuffers, GLsizei n, GLuint* buffers)\
+HF_GLE(void,   BufferData, GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage)\
+HF_GLE(void,   VertexAttribPointer, GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer)\
+HF_GLE(void,   DeleteBuffers, GLsizei n, const GLuint *buffers)\
+HF_GLE(void,   GenVertexArrays, GLsizei n, GLuint *arrays);\
+HF_GLE(void,   BindVertexArray, GLuint array);\
+HF_GLE(void,   EnableVertexAttribArray, GLuint index);\
+HF_GLE(void,   DisableVertexAttribArray, GLuint index);\
+\
 HF_GLE(GLuint, CreateProgram, void);\
+HF_GLE(void,   LinkProgram, GLuint program);\
+HF_GLE(void,   UseProgram, GLuint program);\
+HF_GLE(void,   GetProgramInfoLog, GLuint program, GLsizei bufSize, GLsizei *length, char *infoLog);\
+HF_GLE(void,   GetProgramiv, GLuint program, GLenum pname, GLint *params);\
+HF_GLE(void,   ValidateProgram, GLuint program);\
+HF_GLE(void,   CompileShader, GLuint shader);\
+\
 HF_GLE(GLuint, CreateShader, GLenum type);\
-HF_GLE(void, GetShaderInfoLog, GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog);\
-HF_GLE(void, GetShaderiv, GLuint shader, GLenum pname, GLint *params);\
-HF_GLE(GLint, GetUniformLocation, GLuint program, const GLchar *name);\
-HF_GLE(void, LinkProgram, GLuint program);\
-HF_GLE(void, UseProgram, GLuint program);\
-HF_GLE(void, AttachShader, GLuint program, GLuint shader);\
-HF_GLE(void, CompileShader, GLuint shader);\
-HF_GLE(void, GetProgramInfoLog, GLuint program, GLsizei bufSize, GLsizei *length, char *infoLog);\
-HF_GLE(void, GetProgramiv, GLuint program, GLenum pname, GLint *params);\
-HF_GLE(void, DeleteShader, GLuint shader);\
-HF_GLE(void, DetachShader, GLuint program, GLuint shader);\
-HF_GLE(void, ValidateProgram, GLuint program);\
-HF_GLE(void, ShaderSource, GLuint shader, GLsizei count, const GLchar* const *string, const GLint *length);\
+HF_GLE(void,   AttachShader, GLuint program, GLuint shader);\
+HF_GLE(void,   DeleteShader, GLuint shader);\
+HF_GLE(void,   DetachShader, GLuint program, GLuint shader);\
+HF_GLE(void,   ShaderSource, GLuint shader, GLsizei count, const GLchar* const *string, const GLint *length);\
+HF_GLE(void,   GetShaderInfoLog, GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog);\
+HF_GLE(void,   GetShaderiv, GLuint shader, GLenum pname, GLint *params);\
+\
+HF_GLE(GLint,  GetUniformLocation, GLuint program, const GLchar *name);\
+HF_GLE(GLint,  GetAttribLocation, GLuint program, const GLchar *name) \
+HF_GLE(void,   Uniform1i, GLint location, GLint v0) \
+HF_GLE(void,   Uniform1f, GLint location, GLfloat v0) \
+HF_GLE(void,   Uniform2f, GLint location, GLfloat v0, GLfloat v1) \
+HF_GLE(void,   Uniform3f, GLint location, GLfloat v0, GLfloat v1, GLfloat v2) \
+HF_GLE(void,   Uniform4f, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) \
+HF_GLE(void,   UniformMatrix4fv, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) \
 
 
 // NOTE(salmoncatt): give declarations of opengl extension functions
