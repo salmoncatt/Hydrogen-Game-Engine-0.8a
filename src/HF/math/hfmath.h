@@ -5,6 +5,8 @@
 
 #include "../datatypes/hfdatatypes.h"
 
+#define hf_inline
+
 #define hf_min(a,b) \
 ({ __typeof__ (a) _a = (a); \
 __typeof__ (b) _b = (b); \
@@ -14,6 +16,8 @@ _a < _b ? _a : _b; }) \
 ({ __typeof__ (a) _a = (a); \
 __typeof__ (b) _b = (b); \
 _a > _b ? _a : _b; }) \
+
+const extern f64 hf_PI;
 
 
 // NOTE(salmoncatt): vector types
@@ -90,8 +94,8 @@ typedef union v4f{
             struct{
                 f32 x, y, z;
             };
-            f32 w;
         };
+        f32 w;
     };
     
     struct{
@@ -127,13 +131,8 @@ typedef union v4f{
     
 } v4f;
 
-// TODO(salmoncatt): do this
 typedef struct m4f{
-    f32 x;
-    f32 y;
-    f32 z;
-    f32 w;
-    
+    f32 m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33;
 } m4f;
 
 typedef struct hf_transform{
@@ -142,23 +141,53 @@ typedef struct hf_transform{
     v3f scale;
 } hf_transform;
 
-v4f hf_v4f(f32 x, f32 y, f32 z, f32 w);
 
-//adds a and b and returns the result
-v2f v2f_add_v2f(v2f* a, v2f* b);
-//adds a and b and stores the result in a
-v2f v2f_addsto_v2f(v2f* a, v2f* b);
+hf_inline v2f hf_v2f(f32 x, f32 y);
+hf_inline v3f hf_v3f(f32 x, f32 y, f32 z);
+hf_inline v4f hf_v4f(f32 x, f32 y, f32 z, f32 w);
 
-//adds a and b and returns the result
-v3f v3f_add_v3f(v3f* a, v3f* b);
-//adds a and b and stores the result in a
-v3f v3f_addsto_v3f(v3f* a, v3f* b);
 
-//adds a and b and returns the result
-v4f v4f_add_v4f(v4f* a, v4f* b);
-//adds a and b and stores the result in a
-v4f v4f_addsto_v4f(v4f* a, v4f* b);
+hf_inline v2f hf_add_v2f(v2f a, v2f b);
+hf_inline v2f hf_sub_v2f(v2f a, v2f b);
+hf_inline v2f hf_mul_v2f(v2f a, v2f b);
+hf_inline v2f hf_div_v2f(v2f a, v2f b);
+
+
+hf_inline v3f hf_add_v3f(v3f a, v3f b);
+hf_inline v3f hf_sub_v3f(v3f a, v3f b);
+hf_inline v3f hf_mul_v3f(v3f a, v3f b);
+hf_inline v3f hf_div_v3f(v3f a, v3f b);
+
+
+hf_inline v4f hf_add_v4f(v4f a, v4f b);
+hf_inline v4f hf_sub_v4f(v4f a, v4f b);
+hf_inline v4f hf_mul_v4f(v4f a, v4f b);
+hf_inline v4f hf_div_v4f(v4f a, v4f b);
+
+
+hf_inline void hf_identity_m4f(m4f* src);
+hf_inline void hf_transpose_m4f(m4f* dest, m4f* src);
+hf_inline void hf_transpose_no_rotation_m4f(m4f* dest, m4f* src);
+hf_inline void hf_scale_m4f(m4f* matrix, v3f scale);
+//hf_inline void hf_scale_m4f_v3f(m4f* matrix, v3f scale);
+//hf_inline void hf_scale_m4f_v2f(m4f* matrix, v2f scale);
+void hf_rotate_m4f(m4f* matrix, f32 angle, v3f axis);
+hf_inline void hf_translate_m4f(m4f* matrix, v3f translation);
+//hf_inline void hf_translate_m4f_v3f(m4f* matrix, v3f translation);
+//hf_inline void hf_translate_m4f_v2f(m4f* matrix, v2f translation);
+
+m4f hf_transformation_m4f(v3f translation, v3f rotation, v3f scale);
+//m4f hf_transformation_m4f_v3f(v3f translation, v3f rotation, v3f scale);
+//m4f hf_transformation_m4f_v2f(v2f translation, v2f rotation, v2f scale);
+m4f hf_perspective_m4f(f32 screen_width, f32 screen_height, f32 fov, f32 near_plane, f32 far_plane);
+m4f hf_ortho_m4f(f32 left, f32 right, f32 bottom, f32 top, f32 near_plane, f32 far_plane);
+m4f hf_view_m4f(v3f position, v3f rotation);
+// TODO(salmoncatt): write this
+//hf_inline void hf_store_m4f_vbuf();
 
 u32 hf_hash_str(const char* str);
+
+hf_inline f64 hf_to_radians(f64 degrees);
+hf_inline f64 hf_to_degrees(f64 radians);
 
 #endif //HFMATH_H
