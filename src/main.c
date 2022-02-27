@@ -32,7 +32,7 @@ int main(void){
     if(!hf_create_window(&app.window))
         return -1;
     
-    hf_window_set_ups(&app.window, 144);
+    //hf_window_set_ups(&app.window, 9999);
     
     // NOTE(salmoncatt): please put all opengl things after this danks
     
@@ -181,6 +181,7 @@ int main(void){
          */
         transform.pos.x += 0.001f;
         
+        //hf_log("[%i %i]\n", app.window.width, app.window.height);
         
         hf_render_mesh_2d(&mesh, &shader, &transform);
         

@@ -21,6 +21,7 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
     }
     //printf("key: %u\n", key, is_down);
     
+    
     switch(msg)
     {
         case WM_CLOSE:
@@ -166,7 +167,7 @@ b8 hf_create_window(hf_window* w){
     w->hrc = wglCreateContextAttribsARB(w->hdc, 0, attribs);
     
     //set a basic 60fps window
-    hf_window_set_ups(w, 60);
+    //hf_window_set_ups(w, 60);
     
     hf_log("[HF] created window: [%s], size: [%u, %u], pos: [%u, %u]\n\n", w->title, w->width, w->height, w->x, w->y);
     
@@ -219,8 +220,19 @@ void hf_window_init(hf_window* window){
 }
 
 b8 hf_should_window_update(hf_window* w){
+    
+    // NOTE(salmoncatt): peek message always the program to run without messages coming in or a timer, much better than getMessage
+    while(PeekMessage(&w->msg, NULL, 0, 0, PM_REMOVE)){
+        if(w->msg.message == WM_QUIT){
+            return 0;
+        }
+        TranslateMessage(&w->msg);
+        DispatchMessage(&w->msg);
+    }
+    
     hf_update_window(w);
-    return GetMessage(&w->msg, NULL, 0, 0);
+    return 1;
+    //return GetMessage(&w->msg, NULL, 0, 0);
 }
 
 void hf_update_window(hf_window* w){
@@ -228,16 +240,19 @@ void hf_update_window(hf_window* w){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     TranslateMessage(&w->msg);
     DispatchMessage(&w->msg);
-}
-
-// NOTE(salmoncatt): windows needs this because the window needs some event to update it and a timer updates it at intervals
-void hf_window_set_ups(hf_window* window, u32 ups){
-    u32 interval = (u32)((f32)((1 / (f32)ups) * 1000));
-    //hf_log("%i\n", interval);
-    window->timer_id = SetTimer(window->hwnd, window->timer_id, interval, NULL);
-}
-
-void hf_window_remove_ups_constraint(hf_window* window){
+    
+    
+    // NOTE(salmoncatt): update window size and openGL viewport
+    RECT rect;
+    if(GetWindowRect(w->hwnd, &rect)){
+        w->width = rect.right - rect.left;
+        w->height = rect.bottom - rect.top;
+        glViewport(0, 0, w->width, w->height);
+    }
+    
+    // NOTE(salmoncatt): update window as fast as possible instead of when a message comes in
+    //UpdateWindow(w->hwnd);
+    //RedrawWindow(w->hwnd, NULL, NULL, RDW_UPDATENOW);
     
 }
 
