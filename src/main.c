@@ -13,6 +13,8 @@ void test_callback(hf_window* w, u32 keycode, u32 action){
 }
  */
 
+// NOTE(salmoncatt): shortcuts to remember: alt r (comment out block), crtl shift { (creates double on a new line + ;)
+
 typedef struct poopy{
     u32 num_of_poopies;
 }poopy;
@@ -45,6 +47,11 @@ int main(void){
     //printf("shader code: %s\n", shader.fragment_shader);
     
     hf_shader_destroy(&shader);
+    
+    v4f test_vec = hf_v4f(1, 2, 3, 4);
+    v3f vec = test_vec.rgb;
+    
+    hf_log("[%f %f %f %f]\n", vec.x, vec.y, vec.z, test_vec.w);
     
     /* 
         if(hf_create_window(&app.window)){
@@ -179,7 +186,7 @@ int main(void){
                 
                 glEnd();
          */
-        transform.pos.x += 0.001f;
+        transform.pos.x += 0.0001f;
         
         //hf_log("[%i %i]\n", app.window.width, app.window.height);
         
