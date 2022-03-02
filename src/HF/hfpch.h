@@ -34,4 +34,9 @@
 
 #include "opengl/hfgl.h"
 
+#include "datatypes/hffloatbuffer.h"
+
+
+#include "graphics/stb_image.h"
+
 #endif //HFPCH_H

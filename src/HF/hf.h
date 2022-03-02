@@ -13,6 +13,7 @@
 #include "datatypes/hfvector.h"
 #include "datatypes/hflinkedlist.h"
 #include "datatypes/hfstring.h"
+#include "datatypes/hffloatbuffer.h"
 
 #include "util/hfutil.h"
 #include "opengl/hfgl.h"
@@ -31,7 +32,11 @@
 #include "time/hfprofiler.h"
 #include "time/hftime.h"
 
+#include "graphics/stb_image.h"
+#include "graphics/hfimage.h"
+
 #include "mesh/hfmesh.h"
+#include "mesh/hftexture.h"
 
 #include "rendering/hfrenderer.h"
 #include "rendering/hfrenderer2d.h"

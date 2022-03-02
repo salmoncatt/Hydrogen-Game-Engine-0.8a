@@ -75,3 +75,14 @@ void hf_shader_set_uniform_v4f(hf_shader* shader, const char* name, v4f* data){
     
 }
 
+void hf_shader_set_uniform_m4f(hf_shader* shader, const char* name, m4f* data){
+    hf_f32_buf buffer = {};
+    hf_f32_buf_init(&buffer, 16);
+    
+    hf_f32_buf_store_m4f(&buffer, data);
+    glUniformMatrix4fv(hf_shader_get_uniform_location(shader, name), 1, 0, buffer.data);
+    
+    hf_f32_buf_destroy(&buffer);
+    
+}
+

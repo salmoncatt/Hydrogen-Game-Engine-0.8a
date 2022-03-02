@@ -4,10 +4,10 @@ in vec3 position;
 
 out vec3 colour;
 
-uniform vec3 pos;
+uniform mat4 transform;
 
 void main(void){
 
-	gl_Position = vec4((position + pos),1.0);
+	gl_Position = transform * vec4(position, 1.0);
 	colour = vec3(position.x+0.5,0.0,position.y+0.5);
 }

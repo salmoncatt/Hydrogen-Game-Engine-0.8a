@@ -39,8 +39,8 @@ extern void __real_free(void* data);
 //extern void* __wrap_malloc(u64 bytes, const char* file, const char* function, u64 line);
 extern void __wrap_free(void* data);
 
-#define hf_malloc(bytes) malloc(bytes);
-#define hf_free(data) free(data);
+#define hf_malloc(bytes) malloc(bytes)
+#define hf_free(data) free(data)
 
 //#define hf_malloc(bytes) hf_malloc_func(bytes, __FILE__, __FUNCTION__, __LINE__);
 
