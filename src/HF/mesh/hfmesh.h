@@ -5,7 +5,11 @@
 
 //#include "../datatypes/hfvector.h"
 
+#include "hftexture.h"
+
 typedef struct hf_mesh{
+    
+    hf_texture texture;
     
     // TODO(salmoncatt): normals
     
@@ -15,7 +19,10 @@ typedef struct hf_mesh{
         hf_vector indices;
      */
     float* vertices;
-    float vertices_amount;
+    u32 vertices_amount;
+    
+    float* texture_coords;
+    u32 texture_coords_amount;
     // TODO(salmoncatt): normals
     
     u32 vao;

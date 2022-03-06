@@ -19,6 +19,7 @@ extern b8 hf_gl_created;
 // NOTE(salmoncatt): these are the opengl extension functions that are going to be loaded (add more as needed)
 #define HF_GL_FUNC_LIST \
 HF_WGL(HGLRC,  CreateContextAttribsARB, HDC hDC, HGLRC hShareContext, const int *attribList);\
+HF_WGL(BOOL,  ChoosePixelFormatARB, HDC hdc, const int *piAttribIList, const FLOAT *pfAttribFList, UINT nMaxFormats, int *piFormats, UINT *nNumFormats);\
 HF_GLE(void,   BindBuffer, GLenum target, GLuint buffer)\
 HF_GLE(void,   GenBuffers, GLsizei n, GLuint* buffers)\
 HF_GLE(void,   BufferData, GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage)\
@@ -53,6 +54,9 @@ HF_GLE(void,   Uniform2f, GLint location, GLfloat v0, GLfloat v1) \
 HF_GLE(void,   Uniform3f, GLint location, GLfloat v0, GLfloat v1, GLfloat v2) \
 HF_GLE(void,   Uniform4f, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) \
 HF_GLE(void,   UniformMatrix4fv, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) \
+\
+HF_GLE(void,   GenerateMipmap, GLenum target); \
+HF_GLE(void,   ActiveTexture, GLenum target); \
 
 
 // NOTE(salmoncatt): give declarations of opengl extension functions

@@ -7,7 +7,11 @@ void hf_mesh_create(hf_mesh* mesh){
     //glGenBuffers(0, NULL);
     
     if(mesh->vertices_amount)
-        hf_push_data_to_VBO(0, mesh->type, mesh->vertices, mesh->vertices_amount);
+        hf_push_data_to_VBO(0, mesh->type, mesh->vertices, mesh->vertices_amount * mesh->type);
+    
+    if(mesh->texture_coords_amount){
+        hf_push_data_to_VBO(1, 2, mesh->texture_coords, mesh->texture_coords_amount * 2);
+    }
     
     //if(!hf_vector_empty(&mesh->texture_coords))
     //hf_push_data_to_VBO(0, 2, &mesh->texture_coords);

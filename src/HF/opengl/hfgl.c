@@ -18,7 +18,7 @@ b8 hf_gl_init(){
         
         u32 major, minor;
         hf_gl_get_version(&major, &minor);
-        hf_log("[HF GL] version: [%u, %u]\n", major, minor);
+        hf_log("[HF GL] version: [%u.%u]\n", major, minor);
         
         
         hf_log("[HF GL] initialized\n\n");

@@ -3,6 +3,8 @@
 #ifndef HF_H
 #define HF_H
 
+#define HF_RES "../res/"
+
 // TODO(salmoncatt): add linux headers n stuff pls
 
 #include "core/hfapp.h"

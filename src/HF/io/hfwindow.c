@@ -119,28 +119,87 @@ b8 hf_create_window(hf_window* w){
     pfd.iLayerType = PFD_MAIN_PLANE;
     
     // NOTE(salmoncatt): getting and setting pixel format
-    u32 pixelFormat = ChoosePixelFormat(w->hdc, &pfd);
+    u32 pixelFormat[1];
     
-    if (!pixelFormat)
+    /* 
+        pixelFormat[0] = ChoosePixelFormat(w->hdc, &pfd);
+        if (!pixelFormat)
+        {
+            hf_err("can't find an appropriate pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+            return 0;
+        }
+        
+        if(!SetPixelFormat(w->hdc, pixelFormat[0], &pfd))
+        {
+            hf_err("unable to set pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+            return 0;
+        }
+     */
+    
+    
+    u32 attributeListInt[19];
+    
+    // Support for OpenGL rendering.
+    attributeListInt[0] = WGL_SUPPORT_OPENGL_ARB;
+    attributeListInt[1] = 1;
+    
+    // Support for rendering to a window.
+    attributeListInt[2] = WGL_DRAW_TO_WINDOW_ARB;
+    attributeListInt[3] = 1;
+    
+    // Support for hardware acceleration.
+    attributeListInt[4] = WGL_ACCELERATION_ARB;
+    attributeListInt[5] = WGL_FULL_ACCELERATION_ARB;
+    
+    // Support for 24bit color.
+    attributeListInt[6] = WGL_COLOR_BITS_ARB;
+    attributeListInt[7] = 24;
+    
+    // Support for 24 bit depth buffer.
+    attributeListInt[8] = WGL_DEPTH_BITS_ARB;
+    attributeListInt[9] = 24;
+    
+    // Support for double buffer.
+    attributeListInt[10] = WGL_DOUBLE_BUFFER_ARB;
+    attributeListInt[11] = 1;
+    
+    // Support for swapping front and back buffer.
+    attributeListInt[12] = WGL_SWAP_METHOD_ARB;
+    attributeListInt[13] = WGL_SWAP_EXCHANGE_ARB;
+    
+    // Support for the RGBA pixel type.
+    attributeListInt[14] = WGL_PIXEL_TYPE_ARB;
+    attributeListInt[15] = WGL_TYPE_RGBA_ARB;
+    
+    // Support for a 8 bit stencil buffer.
+    attributeListInt[16] = WGL_STENCIL_BITS_ARB;
+    attributeListInt[17] = 8;
+    
+    // Null terminate the attribute list.
+    attributeListInt[18] = 0;
+    
+    u32 formatCount;
+    
+    // Query for a pixel format that fits the attributes we want.
+    i32 result = wglChoosePixelFormatARB(w->hdc, attributeListInt, NULL, 1, pixelFormat, &formatCount);
+    if(result != 1)
     {
-        hf_err("can't find an appropriate pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
-        return 0;
+        hf_err("[HF GL] couldn't load neccesary extensions\n");
     }
     
-    if(!SetPixelFormat(w->hdc, pixelFormat,&pfd))
+    // If the video card/display can handle our desired pixel format then we set it as the current one.
+    result = SetPixelFormat(w->hdc, pixelFormat[0], &pfd);
+    if(result != 1)
     {
-        hf_err("unable to set pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
-        return 0;
+        hf_err("[HF GL] couldn't set pixel format\n");
     }
     
-    // NOTE(salmoncatt): make opengl context
     w->hrc = wglCreateContext(w->hdc);
     if(!w->hrc)
         hf_err("unable to create OpenGL rendering context for window: $hfcc{aqua}%s$hfcc{red}", w->title);
     
-    // NOTE(salmoncatt): make opengl context current
-    if(!wglMakeCurrent(w->hdc, w->hrc))
-        hf_err("unable to make OpenGL rendering context current for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+    
+    
     
     // NOTE(salmoncatt): set the window size (and pos aparently)
     SetWindowPos(w->hwnd, NULL, w->x, w->y, w->width, w->height, SWP_SHOWWINDOW);
@@ -150,6 +209,11 @@ b8 hf_create_window(hf_window* w){
     
     if(!hf_gl_created)
         hf_gl_init();
+    
+    
+    
+    
+    
     
     u32 major, minor;
     hf_gl_get_version(&major, &minor);
@@ -165,6 +229,13 @@ b8 hf_create_window(hf_window* w){
     
     
     w->hrc = wglCreateContextAttribsARB(w->hdc, 0, attribs);
+    
+    // NOTE(salmoncatt): make opengl context
+    // NOTE(salmoncatt): make opengl context current
+    if(!wglMakeCurrent(w->hdc, w->hrc))
+        hf_err("unable to make OpenGL rendering context current for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+    
+    
     
     //set a basic 60fps window
     //hf_window_set_ups(w, 60);

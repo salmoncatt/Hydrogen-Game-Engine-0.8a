@@ -29,6 +29,25 @@ void hf_image_create_from_file(hf_image* image, const char* file_path){
     
 }
 
+hf_image hf_image_from_file(const char* file_path){
+    hf_image image = {};
+    
+    image.width = 0;
+    image.height = 0;
+    image.channels = 0;
+    image.data = NULL;
+    image.file_path = file_path;
+    
+    image.data = stbi_load(file_path, &image.width, &image.height, &image.channels, STBI_rgb_alpha);
+    image.channels = STBI_rgb_alpha;
+    
+    if(image.data == NULL){
+        hf_err("[HF Image] couldn't load image from file: [%s]\n", file_path);
+    }
+    
+    return image;
+}
+
 void hf_image_copy(hf_image* dest, hf_image* src){
     if(dest->data != NULL){
         hf_free(dest->data);
