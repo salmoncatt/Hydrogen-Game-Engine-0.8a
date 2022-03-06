@@ -46,7 +46,7 @@ int main(void){
     
     //printf("shader code: %s\n", shader.fragment_shader);
     
-    hf_shader_destroy(&shader);
+    //hf_shader_destroy(&shader);
     
     v4f test_vec = hf_v4f(1, 2, 3, 4);
     v3f vec = test_vec.rgb;
