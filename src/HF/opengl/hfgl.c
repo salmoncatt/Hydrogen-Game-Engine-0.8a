@@ -126,6 +126,14 @@ void hf_push_data_to_VBO(u32 index, u32 type, float* data, u32 length){
     
 }
 
+void hf_push_data_to_IBO(u32 index, u32 size, const void* data, u32 IBO){
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+    
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, size * sizeof(unsigned int), data, GL_STATIC_DRAW);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
 void hf_gl_compile_shader(u32 id, const char* shader_code, const char* shader_name){
     glShaderSource(id, 1, &shader_code, NULL);
     glCompileShader(id);

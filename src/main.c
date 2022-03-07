@@ -66,9 +66,9 @@ int main(void){
     };
     
     mesh.vertices = vertices;
-    mesh.vertices_amount = 6; 
+    mesh.vertices_size = 6 * 3; 
     mesh.texture_coords = texture_coords;
-    mesh.texture_coords_amount = 6; 
+    mesh.texture_coords_size = 6 * 2; 
     mesh.type = 3;
     
     hf_mesh_create(&mesh);

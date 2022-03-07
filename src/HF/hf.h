@@ -5,6 +5,9 @@
 
 #define HF_RES "../res/"
 
+#define HF_SUCCESS 1
+#define HF_FAIL 0
+
 // TODO(salmoncatt): add linux headers n stuff pls
 
 #include "core/hfapp.h"

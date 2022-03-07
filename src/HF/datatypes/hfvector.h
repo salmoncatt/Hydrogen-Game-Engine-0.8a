@@ -4,8 +4,8 @@
 #define HFVECTOR_H
 
 #define HF_VECTOR_INIT_CAPACITY 10
-#define HF_VECTOR_SUCCESS 1
-#define HF_VECTOR_FAIL 0
+#define HF_SUCCESS 1
+#define HF_FAIL 0
 
 typedef struct hf_vector{
 	void** data;

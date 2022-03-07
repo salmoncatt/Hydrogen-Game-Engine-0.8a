@@ -20,7 +20,7 @@ void hf_vector_init(hf_vector* vector) {
 }
 
 b8 hf_vector_resize(hf_vector* vector, u64 capacity) {
-	u32 status = HF_VECTOR_FAIL;
+	u32 status = HF_FAIL;
     
 	if (vector) {
         if(vector->data != NULL){
@@ -30,7 +30,7 @@ b8 hf_vector_resize(hf_vector* vector, u64 capacity) {
             if (data) {
                 vector->data = data;
                 vector->capacity = capacity;
-                status = HF_VECTOR_SUCCESS;
+                status = HF_SUCCESS;
             }
         }
 	}
@@ -39,7 +39,7 @@ b8 hf_vector_resize(hf_vector* vector, u64 capacity) {
 }
 
 b8 hf_vector_push_back(hf_vector* vector, void* in) {
-	u32 status = HF_VECTOR_FAIL;
+	u32 status = HF_FAIL;
     
 	if (vector) {
 		if(vector->data != NULL){
@@ -53,7 +53,7 @@ b8 hf_vector_push_back(hf_vector* vector, void* in) {
             else {
                 vector->data[vector->size] = in;
                 vector->size += 1;
-                status = HF_VECTOR_SUCCESS;
+                status = HF_SUCCESS;
             }
         }
 	}
@@ -62,20 +62,20 @@ b8 hf_vector_push_back(hf_vector* vector, void* in) {
 }
 
 b8 hf_vector_set(hf_vector* vector, u64 index, void* in) {
-	u32 status = HF_VECTOR_FAIL;
+	u32 status = HF_FAIL;
     
 	if (vector) {
 		if(vector->data != NULL){
             if (index < vector->capacity) {
                 vector->data[index] = in;
-                status = HF_VECTOR_SUCCESS;
+                status = HF_SUCCESS;
             }else{
                 //printf("vector size: %u\n", vector->capacity);
                 status = hf_vector_resize(vector, vector->capacity * 2);
                 if (status) {
                     vector->data[index] = in;
                 }
-                status = HF_VECTOR_SUCCESS;
+                status = HF_SUCCESS;
             }
             
             if(index >= vector->size)
@@ -131,7 +131,7 @@ void* hf_vector_get(hf_vector* vector, u64 index) {
 }
 
 b8 hf_vector_erase(hf_vector* vector, u64 index, u64 length) {
-	u32 status = HF_VECTOR_FAIL;
+	u32 status = HF_FAIL;
     
 	if (vector) {
         if(vector->data != NULL){
@@ -160,7 +160,7 @@ b8 hf_vector_erase(hf_vector* vector, u64 index, u64 length) {
                     status = hf_vector_resize(vector, vector->capacity / 2);
                 }
                 else
-                    status = HF_VECTOR_SUCCESS;
+                    status = HF_SUCCESS;
             }
         }
 		
@@ -170,7 +170,7 @@ b8 hf_vector_erase(hf_vector* vector, u64 index, u64 length) {
 }
 
 b8 hf_vector_free(hf_vector* vector) {
-    u32 status = HF_VECTOR_FAIL;
+    u32 status = HF_FAIL;
     
 	if (vector) {
         if(vector->data != NULL){
@@ -185,7 +185,7 @@ b8 hf_vector_free(hf_vector* vector) {
             vector->data = NULL;
             vector->size = 0;
             vector->capacity = 0;
-            status = HF_VECTOR_SUCCESS;
+            status = HF_SUCCESS;
         }
 	}
     
@@ -193,7 +193,7 @@ b8 hf_vector_free(hf_vector* vector) {
 }
 
 b8 hf_vector_free_double_vector(hf_vector* vector){
-    u32 status = HF_VECTOR_FAIL;
+    u32 status = HF_FAIL;
     
 	if (vector) {
         if(vector->data != NULL){
@@ -204,7 +204,7 @@ b8 hf_vector_free_double_vector(hf_vector* vector){
             vector->data = NULL;
             vector->size = 0;
             vector->capacity = 0;
-            status = HF_VECTOR_SUCCESS;
+            status = HF_SUCCESS;
         }
 	}
     

@@ -28,7 +28,7 @@ void hf_render_mesh_2d(hf_mesh* mesh, hf_shader* shader, hf_transform* transform
     hf_shader_set_uniform_m4f(shader, "transform", &transformation);
     //position
     
-    glDrawArrays(GL_TRIANGLES, 0, (int)(mesh->vertices_amount));
+    glDrawArrays(GL_TRIANGLES, 0, (int)(mesh->vertices_size / mesh->type));
     
     
     hf_shader_unbind(shader);

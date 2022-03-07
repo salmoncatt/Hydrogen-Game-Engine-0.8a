@@ -19,10 +19,14 @@ typedef struct hf_mesh{
         hf_vector indices;
      */
     float* vertices;
-    u32 vertices_amount;
+    u32 vertices_size;
     
     float* texture_coords;
-    u32 texture_coords_amount;
+    u32 texture_coords_size;
+    
+    u32* indices;
+    u32 indices_size;
+    
     // TODO(salmoncatt): normals
     
     u32 vao;
