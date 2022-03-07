@@ -121,20 +121,37 @@ b8 hf_create_window(hf_window* w){
     // NOTE(salmoncatt): getting and setting pixel format
     u32 pixelFormat[1];
     
-    /* 
-        pixelFormat[0] = ChoosePixelFormat(w->hdc, &pfd);
-        if (!pixelFormat)
-        {
-            hf_err("can't find an appropriate pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
-            return 0;
-        }
-        
-        if(!SetPixelFormat(w->hdc, pixelFormat[0], &pfd))
-        {
-            hf_err("unable to set pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
-            return 0;
-        }
-     */
+    
+    pixelFormat[0] = ChoosePixelFormat(w->hdc, &pfd);
+    if (!pixelFormat)
+    {
+        hf_err("can't find an appropriate pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+        return 0;
+    }
+    
+    if(!SetPixelFormat(w->hdc, pixelFormat[0], &pfd))
+    {
+        hf_err("unable to set pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+        return 0;
+    }
+    
+    w->hrc = wglCreateContext(w->hdc);
+    if(!w->hrc)
+        hf_err("unable to create OpenGL rendering context for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+    
+    // NOTE(salmoncatt): make opengl context current
+    if(!wglMakeCurrent(w->hdc, w->hrc))
+        hf_err("unable to make OpenGL rendering context current for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+    
+    
+    // NOTE(salmoncatt): set the window size (and pos aparently)
+    SetWindowPos(w->hwnd, NULL, w->x, w->y, w->width, w->height, SWP_SHOWWINDOW);
+    
+    ShowWindow(w->hwnd, 1);
+    UpdateWindow(w->hwnd);
+    
+    if(!hf_gl_created)
+        hf_gl_init();
     
     
     u32 attributeListInt[19];
@@ -194,25 +211,6 @@ b8 hf_create_window(hf_window* w){
         hf_err("[HF GL] couldn't set pixel format\n");
     }
     
-    w->hrc = wglCreateContext(w->hdc);
-    if(!w->hrc)
-        hf_err("unable to create OpenGL rendering context for window: $hfcc{aqua}%s$hfcc{red}", w->title);
-    
-    
-    
-    
-    // NOTE(salmoncatt): set the window size (and pos aparently)
-    SetWindowPos(w->hwnd, NULL, w->x, w->y, w->width, w->height, SWP_SHOWWINDOW);
-    
-    ShowWindow(w->hwnd, 1);
-    UpdateWindow(w->hwnd);
-    
-    if(!hf_gl_created)
-        hf_gl_init();
-    
-    
-    
-    
     
     
     u32 major, minor;
@@ -231,9 +229,7 @@ b8 hf_create_window(hf_window* w){
     w->hrc = wglCreateContextAttribsARB(w->hdc, 0, attribs);
     
     // NOTE(salmoncatt): make opengl context
-    // NOTE(salmoncatt): make opengl context current
-    if(!wglMakeCurrent(w->hdc, w->hrc))
-        hf_err("unable to make OpenGL rendering context current for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+    
     
     
     
