@@ -126,7 +126,7 @@ void hf_push_data_to_VBO(u32 index, u32 type, float* data, u32 length){
     
 }
 
-void hf_push_data_to_IBO(u32 index, u32 size, const void* data, u32 IBO){
+void hf_push_data_to_IBO(const void* data, u32 size, u32 IBO){
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
     
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, size * sizeof(unsigned int), data, GL_STATIC_DRAW);

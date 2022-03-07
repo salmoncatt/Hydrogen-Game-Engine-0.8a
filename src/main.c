@@ -51,24 +51,29 @@ int main(void){
         -0.5f, 0.5f, 0,
         -0.5f, -0.5f, 0,
         0.5f, -0.5f, 0,
-        0.5f, -0.5f, 0,
         0.5f, 0.5f, 0,
-        -0.5f, 0.5f, 0
+    };
+    
+    u32 indices[] = {
+        0, 1, 3,
+        3, 1, 2
     };
     
     float texture_coords[] = {
         0, 0,
         0, 1,
         1, 1,
-        1, 1,
         1, 0,
-        0, 0
     };
     
     mesh.vertices = vertices;
-    mesh.vertices_size = 6 * 3; 
+    mesh.vertices_size = 4 * 3; 
+    
     mesh.texture_coords = texture_coords;
-    mesh.texture_coords_size = 6 * 2; 
+    mesh.texture_coords_size = 4 * 2; 
+    
+    mesh.indices = indices;
+    mesh.indices_size = 2 * 3; 
     mesh.type = 3;
     
     hf_mesh_create(&mesh);

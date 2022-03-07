@@ -16,6 +16,8 @@ void hf_render_mesh_2d(hf_mesh* mesh, hf_shader* shader, hf_transform* transform
     glEnableVertexAttribArray(2);
     glEnableVertexAttribArray(3);
     
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ibo);
+    
     hf_shader_bind(shader);
     hf_shader_set_uniform_v3f(shader, "pos", &transform->pos);
     
@@ -28,7 +30,10 @@ void hf_render_mesh_2d(hf_mesh* mesh, hf_shader* shader, hf_transform* transform
     hf_shader_set_uniform_m4f(shader, "transform", &transformation);
     //position
     
-    glDrawArrays(GL_TRIANGLES, 0, (int)(mesh->vertices_size / mesh->type));
+    if(mesh->indices_size)
+        glDrawElements(GL_TRIANGLES, mesh->indices_size, GL_UNSIGNED_INT, 0);
+    else if(mesh->vertices_size)
+        glDrawArrays(GL_TRIANGLES, 0, (int)(mesh->vertices_size / mesh->type));
     
     
     hf_shader_unbind(shader);

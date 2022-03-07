@@ -13,8 +13,12 @@ void hf_mesh_create(hf_mesh* mesh){
         hf_push_data_to_VBO(1, 2, mesh->texture_coords, mesh->texture_coords_size);
     }
     
-    if(mesh->indices_size > 0)
+    if(mesh->indices_size > 0){
         mesh->ibo = hf_generate_VBO();
+        hf_push_data_to_IBO(mesh->indices, mesh->indices_size, mesh->ibo);
+    }
+    
+    
     
     //if(!hf_vector_empty(&mesh->texture_coords))
     //hf_push_data_to_VBO(0, 2, &mesh->texture_coords);
