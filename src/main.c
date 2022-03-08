@@ -18,7 +18,7 @@ int main(void){
     //hf_MLD_start();
     hf_app app = {};
     app.name = "haha, what a goober";
-    app.parameters = HF_APP_CREATE_WINDOW | HF_APP_USE_ECS;
+    app.parameters = HF_APP_CREATE_WINDOW | HF_APP_USE_OPENGL | HF_APP_USE_ECS;
     hf_app_start(&app);
     
     app.window.title = "what a goober";

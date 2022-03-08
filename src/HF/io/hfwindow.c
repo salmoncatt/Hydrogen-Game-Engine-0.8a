@@ -163,9 +163,9 @@ b8 hf_create_window(hf_window* w){
     ShowWindow(w->hwnd, 1);
     UpdateWindow(w->hwnd);
     
+    
     if(!hf_gl_created)
         hf_gl_init();
-    
     
     u32 attributeListInt[19];
     
