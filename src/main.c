@@ -17,7 +17,8 @@ typedef struct poopy{
 int main(void){
     //hf_MLD_start();
     hf_app app = {};
-    app.name = "main";
+    app.name = "haha, what a goober";
+    app.parameters = HF_APP_CREATE_WINDOW | HF_APP_USE_ECS;
     hf_app_start(&app);
     
     app.window.title = "what a goober";
@@ -41,8 +42,10 @@ int main(void){
     hf_log("[%f %f %f %f]\n", vec.x, vec.y, vec.z, test_vec.w);
     
     
-    hf_ecs ecs = {};
-    hf_ecs_init(&ecs);
+    /* 
+        hf_ecs ecs = {};
+        hf_ecs_init(&ecs);
+     */
     
     hf_mesh mesh = {};
     
@@ -100,6 +103,11 @@ int main(void){
     
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
         
+        char* title = hf_format_string("HF Engine test [%u] [%u, %u]", 144, (u32)hf_input_cursor_pos.x, (u32)hf_input_cursor_pos.y);
+        
+        hf_set_window_title(&app.window, title);
+        
+        hf_free(title);
         
         //transform.pos.x += 0.0001f;
         
@@ -109,8 +117,10 @@ int main(void){
         
         if(hf_input_get_key_down(HF_KEY_MINUS)){
             
+            hf_input_toggle_cursor();
+            
             //printf("key pressed: %u %u\n", hf_input_keys[HF_KEY_MINUS], hf_input_keys_old[HF_KEY_MINUS]);
-            printf("key pressed\n");
+            //printf("key pressed\n");
         }
     }
     
@@ -120,7 +130,7 @@ int main(void){
     
     hf_mesh_destroy(&mesh);
     hf_app_stop(&app);
-    hf_ecs_destroy(&ecs);
+    //hf_ecs_destroy(&ecs);
     
     return app.window.msg.wParam;
 }

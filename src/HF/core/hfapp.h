@@ -7,6 +7,11 @@
 
 #include "../datatypes/hfvector.h"
 #include "../io/hfwindow.h"
+#include "../ecs/hfecs.h"
+
+#define HF_APP_CREATE_WINDOW 0x01
+#define HF_APP_USE_OPENGL 0x02
+#define HF_APP_USE_ECS 0x04
 
 typedef struct hf_app{
     const char* name;
@@ -16,9 +21,9 @@ typedef struct hf_app{
     //for MLD
     hf_vector allocations;
     
+    u32 parameters;
     
-    
-    
+    hf_ecs ecs;
     
     
     

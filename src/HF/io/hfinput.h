@@ -6,10 +6,15 @@
 #define HF_KEY_LAST 348
 
 #include "../core/hfapp.h"
+#include "../math/hfmath.h"
 //#include "../datatypes/hfvector.h"
 
 extern b8 hf_input_keys[HF_KEY_LAST];
 extern b8 hf_input_keys_old[HF_KEY_LAST];
+
+extern b8 hf_input_cursor_visibility;
+
+extern v2f hf_input_cursor_pos;
 
 void hf_input_update();
 
@@ -26,6 +31,9 @@ b8 hf_input_get_mouse_button();
 b8 hf_input_get_mouse_button_down();
 
 b8 hf_input_get_mouse_button_up();
+
+void hf_input_show_cursor(b8 visibility);
+void hf_input_toggle_cursor();
 
 void hf_input_destroy();
 

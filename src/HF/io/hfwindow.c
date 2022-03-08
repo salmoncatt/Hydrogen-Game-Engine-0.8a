@@ -21,6 +21,19 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
     }
     //printf("key: %u\n", key, is_down);
     
+    POINT point;
+    if(GetCursorPos(&point)){
+        if(ScreenToClient(hwnd, &point)){
+            hf_input_cursor_pos.x = point.x;
+            hf_input_cursor_pos.y = point.y;
+            
+            if(hf_input_cursor_pos.x < 0)
+                hf_input_cursor_pos.x = 0;
+            if(hf_input_cursor_pos.y < 0)
+                hf_input_cursor_pos.y = 0;
+            //hf_log("[%u %u]\n", point.x, point.y);
+        }
+    }
     
     switch(msg)
     {
@@ -332,4 +345,9 @@ void hf_window_set_key_callback(hf_window* w, void (*hf_key_callback)(hf_window*
     }
     
     w->key_callback = hf_key_callback;
+}
+
+
+void hf_set_window_title(hf_window* window, const char* title){
+    SetWindowText(window->hwnd, title);
 }
