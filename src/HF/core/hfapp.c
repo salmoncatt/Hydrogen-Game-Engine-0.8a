@@ -2,12 +2,22 @@
 #include "../rendering/hfrenderer.h"
 #include "../rendering/hfrenderer2d.h"
 
+hf_app hf_app_defaults(){
+    hf_app app = {};
+    app.name = "HF app";
+    //app.parameters = HF_APP_CREATE_WINDOW | HF_APP_USE_OPENGL;
+    // NOTE(salmoncatt): smooths fps readings and reduces chatter
+    app.fps_smoothing = 0.05f;
+    
+    return app;
+}
+
 void hf_app_init(hf_app* app){
     hf_log("[HF APP] initializing HF app: [%s]...\n", app->name);
-    app->cpu_freq = 0;
-    app->time_start = 0;
+    //app->cpu_freq = 0;
+    //app->time_start = 0;
     
-    hf_time_init(app);
+    hf_time_init(app->fps_smoothing);
     
 #ifdef HF_DONT_BUFFER_STDOUT
     setvbuf(stdout, NULL, _IONBF, 0);
@@ -46,6 +56,7 @@ void hf_app_start(hf_app* app){
 }
 
 void hf_app_update(hf_app* app){
+    hf_time_update();
     hf_input_update();
 }
 

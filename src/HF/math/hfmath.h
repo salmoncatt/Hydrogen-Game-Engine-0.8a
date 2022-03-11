@@ -190,4 +190,6 @@ u32 hf_hash_str(const char* str);
 hf_inline f64 hf_to_radians(f64 degrees);
 hf_inline f64 hf_to_degrees(f64 radians);
 
+hf_inline f64 hf_lerp(f64 a, f64 b, f64 percentage);
+
 #endif //HFMATH_H

@@ -40,11 +40,13 @@ typedef struct hf_app{
     
     
     // NOTE(salmoncatt): time things
-    f64 cpu_freq;
-    i64 time_start;
-    
+    //f64 cpu_freq;
+    //i64 time_start;
+    f64 fps_smoothing;
     
 }hf_app;
+
+hf_app hf_app_defaults();
 
 void hf_app_init(hf_app* app);
 

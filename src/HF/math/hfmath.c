@@ -398,3 +398,11 @@ hf_inline f64 hf_to_radians(f64 degrees){
 hf_inline f64 hf_to_degrees(f64 radians){
     return radians * 180 / hf_PI;
 }
+
+hf_inline f64 hf_lerp(f64 a, f64 b, f64 percentage){
+    return a + percentage * (b - a);
+}
+
+
+
+

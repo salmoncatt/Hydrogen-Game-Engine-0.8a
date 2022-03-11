@@ -16,14 +16,12 @@ typedef struct poopy{
 
 int main(void){
     //hf_MLD_start();
-    hf_app app = {};
+    hf_app app = hf_app_defaults();
     app.name = "haha, what a goober";
     app.parameters = HF_APP_CREATE_WINDOW | HF_APP_USE_OPENGL | HF_APP_USE_ECS;
     hf_app_start(&app);
     
     app.window.title = "what a goober";
-    
-    
     if(!hf_create_window(&app.window))
         return -1;
     
@@ -91,7 +89,7 @@ int main(void){
     
     mesh.texture = texture;
     
-    printf("time: %lf\n", hf_get_time(&app));
+    printf("time: %lf\n", hf_get_time());
     
     //hf_vector_free(&vector);
     //hf_window_set_key_callback(&window, &test_callback);
@@ -103,7 +101,7 @@ int main(void){
     
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
         
-        char* title = hf_format_string("HF Engine test [%u] [%u, %u]", 144, (u32)hf_input_cursor_pos.x, (u32)hf_input_cursor_pos.y);
+        char* title = hf_format_string("HF Engine test [%u] [%u, %u]", (u32)hf_get_fps(), (u32)hf_input_cursor_pos.x, (u32)hf_input_cursor_pos.y);
         
         hf_set_window_title(&app.window, title);
         
@@ -122,6 +120,9 @@ int main(void){
             //printf("key pressed: %u %u\n", hf_input_keys[HF_KEY_MINUS], hf_input_keys_old[HF_KEY_MINUS]);
             //printf("key pressed\n");
         }
+        
+        
+        hf_limit_fps(250);
     }
     
     
