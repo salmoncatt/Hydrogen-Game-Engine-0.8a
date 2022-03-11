@@ -23,7 +23,7 @@ void hf_time_init(f64 fps_smoothing){
     
     hf_fps_smoothing = fps_smoothing;
     
-    timeBeginPeriod(1);
+    timeBeginPeriod(1); //this increases sleeps resolution to 1ms
 }
 
 
