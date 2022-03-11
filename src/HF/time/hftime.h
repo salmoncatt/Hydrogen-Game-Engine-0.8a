@@ -8,8 +8,8 @@
 
 extern f64 hf_cpu_freq;
 extern i64 hf_time_start;
-extern f64 hf_fps_smoothing;
 
+extern f64 hf_fps_smoothing;
 extern f64 hf_frame_time;
 extern f64 hf_last_frame_time;
 extern f64 hf_last_fps;

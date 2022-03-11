@@ -22,6 +22,8 @@ void hf_time_init(f64 fps_smoothing){
     hf_time_start = query.QuadPart;
     
     hf_fps_smoothing = fps_smoothing;
+    
+    timeBeginPeriod(1);
 }
 
 
@@ -59,6 +61,11 @@ void hf_limit_fps(f64 fps){
 void hf_sleep(f64 milli){
     f64 start = hf_get_time();
     f64 end = start + milli;
+    
+    //hf_log("%u\n", (DWORD)milli);
+    
+    if(milli >= 1)
+        Sleep((DWORD)milli);
     
     while(hf_get_time() < end){
         

@@ -122,7 +122,7 @@ int main(void){
         }
         
         
-        hf_limit_fps(250);
+        hf_limit_fps(300);
     }
     
     
