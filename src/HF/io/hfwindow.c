@@ -21,20 +21,6 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
     }
     //printf("key: %u\n", key, is_down);
     
-    POINT point;
-    if(GetCursorPos(&point)){
-        if(ScreenToClient(hwnd, &point)){
-            hf_input_cursor_pos.x = point.x;
-            hf_input_cursor_pos.y = point.y;
-            
-            if(hf_input_cursor_pos.x < 0)
-                hf_input_cursor_pos.x = 0;
-            if(hf_input_cursor_pos.y < 0)
-                hf_input_cursor_pos.y = 0;
-            //hf_log("[%u %u]\n", point.x, point.y);
-        }
-    }
-    
     switch(msg)
     {
         case WM_CLOSE:
@@ -65,7 +51,7 @@ b8 hf_create_window(hf_window* w){
     
     // NOTE(salmoncatt): set windows parameters
     w->wc.cbSize = sizeof(WNDCLASSEX);
-    w->wc.style = 0;
+    w->wc.style = CS_HREDRAW | CS_VREDRAW;
     w->wc.lpfnWndProc = hf_window_procedure;
     w->wc.cbClsExtra = 0;
     w->wc.cbWndExtra = 0;
@@ -302,10 +288,12 @@ void hf_window_init(hf_window* window){
 b8 hf_should_window_update(hf_window* w){
     
     // NOTE(salmoncatt): peek message always the program to run without messages coming in or a timer, much better than getMessage
-    while(PeekMessage(&w->msg, NULL, 0, 0, PM_REMOVE)){
+    while(PeekMessage(&w->msg, 0, 0, 0, PM_REMOVE) == TRUE){
+        
         if(w->msg.message == WM_QUIT){
             return 0;
         }
+        
         TranslateMessage(&w->msg);
         DispatchMessage(&w->msg);
     }
@@ -328,6 +316,20 @@ void hf_update_window(hf_window* w){
         w->width = rect.right - rect.left;
         w->height = rect.bottom - rect.top;
         glViewport(0, 0, w->width, w->height);
+    }
+    
+    POINT point;
+    if(GetCursorPos(&point)){
+        if(ScreenToClient(w->hwnd, &point)){
+            hf_input_cursor_pos.x = point.x;
+            hf_input_cursor_pos.y = point.y;
+            
+            if(hf_input_cursor_pos.x < 0)
+                hf_input_cursor_pos.x = 0;
+            if(hf_input_cursor_pos.y < 0)
+                hf_input_cursor_pos.y = 0;
+            //hf_log("[%u %u]\n", point.x, point.y);
+        }
     }
     
     // NOTE(salmoncatt): update window as fast as possible instead of when a message comes in
