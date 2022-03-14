@@ -21,11 +21,29 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
     }
     //printf("key: %u\n", key, is_down);
     
+    if(msg == WM_ENTERSIZEMOVE){
+        hf_log("resizing\n");
+    }
+    if(msg == WM_EXITSIZEMOVE){
+        hf_log("stop resizing\n");
+    }
+    
     switch(msg)
     {
         case WM_CLOSE:
         PostQuitMessage(0);
         break;
+        case WM_ENTERSIZEMOVE:
+		SetTimer(hwnd, 1, 0, NULL);
+		return 0;
+        case WM_EXITSIZEMOVE:
+		KillTimer(hwnd, 1);
+		return 0;
+        /* 
+                case WM_SIZING:
+                PostMessage(hwnd, WM_USER, 0, 0);
+                break;
+         */
         /* 
                 case WM_CHAR:
                 {
@@ -51,7 +69,8 @@ b8 hf_create_window(hf_window* w){
     
     // NOTE(salmoncatt): set windows parameters
     w->wc.cbSize = sizeof(WNDCLASSEX);
-    w->wc.style = CS_HREDRAW | CS_VREDRAW;
+    w->wc.style = 0;
+    //w->wc.style = CS_HREDRAW | CS_VREDRAW;
     w->wc.lpfnWndProc = hf_window_procedure;
     w->wc.cbClsExtra = 0;
     w->wc.cbWndExtra = 0;
@@ -153,62 +172,66 @@ b8 hf_create_window(hf_window* w){
     if(!hf_gl_created)
         hf_gl_init();
     
-    u32 attributeListInt[19];
-    
-    // Support for OpenGL rendering.
-    attributeListInt[0] = WGL_SUPPORT_OPENGL_ARB;
-    attributeListInt[1] = 1;
-    
-    // Support for rendering to a window.
-    attributeListInt[2] = WGL_DRAW_TO_WINDOW_ARB;
-    attributeListInt[3] = 1;
-    
-    // Support for hardware acceleration.
-    attributeListInt[4] = WGL_ACCELERATION_ARB;
-    attributeListInt[5] = WGL_FULL_ACCELERATION_ARB;
-    
-    // Support for 24bit color.
-    attributeListInt[6] = WGL_COLOR_BITS_ARB;
-    attributeListInt[7] = 24;
-    
-    // Support for 24 bit depth buffer.
-    attributeListInt[8] = WGL_DEPTH_BITS_ARB;
-    attributeListInt[9] = 24;
-    
-    // Support for double buffer.
-    attributeListInt[10] = WGL_DOUBLE_BUFFER_ARB;
-    attributeListInt[11] = 1;
-    
-    // Support for swapping front and back buffer.
-    attributeListInt[12] = WGL_SWAP_METHOD_ARB;
-    attributeListInt[13] = WGL_SWAP_EXCHANGE_ARB;
-    
-    // Support for the RGBA pixel type.
-    attributeListInt[14] = WGL_PIXEL_TYPE_ARB;
-    attributeListInt[15] = WGL_TYPE_RGBA_ARB;
-    
-    // Support for a 8 bit stencil buffer.
-    attributeListInt[16] = WGL_STENCIL_BITS_ARB;
-    attributeListInt[17] = 8;
-    
-    // Null terminate the attribute list.
-    attributeListInt[18] = 0;
-    
-    u32 formatCount;
-    
-    // Query for a pixel format that fits the attributes we want.
-    i32 result = wglChoosePixelFormatARB(w->hdc, attributeListInt, NULL, 1, pixelFormat, &formatCount);
-    if(result != 1)
-    {
-        hf_err("[HF GL] couldn't load neccesary extensions\n");
-    }
+    /* 
+        u32 attributeListInt[19];
+        
+        // Support for OpenGL rendering.
+        attributeListInt[0] = WGL_SUPPORT_OPENGL_ARB;
+        attributeListInt[1] = 1;
+        
+        // Support for rendering to a window.
+        attributeListInt[2] = WGL_DRAW_TO_WINDOW_ARB;
+        attributeListInt[3] = 1;
+        
+        // Support for hardware acceleration.
+        attributeListInt[4] = WGL_ACCELERATION_ARB;
+        attributeListInt[5] = WGL_FULL_ACCELERATION_ARB;
+        
+        // Support for 24bit color.
+        attributeListInt[6] = WGL_COLOR_BITS_ARB;
+        attributeListInt[7] = 24;
+        
+        // Support for 24 bit depth buffer.
+        attributeListInt[8] = WGL_DEPTH_BITS_ARB;
+        attributeListInt[9] = 24;
+        
+        // Support for double buffer.
+        attributeListInt[10] = WGL_DOUBLE_BUFFER_ARB;
+        attributeListInt[11] = 1;
+        
+        // Support for swapping front and back buffer.
+        attributeListInt[12] = WGL_SWAP_METHOD_ARB;
+        attributeListInt[13] = WGL_SWAP_EXCHANGE_ARB;
+        
+        // Support for the RGBA pixel type.
+        attributeListInt[14] = WGL_PIXEL_TYPE_ARB;
+        attributeListInt[15] = WGL_TYPE_RGBA_ARB;
+        
+        // Support for a 8 bit stencil buffer.
+        attributeListInt[16] = WGL_STENCIL_BITS_ARB;
+        attributeListInt[17] = 8;
+        
+        // Null terminate the attribute list.
+        attributeListInt[18] = 0;
+        
+        u32 formatCount;
+        
+        // Query for a pixel format that fits the attributes we want.
+        i32 result = wglChoosePixelFormatARB(w->hdc, attributeListInt, NULL, 1, pixelFormat, &formatCount);
+        if(result != 1)
+        {
+            hf_err("[HF GL] couldn't load neccesary extensions\n");
+        }
+     */
     
     // If the video card/display can handle our desired pixel format then we set it as the current one.
-    result = SetPixelFormat(w->hdc, pixelFormat[0], &pfd);
-    if(result != 1)
-    {
-        hf_err("[HF GL] couldn't set pixel format\n");
-    }
+    /* 
+        result = SetPixelFormat(w->hdc, pixelFormat[0], &pfd);
+        if(result != 1)
+        {
+            hf_err("[HF GL] couldn't set pixel format\n");
+        }
+     */
     
     
     
@@ -229,7 +252,7 @@ b8 hf_create_window(hf_window* w){
     
     // NOTE(salmoncatt): make opengl context
     
-    
+    wglSwapIntervalEXT(1);
     
     
     //set a basic 60fps window
@@ -288,15 +311,38 @@ void hf_window_init(hf_window* window){
 b8 hf_should_window_update(hf_window* w){
     
     // NOTE(salmoncatt): peek message always the program to run without messages coming in or a timer, much better than getMessage
-    while(PeekMessage(&w->msg, 0, 0, 0, PM_REMOVE) == TRUE){
-        
-        if(w->msg.message == WM_QUIT){
-            return 0;
+    
+    /* 
+        while(PeekMessage(&w->msg, 0, 0, 0, PM_REMOVE)){
+            
+            if(w->msg.message == WM_QUIT){
+                return 0;
+            }
+            
+            TranslateMessage(&w->msg);
+            DispatchMessage(&w->msg);
         }
-        
-        TranslateMessage(&w->msg);
-        DispatchMessage(&w->msg);
+     */
+    
+    while (WM_QUIT != w->msg.message)
+    {
+        if(PeekMessage (&w->msg, NULL, 0, 0, PM_REMOVE) > 0) //Or use an if statement
+        {
+            TranslateMessage (&w->msg);
+            DispatchMessage (&w->msg);
+        }
     }
+    
+    /* 
+        while(GetMessage(&w->msg, NULL, 0, 0) == FALSE){
+            if(w->msg.message == WM_QUIT){
+                return 0;
+            }
+            
+            TranslateMessage(&w->msg);
+            DispatchMessage(&w->msg);
+        }
+     */
     
     hf_update_window(w);
     return 1;

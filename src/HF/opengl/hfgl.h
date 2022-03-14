@@ -18,8 +18,9 @@ extern b8 hf_gl_created;
 
 // NOTE(salmoncatt): these are the opengl extension functions that are going to be loaded (add more as needed)
 #define HF_GL_FUNC_LIST \
-HF_WGL(HGLRC,  CreateContextAttribsARB, HDC hDC, HGLRC hShareContext, const int *attribList);\
-HF_WGL(BOOL,  ChoosePixelFormatARB, HDC hdc, const int *piAttribIList, const FLOAT *pfAttribFList, UINT nMaxFormats, int *piFormats, UINT *nNumFormats);\
+HF_WGL(HGLRC,  CreateContextAttribsARB);\
+HF_WGL(void,  SwapIntervalEXT);\
+HF_WGL(BOOL,  ChoosePixelFormatARB);\
 HF_GLE(void,   BindBuffer, GLenum target, GLuint buffer)\
 HF_GLE(void,   GenBuffers, GLsizei n, GLuint* buffers)\
 HF_GLE(void,   BufferData, GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage)\
