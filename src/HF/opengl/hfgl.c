@@ -52,7 +52,7 @@ void hf_gl_get_version(u32* major, u32* minor){
 }
 
 b8 hf_gl_load_extensions(){
-    hf_log("[HF GL] loading opengl32.dll\n");
+    //hf_log("[HF GL] loading opengl32.dll\n");
     HINSTANCE gl_dll = LoadLibraryA("opengl32.dll");
     typedef PROC WINAPI wglGetProcAddressproc(LPCSTR lpszProc);
     if(gl_dll){

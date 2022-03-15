@@ -43,6 +43,7 @@ typedef struct hf_window{
     u32 y;
     u32 bits_per_pixel;
     const char* title;
+    b8 vsync;
     
     void* allocated;
     
@@ -52,7 +53,55 @@ typedef struct hf_window{
     MSG msg;
     HDC hdc;
     HGLRC hrc;
-    UINT_PTR timer_id;
+    
+    
+    //WNDCLASSEX
+    UINT      cbSize;
+    UINT      style;
+    WNDPROC   lpfnWndProc;
+    int       cbClsExtra;
+    int       cbWndExtra;
+    HICON     hIcon;
+    HCURSOR   hCursor;
+    HBRUSH    hbrBackground;
+    LPCSTR    lpszMenuName;
+    LPCSTR    lpszClassName;
+    HICON     hIconSm;
+    
+    //pixelformatdescriptor
+    WORD  nSize;
+    WORD  nVersion;
+    DWORD dwFlags;
+    BYTE  iPixelType;
+    BYTE  cColorBits;
+    BYTE  cRedBits;
+    BYTE  cRedShift;
+    BYTE  cGreenBits;
+    BYTE  cGreenShift;
+    BYTE  cBlueBits;
+    BYTE  cBlueShift;
+    BYTE  cAlphaBits;
+    BYTE  cAlphaShift;
+    BYTE  cAccumBits;
+    BYTE  cAccumRedBits;
+    BYTE  cAccumGreenBits;
+    BYTE  cAccumBlueBits;
+    BYTE  cAccumAlphaBits;
+    BYTE  cDepthBits;
+    BYTE  cStencilBits;
+    BYTE  cAuxBuffers;
+    BYTE  iLayerType;
+    BYTE  bReserved;
+    DWORD dwLayerMask;
+    DWORD dwVisibleMask;
+    DWORD dwDamageMask;
+    
+    
+    
+    
+    
+    
+    
     //struct hf_window* test;
     // TODO(salmoncatt): get these callbacks to work
     /* 
@@ -67,7 +116,7 @@ typedef struct hf_window{
 } hf_window;
 
 //sets default values for a window
-void hf_window_init(hf_window* window);
+void hf_window_defaults(hf_window* window);
 
 b8 hf_create_window(hf_window* window);
 b8 hf_destroy_window(hf_window* window);
@@ -87,6 +136,9 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 // NOTE(salmoncatt):     window handle      [callback function]         [keycode] [key up or down]
 void hf_window_set_key_callback(hf_window* window, void (*hf_key_callback)(hf_window*, u32, u32));
+
+// NOTE(salmoncatt): vsync
+void hf_swap_interval(b8 vsync);
 
 
 #endif //_WINDOW_H

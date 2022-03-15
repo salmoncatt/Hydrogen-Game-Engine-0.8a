@@ -27,12 +27,25 @@ void hf_app_init(hf_app* app){
         //hf_log("[HF APP] app: [%s] is using parameters: [");
         if(app->parameters & HF_APP_CREATE_WINDOW){
             //hf_log("CREATE_WINDOW");
-            hf_window_init(&app->window);
+            hf_window_defaults(&app->window);
         }
         
         if(app->parameters & HF_APP_USE_OPENGL){
             hf_renderer_init(app);
-            hf_renderer_init_2d(app);  
+            hf_renderer_init_2d(app);
+            
+            /* 
+                        //put this in renderer
+                        char *vendorString, *rendererString;  
+                        // Get the name of the video card.
+                        vendorString = (char*)glGetString(GL_VENDOR);
+                        rendererString = (char*)glGetString(GL_RENDERER);
+                        
+                        // Store the video card name in a class member variable so it can be retrieved later.
+                        strcpy_s(m_videoCardDescription, vendorString);
+                        strcat_s(m_videoCardDescription, " - ");
+                        strcat_s(m_videoCardDescription, rendererString);
+             */
         }
         
         if(app->parameters & HF_APP_USE_ECS){
