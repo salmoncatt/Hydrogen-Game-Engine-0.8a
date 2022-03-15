@@ -127,42 +127,42 @@ b8 hf_create_window(hf_window* w){
             0,                              // reserved
             0, 0, 0 };                      // layer masks ignored
      */
-    /* 
-        PIXELFORMATDESCRIPTOR pfd = {};
-        
-        pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-        pfd.nVersion = 1;
-        pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-        pfd.iPixelType = PFD_TYPE_RGBA;
-        pfd.cColorBits = w->bits_per_pixel;
-        pfd.cDepthBits = w->bits_per_pixel;
-        pfd.iLayerType = PFD_MAIN_PLANE;
-        
-        // NOTE(salmoncatt): getting and setting pixel format
-        u32 pixelFormat[1];
-        
-        
-        pixelFormat[0] = ChoosePixelFormat(w->hdc, &pfd);
-        if (!pixelFormat)
-        {
-            hf_err("can't find an appropriate pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
-            return 0;
-        }
-        
-        if(!SetPixelFormat(w->hdc, pixelFormat[0], &pfd))
-        {
-            hf_err("unable to set pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
-            return 0;
-        }
-        
-        w->hrc = wglCreateContext(w->hdc);
-        if(!w->hrc)
-            hf_err("unable to create OpenGL rendering context for window: $hfcc{aqua}%s$hfcc{red}", w->title);
-        
-        // NOTE(salmoncatt): make opengl context current
-        if(!wglMakeCurrent(w->hdc, w->hrc))
-            hf_err("unable to make OpenGL rendering context current for window: $hfcc{aqua}%s$hfcc{red}", w->title);
-     */
+    
+    PIXELFORMATDESCRIPTOR pfd = {};
+    
+    pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+    pfd.nVersion = 1;
+    pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+    pfd.iPixelType = PFD_TYPE_RGBA;
+    pfd.cColorBits = w->bits_per_pixel;
+    pfd.cDepthBits = w->bits_per_pixel;
+    pfd.iLayerType = PFD_MAIN_PLANE;
+    
+    // NOTE(salmoncatt): getting and setting pixel format
+    u32 pixelFormat[1];
+    
+    
+    pixelFormat[0] = ChoosePixelFormat(w->hdc, &pfd);
+    if (!pixelFormat)
+    {
+        hf_err("can't find an appropriate pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+        return 0;
+    }
+    
+    if(!SetPixelFormat(w->hdc, pixelFormat[0], &pfd))
+    {
+        hf_err("unable to set pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+        return 0;
+    }
+    
+    w->hrc = wglCreateContext(w->hdc);
+    if(!w->hrc)
+        hf_err("unable to create OpenGL rendering context for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+    
+    // NOTE(salmoncatt): make opengl context current
+    if(!wglMakeCurrent(w->hdc, w->hrc))
+        hf_err("unable to make OpenGL rendering context current for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+    
     
     
     // NOTE(salmoncatt): set the window size (and pos aparently)
@@ -172,8 +172,8 @@ b8 hf_create_window(hf_window* w){
     UpdateWindow(w->hwnd);
     
     
-    //if(!hf_gl_created)
-    //hf_gl_init();
+    if(!hf_gl_created)
+        hf_gl_init();
     
     /* 
         u32 attributeListInt[19];
@@ -238,30 +238,24 @@ b8 hf_create_window(hf_window* w){
     
     
     
-    /* 
-        u32 major, minor;
-        hf_gl_get_version(&major, &minor);
-        
-        int attribs[] =
-        {
-            WGL_CONTEXT_MAJOR_VERSION_ARB, major,
-            WGL_CONTEXT_MINOR_VERSION_ARB, minor, 
-            WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
-            WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
-            0
-        };
-        
-        
-        w->hrc = wglCreateContextAttribsARB(w->hdc, 0, attribs);
-        
-        // NOTE(salmoncatt): make opengl context
-        
-        wglSwapIntervalEXT(1);
-     */
+    
+    u32 major, minor;
+    hf_gl_get_version(&major, &minor);
+    
+    int attribs[] =
+    {
+        WGL_CONTEXT_MAJOR_VERSION_ARB, major,
+        WGL_CONTEXT_MINOR_VERSION_ARB, minor, 
+        WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+        WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
+        0
+    };
     
     
-    //set a basic 60fps window
-    //hf_window_set_ups(w, 60);
+    w->hrc = wglCreateContextAttribsARB(w->hdc, 0, attribs);
+    
+    
+    wglSwapIntervalEXT(1);
     
     hf_log("[HF] created window: [%s], size: [%u, %u], pos: [%u, %u]\n\n", w->title, w->width, w->height, w->x, w->y);
     
@@ -316,20 +310,7 @@ void hf_window_init(hf_window* window){
 b8 hf_should_window_update(hf_window* w){
     
     // NOTE(salmoncatt): peek message always the program to run without messages coming in or a timer, much better than getMessage
-    
-    /* 
-        while(PeekMessage(&w->msg, 0, 0, 0, PM_REMOVE)){
-            
-            if(w->msg.message == WM_QUIT){
-                return 0;
-            }
-            
-            TranslateMessage(&w->msg);
-            DispatchMessage(&w->msg);
-        }
-     */
-    
-    MSG msg;
+    MSG msg; //having this here instead of w->msg was the solution to days of pain
     
     while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) > 0) //Or use an if statement
     {
@@ -342,20 +323,8 @@ b8 hf_should_window_update(hf_window* w){
         
     }
     
-    /* 
-        while(GetMessage(&w->msg, NULL, 0, 0) == FALSE){
-            if(w->msg.message == WM_QUIT){
-                return 0;
-            }
-            
-            TranslateMessage(&w->msg);
-            DispatchMessage(&w->msg);
-        }
-     */
-    
     hf_update_window(w);
     return 1;
-    //return GetMessage(&w->msg, NULL, 0, 0);
 }
 
 void hf_update_window(hf_window* w){
