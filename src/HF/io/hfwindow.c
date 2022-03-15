@@ -30,15 +30,17 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
     
     switch(msg)
     {
-        case WM_CLOSE:
+        case WM_DESTROY:
         PostQuitMessage(0);
         break;
-        case WM_ENTERSIZEMOVE:
-		SetTimer(hwnd, 1, 0, NULL);
-		return 0;
-        case WM_EXITSIZEMOVE:
-		KillTimer(hwnd, 1);
-		return 0;
+        /* 
+                case WM_ENTERSIZEMOVE:
+                SetTimer(hwnd, 1, 0, NULL);
+                return 0;
+                case WM_EXITSIZEMOVE:
+                KillTimer(hwnd, 1);
+                return 0;
+         */
         /* 
                 case WM_SIZING:
                 PostMessage(hwnd, WM_USER, 0, 0);
@@ -55,7 +57,6 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
         default:
         return DefWindowProc(hwnd, msg, w_param, l_param);
     }
-    //return 0;
 }
 
 // TODO(salmoncatt): add focusing support    focus(hf_window*)
@@ -79,7 +80,7 @@ b8 hf_create_window(hf_window* w){
     w->wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     w->wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
     w->wc.lpszMenuName = NULL;
-    w->wc.lpszClassName = w->title;
+    w->wc.lpszClassName = "HF Window Class";
     w->wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
     
     w->timer_id = 0;
@@ -91,7 +92,7 @@ b8 hf_create_window(hf_window* w){
     }
     
     // NOTE(salmoncatt): create window and check status 
-    w->hwnd = CreateWindowEx(0, w->title, w->title, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, w->width, w->height, NULL, NULL, w->hInstance, NULL);
+    w->hwnd = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, "HF Window Class", w->title, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, w->width, w->height, NULL, NULL, NULL, NULL);
     if(!w->hwnd){
         hf_err("couldn't create window: $hfcc{aqua}%s$hfcc{red}", w->title);
         return 0;
@@ -126,40 +127,42 @@ b8 hf_create_window(hf_window* w){
             0,                              // reserved
             0, 0, 0 };                      // layer masks ignored
      */
-    PIXELFORMATDESCRIPTOR pfd = {};
-    
-    pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-    pfd.nVersion = 1;
-    pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-    pfd.iPixelType = PFD_TYPE_RGBA;
-    pfd.cColorBits = w->bits_per_pixel;
-    pfd.cDepthBits = w->bits_per_pixel;
-    pfd.iLayerType = PFD_MAIN_PLANE;
-    
-    // NOTE(salmoncatt): getting and setting pixel format
-    u32 pixelFormat[1];
-    
-    
-    pixelFormat[0] = ChoosePixelFormat(w->hdc, &pfd);
-    if (!pixelFormat)
-    {
-        hf_err("can't find an appropriate pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
-        return 0;
-    }
-    
-    if(!SetPixelFormat(w->hdc, pixelFormat[0], &pfd))
-    {
-        hf_err("unable to set pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
-        return 0;
-    }
-    
-    w->hrc = wglCreateContext(w->hdc);
-    if(!w->hrc)
-        hf_err("unable to create OpenGL rendering context for window: $hfcc{aqua}%s$hfcc{red}", w->title);
-    
-    // NOTE(salmoncatt): make opengl context current
-    if(!wglMakeCurrent(w->hdc, w->hrc))
-        hf_err("unable to make OpenGL rendering context current for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+    /* 
+        PIXELFORMATDESCRIPTOR pfd = {};
+        
+        pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+        pfd.nVersion = 1;
+        pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+        pfd.iPixelType = PFD_TYPE_RGBA;
+        pfd.cColorBits = w->bits_per_pixel;
+        pfd.cDepthBits = w->bits_per_pixel;
+        pfd.iLayerType = PFD_MAIN_PLANE;
+        
+        // NOTE(salmoncatt): getting and setting pixel format
+        u32 pixelFormat[1];
+        
+        
+        pixelFormat[0] = ChoosePixelFormat(w->hdc, &pfd);
+        if (!pixelFormat)
+        {
+            hf_err("can't find an appropriate pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+            return 0;
+        }
+        
+        if(!SetPixelFormat(w->hdc, pixelFormat[0], &pfd))
+        {
+            hf_err("unable to set pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+            return 0;
+        }
+        
+        w->hrc = wglCreateContext(w->hdc);
+        if(!w->hrc)
+            hf_err("unable to create OpenGL rendering context for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+        
+        // NOTE(salmoncatt): make opengl context current
+        if(!wglMakeCurrent(w->hdc, w->hrc))
+            hf_err("unable to make OpenGL rendering context current for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+     */
     
     
     // NOTE(salmoncatt): set the window size (and pos aparently)
@@ -169,8 +172,8 @@ b8 hf_create_window(hf_window* w){
     UpdateWindow(w->hwnd);
     
     
-    if(!hf_gl_created)
-        hf_gl_init();
+    //if(!hf_gl_created)
+    //hf_gl_init();
     
     /* 
         u32 attributeListInt[19];
@@ -235,24 +238,26 @@ b8 hf_create_window(hf_window* w){
     
     
     
-    u32 major, minor;
-    hf_gl_get_version(&major, &minor);
-    
-    int attribs[] =
-    {
-        WGL_CONTEXT_MAJOR_VERSION_ARB, major,
-        WGL_CONTEXT_MINOR_VERSION_ARB, minor, 
-        WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
-        WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
-        0
-    };
-    
-    
-    w->hrc = wglCreateContextAttribsARB(w->hdc, 0, attribs);
-    
-    // NOTE(salmoncatt): make opengl context
-    
-    wglSwapIntervalEXT(1);
+    /* 
+        u32 major, minor;
+        hf_gl_get_version(&major, &minor);
+        
+        int attribs[] =
+        {
+            WGL_CONTEXT_MAJOR_VERSION_ARB, major,
+            WGL_CONTEXT_MINOR_VERSION_ARB, minor, 
+            WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+            WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
+            0
+        };
+        
+        
+        w->hrc = wglCreateContextAttribsARB(w->hdc, 0, attribs);
+        
+        // NOTE(salmoncatt): make opengl context
+        
+        wglSwapIntervalEXT(1);
+     */
     
     
     //set a basic 60fps window
@@ -324,13 +329,17 @@ b8 hf_should_window_update(hf_window* w){
         }
      */
     
-    while (WM_QUIT != w->msg.message)
+    MSG msg;
+    
+    while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) > 0) //Or use an if statement
     {
-        if(PeekMessage (&w->msg, NULL, 0, 0, PM_REMOVE) > 0) //Or use an if statement
-        {
-            TranslateMessage (&w->msg);
-            DispatchMessage (&w->msg);
+        if(msg.message == WM_QUIT){
+            return 0;
         }
+        
+        TranslateMessage (&msg);
+        DispatchMessage (&msg);
+        
     }
     
     /* 

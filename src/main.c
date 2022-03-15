@@ -29,10 +29,10 @@ int main(void){
     // NOTE(salmoncatt): please put all opengl things after this danks
     
     
-    hf_shader shader = {};
-    shader.name = "goober shader";
+    //hf_shader shader = {};
+    //shader.name = "goober shader";
     
-    hf_shader_create(&shader, "../res/shaders/vertex.glsl", "../res/shaders/fragment.glsl");
+    //hf_shader_create(&shader, "../res/shaders/vertex.glsl", "../res/shaders/fragment.glsl");
     
     v4f test_vec = hf_v4f(1, 2, 3, 4);
     v3f vec = test_vec.rgb;
@@ -77,17 +77,17 @@ int main(void){
     mesh.indices_size = 2 * 3; 
     mesh.type = 3;
     
-    hf_mesh_create(&mesh);
+    //hf_mesh_create(&mesh);
     
     v3f pos = {0.2f, 0, 0};
     v3f rot = {0, 0, 0};
     v3f scale = {1, 1, 1};
     hf_transform transform = {pos, rot, scale};
     
-    hf_texture texture = hf_texture_from_file("../res/images/patrick.png");
-    hf_texture_create(&texture);
+    //hf_texture texture = hf_texture_from_file("../res/images/patrick.png");
+    //hf_texture_create(&texture);
     
-    mesh.texture = texture;
+    //mesh.texture = texture;
     
     printf("time: %lf\n", hf_get_time());
     
@@ -97,7 +97,7 @@ int main(void){
     //window.key_callback(NULL, 0, 0);
     
     
-    glClearColor(0.5, 0.5, 0.5, 1);
+    //glClearColor(0.5, 0.5, 0.5, 1);
     
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
         
@@ -111,7 +111,7 @@ int main(void){
         
         //hf_log("[%i %i]\n", app.window.width, app.window.height);
         
-        hf_render_mesh_2d(&mesh, &shader, &transform);
+        //hf_render_mesh_2d(&mesh, &shader, &transform);
         
         if(hf_input_get_key_down(HF_KEY_MINUS)){
             
@@ -126,10 +126,10 @@ int main(void){
     }
     
     
-    hf_texture_destroy(&texture);
+    //hf_texture_destroy(&texture);
     
     
-    hf_mesh_destroy(&mesh);
+    //hf_mesh_destroy(&mesh);
     hf_app_stop(&app);
     //hf_ecs_destroy(&ecs);
     
