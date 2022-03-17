@@ -11,6 +11,8 @@ void hf_string_split(hf_vector* vector, const char* delimiter, const char* data)
 
 u64 hf_string_find(const char* delimiter, const char* data, u64 startingIndex);
 
+//u64 hf_string_find_last(const char* delimiter, const char* data, u64 startingIndex);
+
 char* hf_string_substr(const char* data, u64 start, u64 end);
 
 #endif //HFSTRING_H

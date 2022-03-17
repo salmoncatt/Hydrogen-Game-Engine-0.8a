@@ -148,7 +148,7 @@ void hf_gl_compile_shader(u32 id, const char* shader_code, const char* shader_na
         return;
     }
     
-    hf_log("[HF] compiled shader code: %s\n", shader_name);
+    hf_log("[HF] compiled shader code: [%s]\n", shader_name);
 }
 
 void hf_gl_link_and_validate_shader(u32 program_id){

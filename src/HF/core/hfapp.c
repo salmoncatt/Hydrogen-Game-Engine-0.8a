@@ -30,24 +30,6 @@ void hf_app_init(hf_app* app){
             hf_window_defaults(&app->window);
         }
         
-        if(app->parameters & HF_APP_USE_OPENGL){
-            hf_renderer_init(app);
-            hf_renderer_init_2d(app);
-            
-            /* 
-                        //put this in renderer
-                        char *vendorString, *rendererString;  
-                        // Get the name of the video card.
-                        vendorString = (char*)glGetString(GL_VENDOR);
-                        rendererString = (char*)glGetString(GL_RENDERER);
-                        
-                        // Store the video card name in a class member variable so it can be retrieved later.
-                        strcpy_s(m_videoCardDescription, vendorString);
-                        strcat_s(m_videoCardDescription, " - ");
-                        strcat_s(m_videoCardDescription, rendererString);
-             */
-        }
-        
         if(app->parameters & HF_APP_USE_ECS){
             hf_ecs_init(&app->ecs);
         }
@@ -64,8 +46,14 @@ void hf_app_init(hf_app* app){
 }
 
 void hf_app_start(hf_app* app){
-    hf_app_init(app);
-    //hf_MLD_start(app);
+    if(app->parameters & HF_APP_CREATE_WINDOW){
+        hf_create_window(&app->window);
+    }
+    
+    if(app->parameters & HF_APP_USE_OPENGL){
+        hf_renderer_init(app);
+        //hf_renderer_init_2d(app);
+    }
 }
 
 void hf_app_update(hf_app* app){

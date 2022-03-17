@@ -19,11 +19,14 @@ int main(void){
     hf_app app = hf_app_defaults();
     app.name = "haha, what a goober";
     app.parameters = HF_APP_CREATE_WINDOW | HF_APP_USE_OPENGL | HF_APP_USE_ECS;
-    hf_app_start(&app);
     
+    hf_app_init(&app);
     app.window.title = "what a goober";
-    if(!hf_create_window(&app.window))
-        return -1;
+    hf_app_start(&app);
+    /* 
+        if(!hf_create_window(&app.window))
+            return -1;
+     */
     
     
     // NOTE(salmoncatt): please put all opengl things after this danks
@@ -111,7 +114,7 @@ int main(void){
         
         //hf_log("[%i %i]\n", app.window.width, app.window.height);
         
-        hf_render_mesh_2d(&mesh, &shader, &transform);
+        hf_render_mesh(&mesh, &shader, &transform);
         
         if(hf_input_get_key_down(HF_KEY_MINUS)){
             

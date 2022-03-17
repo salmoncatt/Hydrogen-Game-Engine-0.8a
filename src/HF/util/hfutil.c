@@ -348,3 +348,24 @@ char* hf_load_file_as_string(const char* file_path){
     
     return out;
 }
+
+char* hf_remove_file_path(const char* file_path){
+    char* fwd = strrchr(file_path, '/');
+    char* bck = strrchr(file_path, '\\');
+    
+    u32 fwd_slash_index = 0;
+    u32 bck_slash_index = 0;
+    
+    if(fwd){
+        fwd_slash_index = (u32)(fwd - file_path);
+    }
+    
+    if(bck){
+        bck_slash_index = (u32)(bck - file_path);
+    }
+    
+    u32 index = hf_max(fwd_slash_index, bck_slash_index);
+    
+    
+    return hf_string_substr(file_path, index + 1, hf_strlen(file_path));
+}

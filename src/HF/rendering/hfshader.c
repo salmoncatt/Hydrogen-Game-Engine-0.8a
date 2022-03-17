@@ -9,6 +9,8 @@ void hf_shader_create(hf_shader* shader, const char* vertex_path, const char* fr
     shader->fragment_shader = hf_load_file_as_string(fragment_path);
     
     // TODO(salmoncatt): retrieve shader file names from filepath
+    shader->vertex_name = hf_remove_file_path(vertex_path);
+    shader->fragment_name = hf_remove_file_path(fragment_path);
     
     hf_gl_compile_shader(shader->vertex_id, shader->vertex_shader, shader->vertex_name);
     hf_gl_compile_shader(shader->fragment_id, shader->fragment_shader, shader->fragment_name);
@@ -19,7 +21,7 @@ void hf_shader_create(hf_shader* shader, const char* vertex_path, const char* fr
     hf_gl_link_and_validate_shader(shader->program_id);
     
     
-    hf_log("[HF] compiled shader: %s\n", shader->name);
+    hf_log("[HF] compiled shader: [%s]\n\n", shader->name);
 }
 
 void hf_shader_bind(hf_shader* shader){
@@ -44,8 +46,11 @@ void hf_shader_destroy(hf_shader* shader){
     glDeleteShader(shader->vertex_id);
     glDeleteShader(shader->fragment_id);
     glDeleteShader(shader->program_id);
+    
     hf_free(shader->vertex_shader);
     hf_free(shader->fragment_shader);
+    hf_free(shader->vertex_name);
+    hf_free(shader->fragment_name);
 }
 
 void hf_shader_set_uniform_u32(hf_shader* shader, const char* name, u32 data){

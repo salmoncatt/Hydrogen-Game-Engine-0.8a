@@ -60,4 +60,6 @@ void hf_print_stack();
 
 char* hf_load_file_as_string(const char* file_path);
 
+char* hf_remove_file_path(const char* file_path);
+
 #endif //HFUTIL_H

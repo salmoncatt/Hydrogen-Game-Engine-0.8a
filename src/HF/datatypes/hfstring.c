@@ -16,6 +16,24 @@ u64 hf_string_find(const char* delimiter, const char* data, u64 startingIndex){
     return hf_string_npos;
 }
 
+/* 
+u64 hf_string_find_last(const char* delimiter, const char* data, u64 startingIndex){
+    u64 size = hf_strlen(data);
+    u64 sizeDelimiter = hf_strlen(delimiter);
+    
+    if(size < sizeDelimiter + startingIndex)
+        return hf_string_npos;
+    
+    u64 index = 0;
+    while((index = hf_strfind_last(delimiter[0], data, startingIndex + index, size)) != hf_string_npos){
+        if(hf_memcmp(data + index, delimiter, sizeDelimiter))
+            return index;
+    }
+    
+    return hf_string_npos;
+}
+ */
+
 char* hf_string_substr(const char* data, u64 start, u64 end){
     u64 size = hf_strlen(data);
     char* out;
