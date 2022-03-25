@@ -62,4 +62,6 @@ char* hf_load_file_as_string(const char* file_path);
 
 char* hf_remove_file_path(const char* file_path);
 
+char* hf_get_cpu_name();
+
 #endif //HFUTIL_H

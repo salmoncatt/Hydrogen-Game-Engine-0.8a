@@ -3,11 +3,12 @@
 void hf_renderer_init(hf_app* app) {
     hf_log("[HF] initializing HF Renderer...\n");
     
+    char* cpu = hf_get_cpu_name();
     hf_log("[HF] OpenGL Vendor: [%s]\n", glGetString(GL_VENDOR));
     hf_log("[HF] OpenGL Version: [%s]\n", glGetString(GL_VERSION));
     hf_log("[HF] GPU: [%s]\n", glGetString(GL_RENDERER));
-    hf_log("[HF] CPU: [%s]\n", "uh");
-    
+    hf_log("[HF] CPU: [%s]\n", cpu);
+    hf_free(cpu);
     
     hf_log("[HF] initialized HF Renderer\n\n");
 }

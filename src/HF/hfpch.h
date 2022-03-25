@@ -20,6 +20,8 @@
 #include <immintrin.h>
 #include <time.h>
 #include <math.h>
+//for cpuid
+#include <intrin.h>
 
 //for __debugbreak();
 #include <signal.h>

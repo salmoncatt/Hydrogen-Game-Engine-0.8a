@@ -369,3 +369,29 @@ char* hf_remove_file_path(const char* file_path){
     
     return hf_string_substr(file_path, index + 1, hf_strlen(file_path));
 }
+
+char* hf_get_cpu_name(){
+    int CPUInfo[4] = { -1 };
+    char* CPUBrandString = hf_malloc(sizeof(char) * 65);
+    __cpuid(CPUInfo, 0x80000000);
+    unsigned int nExIds = CPUInfo[0];
+    
+    memset(CPUBrandString, 0, sizeof(CPUBrandString));
+    
+    // Get the information associated with each extended ID.
+    for (unsigned int i = 0x80000000; i <= nExIds; ++i)
+    {
+        __cpuid(CPUInfo, i);
+        // Interpret CPU brand string.
+        if (i == 0x80000002)
+            hf_memcpy(CPUBrandString, CPUInfo, sizeof(CPUInfo));
+        else if (i == 0x80000003)
+            hf_memcpy(CPUBrandString + 16, CPUInfo, sizeof(CPUInfo));
+        else if (i == 0x80000004)
+            hf_memcpy(CPUBrandString + 32, CPUInfo, sizeof(CPUInfo));
+    }
+    
+    CPUBrandString[64] = '\0';
+    
+    return CPUBrandString;
+}
