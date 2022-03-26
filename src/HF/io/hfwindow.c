@@ -243,6 +243,8 @@ void hf_update_window(hf_window* w){
     if(GetWindowRect(w->hwnd, &rect)){
         w->width = rect.right - rect.left;
         w->height = rect.bottom - rect.top;
+        w->x = rect.left;
+        w->y = rect.top;
         glViewport(0, 0, w->width, w->height);
     }
     
@@ -259,6 +261,11 @@ void hf_update_window(hf_window* w){
         }
     }
     
+    
+    if(!hf_input_cursor_visibility){
+        v2f center = hf_v2f(w->width / 2, w->height / 2);
+        SetCursorPos((i32)center.x + w->x, (i32)center.y + w->y);
+    }
 }
 
 

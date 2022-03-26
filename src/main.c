@@ -104,7 +104,7 @@ int main(void){
     
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
         
-        char* title = hf_format_string("HF Engine test [%u] [%u, %u]", (u32)hf_get_fps(), (u32)hf_input_cursor_pos.x, (u32)hf_input_cursor_pos.y);
+        char* title = hf_format_string("HF Engine test [%u] [%u, %u] [%i, %i]", (u32)hf_get_fps(), (u32)hf_input_cursor_pos.x, (u32)hf_input_cursor_pos.y, (i32)hf_input_get_mouse_movement().x, (i32)hf_input_get_mouse_movement().y);
         
         hf_set_window_title(&app.window, title);
         

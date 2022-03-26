@@ -13,27 +13,29 @@ extern b8 hf_input_keys[HF_KEY_LAST];
 extern b8 hf_input_keys_old[HF_KEY_LAST];
 
 extern b8 hf_input_cursor_visibility;
+extern b8 hf_input_cursor_visibility_last;
 
 extern v2f hf_input_cursor_pos;
+extern v2f hf_input_cursor_pos_last;
+extern v2f hf_input_cursor_movement;
 
 void hf_input_update();
 
 b8 hf_input_get_key(u32 key);
-
 b8 hf_input_get_key_down(u32 key);
-
 b8 hf_input_get_key_up();
 
 void hf_input_set_clipboard(const char* text);
 
 b8 hf_input_get_mouse_button();
-
 b8 hf_input_get_mouse_button_down();
-
 b8 hf_input_get_mouse_button_up();
+
+v2f hf_input_get_mouse_movement();
 
 void hf_input_show_cursor(b8 visibility);
 void hf_input_toggle_cursor();
+b8 hf_input_get_cursor_visibility();
 
 void hf_input_destroy();
 
