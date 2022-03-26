@@ -5,12 +5,29 @@
 
 #define HF_KEY_LAST 348
 
+#define HF_MOUSE_BUTTON_0 0
+#define HF_MOUSE_BUTTON_1 2
+#define HF_MOUSE_BUTTON_2 1
+#define HF_MOUSE_BUTTON_3 3
+#define HF_MOUSE_BUTTON_4 4
+#define HF_MOUSE_BUTTON_5 5
+#define HF_MOUSE_BUTTON_6 6
+#define HF_MOUSE_BUTTON_7 7
+
+#define HF_MOUSE_BUTTON_LEFT HF_MOUSE_BUTTON_0
+#define HF_MOUSE_BUTTON_RIGHT HF_MOUSE_BUTTON_1
+#define HF_MOUSE_BUTTON_MIDDLE HF_MOUSE_BUTTON_2
+#define HF_MOUSE_BUTTON_LAST HF_MOUSE_BUTTON_7
+
 #include "../core/hfapp.h"
 #include "../math/hfmath.h"
 //#include "../datatypes/hfvector.h"
 
 extern b8 hf_input_keys[HF_KEY_LAST];
 extern b8 hf_input_keys_old[HF_KEY_LAST];
+
+extern b8 hf_input_buttons[HF_MOUSE_BUTTON_LAST];
+extern b8 hf_input_buttons_old[HF_MOUSE_BUTTON_LAST];
 
 extern b8 hf_input_cursor_visibility;
 extern b8 hf_input_cursor_visibility_last;
@@ -28,7 +45,7 @@ b8 hf_input_get_key_up();
 void hf_input_set_clipboard(const char* text);
 
 b8 hf_input_get_mouse_button();
-b8 hf_input_get_mouse_button_down();
+b8 hf_input_get_mouse_button_down(u32 button);
 b8 hf_input_get_mouse_button_up();
 
 v2f hf_input_get_mouse_movement();
@@ -170,5 +187,6 @@ void hf_input_destroy();
 #define HF_KEY_RIGHT_ALT VK_RMENU
 //#define HF_KEY_RIGHT_SUPER 347
 #define HF_KEY_MENU VK_MENU
+
 
 #endif //INPUT_H

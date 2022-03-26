@@ -8,17 +8,27 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
     i8 is_down =   !(l_param & (1 << 31));
     u64 key = w_param;
     
-    if(msg == WM_SYSKEYDOWN || msg == WM_SYSKEYUP ||
-       msg == WM_KEYDOWN || msg == WM_KEYUP){
+    if(msg == WM_SYSKEYDOWN || msg == WM_SYSKEYUP || msg == WM_KEYDOWN || msg == WM_KEYUP){
         hf_input_keys[key] = is_down;
+        
+    }else if(msg == WM_LBUTTONDOWN){
+        hf_input_buttons[HF_MOUSE_BUTTON_LEFT] = 1;
+    }else if(msg == WM_LBUTTONUP){
+        hf_input_buttons[HF_MOUSE_BUTTON_LEFT] = 0;
+    }else if(msg == WM_RBUTTONDOWN){
+        hf_input_buttons[HF_MOUSE_BUTTON_RIGHT] = 1;
+    }else if(msg == WM_RBUTTONUP){
+        hf_input_buttons[HF_MOUSE_BUTTON_RIGHT] = 0;
     }
     
-    if(msg == WM_ENTERSIZEMOVE){
-        hf_log("resizing\n");
-    }
-    if(msg == WM_EXITSIZEMOVE){
-        hf_log("stop resizing\n");
-    }
+    /* 
+        if(msg == WM_ENTERSIZEMOVE){
+            hf_log("resizing\n");
+        }
+        if(msg == WM_EXITSIZEMOVE){
+            hf_log("stop resizing\n");
+        }
+     */
     
     switch(msg)
     {

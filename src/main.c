@@ -112,11 +112,15 @@ int main(void){
         
         //transform.pos.x += 0.0001f;
         
+        //transform.pos = hf_add_v3f(transform.pos, hf_v3f(hf_input_get_mouse_movement().x, hf_input_get_mouse_movement().y, 0));
+        
         //hf_log("[%i %i]\n", app.window.width, app.window.height);
         
         hf_render_mesh(&mesh, &shader, &transform);
         
-        if(hf_input_get_key_down(HF_KEY_MINUS)){
+        //hf_log("[%f, %f]\n", hf_input_get_mouse_movement().x, hf_input_get_mouse_movement().y);
+        
+        if(hf_input_get_mouse_button_down(HF_MOUSE_BUTTON_RIGHT)){
             
             hf_input_toggle_cursor();
             

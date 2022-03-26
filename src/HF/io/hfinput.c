@@ -3,6 +3,9 @@
 b8 hf_input_keys[HF_KEY_LAST];
 b8 hf_input_keys_old[HF_KEY_LAST];
 
+b8 hf_input_buttons[HF_MOUSE_BUTTON_LAST];
+b8 hf_input_buttons_old[HF_MOUSE_BUTTON_LAST];
+
 b8 hf_input_cursor_visibility = 1;
 b8 hf_input_cursor_visibility_last = 1;
 
@@ -12,6 +15,7 @@ v2f hf_input_cursor_movement = {};
 
 void hf_input_update(){
     hf_memcpy(hf_input_keys_old, hf_input_keys, (sizeof(b8) * HF_KEY_LAST));
+    hf_memcpy(hf_input_buttons_old, hf_input_buttons, (sizeof(b8) * HF_MOUSE_BUTTON_LAST));
     hf_input_cursor_movement = hf_sub_v2f(hf_input_cursor_pos, hf_input_cursor_pos_last);
     
     
@@ -39,17 +43,21 @@ b8 hf_input_get_key_down(u32 key){
     return (hf_input_keys[key] && !hf_input_keys_old[key]);
 }
 
-/*
+
 b8 hf_input_get_key_up();
 
 void hf_input_set_clipboard(const char* text);
 
-b8 hf_input_get_mouse_button();
+b8 hf_input_get_mouse_button(){
+    
+}
 
-b8 hf_input_get_mouse_button_down();
+b8 hf_input_get_mouse_button_down(u32 button){
+    return (hf_input_buttons[button] && !hf_input_buttons_old[button]);
+}
 
 b8 hf_input_get_mouse_button_up();
- */
+
 
 void hf_input_show_cursor(b8 visibility){
     ShowCursor(visibility ? TRUE : FALSE);
