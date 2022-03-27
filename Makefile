@@ -9,10 +9,11 @@ OBJS = $(SRC:.c=.o)
 PCH_SRC = src/HF/hfpch.h
 D_PCH_SRC = bin/dhfpch.h
 PCH_OUT = src/HF/hfpch.h.gch
+HF_RES = bin/hf_res.res
 #PCH_OUT = bin/hfpch/hfpch.h.gch
 
 main: $(SRC)
-	 $(CC) -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober $^ $(CFLAGS) $(LIBS) -limagehlp
+	 $(CC) -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober $^ $(CFLAGS) $(LIBS) -limagehlp $(HF_RES)
 
 main_debug: $(SRC)
 	 $(CC) -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober_debug $^ $(CFLAGS) $(LIBS) -limagehlp -g
@@ -24,7 +25,7 @@ main_release: $(SRC)
 
 #this pch has the HF_DEBUG removed
 hfpch: $(D_PCH_SRC)
-	$(CC) -c -o $(PCH_OUT) $< $(CFLAGS) $(LIBS) 
+	$(CC) -c -o $(PCH_OUT) $< $(CFLAGS) $(LIBS)
 
 
 #this removes the HF_DEBUG in hfpch

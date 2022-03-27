@@ -206,12 +206,12 @@ void hf_window_defaults(hf_window* window){
     window->cbWndExtra = 0;
     // NOTE(salmoncatt): in case not using winmain
     window->hInstance = GetModuleHandle(NULL);
-    window->hIcon = LoadIcon(NULL, IDI_APPLICATION);
+    window->hIcon = LoadIcon(NULL, MAKEINTRESOURCE(IDC_ICON));;
     window->hCursor = LoadCursor(NULL, IDC_ARROW);
     window->hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
     window->lpszMenuName = NULL;
     window->lpszClassName = "HF Window Class";
-    window->hIconSm = LoadIcon(NULL, IDI_APPLICATION);
+    window->hIconSm = LoadIcon(NULL, MAKEINTRESOURCE(IDC_ICON));
     
     window->nSize = sizeof(PIXELFORMATDESCRIPTOR);
     window->nVersion = 1;

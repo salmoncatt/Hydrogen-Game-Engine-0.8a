@@ -24,6 +24,10 @@ echo start /b /wait "" "cl" src\main.c /I..\ext\include /link opengl32.lib /libp
 IF %compileType%==gcc (
 
 echo[
+echo [HGE] compiling resources
+windres res.rc -O coff -o bin/hf_res.res
+
+echo[
 
 echo [HGE] compiling hfpch.h
 make hfpch_remove_debug

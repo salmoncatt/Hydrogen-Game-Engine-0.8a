@@ -5,6 +5,8 @@
 #ifndef HFPCH_H
 #define HFPCH_H
 
+// NOTE(salmoncatt): the standard hf_icon in res/icon.png
+//#define HF_ICON 101 //look in res.rc if you want to make your own
 
 // NOTE(salmoncatt): this gets removed or left depending on how you compile in the makefile
 #define HF_DEBUG
@@ -40,5 +42,6 @@
 
 
 #include "graphics/stb_image.h"
+
 
 #endif //HFPCH_H
