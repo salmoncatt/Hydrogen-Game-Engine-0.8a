@@ -206,12 +206,12 @@ void hf_window_defaults(hf_window* window){
     window->cbWndExtra = 0;
     // NOTE(salmoncatt): in case not using winmain
     window->hInstance = GetModuleHandle(NULL);
-    window->hIcon = LoadIcon(NULL, MAKEINTRESOURCE(IDC_ICON));;
+    window->hIcon = LoadIcon(window->hInstance, MAKEINTRESOURCE(HF_ICON));;
     window->hCursor = LoadCursor(NULL, IDC_ARROW);
     window->hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
     window->lpszMenuName = NULL;
     window->lpszClassName = "HF Window Class";
-    window->hIconSm = LoadIcon(NULL, MAKEINTRESOURCE(IDC_ICON));
+    window->hIconSm = LoadIcon(window->hInstance, MAKEINTRESOURCE(HF_ICON));
     
     window->nSize = sizeof(PIXELFORMATDESCRIPTOR);
     window->nVersion = 1;
@@ -219,6 +219,12 @@ void hf_window_defaults(hf_window* window){
     window->iPixelType = PFD_TYPE_RGBA;
     window->iLayerType = PFD_MAIN_PLANE;
     
+}
+
+void hf_window_set_icon(hf_window* w, i32 icon_id){
+    HICON hIcon = LoadIcon(w->hInstance, MAKEINTRESOURCE(icon_id));
+    SendMessage(w->hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+    SendMessage(w->hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
 }
 
 b8 hf_should_window_update(hf_window* w){

@@ -125,6 +125,7 @@ b8 hf_should_window_update(hf_window* window);
 void hf_update_window(hf_window* window);
 
 void hf_set_window_title(hf_window* window, const char* title);
+void hf_window_set_icon(hf_window* w, i32 icon_id);
 
 //void hf_window_set_ups(hf_window* window, u32 ups);
 //void hf_window_remove_ups_constraint(hf_window* window);

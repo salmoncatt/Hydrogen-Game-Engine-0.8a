@@ -1,1 +1,4 @@
-101 ICON "icon.ico"
+#include "src/HF/hfres.h"
+
+
+HF_ICON ICON "res/icon.ico"

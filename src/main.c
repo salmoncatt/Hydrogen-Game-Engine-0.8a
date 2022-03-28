@@ -99,7 +99,6 @@ int main(void){
     
     //window.key_callback(NULL, 0, 0);
     
-    
     glClearColor(0.5, 0.5, 0.5, 1);
     
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
