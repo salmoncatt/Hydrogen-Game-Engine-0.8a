@@ -1,5 +1,8 @@
 #include "hfrenderer.h"
 
+hf_debug_camera hf_renderer_cam = {};
+m4f hf_renderer_proj_mat = {};;
+
 void hf_renderer_init(hf_app* app) {
     hf_log("[HF] initializing HF Renderer...\n");
     
@@ -9,6 +12,8 @@ void hf_renderer_init(hf_app* app) {
     hf_log("[HF] GPU: [%s]\n", glGetString(GL_RENDERER));
     hf_log("[HF] CPU: [%s]\n", cpu);
     hf_free(cpu);
+    
+    hf_renderer_proj_mat = hf_perspective_m4f(app->window.width, app->window.height, 90, 0.1f, 1000);
     
     hf_log("[HF] initialized HF Renderer\n\n");
 }
@@ -35,7 +40,10 @@ void hf_render_mesh(hf_mesh* mesh, hf_shader* shader, hf_transform* transform){
     }
     
     m4f transformation = hf_transformation_m4f(transform->pos, transform->rot, transform->scale);
+    m4f view = hf_view_m4f(hf_renderer_cam.transform.pos, hf_renderer_cam.transform.rot);
     hf_shader_set_uniform_m4f(shader, "transform", &transformation);
+    hf_shader_set_uniform_m4f(shader, "view", &view);
+    hf_shader_set_uniform_m4f(shader, "projection", &hf_renderer_proj_mat);
     //position
     
     if(mesh->indices_size)

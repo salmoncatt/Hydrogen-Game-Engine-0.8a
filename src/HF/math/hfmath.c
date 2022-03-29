@@ -3,6 +3,110 @@
 
 const f64 hf_PI = 3.14159265;
 
+
+hf_inline f32 hf_f_sqrt(f32 in){
+    i64 i;
+    f32 x2, y;
+    const f32 threeHalfs = 1.5f;
+    
+    //we are doing the inverse of inverse and its fast
+    f32 inverseIn = 1 / in;
+    
+    x2 = inverseIn * 0.5f;
+    y = inverseIn;
+    
+    i = *(i64*)&y; // convert memory address to long for bit shifting
+    i = 0x5f375a86 - (i >> 1); // shift exponent right to divide by two and negate that (y^(-1/2)), also what the fuck?
+    y = *(i64*)&i; //convert memory address back to float for output
+    y = y * (threeHalfs - (x2 * y * y)); // newton iteration, 1 is fine because we are close enough to answer, btw what the fuck is this
+    //second iteration to make it more accurate
+    y = y * (threeHalfs - (x2 * y * y)); // newton iteration, 2 is fine because we are close enough to answer, btw what the fuck is this
+    
+    return y;
+}
+
+hf_inline f32 hf_f_isqrt(f32 in){
+    i64 i;
+    f32 x2, y;
+    const f32 threeHalfs = 1.5f;
+    
+    x2 = in * 0.5f;
+    y = in;
+    
+    i = *(i64*)&y; // convert memory address to long for bit shifting
+    i = 0x5f375a86 - (i >> 1); // shift exponent right to divide by two and negate that (y^(-1/2)), also what the fuck?
+    y = *(i64*)&i; //convert memory address back to float for output
+    y = y * (threeHalfs - (x2 * y * y)); // newton iteration, 1 is fine because we are close enough to answer, btw what the fuck is this
+    
+    return y;
+}
+
+
+
+
+hf_inline f32 hf_length_v2f(v2f vec){
+    return hf_f_sqrt(vec.x * vec.x + vec.y * vec.y);
+}
+
+hf_inline f32 hf_length_v3f(v3f vec){
+    return hf_f_sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+}
+
+hf_inline f32 hf_length_v4f(v4f vec){
+    return hf_f_sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z + vec.w * vec.w);
+}
+
+
+
+
+
+
+hf_inline f32 hf_ilength_v2f(v2f vec){
+    return hf_f_isqrt(vec.x * vec.x + vec.y * vec.y);
+}
+
+hf_inline f32 hf_ilength_v3f(v3f vec){
+    return hf_f_isqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+}
+
+hf_inline f32 hf_ilength_v4f(v4f vec){
+    return hf_f_isqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z + vec.w * vec.w);
+}
+
+
+
+
+
+
+hf_inline v2f hf_normalize_v2f(v2f vec){
+    f32 i_length = hf_ilength_v2f(vec);
+    vec.x *= i_length;
+    vec.y *= i_length;
+    
+    return vec;
+}
+
+hf_inline v3f hf_normalize_v3f(v3f vec){
+    f32 i_length = hf_ilength_v3f(vec);
+    vec.x *= i_length;
+    vec.y *= i_length;
+    vec.z *= i_length;
+    
+    return vec;
+}
+
+hf_inline v4f hf_normalize_v4f(v4f vec){
+    f32 i_length = hf_ilength_v4f(vec);
+    vec.x *= i_length;
+    vec.y *= i_length;
+    vec.z *= i_length;
+    vec.w *= i_length;
+    
+    return vec;
+}
+
+
+
 //-----------------------------v2f------------------------
 
 hf_inline v2f hf_v2f(f32 x, f32 y){
@@ -51,6 +155,44 @@ hf_inline v2f hf_div_v2f(v2f a, v2f b){
 }
 
 
+
+
+
+hf_inline v2f hf_add_v2f_f(v2f a, f32 b){
+    v2f out;
+    
+    out.x = a.x + b;
+    out.y = a.y + b;
+    
+    return out;
+}
+
+hf_inline v2f hf_sub_v2f_f(v2f a, f32 b){
+    v2f out;
+    
+    out.x = a.x - b;
+    out.y = a.y - b;
+    
+    return out;
+}
+
+hf_inline v2f hf_mul_v2f_f(v2f a, f32 b){
+    v2f out;
+    
+    out.x = a.x * b;
+    out.y = a.y * b;
+    
+    return out;
+}
+
+hf_inline v2f hf_div_v2f_f(v2f a, f32 b){
+    v2f out;
+    
+    out.x = a.x / b;
+    out.y = a.y / b;
+    
+    return out;
+}
 
 
 
@@ -112,7 +254,45 @@ hf_inline v3f hf_div_v3f(v3f a, v3f b){
 
 
 
+hf_inline v3f hf_add_v3f_f(v3f a, f32 b){
+    v3f out;
+    
+    out.x = a.x + b;
+    out.y = a.y + b;
+    out.z = a.z + b;
+    
+    return out;
+}
 
+hf_inline v3f hf_sub_v3f_f(v3f a, f32 b){
+    v3f out;
+    
+    out.x = a.x - b;
+    out.y = a.y - b;
+    out.z = a.z - b;
+    
+    return out;
+}
+
+hf_inline v3f hf_mul_v3f_f(v3f a, f32 b){
+    v3f out;
+    
+    out.x = a.x * b;
+    out.y = a.y * b;
+    out.z = a.z * b;
+    
+    return out;
+}
+
+hf_inline v3f hf_div_v3f_f(v3f a, f32 b){
+    v3f out;
+    
+    out.x = a.x / b;
+    out.y = a.y / b;
+    out.z = a.z / b;
+    
+    return out;
+}
 
 
 
@@ -172,6 +352,53 @@ hf_inline v4f hf_div_v4f(v4f a, v4f b){
     out.y = a.y / b.y;
     out.z = a.z / b.z;
     out.w = a.w / b.w;
+    
+    return out;
+}
+
+
+
+
+hf_inline v4f hf_add_v4f_f(v4f a, f32 b){
+    v4f out;
+    
+    out.x = a.x + b;
+    out.y = a.y + b;
+    out.z = a.z + b;
+    out.w = a.w + b;
+    
+    return out;
+}
+
+hf_inline v4f hf_sub_v4f_f(v4f a, f32 b){
+    v4f out;
+    
+    out.x = a.x - b;
+    out.y = a.y - b;
+    out.z = a.z - b;
+    out.w = a.w - b;
+    
+    return out;
+}
+
+hf_inline v4f hf_mul_v4f_f(v4f a, f32 b){
+    v4f out;
+    
+    out.x = a.x * b;
+    out.y = a.y * b;
+    out.z = a.z * b;
+    out.w = a.w * b;
+    
+    return out;
+}
+
+hf_inline v4f hf_div_v4f_f(v4f a, f32 b){
+    v4f out;
+    
+    out.x = a.x / b;
+    out.y = a.y / b;
+    out.z = a.z / b;
+    out.w = a.w / b;
     
     return out;
 }
@@ -371,7 +598,11 @@ m4f hf_view_m4f(v3f position, v3f rotation){
     return out;
 }
 
-
+v3f hf_get_dir_from_rot(v3f rot){
+    v3f vec = hf_v3f(sin((f32)hf_to_radians(rot.y)), tan((f32)hf_to_radians(rot.x)), cos((f32)hf_to_radians(rot.z)));
+    vec= hf_normalize_v3f(vec);
+    return vec;
+}
 
 
 

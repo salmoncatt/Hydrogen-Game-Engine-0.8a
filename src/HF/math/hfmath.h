@@ -142,15 +142,34 @@ typedef struct hf_transform{
 } hf_transform;
 
 
+hf_inline f32 hf_f_sqrt(f32 in);
+hf_inline f32 hf_f_isqrt(f32 in);
+
 hf_inline v2f hf_v2f(f32 x, f32 y);
 hf_inline v3f hf_v3f(f32 x, f32 y, f32 z);
 hf_inline v4f hf_v4f(f32 x, f32 y, f32 z, f32 w);
 
+hf_inline v2f hf_normalize_v2f(v2f vec);
+hf_inline v3f hf_normalize_v3f(v3f vec);
+hf_inline v4f hf_normalize_v4f(v4f vec);
+
+hf_inline f32 hf_length_v2f(v2f vec);
+hf_inline f32 hf_length_v3f(v3f vec);
+hf_inline f32 hf_length_v4f(v4f vec);
+
+hf_inline f32 hf_ilength_v2f(v2f vec);
+hf_inline f32 hf_ilength_v3f(v3f vec);
+hf_inline f32 hf_ilength_v4f(v4f vec);
 
 hf_inline v2f hf_add_v2f(v2f a, v2f b);
 hf_inline v2f hf_sub_v2f(v2f a, v2f b);
 hf_inline v2f hf_mul_v2f(v2f a, v2f b);
 hf_inline v2f hf_div_v2f(v2f a, v2f b);
+
+hf_inline v2f hf_add_v2f_f(v2f a, f32 b);
+hf_inline v2f hf_sub_v2f_f(v2f a, f32 b);
+hf_inline v2f hf_mul_v2f_f(v2f a, f32 b);
+hf_inline v2f hf_div_v2f_f(v2f a, f32 b);
 
 
 hf_inline v3f hf_add_v3f(v3f a, v3f b);
@@ -158,11 +177,21 @@ hf_inline v3f hf_sub_v3f(v3f a, v3f b);
 hf_inline v3f hf_mul_v3f(v3f a, v3f b);
 hf_inline v3f hf_div_v3f(v3f a, v3f b);
 
+hf_inline v3f hf_add_v3f_f(v3f a, f32 b);
+hf_inline v3f hf_sub_v3f_f(v3f a, f32 b);
+hf_inline v3f hf_mul_v3f_f(v3f a, f32 b);
+hf_inline v3f hf_div_v3f_f(v3f a, f32 b);
+
 
 hf_inline v4f hf_add_v4f(v4f a, v4f b);
 hf_inline v4f hf_sub_v4f(v4f a, v4f b);
 hf_inline v4f hf_mul_v4f(v4f a, v4f b);
 hf_inline v4f hf_div_v4f(v4f a, v4f b);
+
+hf_inline v4f hf_add_v4f_f(v4f a, f32 b);
+hf_inline v4f hf_sub_v4f_f(v4f a, f32 b);
+hf_inline v4f hf_mul_v4f_f(v4f a, f32 b);
+hf_inline v4f hf_div_v4f_f(v4f a, f32 b);
 
 
 hf_inline void hf_identity_m4f(m4f* src);
@@ -182,8 +211,8 @@ m4f hf_transformation_m4f(v3f translation, v3f rotation, v3f scale);
 m4f hf_perspective_m4f(f32 screen_width, f32 screen_height, f32 fov, f32 near_plane, f32 far_plane);
 m4f hf_ortho_m4f(f32 left, f32 right, f32 bottom, f32 top, f32 near_plane, f32 far_plane);
 m4f hf_view_m4f(v3f position, v3f rotation);
-// TODO(salmoncatt): write this
-//hf_inline void hf_store_m4f_vbuf();
+
+v3f hf_get_dir_from_rot(v3f rot);
 
 u32 hf_hash_str(const char* str);
 

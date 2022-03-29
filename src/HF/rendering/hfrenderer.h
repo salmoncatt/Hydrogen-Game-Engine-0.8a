@@ -7,6 +7,10 @@
 #include "../mesh/hfmesh.h"
 #include "../math/hfmath.h"
 #include "hfshader.h"
+#include "../camera/hfdebugcamera.h"
+
+extern hf_debug_camera hf_renderer_cam;
+extern m4f hf_renderer_proj_mat;
 
 void hf_renderer_init(hf_app* app);
 

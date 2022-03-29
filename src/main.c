@@ -23,13 +23,9 @@ int main(void){
     hf_app_init(&app);
     app.window.title = "what a goober";
     hf_app_start(&app);
-    /* 
-        if(!hf_create_window(&app.window))
-            return -1;
-     */
     
     
-    // NOTE(salmoncatt): please put all opengl things after this danks
+    // NOTE(salmoncatt): please put all opengl things after this thanks
     
     
     hf_shader shader = {};
@@ -42,11 +38,6 @@ int main(void){
     
     hf_log("[%f %f %f %f]\n", vec.x, vec.y, vec.z, test_vec.w);
     
-    
-    /* 
-        hf_ecs ecs = {};
-        hf_ecs_init(&ecs);
-     */
     
     hf_mesh mesh = {};
     
@@ -82,7 +73,7 @@ int main(void){
     
     hf_mesh_create(&mesh);
     
-    v3f pos = {0.2f, 0, 0};
+    v3f pos = {0.2f, 0, -1};
     v3f rot = {0, 0, 0};
     v3f scale = {1, 1, 1};
     hf_transform transform = {pos, rot, scale};
@@ -127,6 +118,11 @@ int main(void){
             //printf("key pressed\n");
         }
         
+        //hf_log("[%f %f %f]\n", hf_renderer_cam.transform.pos.x, hf_renderer_cam.transform.pos.y, hf_renderer_cam.transform.pos.z);
+        
+        hf_update_debug_camera(&hf_renderer_cam);
+        
+        hf_renderer_proj_mat = hf_perspective_m4f(app.window.width, app.window.height, 90, 0.1f, 1000);
         
         hf_limit_fps(300);
     }
