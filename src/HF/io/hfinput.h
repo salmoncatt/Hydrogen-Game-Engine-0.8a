@@ -35,8 +35,9 @@ extern b8 hf_input_cursor_visibility_last;
 extern v2f hf_input_cursor_pos;
 extern v2f hf_input_cursor_pos_last;
 extern v2f hf_input_cursor_movement;
+extern v2f hf_input_center;
 
-void hf_input_update();
+void hf_input_update(hf_app* app);
 
 b8 hf_input_get_key(u32 key);
 b8 hf_input_get_key_down(u32 key);

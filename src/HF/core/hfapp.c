@@ -58,7 +58,7 @@ void hf_app_start(hf_app* app){
 
 void hf_app_update(hf_app* app){
     hf_time_update();
-    hf_input_update();
+    hf_input_update(app);
 }
 
 b8 hf_app_should_update(hf_app* app){

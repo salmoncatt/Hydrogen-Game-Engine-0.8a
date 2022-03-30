@@ -84,7 +84,7 @@ int main(void){
     mesh.texture = texture;
     
     printf("time: %lf\n", hf_get_time());
-    
+    printf("apdngp: %f %f\n", hf_f_sqrt(16), hf_f_isqrt(4));
     //hf_vector_free(&vector);
     //hf_window_set_key_callback(&window, &test_callback);
     
@@ -101,7 +101,6 @@ int main(void){
         hf_free(title);
         
         //transform.pos.x += 0.0001f;
-        
         //transform.pos = hf_add_v3f(transform.pos, hf_v3f(hf_input_get_mouse_movement().x, hf_input_get_mouse_movement().y, 0));
         
         //hf_log("[%i %i]\n", app.window.width, app.window.height);
@@ -118,7 +117,7 @@ int main(void){
             //printf("key pressed\n");
         }
         
-        //hf_log("[%f %f %f]\n", hf_renderer_cam.transform.pos.x, hf_renderer_cam.transform.pos.y, hf_renderer_cam.transform.pos.z);
+        //hf_log("[%f %f %f]\n", hf_renderer_cam.transform.rot.x, hf_renderer_cam.transform.rot.y, hf_renderer_cam.transform.rot.z);
         
         hf_update_debug_camera(&hf_renderer_cam);
         

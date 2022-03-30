@@ -17,12 +17,14 @@ hf_inline f32 hf_f_sqrt(f32 in){
     
     i = *(i64*)&y; // convert memory address to long for bit shifting
     i = 0x5f375a86 - (i >> 1); // shift exponent right to divide by two and negate that (y^(-1/2)), also what the fuck?
-    y = *(i64*)&i; //convert memory address back to float for output
+    y = *(f32*)(&i); //convert memory address back to float for output
     y = y * (threeHalfs - (x2 * y * y)); // newton iteration, 1 is fine because we are close enough to answer, btw what the fuck is this
     //second iteration to make it more accurate
     y = y * (threeHalfs - (x2 * y * y)); // newton iteration, 2 is fine because we are close enough to answer, btw what the fuck is this
     
-    return y;
+    
+    //i literally have no idea why it returns a negative
+    return fabs(y);
 }
 
 hf_inline f32 hf_f_isqrt(f32 in){
@@ -35,7 +37,7 @@ hf_inline f32 hf_f_isqrt(f32 in){
     
     i = *(i64*)&y; // convert memory address to long for bit shifting
     i = 0x5f375a86 - (i >> 1); // shift exponent right to divide by two and negate that (y^(-1/2)), also what the fuck?
-    y = *(i64*)&i; //convert memory address back to float for output
+    y = *(f32*)&i; //convert memory address back to float for output
     y = y * (threeHalfs - (x2 * y * y)); // newton iteration, 1 is fine because we are close enough to answer, btw what the fuck is this
     
     return y;

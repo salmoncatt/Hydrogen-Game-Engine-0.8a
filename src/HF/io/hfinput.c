@@ -12,12 +12,28 @@ b8 hf_input_cursor_visibility_last = 1;
 v2f hf_input_cursor_pos = {};
 v2f hf_input_cursor_pos_last = {};
 v2f hf_input_cursor_movement = {};
+v2f hf_input_center = {};
 
-void hf_input_update(){
+void hf_input_update(hf_app* app){
     hf_memcpy(hf_input_keys_old, hf_input_keys, (sizeof(b8) * HF_KEY_LAST));
     hf_memcpy(hf_input_buttons_old, hf_input_buttons, (sizeof(b8) * HF_MOUSE_BUTTON_LAST));
-    hf_input_cursor_movement = hf_sub_v2f(hf_input_cursor_pos, hf_input_cursor_pos_last);
     
+    if(hf_input_cursor_visibility){
+        hf_input_cursor_movement = hf_sub_v2f(hf_input_cursor_pos, hf_input_cursor_pos_last);
+        
+    }else if(!hf_input_cursor_visibility && !hf_input_cursor_visibility_last){
+        hf_input_cursor_movement = hf_sub_v2f(hf_input_cursor_pos, hf_input_center);
+        hf_log("[%f %f]\n", hf_input_cursor_pos.x, hf_input_cursor_pos.y);
+        hf_log("[%f %f]\n", hf_input_center.x, hf_input_center.y);
+        //hf_log("[%f %f]\n", hf_input_cursor_movement.x, hf_input_cursor_movement.y);
+        hf_input_cursor_pos = hf_input_center;
+        SetCursorPos((i32)hf_input_center.x + app->window.x + 10, (i32)hf_input_center.y + app->window.y + 33);
+        
+    }else if(!hf_input_cursor_visibility  && hf_input_cursor_visibility_last){
+        hf_input_cursor_movement = hf_v2f(0, 0);
+        hf_input_cursor_pos = hf_input_center;
+        SetCursorPos((i32)hf_input_center.x + app->window.x, (i32)hf_input_center.y + app->window.y);
+    }
     
     /* 
         if(!hf_input_cursor_visibility_last && hf_input_cursor_visibility){
@@ -25,7 +41,7 @@ void hf_input_update(){
         }
      */
     
-    
+    //hf_input_cursor_pos = hf_input_middle;
     hf_input_cursor_pos_last = hf_input_cursor_pos;
     hf_input_cursor_visibility_last = hf_input_cursor_visibility;
 }

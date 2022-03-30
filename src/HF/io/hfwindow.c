@@ -277,11 +277,9 @@ void hf_update_window(hf_window* w){
         }
     }
     
+    hf_input_center = hf_v2f(w->width / 2, w->height / 2);
     
-    if(!hf_input_cursor_visibility){
-        v2f center = hf_v2f(w->width / 2, w->height / 2);
-        SetCursorPos((i32)center.x + w->x, (i32)center.y + w->y);
-    }
+    //hf_input_middle = center;
 }
 
 
