@@ -15,7 +15,11 @@ v2f hf_input_cursor_movement = {};
 v2f hf_input_center = {};
 
 void hf_input_update(hf_app* app){
-    // NOTE(salmoncatt): moved all this crap to window update, mouse movement actually works over there
+    hf_memcpy(hf_input_keys_old, hf_input_keys, (sizeof(b8) * HF_KEY_LAST));
+    hf_memcpy(hf_input_buttons_old, hf_input_buttons, (sizeof(b8) * HF_MOUSE_BUTTON_LAST));
+    
+    
+    // NOTE(salmoncatt): moved all this mouse movement crap to window update, mouse movement actually works over there
 }
 
 v2f hf_input_get_mouse_movement(){
