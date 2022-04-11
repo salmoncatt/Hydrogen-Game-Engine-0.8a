@@ -270,6 +270,8 @@ void hf_update_window(hf_window* w){
             hf_input_cursor_pos.x = point.x;
             hf_input_cursor_pos.y = point.y;
             
+            //hf_log("[%li %li]\n", point.x, point.y);
+            
             if(hf_input_cursor_pos.x < 0)
                 hf_input_cursor_pos.x = 0;
             if(hf_input_cursor_pos.y < 0)
@@ -278,6 +280,53 @@ void hf_update_window(hf_window* w){
     }
     
     hf_input_center = hf_v2f(w->width / 2, w->height / 2);
+    
+    hf_memcpy(hf_input_keys_old, hf_input_keys, (sizeof(b8) * HF_KEY_LAST));
+    hf_memcpy(hf_input_buttons_old, hf_input_buttons, (sizeof(b8) * HF_MOUSE_BUTTON_LAST));
+    
+    
+    hf_input_cursor_movement = hf_sub_v2f(hf_input_cursor_pos, hf_input_cursor_pos_last);
+    
+    if(!hf_input_cursor_visibility){
+        hf_input_cursor_pos_last = hf_input_cursor_pos;
+        
+    }else{
+        v2f input_movement = hf_v2f(hf_abs(hf_input_cursor_movement.x), hf_abs(hf_input_cursor_movement.y));
+        
+        if(input_movement.x > 0 || input_movement.y > 0){
+            SetCursorPos((i32)((f32)hf_input_center.x + (f32)w->x + 10), (i32)((f32)hf_input_center.y + (f32)w->y + 33));
+            POINT point;
+            GetCursorPos(&point);
+            
+            hf_input_cursor_pos_last = hf_input_center;
+        }
+        
+    }
+    
+    /* 
+        if(hf_input_cursor_visibility && hf_input_cursor_visibility_last){
+            hf_input_cursor_movement = hf_sub_v2f(hf_input_cursor_pos, hf_input_center);
+            //hf_log("[%f %f]\n", hf_input_cursor_pos.x, hf_input_cursor_pos.y);
+            //hf_log("[%f %f]\n", hf_input_center.x, hf_input_center.y);
+            //hf_log("[%f %f]\n", hf_input_cursor_movement.x, hf_input_cursor_movement.y);
+            hf_input_cursor_pos = hf_input_center;
+            SetCursorPos((i32)((f32)hf_input_center.x + (f32)app->window.x + 10), (i32)((f32)hf_input_center.y + (f32)app->window.y + 33));
+            
+        }else if(hf_input_cursor_visibility  && !hf_input_cursor_visibility_last){
+            hf_input_cursor_movement = hf_v2f(0, 0);
+            hf_input_cursor_pos = hf_input_center;
+            SetCursorPos((i32)((f32)hf_input_center.x + (f32)app->window.x), (i32)((f32)hf_input_center.y + (f32)app->window.y));
+        }
+     */
+    
+    /* 
+        if(!hf_input_cursor_visibility_last && hf_input_cursor_visibility){
+            
+        }
+     */
+    
+    //hf_input_cursor_pos = hf_input_middle;
+    hf_input_cursor_visibility_last = hf_input_cursor_visibility;
     
     //hf_input_middle = center;
 }

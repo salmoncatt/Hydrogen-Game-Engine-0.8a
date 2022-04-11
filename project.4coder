@@ -9,6 +9,7 @@ patterns = {
 	"*.h",
 	"*.bat",
 	"*.sh",
+	"*.glsl",
 	"*.4coder",
 };
 

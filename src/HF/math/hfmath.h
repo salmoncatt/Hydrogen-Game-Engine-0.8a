@@ -17,6 +17,8 @@ _a < _b ? _a : _b; }) \
 __typeof__ (b) _b = (b); \
 _a > _b ? _a : _b; }) \
 
+#define hf_abs(x)  ( ( (x) < 0) ? -(x) : (x) )
+
 const extern f64 hf_PI;
 
 
