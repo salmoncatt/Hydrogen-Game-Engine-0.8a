@@ -3,6 +3,12 @@
 #ifndef HFDEBUG_H
 #define HFDEBUG_H
 
+/* 
+struct vec2f;
+struct vec3f;
+struct vec4f;
+ */
+
 // NOTE(salmoncatt): in hf app have current foreground and background color pls cool thanks
 
 // NOTE(salmoncatt): debug text colors (see here for color codes)
@@ -50,6 +56,12 @@ void hf_debug_set_text_color(hf_debug_color foregroundColor, hf_debug_color back
 
 // NOTE(salmoncatt): lets you use hf color codes: $hfcc{FF0000} makes it red
 void hf_log(const char* msg, ...);
+
+
+//i dont know how this part compiles without including hfmath, probably pch or something
+void hf_log_v2f(v2f vec);
+void hf_log_v3f(v3f vec);
+void hf_log_v4f(v4f vec);
 
 void hf_vlog(const char* msg, va_list list);
 

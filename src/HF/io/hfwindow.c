@@ -291,7 +291,7 @@ void hf_update_window(hf_window* w){
         v2f input_movement = hf_v2f(hf_abs(hf_input_cursor_movement.x), hf_abs(hf_input_cursor_movement.y));
         
         if(input_movement.x > 0 || input_movement.y > 0){
-            SetCursorPos((i32)((f32)hf_input_center.x + (f32)w->x + 10), (i32)((f32)hf_input_center.y + (f32)w->y + 33));
+            hf_window_set_cursor_pos(w, hf_input_center);
             POINT point;
             GetCursorPos(&point);
             
@@ -321,4 +321,12 @@ void hf_set_window_title(hf_window* window, const char* title){
 
 void hf_swap_interval(b8 vsync){
     wglSwapIntervalEXT(vsync);
+}
+
+void hf_window_set_cursor_pos(hf_window* window, v2f pos){
+    POINT p;
+    p.x = (i32)pos.x;
+    p.y = (i32)pos.y;
+    ClientToScreen(window->hwnd, &p);
+    SetCursorPos(p.x, p.y);
 }

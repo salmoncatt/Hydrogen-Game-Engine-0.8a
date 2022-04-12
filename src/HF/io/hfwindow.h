@@ -141,5 +141,6 @@ void hf_window_set_key_callback(hf_window* window, void (*hf_key_callback)(hf_wi
 // NOTE(salmoncatt): vsync
 void hf_swap_interval(b8 vsync);
 
+void hf_window_set_cursor_pos(hf_window* window, v2f pos);
 
 #endif //_WINDOW_H

@@ -601,7 +601,7 @@ m4f hf_view_m4f(v3f position, v3f rotation){
 }
 
 v3f hf_get_dir_from_rot(v3f rot){
-    v3f vec = hf_v3f(sin((f32)hf_to_radians(rot.y)), tan((f32)hf_to_radians(rot.x)), cos((f32)hf_to_radians(rot.z)));
+    v3f vec = hf_v3f(sin((f32)hf_to_radians(rot.y)), tan((f32)hf_to_radians(rot.x)), cos((f32)hf_to_radians(rot.y)));
     vec= hf_normalize_v3f(vec);
     return vec;
 }

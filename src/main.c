@@ -121,6 +121,8 @@ int main(void){
         
         hf_update_debug_camera(&hf_renderer_cam);
         
+        hf_log_v3f(hf_renderer_cam.direction);
+        
         hf_renderer_proj_mat = hf_perspective_m4f(app.window.width, app.window.height, 90, 0.1f, 1000);
         
         hf_limit_fps(300);
