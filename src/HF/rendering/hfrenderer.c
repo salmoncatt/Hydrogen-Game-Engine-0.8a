@@ -1,6 +1,6 @@
 #include "hfrenderer.h"
 
-hf_debug_camera hf_renderer_cam = { .sensitivity = 0.04f, .movement_speed = 10};
+hf_debug_camera hf_renderer_cam = { .sensitivity = 0.05f, .movement_speed = 10};
 m4f hf_renderer_proj_mat = {};;
 
 void hf_renderer_init(hf_app* app) {

@@ -38,6 +38,12 @@ void hf_update_debug_camera(hf_debug_camera* camera){
     //hf_log(" [%f %f %f] [%f %f %f]\n", camera->transform.pos.x, camera->transform.pos.y, camera->transform.pos.z, camera->transform.rot.x, camera->transform.rot.y, camera->transform.rot.z);
     
     
+    if (camera->transform.rot.x < -90)
+        camera->transform.rot.x = -90;
+    else if (camera->transform.rot.x > 90)
+        camera->transform.rot.x = 90;
+    
+    
     //this is the camera in the debug camera
     camera->camera.pos = camera->transform.pos;
     camera->camera.rot = camera->transform.rot;
