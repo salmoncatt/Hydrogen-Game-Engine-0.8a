@@ -12,7 +12,12 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
         hf_input_keys[key] = is_down;
         
         if(key == HF_KEY_SHIFT){
-            u32 state = 
+            u32 state = GetKeyState(VK_SHIFT);
+            if(state & 0x80000000){
+                hf_input_keys[HF_KEY_LEFT_SHIFT] = is_down;
+            }else{
+                hf_input_keys[HF_KEY_RIGHT_SHIFT] = is_down;
+            }
         }
         
     }else if(msg == WM_LBUTTONDOWN){
