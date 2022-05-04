@@ -180,6 +180,7 @@ void hf_input_destroy();
 //#define HF_KEY_KP_EQUAL 336
 
 #define HF_KEY_LEFT_SHIFT VK_LSHIFT
+#define HF_KEY_SHIFT VK_SHIFT
 #define HF_KEY_LEFT_CONTROL VK_LCONTROL
 #define HF_KEY_LEFT_ALT VK_LMENU
 //#define HF_KEY_LEFT_SUPER 343

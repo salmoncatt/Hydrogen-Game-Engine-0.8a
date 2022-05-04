@@ -113,6 +113,10 @@ int main(void){
             
             hf_input_toggle_cursor();
             
+            if(hf_input_get_key_down(HF_KEY_SHIFT)){
+                hf_log("SHIFT PRESSED\n");
+            }
+            
             //printf("key pressed: %u %u\n", hf_input_keys[HF_KEY_MINUS], hf_input_keys_old[HF_KEY_MINUS]);
             //printf("key pressed\n");
         }
@@ -121,7 +125,7 @@ int main(void){
         
         hf_update_debug_camera(&hf_renderer_cam);
         
-        hf_log_v3f(hf_renderer_cam.direction);
+        //hf_log_v3f(hf_renderer_cam.direction);
         
         hf_renderer_proj_mat = hf_perspective_m4f(app.window.width, app.window.height, 90, 0.1f, 1000);
         

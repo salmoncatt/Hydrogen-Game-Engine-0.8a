@@ -11,6 +11,10 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
     if(msg == WM_SYSKEYDOWN || msg == WM_SYSKEYUP || msg == WM_KEYDOWN || msg == WM_KEYUP){
         hf_input_keys[key] = is_down;
         
+        if(key == HF_KEY_SHIFT){
+            u32 state = 
+        }
+        
     }else if(msg == WM_LBUTTONDOWN){
         hf_input_buttons[HF_MOUSE_BUTTON_LEFT] = 1;
     }else if(msg == WM_LBUTTONUP){
@@ -20,6 +24,12 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
     }else if(msg == WM_RBUTTONUP){
         hf_input_buttons[HF_MOUSE_BUTTON_RIGHT] = 0;
     }
+    
+    /* 
+        if(key == VK_SHIFT){
+            hf_log("SHIFT PRESSED\n");
+        }
+     */
     
     /* 
         if(msg == WM_ENTERSIZEMOVE){
