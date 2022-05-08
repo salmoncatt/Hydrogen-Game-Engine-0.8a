@@ -18,14 +18,15 @@ int main(void){
     //hf_MLD_start();
     hf_app app = hf_app_defaults();
     app.name = "haha, what a goober";
-    app.parameters = HF_APP_CREATE_WINDOW | HF_APP_USE_OPENGL | HF_APP_USE_ECS;
+    app.parameters = HF_APP_USE_OPENGL | HF_APP_USE_ECS;
     
     hf_app_init(&app);
     app.window.title = "what a goober";
     hf_app_start(&app);
     
+    hf_ecs* ecs = &app.ecs;
     
-    // NOTE(salmoncatt): please put all opengl things after this thanks
+    // NOTE(salmoncatt): please put all opengl things after this thaaaanks
     
     
     hf_shader shader = {};
@@ -80,11 +81,18 @@ int main(void){
     
     hf_texture texture = hf_texture_from_file("../res/images/patrick.png");
     hf_texture_create(&texture);
-    
     mesh.texture = texture;
     
+    hf_entity mesh_test = hf_ecs_create_entity(ecs);
+    hf_tag tag = {"mesh"};
+    hf_ecs_add_component(ecs, mesh_test, hf_tag, &tag);
+    hf_ecs_add_component(ecs, mesh_test, hf_mesh, &mesh);
+    hf_ecs_add_component(ecs, mesh_test, hf_transform, &transform);
+    //hf_log("%s\n", ((hf_tag*)(hf_ecs_get_component(ecs, mesh_test, hf_tag)))->name);
+    
+    
+    
     printf("time: %lf\n", hf_get_time());
-    printf("apdngp: %f %f\n", hf_f_sqrt(16), hf_f_isqrt(4));
     //hf_vector_free(&vector);
     //hf_window_set_key_callback(&window, &test_callback);
     
@@ -105,7 +113,7 @@ int main(void){
         
         //hf_log("[%i %i]\n", app.window.width, app.window.height);
         
-        hf_render_mesh(&mesh, &shader, &transform);
+        hf_render_mesh((hf_mesh*)(hf_ecs_get_component(ecs, mesh_test, hf_mesh)), &shader, (hf_transform*)(hf_ecs_get_component(ecs, mesh_test, hf_transform)));
         
         //hf_log("[%f, %f]\n", hf_input_get_mouse_movement().x, hf_input_get_mouse_movement().y);
         
@@ -123,11 +131,11 @@ int main(void){
         
         //hf_log("[%f %f %f]\n", hf_renderer_cam.transform.rot.x, hf_renderer_cam.transform.rot.y, hf_renderer_cam.transform.rot.z);
         
-        hf_update_debug_camera(&hf_renderer_cam);
         
         //hf_log_v3f(hf_renderer_cam.direction);
         
-        hf_renderer_proj_mat = hf_perspective_m4f(app.window.width, app.window.height, 90, 0.1f, 1000);
+        
+        //hf_update_debug_camera(&hf_renderer_cam);
         
         hf_limit_fps(300);
     }

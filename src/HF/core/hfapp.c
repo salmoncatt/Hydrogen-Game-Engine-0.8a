@@ -25,12 +25,10 @@ void hf_app_init(hf_app* app){
     
     if(app->parameters){
         //hf_log("[HF APP] app: [%s] is using parameters: [");
-        if(app->parameters & HF_APP_CREATE_WINDOW){
-            //hf_log("CREATE_WINDOW");
-            hf_window_defaults(&app->window);
-        }
+        
         
         if(app->parameters & HF_APP_USE_ECS){
+            hf_window_defaults(&app->window);
             hf_ecs_init(&app->ecs);
         }
         
@@ -46,17 +44,18 @@ void hf_app_init(hf_app* app){
 }
 
 void hf_app_start(hf_app* app){
-    if(app->parameters & HF_APP_CREATE_WINDOW){
-        hf_create_window(&app->window);
-    }
     
     if(app->parameters & HF_APP_USE_OPENGL){
+        hf_create_window(&app->window);
         hf_renderer_init(app);
         //hf_renderer_init_2d(app);
     }
 }
 
 void hf_app_update(hf_app* app){
+    if(app->parameters & HF_APP_USE_OPENGL){
+        hf_renderer_update(app);
+    }
     hf_time_update();
     hf_input_update(app);
 }
@@ -68,12 +67,8 @@ b8 hf_app_should_update(hf_app* app){
 
 void hf_app_stop(hf_app* app){
     
-    if(app->parameters & HF_APP_CREATE_WINDOW){
-        //hf_log("CREATE_WINDOW");
-        hf_destroy_window(&app->window);
-    }
-    
     if(app->parameters & HF_APP_USE_ECS){
+        hf_destroy_window(&app->window);
         hf_ecs_destroy(&app->ecs);
     }
     

@@ -19,6 +19,11 @@ void hf_renderer_init(hf_app* app) {
     hf_log("[HF] initialized HF Renderer\n\n");
 }
 
+void hf_renderer_update(hf_app* app){
+    hf_renderer_proj_mat = hf_perspective_m4f(app->window.width, app->window.height, 90, 0.1f, 1000);
+    hf_update_debug_camera(&hf_renderer_cam);
+}
+
 void hf_renderer_destroy(hf_app* app) {
     hf_log("[HF] destroyed HF Renderer\n");
 }
