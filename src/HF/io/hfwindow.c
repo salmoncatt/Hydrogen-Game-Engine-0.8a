@@ -10,15 +10,18 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
     
     if(msg == WM_SYSKEYDOWN || msg == WM_SYSKEYUP || msg == WM_KEYDOWN || msg == WM_KEYUP){
         hf_input_keys[key] = is_down;
-        
-        if(key == HF_KEY_SHIFT){
-            u32 state = GetKeyState(VK_SHIFT);
-            if(state & 0x80000000){
-                hf_input_keys[HF_KEY_LEFT_SHIFT] = is_down;
-            }else{
-                hf_input_keys[HF_KEY_RIGHT_SHIFT] = is_down;
-            }
-        }
+        /* 
+                if(key == HF_KEY_SHIFT){
+                    u32 state = GetKeyState(VK_SHIFT);
+                    if(state & 0x80000000){
+                        printf("l shift %u\n", is_down);
+                        hf_input_keys[HF_KEY_LEFT_SHIFT] = is_down;
+                    }else{
+                        printf("r shift %u\n", is_down);
+                        hf_input_keys[HF_KEY_RIGHT_SHIFT] = is_down;
+                    }
+                }
+         */
         
     }else if(msg == WM_LBUTTONDOWN){
         hf_input_buttons[HF_MOUSE_BUTTON_LEFT] = 1;

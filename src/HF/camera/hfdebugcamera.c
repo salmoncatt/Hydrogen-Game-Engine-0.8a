@@ -2,7 +2,7 @@
 
 void hf_update_debug_camera(hf_debug_camera* camera){
     
-    f32 speed = hf_get_delta_time() * ((hf_input_get_key(HF_KEY_LEFT_SHIFT)) ? camera->movement_speed * 2 : camera->movement_speed);
+    f32 speed = hf_get_delta_time() * ((hf_input_get_key(HF_KEY_SHIFT)) ? camera->movement_speed * 2 : camera->movement_speed);
     
     f32 dir_x = camera->direction.x * speed;
     f32 dir_z = camera->direction.z * speed;
@@ -19,7 +19,7 @@ void hf_update_debug_camera(hf_debug_camera* camera){
         camera->transform.pos = hf_add_v3f(camera->transform.pos, hf_v3f(-dir_z, 0, dir_x));
     if(hf_input_get_key(HF_KEY_SPACE))
         camera->transform.pos = hf_add_v3f(camera->transform.pos, hf_v3f(0, speed, 0));
-    if(hf_input_get_key(HF_KEY_LEFT_CONTROL))
+    if(hf_input_get_key(HF_KEY_CONTROL))
         camera->transform.pos = hf_add_v3f(camera->transform.pos, hf_v3f(0, -speed, 0));
     
     //v2f rotation_amount = !hf_input_get_cursor_visibility() ? hf_mul_v2f_f(hf_input_get_mouse_movement(), -camera->sensitivity) : hf_v2f(0, 0);
