@@ -9,12 +9,18 @@ typedef struct hf_array{
 	void* data;
     u64 size;
     u64 capacity;
+    u64 init_capacity;
     u32 data_size;
+    const char* type_name;
+    
     
 } hf_array;
 
 
-void hf_array_init(hf_array* array);
+
+void hf_internal_array_init(hf_array* array, u32 data_size, const char* name);
+#define hf_array_init(array, type) hf_internal_array_init(array, sizeof(type), #type)
+
 
 b8 hf_array_resize(hf_array* array, u64 capacity, u32 data_size);
 

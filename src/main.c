@@ -43,7 +43,7 @@ int main(void){
     hf_mesh mesh = {};
     
     
-    float vertices[] = {
+    f32 vertices[] = {
         -0.5f, 0.5f, 0,
         -0.5f, -0.5f, 0,
         0.5f, -0.5f, 0,
@@ -55,7 +55,7 @@ int main(void){
         3, 1, 2
     };
     
-    float texture_coords[] = {
+    f32 texture_coords[] = {
         0, 0,
         0, 1,
         1, 1,
@@ -84,13 +84,16 @@ int main(void){
     mesh.texture = texture;
     
     hf_entity mesh_test = hf_ecs_create_entity(ecs);
-    hf_tag tag = {"mesh"};
+    hf_tag tag = {"mesh", "patrick les go"};
     hf_ecs_add_component(ecs, mesh_test, hf_tag, &tag);
     hf_ecs_add_component(ecs, mesh_test, hf_mesh, &mesh);
     hf_ecs_add_component(ecs, mesh_test, hf_transform, &transform);
     //hf_log("%s\n", ((hf_tag*)(hf_ecs_get_component(ecs, mesh_test, hf_tag)))->name);
     
-    
+    hf_array test_array = {};
+    test_array.init_capacity = 355;
+    hf_array_init(&test_array, f32);
+    hf_log("[%u, %u, %u, %s]\n", test_array.size, test_array.capacity, test_array.data_size, test_array.type_name);
     
     printf("time: %lf\n", hf_get_time());
     //hf_vector_free(&vector);

@@ -1,10 +1,13 @@
 #include "hfarray.h"
 
-/* 
-void hf_array_init(hf_array* array){
+
+void hf_internal_array_init(hf_array* array, u32 data_size, const char* name){
     if(array->capacity == 0){
         if(array->data == NULL){
-            array->capacity = HF_ARRAY_INIT_CAPACITY;
+            array->capacity = (array->init_capacity > 0 ? array->init_capacity : HF_ARRAY_INIT_CAPACITY);
+            
+            array->type_name = name;
+            array->data_size = data_size;
             
             array->data = hf_malloc(array->data_size * array->capacity);
             array->size = 0;
@@ -23,7 +26,7 @@ b8 hf_array_push_back(hf_array* array, void* in){
 b8 hf_array_free(hf_array* array){
     
 }
- */
+
 
 /* 
 void hf_array_init(hf_array* array){

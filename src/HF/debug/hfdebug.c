@@ -28,6 +28,12 @@ void hf_log_v4f(v4f vec){
     hf_log("[%f %f %f]\n", vec.x, vec.y, vec.z, vec.w);
 }
 
+/* 
+void hf_debug_print_data(void* data, type){
+    
+}
+ */
+
 void hf_vlog(const char* msg, va_list args){
     
     // NOTE(salmoncatt): format the msg itself

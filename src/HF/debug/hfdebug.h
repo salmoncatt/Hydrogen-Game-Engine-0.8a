@@ -74,6 +74,9 @@ void hf_print_gcc_last_error();
 
 void hf_print_errors();
 
+//void hf_debug_print_data(void* data, const char* type);
+//#define hf_print_data(data, type) hf_debug_print_data(data, #type)
+
 // TODO(salmoncatt): finish this
 /* 
 #ifdef HF_DEBUG

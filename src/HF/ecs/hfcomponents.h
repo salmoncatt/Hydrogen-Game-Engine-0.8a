@@ -5,6 +5,7 @@
 
 typedef struct hf_tag{
     
+    const char* type;
     const char* name;
     
 }hf_tag;

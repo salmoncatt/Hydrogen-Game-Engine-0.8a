@@ -17,6 +17,7 @@
 
 #include "datatypes/hfdatatypes.h"
 #include "datatypes/hfvector.h"
+#include "datatypes/hfarray.h"
 #include "datatypes/hflinkedlist.h"
 #include "datatypes/hfstring.h"
 #include "datatypes/hffloatbuffer.h"
