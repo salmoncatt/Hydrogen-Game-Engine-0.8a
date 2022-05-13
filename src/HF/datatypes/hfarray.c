@@ -15,16 +15,64 @@ void hf_internal_array_init(hf_array* array, u32 data_size, const char* name){
     }
 }
 
-b8 hf_array_resize(hf_array* array, u64 capacity, u32 data_size){
+b8 hf_array_resize(hf_array* array, u64 capacity){
+    u32 status = HF_FAIL;
     
+	if (array) {
+        if(array->data != NULL){
+            void* data = realloc(array->data, array->data_size * capacity);
+            hf_assertf(data, "array  resize realloc failed");
+            
+            if (data) {
+                array->data = data;
+                array->capacity = capacity;
+                status = HF_SUCCESS;
+            }
+        }
+	}
+    
+	return status;
 }
 
+/* 
 b8 hf_array_push_back(hf_array* array, void* in){
+    u32 status = HF_FAIL;
     
+	if (array) {
+		if(array->data != NULL){
+            if (array->size >= array->capacity) {
+                status = hf_array_resize(array, array->capacity * 2);
+                if (status) {
+                    array->data[array->size] = in;
+                    array->size += 1;
+                }
+            }
+            else {
+                vector->data[vector->size] = in;
+                vector->size += 1;
+                status = HF_SUCCESS;
+            }
+        }
+	}
+    
+	return status;
 }
+ */
 
 b8 hf_array_free(hf_array* array){
+    b8 status = HF_FAIL;
     
+	if (array) {
+        if(array->data != NULL){
+            free(array->data);
+            array->data = NULL;
+            array->size = 0;
+            array->capacity = 0;
+            status = HF_SUCCESS;
+        }
+	}
+    
+	return status;
 }
 
 

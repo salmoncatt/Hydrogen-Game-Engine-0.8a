@@ -90,10 +90,19 @@ int main(void){
     hf_ecs_add_component(ecs, mesh_test, hf_transform, &transform);
     //hf_log("%s\n", ((hf_tag*)(hf_ecs_get_component(ecs, mesh_test, hf_tag)))->name);
     
-    hf_array test_array = {};
-    test_array.init_capacity = 355;
-    hf_array_init(&test_array, f32);
-    hf_log("[%u, %u, %u, %s]\n", test_array.size, test_array.capacity, test_array.data_size, test_array.type_name);
+    /* 
+        hf_array test_array = {};
+        test_array.init_capacity = 355;
+        hf_array_init(&test_array, f32);
+        hf_log("[%u, %u, %u, %s]\n", test_array.size, test_array.capacity, test_array.data_size, test_array.type_name);
+        ((f32*)test_array.data)[0] = 69420;
+        hf_log("%f\n", ((f32*)test_array.data)[0]);
+        
+        hf_array_resize(&test_array, 123456);
+        hf_log("[%u, %u, %u, %s]\n", test_array.size, test_array.capacity, test_array.data_size, test_array.type_name);
+        ((f32*)test_array.data)[0] = 69420;
+        hf_log("%f\n", ((f32*)test_array.data)[0]);
+     */
     
     printf("time: %lf\n", hf_get_time());
     //hf_vector_free(&vector);
