@@ -24,7 +24,11 @@ typedef struct hf_array{
 */
 
 void hf_internal_array_init(hf_array* array, u32 data_size, const char* name);
+//void hf_internal_array_init_from_data(hf_array* array, u32 data_size, const char* name);
+hf_array hf_internal_array_create_from_data(void* data, u32 data_size, const char* name, u32 length);
 #define hf_array_init(array, type) hf_internal_array_init(array, sizeof(type), #type)
+//#define hf_array_init_from_data(array)
+#define hf_array_create_from_data(data, type, length) hf_internal_array_create_from_data(data, sizeof(data), #type, length)
 
 
 b8 hf_array_resize(hf_array* array, u64 capacity);

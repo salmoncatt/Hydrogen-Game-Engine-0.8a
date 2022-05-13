@@ -6,8 +6,8 @@ void hf_mesh_create(hf_mesh* mesh){
     mesh->vao = hf_generate_VAO();
     //glGenBuffers(0, NULL);
     
-    if(mesh->vertices_size)
-        hf_push_data_to_VBO(0, mesh->type, mesh->vertices, mesh->vertices_size);
+    if(mesh->vertices.size > 0)
+        hf_push_data_to_VBO(0, mesh->type, (f32*)(mesh->vertices.data), mesh->vertices.size);
     
     if(mesh->texture_coords_size){
         hf_push_data_to_VBO(1, 2, mesh->texture_coords, mesh->texture_coords_size);

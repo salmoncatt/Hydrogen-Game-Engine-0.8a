@@ -62,8 +62,8 @@ int main(void){
         1, 0,
     };
     
-    mesh.vertices = vertices;
-    mesh.vertices_size = 4 * 3; 
+    mesh.vertices = hf_array_create_from_data(&vertices, f32, 4 * 3);
+    //mesh.vertices_size = 4 * 3; 
     
     mesh.texture_coords = texture_coords;
     mesh.texture_coords_size = 4 * 2; 

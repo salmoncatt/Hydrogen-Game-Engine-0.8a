@@ -6,6 +6,7 @@
 //#include "../datatypes/hfvector.h"
 
 #include "hftexture.h"
+#include "../datatypes/hfarray.h"
 
 typedef struct hf_mesh{
     
@@ -18,8 +19,12 @@ typedef struct hf_mesh{
         hf_vector texture_coords;
         hf_vector indices;
      */
-    float* vertices;
-    u32 vertices_size;
+    
+    hf_array vertices;
+    /* 
+        float* vertices;
+        u32 vertices_size;
+     */
     
     float* texture_coords;
     u32 texture_coords_size;

@@ -32,8 +32,8 @@ void hf_render_mesh_2d(hf_mesh* mesh, hf_shader* shader, hf_transform* transform
     
     if(mesh->indices_size)
         glDrawElements(GL_TRIANGLES, mesh->indices_size, GL_UNSIGNED_INT, 0);
-    else if(mesh->vertices_size)
-        glDrawArrays(GL_TRIANGLES, 0, (int)(mesh->vertices_size / mesh->type));
+    else if(mesh->vertices.size > 0)
+        glDrawArrays(GL_TRIANGLES, 0, (int)(mesh->vertices.size / mesh->type));
     
     
     hf_shader_unbind(shader);
