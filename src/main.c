@@ -47,7 +47,7 @@ int main(void){
         -0.5f, 0.5f, 0,
         -0.5f, -0.5f, 0,
         0.5f, -0.5f, 0,
-        0.5f, 0.5f, 0,
+        0.5f, 0.5f, 0
     };
     
     u32 indices[] = {
@@ -59,20 +59,31 @@ int main(void){
         0, 0,
         0, 1,
         1, 1,
-        1, 0,
+        1, 0
     };
     
+    printf("working here\n");
+    mesh.indices = hf_array_create_from_data(&indices, u32, 2 * 3);
+    printf("working here\n");
+    mesh.texture_coords = hf_array_create_from_data(&texture_coords, f32, 4 * 2);
+    printf("working here\n");
     mesh.vertices = hf_array_create_from_data(&vertices, f32, 4 * 3);
-    //mesh.vertices_size = 4 * 3; 
+    printf("working here\n");
     
-    mesh.texture_coords = texture_coords;
-    mesh.texture_coords_size = 4 * 2; 
     
-    mesh.indices = indices;
-    mesh.indices_size = 2 * 3; 
-    mesh.type = 3;
-    
+    //mesh.type = 3; //redundant
     hf_mesh_create(&mesh);
+    
+    /* 
+        //mesh.vertices_size = 4 * 3; 
+        
+        mesh.texture_coords = texture_coords;
+        mesh.texture_coords_size = 4 * 2; 
+        
+        mesh.indices = indices;
+        mesh.indices_size = 2 * 3; 
+     */
+    
     
     v3f pos = {0.2f, 0, -1};
     v3f rot = {0, 0, 0};

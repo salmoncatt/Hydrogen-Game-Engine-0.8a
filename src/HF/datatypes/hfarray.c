@@ -36,11 +36,13 @@ b8 hf_array_resize(hf_array* array, u64 capacity){
 
 hf_array hf_internal_array_create_from_data(void* data, u32 data_size, const char* name, u32 length){
     hf_array array = {};
-    array.data = data;
     array.data_size = data_size;
+    array.capacity = length;
     array.type_name = name;
     array.size = length;
     
+    array.data = (void*)hf_malloc(array.size * array.capacity);
+    array.data = (void*)hf_memcpy(&array.data, data, (length * data_size));
     //array->data = hf_malloc(array->data_size * array->capacity);
     
     

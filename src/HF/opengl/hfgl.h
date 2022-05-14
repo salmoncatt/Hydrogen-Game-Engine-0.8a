@@ -27,6 +27,7 @@ HF_GLE(void,   BufferData, GLenum target, GLsizeiptr size, const GLvoid* data, G
 HF_GLE(void,   VertexAttribPointer, GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer)\
 HF_GLE(void,   DeleteBuffers, GLsizei n, const GLuint *buffers)\
 HF_GLE(void,   GenVertexArrays, GLsizei n, GLuint *arrays);\
+HF_GLE(void,   DeleteVertexArrays, GLsizei n, GLuint *arrays);\
 HF_GLE(void,   BindVertexArray, GLuint array);\
 HF_GLE(void,   EnableVertexAttribArray, GLuint index);\
 HF_GLE(void,   DisableVertexAttribArray, GLuint index);\

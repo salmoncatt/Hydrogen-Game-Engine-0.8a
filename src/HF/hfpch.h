@@ -33,6 +33,7 @@
 #include "debug/hfdebug.h"
 #include "datatypes/hfstring.h"
 #include "datatypes/hfvector.h"
+#include "datatypes/hfarray.h"
 #include "io/hfinput.h"
 
 #include "opengl/hfgl.h"
