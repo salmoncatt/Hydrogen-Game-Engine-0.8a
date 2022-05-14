@@ -35,9 +35,9 @@ void hf_mesh_create(hf_mesh* mesh){
 }
 
 void hf_mesh_destroy(hf_mesh* mesh){
-    //hf_array_free(mesh->vertices.data);
+    hf_array_free(mesh->vertices.data);
     hf_array_free(mesh->texture_coords.data);
-    //hf_array_free(mesh->indices.data);
+    hf_array_free(mesh->indices.data);
     mesh->created = 0;
     //glDeleteVertexArrays(1, &mesh->vao);
 }

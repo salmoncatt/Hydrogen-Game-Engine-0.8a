@@ -40,7 +40,7 @@ hf_array hf_internal_array_create_from_data(void* data, u32 data_size, const cha
     array.capacity = length;
     array.type_name = name;
     array.size = length;
-    
+    //array.data = data;
     array.data = (void*)hf_malloc(array.size * array.capacity);
     array.data = (void*)hf_memcpy(&array.data, data, (length * data_size));
     //array->data = hf_malloc(array->data_size * array->capacity);

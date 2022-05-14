@@ -62,13 +62,10 @@ int main(void){
         1, 0
     };
     
-    printf("working here\n");
-    mesh.indices = hf_array_create_from_data(&indices, u32, 2 * 3);
-    printf("working here\n");
-    mesh.texture_coords = hf_array_create_from_data(&texture_coords, f32, 4 * 2);
-    printf("working here\n");
-    mesh.vertices = hf_array_create_from_data(&vertices, f32, 4 * 3);
-    printf("working here\n");
+    mesh.indices = hf_array_create_from_data((void*)(&indices), u32, 2 * 3);
+    mesh.texture_coords = hf_array_create_from_data((void*)(&texture_coords), f32, 4 * 2);
+    printf("working\n");
+    mesh.vertices = hf_array_create_from_data((void*)(&vertices), f32, 4 * 3);
     
     
     //mesh.type = 3; //redundant
