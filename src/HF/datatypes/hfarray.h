@@ -16,6 +16,9 @@ void* hf_internal_array_create_from_data(void* data, u64 stride, u64 length);
 #define hf_array_create(type) hf_internal_array_create(HF_ARRAY_INIT_CAPACITY, sizeof(type))
 #define hf_array_create_from_data(data, type, length) hf_internal_array_create_from_data((void*)data, sizeof(type), length)
 
+void hf_internal_array_push_back(void* array, void* value);
+#define hf_array_push_back(array, value) hf_internal_array_push_back(array, &value)
+
 void hf_array_free(void* array);
 
 u64 hf_array_field_get(void* array, u64 field_id);

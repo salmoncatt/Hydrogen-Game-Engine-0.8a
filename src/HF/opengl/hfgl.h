@@ -11,6 +11,7 @@
 #include <GL/wglext.h>
 
 extern b8 hf_gl_created;
+extern u32* hf_gl_vbos;
 
 //used these resources: https://github.com/ApoorvaJ/Papaya/blob/3808e39b0f45d4ca4972621c847586e4060c042a/src/libs/gl_lite.h
 //http://www.rastertek.com/gl40tut03.html

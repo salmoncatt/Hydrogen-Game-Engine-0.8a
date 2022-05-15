@@ -44,6 +44,15 @@ void* hf_array_resize(void* array, u64 size){
     return temp;
 }
 
+void hf_internal_array_push_back(void* array, void* value){
+    if(hf_array_size(array) >= hf_array_capacity(array)){
+        hf_array_resize(array, hf_array_size(array) * 2);
+    }
+    
+    hf_memcpy(array + hf_array_size(array) * hf_array_stride(array), value, hf_array_stride(array));
+    hf_array_field_set(array, HF_ARRAY_SIZE, hf_array_size(array) + 1);
+}
+
 /* 
 void hf_internal_array_init(hf_array* array, u32 data_size, const char* name){
     if(array->capacity == 0){

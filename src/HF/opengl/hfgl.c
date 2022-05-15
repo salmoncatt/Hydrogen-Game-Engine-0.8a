@@ -1,6 +1,7 @@
 #include "hfgl.h"
 
 b8 hf_gl_created = 0;
+u32* hf_gl_vbos;
 
 // NOTE(salmoncatt): give definitions to opengl extenion functions
 #define HF_GLE(type, name, ...) name##proc* gl##name;
@@ -20,6 +21,7 @@ b8 hf_gl_init(){
         hf_gl_get_version(&major, &minor);
         hf_log("[HF GL] version: [%u.%u]\n", major, minor);
         
+        hf_gl_vbos = hf_array_create(u32);
         
         hf_log("[HF GL] initialized\n\n");
         
@@ -109,7 +111,7 @@ u32 hf_generate_VAO(){
 u32 hf_generate_VBO(){
     u32 vbo = 0;
     glGenBuffers(1, &vbo);
-    // TODO(salmoncatt): add vbo to list
+    hf_array_push_back(hf_gl_vbos, vbo);
     return vbo;
     
 }
@@ -175,7 +177,11 @@ void hf_gl_link_and_validate_shader(u32 program_id){
 }
 
 void hf_gl_close(){
-    
+    for(u32 i = 0; i < hf_array_size(hf_gl_vbos); i++){
+        glDeleteBuffers(1, &hf_gl_vbos[i]);
+    }
+    hf_log("[HF GL] successfully deleted %u vbos\n", hf_array_size(hf_gl_vbos));
+    hf_array_free(hf_gl_vbos);
 }
 
 
