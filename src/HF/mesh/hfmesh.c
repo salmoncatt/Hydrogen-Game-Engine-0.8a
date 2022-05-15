@@ -7,18 +7,18 @@ void hf_mesh_create(hf_mesh* mesh){
     mesh->vao = hf_generate_VAO();
     //glGenBuffers(0, NULL);
     
-    if(mesh->vertices.size > 0)
-        hf_push_data_to_VBO(0, mesh->type, (f32*)(mesh->vertices.data), mesh->vertices.size);
-    
-    if(mesh->texture_coords.size > 0){
-        hf_push_data_to_VBO(1, 2, (f32*)(mesh->texture_coords.data), mesh->texture_coords.size);
+    if(hf_array_size(mesh->vertices) > 0){
+        hf_push_data_to_VBO(0, mesh->type, mesh->vertices, hf_array_size(mesh->vertices));
     }
     
-    if(mesh->indices.size > 0){
+    if(hf_array_size(mesh->texture_coords) > 0){
+        hf_push_data_to_VBO(1, 2, mesh->texture_coords, hf_array_size(mesh->texture_coords));
+    }
+    
+    if(hf_array_size(mesh->indices) > 0){
         mesh->ibo = hf_generate_VBO();
-        hf_push_data_to_IBO((u32*)(mesh->indices.data), mesh->indices.size, mesh->ibo);
+        hf_push_data_to_IBO(mesh->indices, hf_array_size(mesh->indices), mesh->ibo);
     }
-    
     
     
     //if(!hf_vector_empty(&mesh->texture_coords))
@@ -35,11 +35,11 @@ void hf_mesh_create(hf_mesh* mesh){
 }
 
 void hf_mesh_destroy(hf_mesh* mesh){
-    hf_array_free(mesh->vertices.data);
-    hf_array_free(mesh->texture_coords.data);
-    hf_array_free(mesh->indices.data);
+    hf_array_free(mesh->vertices);
+    hf_array_free(mesh->texture_coords);
+    hf_array_free(mesh->indices);
     mesh->created = 0;
-    //glDeleteVertexArrays(1, &mesh->vao);
+    glDeleteVertexArrays(1, &mesh->vao);
 }
 
 hf_mesh hf_mesh_load_from_file(const char* file_path){

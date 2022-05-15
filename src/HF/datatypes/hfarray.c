@@ -1,6 +1,50 @@
 #include "hfarray.h"
 
 
+void* hf_internal_array_create(u64 capacity, u64 stride){
+    u64 header_size = HF_ARRAY_FIELDS_SIZE * sizeof(u64);
+    u64 data_size = capacity * stride;
+    u64* array = (u64*)hf_malloc(header_size + data_size);
+    array[HF_ARRAY_CAPACITY] = capacity;
+    array[HF_ARRAY_STRIDE] = stride;
+    array[HF_ARRAY_SIZE] = 0;
+    
+    return (void*)(array + HF_ARRAY_FIELDS_SIZE);
+}
+
+void* hf_internal_array_create_from_data(void* data, u64 stride, u64 length){
+    u64 header_size = HF_ARRAY_FIELDS_SIZE * sizeof(u64);
+    u64 data_size = (length + 10) * stride;
+    u64* array = (u64*)hf_malloc(header_size + data_size);
+    array[HF_ARRAY_CAPACITY] = length + 10;
+    array[HF_ARRAY_STRIDE] = stride;
+    array[HF_ARRAY_SIZE] = length;
+    
+    hf_memcpy((void*)(array + HF_ARRAY_FIELDS_SIZE), data, data_size);
+    
+    return (void*)(array + HF_ARRAY_FIELDS_SIZE);
+}
+
+void hf_array_free(void* array){
+    hf_free(array - HF_ARRAY_FIELDS_SIZE * sizeof(u64));
+}
+
+u64 hf_array_field_get(void* array, u64 field_id){
+    return ((u64*)(array) - HF_ARRAY_FIELDS_SIZE)[field_id];
+}
+
+void hf_array_field_set(void* array, u64 field_id, u64 value){
+    ((u64*)(array) - HF_ARRAY_FIELDS_SIZE)[field_id] = value;
+}
+
+void* hf_array_resize(void* array, u64 size){
+    void* temp = hf_internal_array_create(size, hf_array_stride(array));
+    hf_memcpy(temp, (array - HF_ARRAY_FIELDS_SIZE * sizeof(u64)), size * hf_array_field_get(array, hf_array_stride(array)));
+    hf_array_free(array);
+    return temp;
+}
+
+/* 
 void hf_internal_array_init(hf_array* array, u32 data_size, const char* name){
     if(array->capacity == 0){
         if(array->data == NULL){
@@ -48,6 +92,7 @@ hf_array hf_internal_array_create_from_data(void* data, u32 data_size, const cha
     
     return array;
 }
+ */
 
 /* 
 b8 hf_array_push_back(hf_array* array, void* in){
@@ -74,6 +119,7 @@ b8 hf_array_push_back(hf_array* array, void* in){
 }
  */
 
+/* 
 b8 hf_array_free(hf_array* array){
     b8 status = HF_FAIL;
     
@@ -89,6 +135,7 @@ b8 hf_array_free(hf_array* array){
     
 	return status;
 }
+ */
 
 
 /* 

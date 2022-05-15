@@ -62,10 +62,22 @@ int main(void){
         1, 0
     };
     
-    mesh.indices = hf_array_create_from_data((void*)(&indices), u32, 2 * 3);
-    mesh.texture_coords = hf_array_create_from_data((void*)(&texture_coords), f32, 4 * 2);
-    printf("working\n");
-    mesh.vertices = hf_array_create_from_data((void*)(&vertices), f32, 4 * 3);
+    
+    /* 
+        mesh.indices = hf_array_create(u32);
+        mesh.texture_coords = hf_array_create(f32);
+        mesh.vertices = hf_array_create(f32);
+     */
+    
+    
+    mesh.indices = hf_array_create_from_data(&indices, u32, 2 * 3);
+    mesh.texture_coords = hf_array_create_from_data(&texture_coords, f32, 4 * 2);
+    mesh.vertices = hf_array_create_from_data(&vertices, f32, 4 * 3);
+    
+    
+    //hf_array_field_set(&mesh.vertices, HF_ARRAY_SIZE, 100);
+    //printf("%u\n", hf_array_capacity(mesh.vertices));
+    
     
     
     //mesh.type = 3; //redundant

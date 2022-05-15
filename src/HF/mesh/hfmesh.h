@@ -20,17 +20,18 @@ typedef struct hf_mesh{
         hf_vector indices;
      */
     
-    
-    hf_array vertices; //32
+    f32* vertices;
+    //hf_array vertices; //32
     /* 
         f32* vertices;
         u32 vertices_size;
      */
-    
-    hf_array texture_coords; //32
+    f32* texture_coords;
+    //hf_array texture_coords; //32
     //u32 texture_coords_size;
     
-    hf_array indices; //u32
+    u32* indices;
+    //hf_array indices; //u32
     //u32 indices_size;
     
     // TODO(salmoncatt): normals

@@ -30,10 +30,10 @@ void hf_render_mesh_2d(hf_mesh* mesh, hf_shader* shader, hf_transform* transform
     hf_shader_set_uniform_m4f(shader, "transform", &transformation);
     //position
     
-    if(mesh->indices.size > 0)
-        glDrawElements(GL_TRIANGLES, mesh->indices.size, GL_UNSIGNED_INT, 0);
-    else if(mesh->vertices.size > 0)
-        glDrawArrays(GL_TRIANGLES, 0, (int)(mesh->vertices.size / mesh->type));
+    if(hf_array_size(mesh->indices) > 0)
+        glDrawElements(GL_TRIANGLES, hf_array_size(mesh->indices), GL_UNSIGNED_INT, 0);
+    else if(hf_array_size(mesh->vertices) > 0)
+        glDrawArrays(GL_TRIANGLES, 0, (int)(hf_array_size(mesh->vertices) / mesh->type));
     
     
     hf_shader_unbind(shader);
