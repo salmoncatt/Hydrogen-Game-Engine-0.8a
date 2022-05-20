@@ -1,0 +1,14 @@
+# Created with Anim8or 1.00
+# Object "box 01":
+
+newmtl tex_box_01_d
+Ns 32.000000
+map_Kd tex_box_01_d.jpg
+map_Ks tex_box_01_s.jpg
+#map_Ks spec.png
+map_Ke emission.jpg
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+

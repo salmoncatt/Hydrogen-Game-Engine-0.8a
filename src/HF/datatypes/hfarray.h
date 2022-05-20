@@ -10,7 +10,6 @@
 #define HF_ARRAY_STRIDE 1
 #define HF_ARRAY_SIZE 2
 
-
 void* hf_internal_array_create(u64 capacity, u64 stride);
 void* hf_internal_array_create_from_data(void* data, u64 stride, u64 length);
 #define hf_array_create(type) hf_internal_array_create(HF_ARRAY_INIT_CAPACITY, sizeof(type))

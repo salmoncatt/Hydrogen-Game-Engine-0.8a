@@ -43,5 +43,66 @@ void hf_mesh_destroy(hf_mesh* mesh){
 }
 
 hf_mesh hf_mesh_load_from_file(const char* file_path){
+    char* file_name = hf_remove_file_path(file_path);
+    FILE* file = fopen(file_path, "r");
     
+    hf_mesh mesh = {};;
+    
+    if(file == NULL){
+        hf_err("[HF] could not load obj mesh: [%s]\n", file_name);
+        return mesh;
+    }
+    
+    char line[512];
+    
+    
+    float* vertices = hf_array_create(f32);
+    float* texture_coords = hf_array_create(f32);
+    float* normals = hf_array_create(f32);
+    float* indices = hf_array_create(u32);
+    
+    
+    
+    while(fgets(line, 512, file) != NULL){
+        char header = line[0];
+        
+        f32 data[3];
+        
+        if(header != '#' && header != 'p' && header != 'f' && header != '\n'){
+            char* pointer;
+            
+            data[0] = strtof(line + 2, &pointer);
+            data[1] = strtof(pointer, &pointer);
+            data[2] = strtof(++pointer, &pointer);
+            
+        }
+        
+        switch(header){
+            case 'v':
+            //vertices[0] = data[0];
+            hf_array_push_back(vertices, data[0]);
+            //hf_array_push_back(vertices, data[1]);
+            //hf_array_push_back(vertices, data[2]);
+            break;
+        }
+        
+        
+        
+        //printf("%c %f %f %f \n", header, data[0], data[1], data[2]);
+        //printf("%f\n", vertices[0]);
+        //printf("works here\n");
+        //hf_free(header);
+    }
+    
+    
+    hf_array_free(vertices);
+    hf_array_free(texture_coords);
+    hf_array_free(normals);
+    hf_array_free(indices);
+    
+    
+    
+    hf_log("[HF] loaded obj model: [%s]\n\n", file_name);
+    
+    return mesh;
 }

@@ -69,7 +69,6 @@ int main(void){
         mesh.vertices = hf_array_create(f32);
      */
     
-    
     mesh.indices = hf_array_create_from_data(&indices, u32, 2 * 3);
     mesh.texture_coords = hf_array_create_from_data(&texture_coords, f32, 4 * 2);
     mesh.vertices = hf_array_create_from_data(&vertices, f32, 4 * 3);
@@ -82,6 +81,9 @@ int main(void){
     
     //mesh.type = 3; //redundant
     hf_mesh_create(&mesh);
+    
+    
+    hf_mesh test_mesh = hf_mesh_load_from_file("../res/models/stall/stall.obj");
     
     /* 
         //mesh.vertices_size = 4 * 3; 
