@@ -9,19 +9,43 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
     u64 key = w_param;
     
     if(msg == WM_SYSKEYDOWN || msg == WM_SYSKEYUP || msg == WM_KEYDOWN || msg == WM_KEYUP){
-        hf_input_keys[key] = is_down;
+        //hf_input_keys[key] = is_down;
+        
+        // NOTE(salmoncatt): https://handmade.network/forums/articles/t/2823-keyboard_inputs_-_scancodes%252C_raw_input%252C_text_input%252C_key_names
+        
+        u32 scancode = ( l_param >> 16 ) & 0xff;
+        u32 extended = ( l_param >> 24 ) & 0x1;
+        
+        if ( extended ) {
+            
+            if ( scancode != 0x45 ) {
+                scancode |= 0xE000;
+            }
+            
+        } else {
+            
+            if ( scancode == 0x45 ) {
+                scancode = 0xE11D45;
+            } else if ( scancode == 0x54 ) {
+                scancode = 0xE037;
+            }
+        }
+        hf_input_keys[scancode] = is_down;
+        
+        
+        
         /* 
-                if(key == HF_KEY_SHIFT){
-                    u32 state = GetKeyState(VK_SHIFT);
-                    if(state & 0x80000000){
-                        printf("l shift %u\n", is_down);
-                        hf_input_keys[HF_KEY_LEFT_SHIFT] = is_down;
-                    }else{
-                        printf("r shift %u\n", is_down);
-                        hf_input_keys[HF_KEY_RIGHT_SHIFT] = is_down;
-                    }
-                }
-         */
+                                        if(key == HF_KEY_SHIFT){
+                                            u32 state = GetKeyState(VK_SHIFT);
+                                            if(state & 0x80000000){
+                                                printf("l shift %u\n", is_down);
+                                                hf_input_keys[HF_KEY_LEFT_SHIFT] = is_down;
+                                            }else{
+                                                printf("r shift %u\n", is_down);
+                                                hf_input_keys[HF_KEY_RIGHT_SHIFT] = is_down;
+                                            }
+                                        }
+                                 */
         
     }else if(msg == WM_LBUTTONDOWN){
         hf_input_buttons[HF_MOUSE_BUTTON_LEFT] = 1;

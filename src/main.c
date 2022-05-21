@@ -87,7 +87,6 @@ int main(void){
     //hf_mesh_create(&mesh);
     
     
-    hf_mesh mesh = hf_mesh_load_from_file("../res/models/crate/crate.obj");
     
     /* 
         //mesh.vertices_size = 4 * 3; 
@@ -107,7 +106,8 @@ int main(void){
     v3f scale = {1, 1, 1};
     hf_transform transform = {pos, rot, scale};
     
-    hf_texture texture = hf_texture_from_file("../res/models/crate/tex_box_01_d.jpg");
+    hf_mesh mesh = hf_mesh_load_from_file("../res/models/stall/stall.obj");
+    hf_texture texture = hf_texture_from_file("../res/models/stall/stallTexture.bmp");
     hf_texture_create(&texture);
     mesh.texture = texture;
     
@@ -131,8 +131,8 @@ int main(void){
         ((f32*)test_array.data)[0] = 69420;
         hf_log("%f\n", ((f32*)test_array.data)[0]);
      */
-    
     printf("time: %lf\n", hf_get_time());
+    
     //hf_vector_free(&vector);
     //hf_window_set_key_callback(&window, &test_callback);
     
