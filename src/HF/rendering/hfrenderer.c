@@ -2,6 +2,8 @@
 
 hf_debug_camera hf_renderer_cam = { .sensitivity = 0.05f, .movement_speed = 10};
 m4f hf_renderer_proj_mat = {};;
+b8 hf_renderer_wireframe_active = 0;
+
 
 void hf_renderer_init(hf_app* app) {
     hf_log("[HF] initializing HF Renderer...\n");
@@ -67,3 +69,11 @@ void hf_render_mesh(hf_mesh* mesh, hf_shader* shader, hf_transform* transform){
     glBindVertexArray(0);
 }
 
+void hf_renderer_set_wireframe_mode(b8 mode){
+    hf_renderer_wireframe_active = mode;
+    glPolygonMode(GL_FRONT_AND_BACK, mode ? GL_LINE : GL_FILL);
+}
+
+void hf_renderer_toggle_wireframe(){
+    hf_renderer_set_wireframe_mode(!hf_renderer_wireframe_active);
+}

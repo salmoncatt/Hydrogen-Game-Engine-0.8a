@@ -87,7 +87,7 @@ int main(void){
     //hf_mesh_create(&mesh);
     
     
-    hf_mesh mesh = hf_mesh_load_from_file("../res/models/stall/stall.obj");
+    hf_mesh mesh = hf_mesh_load_from_file("../res/models/crate/crate.obj");
     
     /* 
         //mesh.vertices_size = 4 * 3; 
@@ -99,13 +99,15 @@ int main(void){
         mesh.indices_size = 2 * 3; 
      */
     
+    glEnable(GL_BACK);
+    glEnable(GL_CULL_FACE);
     
     v3f pos = {0.2f, 0, -1};
     v3f rot = {0, 0, 0};
     v3f scale = {1, 1, 1};
     hf_transform transform = {pos, rot, scale};
     
-    hf_texture texture = hf_texture_from_file("../res/images/patrick.png");
+    hf_texture texture = hf_texture_from_file("../res/models/crate/tex_box_01_d.jpg");
     hf_texture_create(&texture);
     mesh.texture = texture;
     
@@ -155,13 +157,15 @@ int main(void){
         
         //hf_log("[%f, %f]\n", hf_input_get_mouse_movement().x, hf_input_get_mouse_movement().y);
         
+        if(hf_input_get_key_down(HF_KEY_BACKSLASH)){
+            hf_renderer_toggle_wireframe();
+        }
+        
         if(hf_input_get_mouse_button_down(HF_MOUSE_BUTTON_RIGHT)){
             
             hf_input_toggle_cursor();
             
-            if(hf_input_get_key_down(HF_KEY_SHIFT)){
-                hf_log("SHIFT PRESSED\n");
-            }
+            
             
             //printf("key pressed: %u %u\n", hf_input_keys[HF_KEY_MINUS], hf_input_keys_old[HF_KEY_MINUS]);
             //printf("key pressed\n");

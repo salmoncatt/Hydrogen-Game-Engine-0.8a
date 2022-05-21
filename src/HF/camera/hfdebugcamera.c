@@ -10,13 +10,13 @@ void hf_update_debug_camera(hf_debug_camera* camera){
     //hf_log("[%f %f]", camera->direction.x, camera->direction.z);
     
     if(hf_input_get_key(HF_KEY_W))
-        camera->transform.pos = hf_add_v3f(camera->transform.pos, hf_v3f(dir_x, 0, dir_z));
-    if(hf_input_get_key(HF_KEY_A))
-        camera->transform.pos = hf_add_v3f(camera->transform.pos, hf_v3f(dir_z, 0, -dir_x));
-    if(hf_input_get_key(HF_KEY_S))
         camera->transform.pos = hf_add_v3f(camera->transform.pos, hf_v3f(-dir_x, 0, -dir_z));
-    if(hf_input_get_key(HF_KEY_D))
+    if(hf_input_get_key(HF_KEY_A))
         camera->transform.pos = hf_add_v3f(camera->transform.pos, hf_v3f(-dir_z, 0, dir_x));
+    if(hf_input_get_key(HF_KEY_S))
+        camera->transform.pos = hf_add_v3f(camera->transform.pos, hf_v3f(dir_x, 0, dir_z));
+    if(hf_input_get_key(HF_KEY_D))
+        camera->transform.pos = hf_add_v3f(camera->transform.pos, hf_v3f(dir_z, 0, -dir_x));
     if(hf_input_get_key(HF_KEY_SPACE))
         camera->transform.pos = hf_add_v3f(camera->transform.pos, hf_v3f(0, speed, 0));
     if(hf_input_get_key(HF_KEY_CONTROL))

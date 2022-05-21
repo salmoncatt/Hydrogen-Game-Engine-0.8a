@@ -57,7 +57,8 @@ hf_mesh hf_mesh_load_from_file(const char* file_path){
     
     
     float* vertices = hf_array_create(f32);
-    u32* indices = hf_array_create(u32);
+    float* vertices_buffer = hf_array_create(f32);
+    //u32* indices = hf_array_create(u32);
     
     float* texture_coords = hf_array_create(f32);
     float* texture_coords_buffer = hf_array_create(f32);
@@ -86,14 +87,13 @@ hf_mesh hf_mesh_load_from_file(const char* file_path){
         if(header == 'v'){
             switch(line[1]){
                 case ' ': //v vertices
-                hf_array_push_back(vertices, data[0]);
-                hf_array_push_back(vertices, data[1]);
-                hf_array_push_back(vertices, data[2]);
+                hf_array_push_back(vertices_buffer, data[0]);
+                hf_array_push_back(vertices_buffer, data[1]);
+                hf_array_push_back(vertices_buffer, data[2]);
                 break;
                 case 't': //vt texture coords
                 hf_array_push_back(texture_coords_buffer, data[0]);
                 hf_array_push_back(texture_coords_buffer, data[1]);
-                hf_array_push_back(texture_coords_buffer, data[2]);
                 break;
                 case 'n': //vn (normals)
                 hf_array_push_back(normals_buffer, data[0]);
@@ -112,6 +112,7 @@ hf_mesh hf_mesh_load_from_file(const char* file_path){
 				case(0):
                 //vertices, uvs, normals
                 matches = sscanf(line, "f %d/%d/%d %d/%d/%d %d/%d/%d", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
+                
                 
                 if (matches != 9) {
                     //vertices uvs
@@ -185,56 +186,95 @@ hf_mesh hf_mesh_load_from_file(const char* file_path){
                 break;
             }
             
+            //printf("%u\n" , uvIndex[1]);
             
             switch (face_index_type) {
                 
 				case(0):
+                
+                //vertex data
+                //hf_array_push_back(indices, vertexIndex[0] - 1);
+                //hf_array_push_back(indices, vertexIndex[1] - 1);
+                //hf_array_push_back(indices, vertexIndex[2] - 1);
+                /* 
+                                                //texture coords
+                                                u32 uv = uvIndex[0] - 1;
+                                                hf_array_push_back(texture_coords, texture_coords_buffer[uv]);
+                                                hf_array_push_back(texture_coords, texture_coords_buffer[uv + 1]);
+                                                //normals
+                                                u32 normal = normalIndex[0] - 1;
+                                                hf_array_push_back(normals, normals_buffer[normal]);
+                                                hf_array_push_back(normals, normals_buffer[normal + 1]);
+                                                hf_array_push_back(normals, normals_buffer[normal + 2]);
+                 */
+                
+                /* 
+                                hf_array_push_back_val(indices, vertexIndex[0] - 1);
+                                hf_array_push_back_val(indices, vertexIndex[1] - 1);
+                                hf_array_push_back_val(indices, vertexIndex[2] - 1);
+                 */
+                
+                
                 for(u32 i = 0; i < 3; i++){
                     //vertex data
-                    u32 indice = vertexIndex[i] - 1;
-                    printf("%u\n", indice);
-                    hf_array_push_back(indices, indice);
+                    
+                    
+                    u32 indice = (vertexIndex[i] - 1) * 3;
+                    hf_array_push_back(vertices, vertices_buffer[indice]);
+                    hf_array_push_back(vertices, vertices_buffer[indice + 1]);
+                    hf_array_push_back(vertices, vertices_buffer[indice + 2]);
+                    
+                    
+                    //hf_array_push_back_val(indices, ((u32)(vertexIndex[i] - 1)));
                     //hf_array_push_back(indices, indice + 1);
                     //hf_array_push_back(indices, indice + 2);
                     //texture coords
-                    u32 uv = uvIndex[i] - 1;
-                    hf_array_push_back(texture_coords, texture_coords_buffer[uv]);
-                    hf_array_push_back(texture_coords, texture_coords_buffer[uv + 1]);
+                    
+                    u32 uv = (uvIndex[i] - 1) * 2;
+                    hf_array_push_back(texture_coords, texture_coords_buffer[uv]); //x
+                    hf_array_push_back_val(texture_coords, 1 - texture_coords_buffer[uv + 1]); //y
+                    //printf("%f %f\n", texture_coords_buffer[uv], texture_coords_buffer[uv + 1]);
+                    
                     //normals
-                    u32 normal = normalIndex[i] - 1;
-                    hf_array_push_back(normals, normals_buffer[normal]);
-                    hf_array_push_back(normals, normals_buffer[normal + 1]);
-                    hf_array_push_back(normals, normals_buffer[normal + 2]);
+                    //u32 normal = normalIndex[i] - 1;
+                    //hf_array_push_back(normals, normals_buffer[normal]);
+                    //hf_array_push_back(normals, normals_buffer[normal + 1]);
+                    //hf_array_push_back(normals, normals_buffer[normal + 2]);
                 }
+                
                 break;
                 
 				case(1):
-                for(u32 i = 0; i < 3; i++){
-                    //vertex data
-                    u32 indice = vertexIndex[i] - 1;
-                    hf_array_push_back(indices, indice);
-                    hf_array_push_back(indices, indice + 1);
-                    hf_array_push_back(indices, indice + 2);
-                    //texture coords
-                    u32 uv = uvIndex[i] - 1;
-                    hf_array_push_back(texture_coords, texture_coords_buffer[uv]);
-                    hf_array_push_back(texture_coords, texture_coords_buffer[uv + 1]);
-                }
+                /* 
+                                for(u32 i = 0; i < 3; i++){
+                                    //vertex data
+                                    u32 indice = vertexIndex[i] - 1;
+                                    hf_array_push_back(indices, indice);
+                                    hf_array_push_back(indices, indice + 1);
+                                    hf_array_push_back(indices, indice + 2);
+                                    //texture coords
+                                    u32 uv = uvIndex[i] - 1;
+                                    hf_array_push_back(texture_coords, texture_coords_buffer[uv]);
+                                    hf_array_push_back(texture_coords, texture_coords_buffer[uv + 1]);
+                                }
+                 */
                 break;
                 
 				case(2):
-                for(u32 i = 0; i < 3; i++){
-                    //vertex data
-                    u32 indice = vertexIndex[i] - 1;
-                    hf_array_push_back(indices, indice);
-                    hf_array_push_back(indices, indice + 1);
-                    hf_array_push_back(indices, indice + 2);
-                    //normals
-                    u32 normal = normalIndex[i] - 1;
-                    hf_array_push_back(normals, normals_buffer[normal]);
-                    hf_array_push_back(normals, normals_buffer[normal + 1]);
-                    hf_array_push_back(normals, normals_buffer[normal + 2]);
-                }
+                /* 
+                                for(u32 i = 0; i < 3; i++){
+                                    //vertex data
+                                    u32 indice = vertexIndex[i] - 1;
+                                    hf_array_push_back(indices, indice);
+                                    hf_array_push_back(indices, indice + 1);
+                                    hf_array_push_back(indices, indice + 2);
+                                    //normals
+                                    u32 normal = normalIndex[i] - 1;
+                                    hf_array_push_back(normals, normals_buffer[normal]);
+                                    hf_array_push_back(normals, normals_buffer[normal + 1]);
+                                    hf_array_push_back(normals, normals_buffer[normal + 2]);
+                                }
+                 */
                 break;
                 
                 
@@ -250,7 +290,7 @@ hf_mesh hf_mesh_load_from_file(const char* file_path){
         //hf_free(header);
     }
     
-    //printf("%f\n", vertices[0]);
+    printf("%f %f\n", texture_coords[2], texture_coords[3]);
     
     //hf_array_free(vertices_buffer);
     hf_array_free(texture_coords_buffer);
@@ -258,9 +298,11 @@ hf_mesh hf_mesh_load_from_file(const char* file_path){
     //hf_array_free(indices);
     
     mesh.vertices = vertices;
-    //mesh.normals = normals;
+    //mesh.normals = hf_array_create(f32);
     mesh.texture_coords = texture_coords;
-    mesh.indices = indices;
+    mesh.indices = hf_array_create(u32);
+    
+    //printf("%u\n", hf_array_size(indices));
     
     hf_mesh_create(&mesh);
     
