@@ -59,7 +59,7 @@ hf_mesh hf_mesh_load_from_file(const char* file_path){
     float* vertices = hf_array_create(f32);
     float* texture_coords = hf_array_create(f32);
     float* normals = hf_array_create(f32);
-    float* indices = hf_array_create(u32);
+    u32* indices = hf_array_create(u32);
     
     
     
@@ -80,16 +80,17 @@ hf_mesh hf_mesh_load_from_file(const char* file_path){
         switch(header){
             case 'v':
             //vertices[0] = data[0];
-            hf_array_push_back(vertices, data[0]);
+            hf_array_push_back_val(vertices, 3.14156f);
+            //printf("capacity post: %u\n", hf_array_capacity(vertices));
             //hf_array_push_back(vertices, data[1]);
             //hf_array_push_back(vertices, data[2]);
+            //printf("%c %f %f %f \n", header, data[0], data[1], data[2]);
             break;
         }
         
         
         
-        //printf("%c %f %f %f \n", header, data[0], data[1], data[2]);
-        //printf("%f\n", vertices[0]);
+        printf("%f\n", vertices[0]);
         //printf("works here\n");
         //hf_free(header);
     }
