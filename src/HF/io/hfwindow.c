@@ -165,6 +165,8 @@ b8 hf_create_window(hf_window* w){
     
     w->hrc = wglCreateContextAttribsARB(w->hdc, 0, attribs);
     
+    glEnable(GL_DEPTH_TEST);
+    
     hf_log("[HF] created window: [%s], size: [%u, %u], pos: [%u, %u]\n\n", w->title, w->width, w->height, w->x, w->y);
     
     return 1;

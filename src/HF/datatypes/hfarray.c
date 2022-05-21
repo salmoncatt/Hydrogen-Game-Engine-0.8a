@@ -44,29 +44,18 @@ void* hf_array_resize(void* array, u64 capacity){
     void* temp = hf_internal_array_create(capacity, hf_array_stride(array));
     hf_memcpy(temp, array, hf_array_size(array) * hf_array_stride(array));
     hf_array_field_set(temp, HF_ARRAY_SIZE, hf_array_size(array));
-    //hf_array_field_set(temp, HF_ARRAY_CAPACITY, hf_array_capacity(temp));
-    //printf("array: %u\n", hf_array_capacity(array));
-    //printf("temp: %u\n", hf_array_capacity(temp));
-    
     hf_array_free(array);
-    //hf_free(array);
-    //array = temp;
     
     return temp;
 }
 
 void* hf_internal_array_push_back(void* array, void* value){
     if(hf_array_size(array) >= hf_array_capacity(array)){
-        //printf("capacity: %u\n", hf_array_capacity(array));
         array = hf_array_resize(array, hf_array_size(array) * 2);
-        //printf("capacity: %u\n", hf_array_capacity(array));
-        //printf("size: %u\n", hf_array_size(array));
     }
     
-    //array[hf_array_size(array)] = value;
     hf_memcpy(array + hf_array_size(array) * hf_array_stride(array), value, hf_array_stride(array));
     hf_array_field_set(array, HF_ARRAY_SIZE, hf_array_size(array) + 1);
-    //printf("capacity: %u\n", hf_array_capacity(array));
     
     return array;
 }

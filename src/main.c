@@ -40,27 +40,29 @@ int main(void){
     hf_log("[%f %f %f %f]\n", vec.x, vec.y, vec.z, test_vec.w);
     
     
-    hf_mesh mesh = {};
-    
-    
-    f32 vertices[] = {
-        -0.5f, 0.5f, 0,
-        -0.5f, -0.5f, 0,
-        0.5f, -0.5f, 0,
-        0.5f, 0.5f, 0
-    };
-    
-    u32 indices[] = {
-        0, 1, 3,
-        3, 1, 2
-    };
-    
-    f32 texture_coords[] = {
-        0, 0,
-        0, 1,
-        1, 1,
-        1, 0
-    };
+    /* 
+        hf_mesh mesh = {};
+        
+        
+        f32 vertices[] = {
+            -0.5f, 0.5f, 0,
+            -0.5f, -0.5f, 0,
+            0.5f, -0.5f, 0,
+            0.5f, 0.5f, 0
+        };
+        
+        u32 indices[] = {
+            0, 1, 3,
+            3, 1, 2
+        };
+        
+        f32 texture_coords[] = {
+            0, 0,
+            0, 1,
+            1, 1,
+            1, 0
+        };
+     */
     
     
     /* 
@@ -69,9 +71,11 @@ int main(void){
         mesh.vertices = hf_array_create(f32);
      */
     
-    mesh.indices = hf_array_create_from_data(&indices, u32, 2 * 3);
-    mesh.texture_coords = hf_array_create_from_data(&texture_coords, f32, 4 * 2);
-    mesh.vertices = hf_array_create_from_data(&vertices, f32, 4 * 3);
+    /* 
+        mesh.indices = hf_array_create_from_data(&indices, u32, 2 * 3);
+        mesh.texture_coords = hf_array_create_from_data(&texture_coords, f32, 4 * 2);
+        mesh.vertices = hf_array_create_from_data(&vertices, f32, 4 * 3);
+     */
     
     
     //hf_array_field_set(&mesh.vertices, HF_ARRAY_SIZE, 100);
@@ -80,10 +84,10 @@ int main(void){
     
     
     //mesh.type = 3; //redundant
-    hf_mesh_create(&mesh);
+    //hf_mesh_create(&mesh);
     
     
-    hf_mesh test_mesh = hf_mesh_load_from_file("../res/models/stall/stall.obj");
+    hf_mesh mesh = hf_mesh_load_from_file("../res/models/stall/stall.obj");
     
     /* 
         //mesh.vertices_size = 4 * 3; 
