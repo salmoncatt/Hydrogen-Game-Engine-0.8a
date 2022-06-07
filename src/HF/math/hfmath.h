@@ -143,6 +143,20 @@ typedef struct hf_transform{
     v3f scale;
 } hf_transform;
 
+typedef struct hf_transform_2d{
+    v2f pos;
+    v2f rot;
+    v2f scale;
+} hf_transform_2d;
+
+//mainly for gui
+typedef struct hf_rect{
+    u32 x;
+    u32 y;
+    u32 size_x;
+    u32 size_y;
+} hf_rect;
+
 
 hf_inline f32 hf_f_sqrt(f32 in);
 hf_inline f32 hf_f_isqrt(f32 in);

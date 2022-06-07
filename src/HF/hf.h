@@ -49,5 +49,7 @@
 #include "rendering/hfrenderer2d.h"
 #include "rendering/hfshader.h"
 
+#include "gui/hfgui.h"
+#include "gui/hfguipanel.h"
 
 #endif //HF_H
