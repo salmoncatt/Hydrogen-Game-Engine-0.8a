@@ -34,69 +34,6 @@ int main(void){
     
     hf_shader_create(&shader, "../res/shaders/vertex.glsl", "../res/shaders/fragment.glsl");
     
-    v4f test_vec = hf_v4f(1, 2, 3, 4);
-    v3f vec = test_vec.rgb;
-    
-    hf_log("[%f %f %f %f]\n", vec.x, vec.y, vec.z, test_vec.w);
-    
-    
-    /* 
-        hf_mesh mesh = {};
-        
-        
-        f32 vertices[] = {
-            -0.5f, 0.5f, 0,
-            -0.5f, -0.5f, 0,
-            0.5f, -0.5f, 0,
-            0.5f, 0.5f, 0
-        };
-        
-        u32 indices[] = {
-            0, 1, 3,
-            3, 1, 2
-        };
-        
-        f32 texture_coords[] = {
-            0, 0,
-            0, 1,
-            1, 1,
-            1, 0
-        };
-     */
-    
-    
-    /* 
-        mesh.indices = hf_array_create(u32);
-        mesh.texture_coords = hf_array_create(f32);
-        mesh.vertices = hf_array_create(f32);
-     */
-    
-    /* 
-        mesh.indices = hf_array_create_from_data(&indices, u32, 2 * 3);
-        mesh.texture_coords = hf_array_create_from_data(&texture_coords, f32, 4 * 2);
-        mesh.vertices = hf_array_create_from_data(&vertices, f32, 4 * 3);
-     */
-    
-    
-    //hf_array_field_set(&mesh.vertices, HF_ARRAY_SIZE, 100);
-    //printf("%u\n", hf_array_capacity(mesh.vertices));
-    
-    
-    
-    //mesh.type = 3; //redundant
-    //hf_mesh_create(&mesh);
-    
-    
-    
-    /* 
-        //mesh.vertices_size = 4 * 3; 
-        
-        mesh.texture_coords = texture_coords;
-        mesh.texture_coords_size = 4 * 2; 
-        
-        mesh.indices = indices;
-        mesh.indices_size = 2 * 3; 
-     */
     
     glEnable(GL_BACK);
     glEnable(GL_CULL_FACE);
@@ -118,19 +55,6 @@ int main(void){
     hf_ecs_add_component(ecs, mesh_test, hf_transform, &transform);
     //hf_log("%s\n", ((hf_tag*)(hf_ecs_get_component(ecs, mesh_test, hf_tag)))->name);
     
-    /* 
-        hf_array test_array = {};
-        test_array.init_capacity = 355;
-        hf_array_init(&test_array, f32);
-        hf_log("[%u, %u, %u, %s]\n", test_array.size, test_array.capacity, test_array.data_size, test_array.type_name);
-        ((f32*)test_array.data)[0] = 69420;
-        hf_log("%f\n", ((f32*)test_array.data)[0]);
-        
-        hf_array_resize(&test_array, 123456);
-        hf_log("[%u, %u, %u, %s]\n", test_array.size, test_array.capacity, test_array.data_size, test_array.type_name);
-        ((f32*)test_array.data)[0] = 69420;
-        hf_log("%f\n", ((f32*)test_array.data)[0]);
-     */
     printf("time: %lf\n", hf_get_time());
     
     //hf_vector_free(&vector);

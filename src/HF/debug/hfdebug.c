@@ -17,15 +17,15 @@ void hf_log(const char* msg, ...){
 }
 
 void hf_log_v2f(v2f vec){
-    hf_log("[%f %f]\n", vec.x, vec.y);
+    printf("[%f %f]\n", vec.x, vec.y);
 }
 
 void hf_log_v3f(v3f vec){
-    hf_log("[%f %f %f]\n", vec.x, vec.y, vec.z);
+    printf("[%f %f %f]\n", vec.x, vec.y, vec.z);
 }
 
 void hf_log_v4f(v4f vec){
-    hf_log("[%f %f %f]\n", vec.x, vec.y, vec.z, vec.w);
+    printf("[%f %f %f]\n", vec.x, vec.y, vec.z, vec.w);
 }
 
 /* 
