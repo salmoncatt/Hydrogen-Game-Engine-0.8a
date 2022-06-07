@@ -1,7 +1,6 @@
 #version 400 core
-#extension GL_ARB_bindless_texture : require
 
-in vec3 colour;
+//in vec3 colour;
 in vec2 pass_texture_coords;
 
 out vec4 out_Color;
