@@ -8,12 +8,12 @@ out vec3 colour;
 
 uniform mat4 transform;
 uniform mat4 view;
-uniform mat4 projection;
+uniform mat4 proj;
 
 void main(void){
 
 	//pass_texture_coords = texture_coords;
 	//gl_Position = projection * view * transform * vec4(position, 1.0);
 	gl_Position = transform * vec4(position, 0.0, 1.0);
-	colour = vec3(position.x+0.5,0.0,position.y+0.5);
+	colour = vec3(position.x,0.0,position.y);
 }

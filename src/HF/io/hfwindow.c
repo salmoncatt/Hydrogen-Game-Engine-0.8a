@@ -305,7 +305,7 @@ void hf_update_window(hf_window* w){
         w->height = rect.bottom - rect.top;
         w->x = rect.left;
         w->y = rect.top;
-        glViewport(0, 0, w->width, w->height);
+        //glViewport(0, 0, w->width, w->height);
     }
     
     POINT point;

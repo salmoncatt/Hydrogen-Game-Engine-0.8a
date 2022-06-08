@@ -5,6 +5,7 @@ m4f hf_renderer_proj_mat = {};
 m4f hf_renderer_ortho;
 m4f hf_renderer_pixel_ortho;
 b8 hf_renderer_wireframe_active = 0;
+f32 hf_aspect_ratio = 0;
 
 
 void hf_renderer_init(hf_app* app) {
@@ -20,12 +21,14 @@ void hf_renderer_init(hf_app* app) {
     hf_renderer_proj_mat = hf_perspective_m4f(app->window.width, app->window.height, 90, 0.1f, 1000);
     hf_renderer_pixel_ortho = hf_ortho_m4f(0, 2 * app->window.width, -2 * app->window.height, 0, -1, 1);
     
-    f32 aspect_ratio = app->window.width / app->window.height;
+    hf_aspect_ratio = app->window.width / app->window.height;
     
     if (app->window.width < app->window.width)
-        hf_renderer_ortho = hf_ortho_m4f(0, 2, -2 / aspect_ratio, 0, -1, 1);
+        hf_renderer_ortho = hf_ortho_m4f(0, 2, -2 / hf_aspect_ratio, 0, -1, 1);
     else
-        hf_renderer_ortho = hf_ortho_m4f(0, 2 * aspect_ratio, -2, 0, -1, 1);
+        hf_renderer_ortho = hf_ortho_m4f(0, 2 * hf_aspect_ratio, -2, 0, -1, 1);
+    
+    glViewport(0, 0, app->window.width, app->window.height);
     
     hf_log("[HF] initialized HF Renderer\n\n");
 }
@@ -34,14 +37,15 @@ void hf_renderer_update(hf_app* app){
     hf_renderer_proj_mat = hf_perspective_m4f(app->window.width, app->window.height, 90, 0.1f, 1000);
     hf_renderer_pixel_ortho = hf_ortho_m4f(0, 2 * app->window.width, -2 * app->window.height, 0, -1, 1);
     
-    f32 aspect_ratio = app->window.width / app->window.height;
+    hf_aspect_ratio = app->window.width / app->window.height;
     
     if (app->window.width < app->window.width)
-        hf_renderer_ortho = hf_ortho_m4f(0, 2, -2 / aspect_ratio, 0, -1, 1);
+        hf_renderer_ortho = hf_ortho_m4f(0, 2, -2 / hf_aspect_ratio, 0, -1, 1);
     else
-        hf_renderer_ortho = hf_ortho_m4f(0, 2 * aspect_ratio, -2, 0, -1, 1);
+        hf_renderer_ortho = hf_ortho_m4f(0, 2 * hf_aspect_ratio, -2, 0, -1, 1);
     
     
+    glViewport(0, 0, app->window.width, app->window.height);
     
     hf_update_debug_camera(&hf_renderer_cam);
 }

@@ -75,9 +75,10 @@ void hf_render_rect(u32 x, u32 y, u32 w, u32 h, v4f color){
         }
      */
     
-    m4f transformation = hf_transformation_m4f_2d(hf_v2f(0.5, 0.1), 0, hf_v2f(0.4, 0.5));
+    m4f transformation = hf_transformation_m4f_2d(hf_v2f(0.5 * 2 * hf_aspect_ratio, -0.5 * 2 * hf_aspect_ratio), 0, hf_v2f(0.3, 0.3));
     m4f model_proj = hf_mul_m4f(hf_renderer_ortho, transformation);
     hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "transform", &model_proj);
+    //hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "proj", &hf_renderer_ortho);
     //position
     
     

@@ -14,6 +14,7 @@ extern m4f hf_renderer_proj_mat;
 extern m4f hf_renderer_ortho;
 extern m4f hf_renderer_pixel_ortho;
 extern b8 hf_renderer_wireframe_active;
+extern f32 hf_aspect_ratio;
 
 void hf_renderer_init(hf_app* app);
 
