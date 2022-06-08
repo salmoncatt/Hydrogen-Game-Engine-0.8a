@@ -84,7 +84,13 @@ int main(void){
         
         //hf_log("[%i %i]\n", app.window.width, app.window.height);
         
-        hf_render_mesh((hf_mesh*)(hf_ecs_get_component(ecs, mesh_test, hf_mesh)), &shader, (hf_transform*)(hf_ecs_get_component(ecs, mesh_test, hf_transform)));
+        //hf_render_mesh((hf_mesh*)(hf_ecs_get_component(ecs, mesh_test, hf_mesh)), &shader, (hf_transform*)(hf_ecs_get_component(ecs, mesh_test, hf_transform)));
+        
+        
+        glDisable(GL_DEPTH_TEST);
+        hf_render_rect(10, 10, 100, 100, (v4f){1, 1, 1, 1});
+        glEnable(GL_DEPTH_TEST);
+        
         
         //hf_log("[%f, %f]\n", hf_input_get_mouse_movement().x, hf_input_get_mouse_movement().y);
         

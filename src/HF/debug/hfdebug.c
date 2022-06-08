@@ -169,7 +169,7 @@ void hf_print_windows_last_error(){
     hf_debug_err("$hfcc{red}[$hfcc{yellow}HF Error$hfcc{red}] $hfcc{yellow}windows error returned with$hfcc{red}: [$hfcc{yellow}ID$hfcc{red}]: $hfcc{aqua}%lu$hfcc{red} [$hfcc{yellow}MESSAGE$hfcc{red}]: $hfcc{aqua}%s\n", errorID, message);
     
     LocalFree(message);
-    free(message);
+    //free(message);
 }
 
 void hf_print_gcc_last_error(){

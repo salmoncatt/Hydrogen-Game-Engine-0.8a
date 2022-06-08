@@ -476,6 +476,29 @@ hf_inline void hf_scale_m4f(m4f* matrix, v3f vec){
     matrix->m23 *= vec.z;
 }
 
+hf_inline m4f hf_mul_m4f(m4f a, m4f b){
+    m4f mat = {};
+    
+    mat.m00 = a.m00 * b.m00 + a.m10 * b.m01 + a.m20 * b.m02 + a.m30 * b.m03;
+    mat.m01 = a.m01 * b.m00 + a.m11 * b.m01 + a.m21 * b.m02 + a.m31 * b.m03;
+    mat.m02 = a.m02 * b.m00 + a.m12 * b.m01 + a.m22 * b.m02 + a.m32 * b.m03;
+    mat.m03 = a.m03 * b.m00 + a.m13 * b.m01 + a.m23 * b.m02 + a.m33 * b.m03;
+    mat.m10 = a.m00 * b.m10 + a.m10 * b.m11 + a.m20 * b.m12 + a.m30 * b.m13;
+    mat.m11 = a.m01 * b.m10 + a.m11 * b.m11 + a.m21 * b.m12 + a.m31 * b.m13;
+    mat.m12 = a.m02 * b.m10 + a.m12 * b.m11 + a.m22 * b.m12 + a.m32 * b.m13;
+    mat.m13 = a.m03 * b.m10 + a.m13 * b.m11 + a.m23 * b.m12 + a.m33 * b.m13;
+    mat.m20 = a.m00 * b.m20 + a.m10 * b.m21 + a.m20 * b.m22 + a.m30 * b.m23;
+    mat.m21 = a.m01 * b.m20 + a.m11 * b.m21 + a.m21 * b.m22 + a.m31 * b.m23;
+    mat.m22 = a.m02 * b.m20 + a.m12 * b.m21 + a.m22 * b.m22 + a.m32 * b.m23;
+    mat.m23 = a.m03 * b.m20 + a.m13 * b.m21 + a.m23 * b.m22 + a.m33 * b.m23;
+    mat.m30 = a.m00 * b.m30 + a.m10 * b.m31 + a.m20 * b.m32 + a.m30 * b.m33;
+    mat.m31 = a.m01 * b.m30 + a.m11 * b.m31 + a.m21 * b.m32 + a.m31 * b.m33;
+    mat.m32 = a.m02 * b.m30 + a.m12 * b.m31 + a.m22 * b.m32 + a.m32 * b.m33;
+    mat.m33 = a.m03 * b.m30 + a.m13 * b.m31 + a.m23 * b.m32 + a.m33 * b.m33;
+    
+    return mat;
+}
+
 /* 
 hf_inline void hf_scale_m4f_v2f(m4f* matrix, v2f vec){
     matrix->m00 *= vec.x;
@@ -558,6 +581,18 @@ m4f hf_transformation_m4f(v3f translation, v3f rotation, v3f scale){
     hf_rotate_m4f(&out, (f32)hf_to_radians(rotation.y), hf_v3f(0, 1, 0));
     hf_rotate_m4f(&out, (f32)hf_to_radians(rotation.z), hf_v3f(0, 0, 1));
     hf_scale_m4f(&out, scale);
+    
+    return out;
+}
+
+m4f hf_transformation_m4f_2d(v2f translation, f32 rotation, v2f scale){
+    m4f out = {};
+    hf_identity_m4f(&out);
+    hf_translate_m4f(&out, hf_v3f(translation.x, translation.y, 0));
+    //hf_rotate_m4f(&out, (f32)hf_to_radians(rotation.x), hf_v3f(1, 0, 0));
+    //hf_rotate_m4f(&out, (f32)hf_to_radians(rotation.y), hf_v3f(0, 1, 0));
+    hf_rotate_m4f(&out, (f32)hf_to_radians(rotation), hf_v3f(0, 0, 1));
+    hf_scale_m4f(&out, hf_v3f(scale.x, scale.y, 1));
     
     return out;
 }

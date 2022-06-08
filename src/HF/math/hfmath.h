@@ -153,8 +153,8 @@ typedef struct hf_transform_2d{
 typedef struct hf_rect{
     u32 x;
     u32 y;
-    u32 size_x;
-    u32 size_y;
+    u32 w;
+    u32 h;
 } hf_rect;
 
 
@@ -210,6 +210,9 @@ hf_inline v4f hf_mul_v4f_f(v4f a, f32 b);
 hf_inline v4f hf_div_v4f_f(v4f a, f32 b);
 
 
+hf_inline m4f hf_mul_m4f(m4f a, m4f b);
+
+
 hf_inline void hf_identity_m4f(m4f* src);
 hf_inline void hf_transpose_m4f(m4f* dest, m4f* src);
 hf_inline void hf_transpose_no_rotation_m4f(m4f* dest, m4f* src);
@@ -222,6 +225,7 @@ hf_inline void hf_translate_m4f(m4f* matrix, v3f translation);
 //hf_inline void hf_translate_m4f_v2f(m4f* matrix, v2f translation);
 
 m4f hf_transformation_m4f(v3f translation, v3f rotation, v3f scale);
+m4f hf_transformation_m4f_2d(v2f translation, f32 rotation, v2f scale);
 //m4f hf_transformation_m4f_v3f(v3f translation, v3f rotation, v3f scale);
 //m4f hf_transformation_m4f_v2f(v2f translation, v2f rotation, v2f scale);
 m4f hf_perspective_m4f(f32 screen_width, f32 screen_height, f32 fov, f32 near_plane, f32 far_plane);

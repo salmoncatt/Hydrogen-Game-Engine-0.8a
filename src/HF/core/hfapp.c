@@ -48,7 +48,7 @@ void hf_app_start(hf_app* app){
     if(app->parameters & HF_APP_USE_OPENGL){
         hf_create_window(&app->window);
         hf_renderer_init(app);
-        //hf_renderer_init_2d(app);
+        hf_renderer_init_2d(app);
     }
 }
 
