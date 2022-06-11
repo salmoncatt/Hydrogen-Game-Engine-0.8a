@@ -88,7 +88,7 @@ int main(void){
         
         
         glDisable(GL_DEPTH_TEST);
-        hf_render_rect(10, 10, 100, 100, (v4f){1, 1, 1, 1});
+        hf_render_rect(0, 0, 100, 100, (v4f){1, 1, 1, 1});
         glEnable(GL_DEPTH_TEST);
         
         

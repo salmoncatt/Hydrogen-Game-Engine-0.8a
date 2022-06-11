@@ -15,6 +15,8 @@ extern m4f hf_renderer_ortho;
 extern m4f hf_renderer_pixel_ortho;
 extern b8 hf_renderer_wireframe_active;
 extern f32 hf_aspect_ratio;
+extern u32 hf_window_w;
+extern u32 hf_window_h;
 
 void hf_renderer_init(hf_app* app);
 
@@ -26,5 +28,7 @@ void hf_renderer_destroy(hf_app* app);
 
 void hf_renderer_toggle_wireframe();
 void hf_renderer_set_wireframe_mode(b8 mode);
+
+//v2f hf_renderer_get_window_size();
 
 #endif //HFRENDERER_H

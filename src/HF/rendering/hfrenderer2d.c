@@ -75,9 +75,24 @@ void hf_render_rect(u32 x, u32 y, u32 w, u32 h, v4f color){
         }
      */
     
-    m4f transformation = hf_transformation_m4f_2d(hf_v2f(0.5 * 2 * hf_aspect_ratio, -0.5 * 2 * hf_aspect_ratio), 0, hf_v2f(0.3, 0.3));
-    m4f model_proj = hf_mul_m4f(hf_renderer_ortho, transformation);
-    hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "transform", &model_proj);
+    // NOTE(salmoncatt): convert from pixel coords to screen space
+    f32 ss_w = (f32)(w) / (f32)(hf_window_w);
+    f32 ss_h = (f32)(h) / (f32)(hf_window_h);
+    
+    f32 ss_x = (f32)(w) / (f32)(hf_window_w);
+    f32 ss_y = (f32)(h) / (f32)(hf_window_h);
+    
+    ss_y = ss_y * -2.0f + 1.0f;
+    //ss_y += ss_h / 2;
+    //ss_x -= 0.5f * hf_aspect_ratio;
+    //ss_y += 0.5f * hf_aspect_ratio;
+    
+    //printf("%f\n", ss_w);
+    
+    m4f transformation = hf_transformation_m4f_2d(hf_v2f(ss_x, ss_y), 0, hf_v2f(ss_w, ss_h));
+    //m4f model_proj = hf_mul_m4f(hf_renderer_ortho, transformation);
+    hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "transform", &transformation);
+    hf_shader_set_uniform_v4f(&hf_gui_rect_shader, "color", &color);
     //hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "proj", &hf_renderer_ortho);
     //position
     

@@ -15,5 +15,5 @@ void main(void){
 	//pass_texture_coords = texture_coords;
 	//gl_Position = projection * view * transform * vec4(position, 1.0);
 	gl_Position = transform * vec4(position, 0.0, 1.0);
-	colour = vec3(position.x,0.0,position.y);
+	colour = vec3(position.x, position.y, 0);
 }

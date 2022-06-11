@@ -5,11 +5,13 @@ in vec3 colour;
 
 out vec4 out_Color;
 
+uniform vec4 color;
+
 //uniform sampler2D sampler;
 
 void main(void){
 	//out_Color = vec4(1.0, 1.0, 1.0, 1.0);
-	out_Color = vec4(colour, 1.0);
+	out_Color = color;
 
 	//out_Color = texture(sampler, pass_texture_coords);
 	//out_Color = vec4(pass_texture_coords.x, pass_texture_coords.y, 0, 1);
