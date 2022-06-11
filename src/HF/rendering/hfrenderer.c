@@ -39,7 +39,7 @@ void hf_renderer_init(hf_app* app) {
 
 void hf_renderer_update(hf_app* app){
     hf_renderer_proj_mat = hf_perspective_m4f(app->window.width, app->window.height, 90, 0.1f, 1000);
-    hf_renderer_pixel_ortho = hf_ortho_m4f(0, 2 * app->window.width, -2 * app->window.height, 0, -1, 1);
+    hf_renderer_pixel_ortho = hf_ortho_m4f(0, app->window.width, app->window.height, 0, -1, 1);
     
     hf_aspect_ratio = app->window.width / app->window.height;
     hf_window_w = app->window.width;

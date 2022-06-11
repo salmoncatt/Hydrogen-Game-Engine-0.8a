@@ -6,7 +6,7 @@ hf_shader hf_gui_rect_shader = {};
 
 
 void hf_renderer_init_2d(hf_app* app) {
-    f32 hf_quad_vertices[] = {-1, 1, -1, -1, 1, 1, 1, -1};
+    f32 hf_quad_vertices[] = {0, 1, 0, 0, 1, 1, 1, 0};
     
     hf_renderer_quad.type = 2; //2d
     hf_renderer_quad.vertices = hf_array_create_from_data(&hf_quad_vertices, f32, 8);
@@ -64,9 +64,10 @@ void hf_render_rect(u32 x, u32 y, u32 w, u32 h, v4f color){
     glEnableVertexAttribArray(0);
     
     //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, hf_renderer_quad->ibo);
-    
     hf_shader_bind(&hf_gui_rect_shader);
     //hf_shader_set_uniform_v3f(shader, "pos", &transform->pos);
+    
+    glDisable(GL_CULL_FACE);//very important
     
     /* 
         if(mesh->texture.image.data != NULL){
@@ -76,31 +77,36 @@ void hf_render_rect(u32 x, u32 y, u32 w, u32 h, v4f color){
      */
     
     // NOTE(salmoncatt): convert from pixel coords to screen space
-    f32 ss_w = (f32)(w) / (f32)(hf_window_w);
-    f32 ss_h = (f32)(h) / (f32)(hf_window_h);
-    
-    f32 ss_x = (f32)(x) / (f32)(hf_window_w);
-    f32 ss_y = (f32)(y + h) / (f32)(hf_window_h);
+    /* 
+        f32 ss_w = (f32)(w) / (f32)(hf_window_w);
+        f32 ss_h = (f32)(h) / (f32)(hf_window_h);
+        
+        f32 ss_x = (f32)(x) / (f32)(hf_window_w);
+        f32 ss_y = (f32)(y + h) / (f32)(hf_window_h);
+     */
     
     //ss_y += ss_h;
-    ss_y = ss_y * -2.0f + 1.0f;
+    //ss_y = ss_y * -2.0f + 1.0f;
     //ss_x -= 0.5f * hf_aspect_ratio;
     //ss_y += 0.5f * hf_aspect_ratio;
     
     //printf("%f\n", y);
     
-    m4f transformation = hf_transformation_m4f_2d(hf_v2f(0, 0), 0, hf_v2f(100, 100));
+    m4f transformation = hf_transformation_m4f_2d(hf_v2f(x, y), 0, hf_v2f(w, h));
     m4f model_proj = hf_mul_m4f(hf_renderer_pixel_ortho, transformation);
     hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "transform", &model_proj);
+    //hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "transform", &transformation);
     hf_shader_set_uniform_v4f(&hf_gui_rect_shader, "color", &color);
-    //hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "proj", &hf_renderer_ortho);
+    //hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "proj", &hf_renderer_pixel_ortho);
     //position
     
-    
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, (int)(hf_array_size(hf_renderer_quad.vertices)));
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, (u32)(hf_array_size(hf_renderer_quad.vertices)) / 2);
     
     
     hf_shader_unbind(&hf_renderer_quad);
+    
+    glEnable(GL_CULL_FACE);//very important
+    
     
     glDisableVertexAttribArray(0);
     glBindVertexArray(0);

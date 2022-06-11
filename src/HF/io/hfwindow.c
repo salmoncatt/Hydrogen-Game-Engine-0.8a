@@ -85,6 +85,7 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
 
 // TODO(salmoncatt): add focusing support    focus(hf_window*)
 
+//https://gist.github.com/nickrolfe/1127313ed1dbf80254b614a721b3ee9c yoink
 b8 hf_gl_load_extenstions(){
     WNDCLASSA window_class = {
         .style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC,
@@ -230,7 +231,7 @@ b8 hf_create_window(hf_window* w){
     if (!num_formats) {
         hf_err("Failed to set the OpenGL 3.3 pixel format\n");
     }
-    printf("works here\n");
+    //printf("works here\n");
     
     PIXELFORMATDESCRIPTOR pfd;
     DescribePixelFormat(w->hdc, pixel_format, sizeof(pfd), &pfd);

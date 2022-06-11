@@ -35,8 +35,10 @@ int main(void){
     hf_shader_create(&shader, "../res/shaders/vertex.glsl", "../res/shaders/fragment.glsl");
     
     
+    
     glEnable(GL_BACK);
     glEnable(GL_CULL_FACE);
+    
     
     v3f pos = {0.2f, 0, -1};
     v3f rot = {0, 0, 0};
@@ -72,7 +74,7 @@ int main(void){
         
         hf_set_window_title(&app.window, title);
         
-        if(hf_gui_panel_begin(&panel, (hf_rect){10, 10, 200, 200}, 0)){
+        if(hf_gui_panel_begin(&panel, (hf_rect){0, 0, 100, 100}, 0)){
             
             hf_gui_panel_end(&panel);
         }
@@ -88,7 +90,7 @@ int main(void){
         
         
         glDisable(GL_DEPTH_TEST);
-        hf_render_rect(0, 0, 100, 100, (v4f){1, 1, 1, 1});
+        hf_render_rect(100, 100, 100, 100, (v4f){1, 1, 1, 1});
         glEnable(GL_DEPTH_TEST);
         
         
