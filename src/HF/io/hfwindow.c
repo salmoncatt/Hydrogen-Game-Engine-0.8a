@@ -85,6 +85,77 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
 
 // TODO(salmoncatt): add focusing support    focus(hf_window*)
 
+b8 hf_gl_load_extenstions(){
+    WNDCLASSA window_class = {
+        .style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC,
+        .lpfnWndProc = DefWindowProcA,
+        .hInstance = GetModuleHandle(0),
+        .lpszClassName = "Dummy_WGL_djuasiodwa",
+    };
+    
+    if (!RegisterClassA(&window_class)) {
+        hf_err("Failed to register dummy OpenGL window.");
+    }
+    
+    HWND dummy_window = CreateWindowExA(
+                                        0,
+                                        window_class.lpszClassName,
+                                        "Dummy OpenGL Window",
+                                        0,
+                                        CW_USEDEFAULT,
+                                        CW_USEDEFAULT,
+                                        CW_USEDEFAULT,
+                                        CW_USEDEFAULT,
+                                        0,
+                                        0,
+                                        window_class.hInstance,
+                                        0);
+    
+    if (!dummy_window) {
+        hf_err("Failed to create dummy OpenGL window.");
+    }
+    
+    HDC dummy_dc = GetDC(dummy_window);
+    
+    PIXELFORMATDESCRIPTOR pfd = {
+        .nSize = sizeof(pfd),
+        .nVersion = 1,
+        .iPixelType = PFD_TYPE_RGBA,
+        .dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
+        .cColorBits = 32,
+        .cAlphaBits = 8,
+        .iLayerType = PFD_MAIN_PLANE,
+        .cDepthBits = 24,
+        .cStencilBits = 8,
+    };
+    
+    i32 pixel_format = ChoosePixelFormat(dummy_dc, &pfd);
+    if (!pixel_format) {
+        hf_err("Failed to find a suitable pixel format.");
+    }
+    if (!SetPixelFormat(dummy_dc, pixel_format, &pfd)) {
+        hf_err("Failed to set the pixel format.");
+    }
+    
+    HGLRC dummy_context = wglCreateContext(dummy_dc);
+    if (!dummy_context) {
+        hf_err("Failed to create a dummy OpenGL rendering context.");
+    }
+    
+    if (!wglMakeCurrent(dummy_dc, dummy_context)) {
+        hf_err("Failed to activate dummy OpenGL rendering context.");
+    }
+    
+    
+    if(!hf_gl_created)
+        hf_gl_init();
+    
+    wglMakeCurrent(dummy_dc, 0);
+    wglDeleteContext(dummy_context);
+    ReleaseDC(dummy_window, dummy_dc);
+    DestroyWindow(dummy_window);
+}
+
 b8 hf_create_window(hf_window* w){
     // NOTE(salmoncatt): for memory leak detection
     w->allocated = malloc(sizeof(void*));
@@ -125,35 +196,78 @@ b8 hf_create_window(hf_window* w){
     if(!w->hdc)
         hf_err("couldn't create device context for window: $hfcc{aqua}%s$hfcc{red}", w->title);
     
-    // NOTE(salmoncatt): pixel format description for wgl
-    PIXELFORMATDESCRIPTOR pfd = {};
+    /* 
+        // NOTE(salmoncatt): pixel format description for wgl
+        PIXELFORMATDESCRIPTOR pfd = {};
+        
+        pfd.nSize = w->nSize;
+        pfd.nVersion = w->nVersion;
+        pfd.dwFlags = w->dwFlags;
+        pfd.iPixelType = w->iPixelType;
+        pfd.cColorBits = w->bits_per_pixel;
+        pfd.cDepthBits = w->bits_per_pixel;
+        pfd.iLayerType = w->iLayerType;
+        
+        // NOTE(salmoncatt): getting and setting pixel format
+        u32 pixelFormat[1];
+     */
     
-    pfd.nSize = w->nSize;
-    pfd.nVersion = w->nVersion;
-    pfd.dwFlags = w->dwFlags;
-    pfd.iPixelType = w->iPixelType;
-    pfd.cColorBits = w->bits_per_pixel;
-    pfd.cDepthBits = w->bits_per_pixel;
-    pfd.iLayerType = w->iLayerType;
+    int pixel_format_attribs[] = {
+        WGL_DRAW_TO_WINDOW_ARB,     GL_TRUE,
+        WGL_SUPPORT_OPENGL_ARB,     GL_TRUE,
+        WGL_DOUBLE_BUFFER_ARB,      GL_TRUE,
+        WGL_ACCELERATION_ARB,       WGL_FULL_ACCELERATION_ARB,
+        WGL_PIXEL_TYPE_ARB,         WGL_TYPE_RGBA_ARB,
+        WGL_COLOR_BITS_ARB,         32,
+        WGL_DEPTH_BITS_ARB,         24,
+        WGL_STENCIL_BITS_ARB,       8,
+        0
+    };
     
-    // NOTE(salmoncatt): getting and setting pixel format
-    u32 pixelFormat[1];
+    i32 pixel_format;
+    UINT num_formats;
+    wglChoosePixelFormatARB(w->hdc, pixel_format_attribs, 0, 1, &pixel_format, &num_formats);
+    if (!num_formats) {
+        hf_err("Failed to set the OpenGL 3.3 pixel format\n");
+    }
+    printf("works here\n");
     
-    
-    pixelFormat[0] = ChoosePixelFormat(w->hdc, &pfd);
-    if (!pixelFormat)
-    {
-        hf_err("can't find an appropriate pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
-        return 0;
+    PIXELFORMATDESCRIPTOR pfd;
+    DescribePixelFormat(w->hdc, pixel_format, sizeof(pfd), &pfd);
+    if (!SetPixelFormat(w->hdc, pixel_format, &pfd)) {
+        hf_err("Failed to set the OpenGL 3.3 pixel format\n");
     }
     
-    if(!SetPixelFormat(w->hdc, pixelFormat[0], &pfd))
-    {
-        hf_err("unable to set pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
-        return 0;
-    }
+    /* 
+        pixelFormat[0] = ChoosePixelFormat(w->hdc, &pfd);
+        if (!pixelFormat)
+        {
+            hf_err("can't find an appropriate pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+            return 0;
+        }
+     */
     
-    w->hrc = wglCreateContext(w->hdc);
+    /* 
+        if(!SetPixelFormat(w->hdc, pixelFormat[0], &pfd))
+        {
+            hf_err("unable to set pixel format for window: $hfcc{aqua}%s$hfcc{red}", w->title);
+            return 0;
+        }
+     */
+    
+    int attribs[] =
+    {
+        WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
+        WGL_CONTEXT_MINOR_VERSION_ARB, 3, 
+        WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+        WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
+        0
+    };
+    
+    
+    w->hrc = wglCreateContextAttribsARB(w->hdc, 0, attribs);
+    
+    //w->hrc = wglCreateContext(w->hdc);
     if(!w->hrc)
         hf_err("unable to create OpenGL rendering context for window: $hfcc{aqua}%s$hfcc{red}", w->title);
     
@@ -170,24 +284,10 @@ b8 hf_create_window(hf_window* w){
     UpdateWindow(w->hwnd);
     
     
-    if(!hf_gl_created)
-        hf_gl_init();
-    
-    
     u32 major, minor;
     hf_gl_get_version(&major, &minor);
     
-    int attribs[] =
-    {
-        WGL_CONTEXT_MAJOR_VERSION_ARB, major,
-        WGL_CONTEXT_MINOR_VERSION_ARB, minor, 
-        WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
-        WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
-        0
-    };
     
-    
-    w->hrc = wglCreateContextAttribsARB(w->hdc, 0, attribs);
     
     glEnable(GL_DEPTH_TEST);
     

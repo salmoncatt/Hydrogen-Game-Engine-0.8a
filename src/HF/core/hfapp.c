@@ -46,6 +46,7 @@ void hf_app_init(hf_app* app){
 void hf_app_start(hf_app* app){
     
     if(app->parameters & HF_APP_USE_OPENGL){
+        hf_gl_load_extenstions(); //creates an empty window to load gl extensions from
         hf_create_window(&app->window);
         hf_renderer_init(app);
         hf_renderer_init_2d(app);

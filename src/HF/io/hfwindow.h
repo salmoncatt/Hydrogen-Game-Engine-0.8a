@@ -119,6 +119,7 @@ typedef struct hf_window{
 void hf_window_defaults(hf_window* window);
 
 b8 hf_create_window(hf_window* window);
+b8 hf_gl_load_extenstions();
 b8 hf_destroy_window(hf_window* window);
 
 b8 hf_should_window_update(hf_window* window);
