@@ -87,10 +87,10 @@ int main(void){
         //hf_log("[%i %i]\n", app.window.width, app.window.height);
         
         hf_render_mesh((hf_mesh*)(hf_ecs_get_component(ecs, mesh_test, hf_mesh)), &shader, (hf_transform*)(hf_ecs_get_component(ecs, mesh_test, hf_transform)));
-        
+        //printf("[%u %u]\n", app.window.width, app.window.height);
         
         glDisable(GL_DEPTH_TEST);
-        hf_render_rect(100, 100, 100, 100, (v4f){1, 1, 1, 1});
+        hf_render_rect(0, 0, 100, 100, (v4f){1, 1, 1, 1});
         glEnable(GL_DEPTH_TEST);
         
         

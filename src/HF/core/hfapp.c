@@ -54,16 +54,18 @@ void hf_app_start(hf_app* app){
 }
 
 void hf_app_update(hf_app* app){
-    if(app->parameters & HF_APP_USE_OPENGL){
-        hf_renderer_update(app);
-    }
+    
     hf_time_update();
     hf_input_update(app);
 }
 
 b8 hf_app_should_update(hf_app* app){
     hf_app_update(app);
-    return hf_should_window_update(&app->window);
+    b8 should_update = hf_should_window_update(&app->window);
+    if(app->parameters & HF_APP_USE_OPENGL){
+        hf_renderer_update(app);
+    }
+    return should_update;
 }
 
 void hf_app_stop(hf_app* app){

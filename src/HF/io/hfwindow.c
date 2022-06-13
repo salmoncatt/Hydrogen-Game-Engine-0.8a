@@ -401,7 +401,7 @@ void hf_update_window(hf_window* w){
     
     // NOTE(salmoncatt): update window size and openGL viewport
     RECT rect;
-    if(GetWindowRect(w->hwnd, &rect)){
+    if(GetClientRect(w->hwnd, &rect)){
         w->width = rect.right - rect.left;
         w->height = rect.bottom - rect.top;
         w->x = rect.left;
