@@ -1,6 +1,6 @@
 CC=gcc
-LIBS  = -lopengl32 -lgdi32 -lwinmm
-CFLAGS = -mavx -m64 -Isrc/HF
+LIBS  = -lopengl32 -lgdi32 -lwinmm -lglfw3
+CFLAGS = -mavx -m64 -Isrc/HF -Lext/lib -Iext/include
 #TODO: (salmoncatt) dont make me write * for every new sub directory added
 SRC=$(wildcard src/*.c) $(wildcard src/*/*.c) $(wildcard src/*/*/*.c)
 OBJS = $(SRC:.c=.o)

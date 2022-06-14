@@ -42,6 +42,6 @@
 
 
 #include "graphics/stb_image.h"
-
+#include "GLFW/glfw3.h"
 
 #endif //HFPCH_H
