@@ -38,7 +38,7 @@ b8 hf_gui_button(u32 x, u32 y, u32 w, u32 h, v4f color){
         color = hf_v4f(color.r + 0.1, color.g + 0.1, color.b + 0.1, color.a); //highlight if hovered
         
         //if click return 1
-        clicked = hf_input_get_mouse_button_down(HF_MOUSE_BUTTON_0);
+        clicked = hf_input_get_mouse_button_down(HF_MOUSE_BUTTON_LEFT);
     }
     
     hf_render_rect(ss_x, ss_y, w, h, color);
