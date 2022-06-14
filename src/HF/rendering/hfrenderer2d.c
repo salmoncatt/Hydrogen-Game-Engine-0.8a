@@ -1,5 +1,4 @@
 #include "hfrenderer2d.h"
-#include "hfrenderer.h"
 
 hf_mesh hf_renderer_quad = {};
 hf_shader hf_gui_rect_shader = {};
@@ -67,6 +66,7 @@ void hf_render_rect(u32 x, u32 y, u32 w, u32 h, v4f color){
     hf_shader_bind(&hf_gui_rect_shader);
     //hf_shader_set_uniform_v3f(shader, "pos", &transform->pos);
     
+    glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);//very important
     
     /* 
@@ -106,12 +106,15 @@ void hf_render_rect(u32 x, u32 y, u32 w, u32 h, v4f color){
     hf_shader_unbind(&hf_renderer_quad);
     
     glEnable(GL_CULL_FACE);//very important
+    glEnable(GL_DEPTH_TEST);
     
     
     glDisableVertexAttribArray(0);
     glBindVertexArray(0);
 }
 
+/* 
 void hf_render_rect_ss(hf_button* button){
     
 }
+ */

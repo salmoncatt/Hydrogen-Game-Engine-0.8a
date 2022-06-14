@@ -40,6 +40,8 @@
 
 #include "datatypes/hffloatbuffer.h"
 
+#include "rendering/hfrenderer.h"
+#include "rendering/hfrenderer2d.h"
 
 #include "graphics/stb_image.h"
 

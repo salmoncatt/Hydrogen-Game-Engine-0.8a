@@ -22,6 +22,6 @@ void hf_renderer_destroy_2d(hf_app* app);
 void hf_render_rect(u32 x, u32 y, u32 w, u32 h, v4f color);
 
 // NOTE(salmoncatt): screen space coords (this is faster)
-void hf_render_rect_ss(hf_button* button);
+//void hf_render_rect_ss(hf_button* button);
 
 #endif //HFRENDERER2D_H

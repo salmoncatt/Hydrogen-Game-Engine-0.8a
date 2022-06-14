@@ -67,6 +67,7 @@ int main(void){
     glClearColor(0.5, 0.5, 0.5, 1);
     
     hf_gui_panel panel = {};
+    panel.color = hf_v4f(0.3, 0.3, 0.3, 1);
     
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
         
@@ -74,9 +75,13 @@ int main(void){
         
         hf_set_window_title(&app.window, title);
         
-        if(hf_gui_panel_begin(&panel, (hf_rect){0, 0, 100, 100}, 0)){
+        if(hf_gui_panel_begin(&panel, 110, 180, 150, 250, HF_TITLE_BAR)){
             
-            hf_gui_panel_end(&panel);
+            if(hf_gui_button(10, 50, 80, 30, hf_v4f(0.9, 0.6, 0, 1))){
+                printf("clicked\n");
+            }
+            
+            hf_gui_panel_end();
         }
         
         hf_free(title);
@@ -89,9 +94,7 @@ int main(void){
         hf_render_mesh((hf_mesh*)(hf_ecs_get_component(ecs, mesh_test, hf_mesh)), &shader, (hf_transform*)(hf_ecs_get_component(ecs, mesh_test, hf_transform)));
         //printf("[%u %u]\n", app.window.width, app.window.height);
         
-        glDisable(GL_DEPTH_TEST);
-        hf_render_rect(0, 0, 100, 100, (v4f){1, 1, 1, 1});
-        glEnable(GL_DEPTH_TEST);
+        //hf_render_rect(0, 0, 100, 100, (v4f){1, 1, 1, 1});
         
         
         //hf_log("[%f, %f]\n", hf_input_get_mouse_movement().x, hf_input_get_mouse_movement().y);
