@@ -1,6 +1,6 @@
 CC=gcc
 LIBS  = -lopengl32 -lgdi32 -lwinmm
-CFLAGS = -mavx -m64 -Isrc/HF
+CFLAGS = -mavx -m64 -Isrc/HF -Iext/include -Iext/include/FreeType
 #TODO: (salmoncatt) dont make me write * for every new sub directory added
 SRC=$(wildcard src/*.c) $(wildcard src/*/*.c) $(wildcard src/*/*/*.c)
 OBJS = $(SRC:.c=.o)

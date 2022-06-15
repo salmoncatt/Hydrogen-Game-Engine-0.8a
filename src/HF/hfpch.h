@@ -45,4 +45,8 @@
 
 #include "graphics/stb_image.h"
 
+
+#include "ft2build.h"
+#include "freetype/freetype.h"
+
 #endif //HFPCH_H
