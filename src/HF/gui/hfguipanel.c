@@ -59,6 +59,11 @@ b8 hf_gui_button(u32 x, u32 y, u32 w, u32 h, v4f color){
         clicked = hf_input_get_mouse_button_down(HF_MOUSE_BUTTON_LEFT);
     }
     
+    /* 
+        if(hf_input_get_mouse_button(HF_MOUSE_BUTTON_LEFT))
+            color = hf_v4f(color.r - 0.1, color.g - 0.1, color.b - 0.1, color.a);
+     */
+    
     hf_render_rect(ss_x, ss_y, w, h, color);
     
     
