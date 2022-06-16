@@ -1,6 +1,5 @@
 #include "hfapp.h"
-#include "../rendering/hfrenderer.h"
-#include "../rendering/hfrenderer2d.h"
+#include "../text/hffreetype.h"
 
 hf_app hf_app_defaults(){
     hf_app app = {};
@@ -49,6 +48,7 @@ void hf_app_start(hf_app* app){
         hf_create_window(&app->window);
         hf_renderer_init(app);
         hf_renderer_init_2d(app);
+        hf_free_type_init();
     }
 }
 
@@ -77,6 +77,7 @@ void hf_app_stop(hf_app* app){
         hf_renderer_destroy(app);
         hf_renderer_destroy_2d(app); 
         hf_gl_close();
+        hf_free_type_close();
     }
     
     //hf_MLD_close(app);

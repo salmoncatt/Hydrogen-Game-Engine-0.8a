@@ -20,6 +20,7 @@ void hf_renderer_destroy_2d(hf_app* app);
 
 // NOTE(salmoncatt): pixel coords
 void hf_render_rect(u32 x, u32 y, u32 w, u32 h, v4f color);
+void hf_render_rect_texture(u32 x, u32 y, u32 w, u32 h, hf_texture* texture);
 
 // NOTE(salmoncatt): screen space coords (this is faster)
 //void hf_render_rect_ss(hf_button* button);

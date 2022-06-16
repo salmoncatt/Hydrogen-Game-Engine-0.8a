@@ -69,6 +69,9 @@ int main(void){
     hf_gui_panel panel = {};
     panel.color = hf_v4f(0.3, 0.3, 0.3, 1);
     
+    hf_texture gui_image_test = hf_texture_from_file("../res/images/patrick.png");
+    hf_texture_create(&gui_image_test);
+    
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
         
         char* title = hf_format_string("HF Engine test [%u] [%u, %u] [%i, %i]", (u32)hf_get_fps(), (u32)hf_input_cursor_pos.x, (u32)hf_input_cursor_pos.y, (i32)hf_input_get_mouse_movement().x, (i32)hf_input_get_mouse_movement().y);
@@ -92,6 +95,8 @@ int main(void){
             if(hf_gui_button(10, 50, 80, 30, hf_v4f(0.9, 0.6, 0, 1))){
                 printf("clicked\n");
             }
+            
+            hf_gui_image(10, 100, 50, 50, &gui_image_test);
             
             hf_gui_panel_end();
         }
@@ -127,6 +132,7 @@ int main(void){
     
     
     hf_texture_destroy(&texture);
+    hf_texture_destroy(&gui_image_test);
     
     
     hf_mesh_destroy(&mesh);

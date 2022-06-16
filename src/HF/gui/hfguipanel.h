@@ -21,5 +21,6 @@ b8 hf_gui_panel_begin(hf_gui_panel* panel, u32 x, u32 y, u32 w, u32 h, u32 flags
 b8 hf_gui_panel_end();
 
 b8 hf_gui_button(u32 x, u32 y, u32 w, u32 h, v4f color);
+void hf_gui_image(u32 x, u32 y, u32 w, u32 h, hf_texture* texture);
 
 #endif //HFGUIPANEL_H

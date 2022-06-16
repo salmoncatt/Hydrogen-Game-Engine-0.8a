@@ -6,9 +6,11 @@ hf_shader hf_gui_rect_shader = {};
 
 void hf_renderer_init_2d(hf_app* app) {
     f32 hf_quad_vertices[] = {0, 1, 0, 0, 1, 1, 1, 0};
+    f32 hf_quad_texture_coords[] = {0, 1, 0, 0, 1, 1, 1, 0};
     
     hf_renderer_quad.type = 2; //2d
     hf_renderer_quad.vertices = hf_array_create_from_data(&hf_quad_vertices, f32, 8);
+    hf_renderer_quad.texture_coords = hf_array_create_from_data(&hf_quad_texture_coords, f32, 8);
     hf_mesh_create(&hf_renderer_quad);
     
     hf_gui_rect_shader.name = "gui rect shader";
@@ -65,6 +67,7 @@ void hf_render_rect(u32 x, u32 y, u32 w, u32 h, v4f color){
     
     glBindVertexArray(hf_renderer_quad.vao);
     glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
     
     hf_shader_bind(&hf_gui_rect_shader);
     
@@ -83,6 +86,7 @@ void hf_render_rect(u32 x, u32 y, u32 w, u32 h, v4f color){
     hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "transform", &model_proj);
     //hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "transform", &transformation);
     hf_shader_set_uniform_v4f(&hf_gui_rect_shader, "color", &color);
+    hf_shader_set_uniform_b8(&hf_gui_rect_shader, "has_texture", 0);
     //hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "proj", &hf_renderer_pixel_ortho);
     //position
     
@@ -96,6 +100,51 @@ void hf_render_rect(u32 x, u32 y, u32 w, u32 h, v4f color){
     
     
     glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glBindVertexArray(0);
+}
+
+void hf_render_rect_texture(u32 x, u32 y, u32 w, u32 h, hf_texture* texture){
+    if(w == 0 || h == 0){
+        return; //dont waste a draw call on an empty rectangle
+    }
+    
+    glBindVertexArray(hf_renderer_quad.vao);
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    
+    hf_shader_bind(&hf_gui_rect_shader);
+    
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);//very important
+    
+    
+    if(texture->image.data != NULL){
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture->texture_id);
+    }
+    
+    
+    m4f transformation = hf_transformation_m4f_2d(hf_v2f(x, y), 0, hf_v2f(w, h));
+    m4f model_proj = hf_mul_m4f(hf_renderer_pixel_ortho, transformation);
+    hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "transform", &model_proj);
+    hf_shader_set_uniform_b8(&hf_gui_rect_shader, "has_texture", 1);
+    //hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "transform", &transformation);
+    //hf_shader_set_uniform_v4f(&hf_gui_rect_shader, "color", &color);
+    //hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "proj", &hf_renderer_pixel_ortho);
+    //position
+    
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, (u32)(hf_array_size(hf_renderer_quad.vertices)) / 2);
+    
+    
+    hf_shader_unbind(&hf_renderer_quad);
+    
+    glEnable(GL_CULL_FACE);//very important
+    glEnable(GL_DEPTH_TEST);
+    
+    
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
     glBindVertexArray(0);
 }
 

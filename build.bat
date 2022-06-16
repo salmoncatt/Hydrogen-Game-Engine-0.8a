@@ -3,6 +3,15 @@
 if not exist bin mkdir bin
 if not exist bin\hfpch mkdir bin\hfpch
 
+if not exist bin\freetype.dll (
+
+echo [HGE] copying freetype.dll to bin
+copy "ext\lib\freetype.dll" "bin\freetype.dll"
+echo[
+
+)
+
+
 set compileType=gcc
 
 echo [HGE] compiling...

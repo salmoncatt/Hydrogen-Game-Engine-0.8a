@@ -52,4 +52,6 @@
 #include "gui/hfgui.h"
 #include "gui/hfguipanel.h"
 
+#include "text/hffreetype.h"
+
 #endif //HF_H
