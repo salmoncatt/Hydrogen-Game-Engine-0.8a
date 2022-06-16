@@ -75,6 +75,18 @@ int main(void){
         
         hf_set_window_title(&app.window, title);
         
+        hf_render_mesh((hf_mesh*)(hf_ecs_get_component(ecs, mesh_test, hf_mesh)), &shader, (hf_transform*)(hf_ecs_get_component(ecs, mesh_test, hf_transform)));
+        
+        
+        //transform.pos.x += 0.0001f;
+        //transform.pos = hf_add_v3f(transform.pos, hf_v3f(hf_input_get_mouse_movement().x, hf_input_get_mouse_movement().y, 0));
+        
+        //hf_log("[%i %i]\n", app.window.width, app.window.height);
+        
+        //printf("[%u %u]\n", app.window.width, app.window.height);
+        
+        //hf_render_rect(0, 0, 100, 100, (v4f){1, 1, 1, 1});
+        
         if(hf_gui_panel_begin(&panel, 110, 180, 150, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
             
             if(hf_gui_button(10, 50, 80, 30, hf_v4f(0.9, 0.6, 0, 1))){
@@ -85,17 +97,6 @@ int main(void){
         }
         
         hf_free(title);
-        
-        //transform.pos.x += 0.0001f;
-        //transform.pos = hf_add_v3f(transform.pos, hf_v3f(hf_input_get_mouse_movement().x, hf_input_get_mouse_movement().y, 0));
-        
-        //hf_log("[%i %i]\n", app.window.width, app.window.height);
-        
-        hf_render_mesh((hf_mesh*)(hf_ecs_get_component(ecs, mesh_test, hf_mesh)), &shader, (hf_transform*)(hf_ecs_get_component(ecs, mesh_test, hf_transform)));
-        //printf("[%u %u]\n", app.window.width, app.window.height);
-        
-        //hf_render_rect(0, 0, 100, 100, (v4f){1, 1, 1, 1});
-        
         
         //hf_log("[%f, %f]\n", hf_input_get_mouse_movement().x, hf_input_get_mouse_movement().y);
         
@@ -121,7 +122,7 @@ int main(void){
         
         //hf_update_debug_camera(&hf_renderer_cam);
         
-        hf_limit_fps(300);
+        hf_limit_fps(60);
     }
     
     
