@@ -122,7 +122,7 @@ int main(void){
         
         //hf_update_debug_camera(&hf_renderer_cam);
         
-        hf_limit_fps(60);
+        hf_limit_fps(300);
     }
     
     
