@@ -75,7 +75,7 @@ int main(void){
         
         hf_set_window_title(&app.window, title);
         
-        if(hf_gui_panel_begin(&panel, 110, 180, 150, 250, HF_TITLE_BAR)){
+        if(hf_gui_panel_begin(&panel, 110, 180, 150, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
             
             if(hf_gui_button(10, 50, 80, 30, hf_v4f(0.9, 0.6, 0, 1))){
                 printf("clicked\n");

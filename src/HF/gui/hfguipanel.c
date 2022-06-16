@@ -2,17 +2,36 @@
 
 hf_gui_panel* hf_current_gui_panel = NULL;
 
-b8 hf_gui_panel_begin(hf_gui_panel* panel, u32 x, u32 y, u32 w, u32 h, u32 flags){
-    hf_render_rect(x, y, w, h, panel->color);
+b8 hf_gui_panel_begin(hf_gui_panel* panel, u32 x, u32 y, u32 w, u32 h, u32 flags, u32 title_bar_height){
     
-    if(flags && HF_TITLE_BAR){
-        hf_render_rect(x, y, w, 30, hf_v4f(panel->color.r - 0.1, panel->color.g - 0.1, panel->color.b - 0.1, panel->color.a));
+    if(flags && HF_MOVEABLE){
+        if(!panel->selected){
+            panel->selected = ((u32)hf_input_cursor_pos.x > panel->x && (u32)hf_input_cursor_pos.y > panel->y && (u32)hf_input_cursor_pos.x < panel->x + panel->w && (u32)hf_input_cursor_pos.y < panel->y + title_bar_height) && hf_input_get_mouse_button_down(HF_MOUSE_BUTTON_LEFT);
+        }else{
+            panel->selected = !hf_input_get_mouse_button_up(HF_MOUSE_BUTTON_LEFT);
+        }
+        
+        if(panel->selected){
+            panel->x += hf_input_get_mouse_movement().x;
+            panel->y += hf_input_get_mouse_movement().y;
+        }
     }
     
-    panel->x = x;
-    panel->y = y;
-    panel->w = w;
-    panel->h = h;
+    
+    hf_render_rect(panel->x, panel->y, panel->w, panel->h, panel->color);
+    
+    if(flags && HF_TITLE_BAR){
+        hf_render_rect(panel->x, panel->y, panel->w, title_bar_height, hf_v4f(panel->color.r - 0.1, panel->color.g - 0.1, panel->color.b - 0.1, panel->color.a));
+    }
+    
+    //if values have not been initialized, do so
+    if(panel->x == 0 && panel->y == 0 && panel->w == 0 && panel->h == 0){
+        panel->x = x;
+        panel->y = y;
+        panel->w = w;
+        panel->h = h;
+    }
+    
     
     hf_current_gui_panel = panel;
     

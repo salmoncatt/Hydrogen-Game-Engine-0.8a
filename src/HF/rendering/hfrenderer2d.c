@@ -59,12 +59,14 @@ void hf_render_mesh_2d(hf_mesh* mesh, hf_shader* shader, hf_transform* transform
 }
 
 void hf_render_rect(u32 x, u32 y, u32 w, u32 h, v4f color){
+    if(w == 0 || h == 0){
+        return; //dont waste a draw call on an empty rectangle
+    }
+    
     glBindVertexArray(hf_renderer_quad.vao);
     glEnableVertexAttribArray(0);
     
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, hf_renderer_quad->ibo);
     hf_shader_bind(&hf_gui_rect_shader);
-    //hf_shader_set_uniform_v3f(shader, "pos", &transform->pos);
     
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);//very important
@@ -75,22 +77,6 @@ void hf_render_rect(u32 x, u32 y, u32 w, u32 h, v4f color){
             glBindTexture(GL_TEXTURE_2D, mesh->texture.texture_id);
         }
      */
-    
-    // NOTE(salmoncatt): convert from pixel coords to screen space
-    /* 
-        f32 ss_w = (f32)(w) / (f32)(hf_window_w);
-        f32 ss_h = (f32)(h) / (f32)(hf_window_h);
-        
-        f32 ss_x = (f32)(x) / (f32)(hf_window_w);
-        f32 ss_y = (f32)(y + h) / (f32)(hf_window_h);
-     */
-    
-    //ss_y += ss_h;
-    //ss_y = ss_y * -2.0f + 1.0f;
-    //ss_x -= 0.5f * hf_aspect_ratio;
-    //ss_y += 0.5f * hf_aspect_ratio;
-    
-    //printf("%f\n", y);
     
     m4f transformation = hf_transformation_m4f_2d(hf_v2f(x, y), 0, hf_v2f(w, h));
     m4f model_proj = hf_mul_m4f(hf_renderer_pixel_ortho, transformation);

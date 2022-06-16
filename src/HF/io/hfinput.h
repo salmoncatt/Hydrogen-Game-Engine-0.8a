@@ -41,13 +41,13 @@ void hf_input_update(hf_app* app);
 
 b8 hf_input_get_key(u32 key);
 b8 hf_input_get_key_down(u32 key);
-b8 hf_input_get_key_up();
+b8 hf_input_get_key_up(u32 key);
 
 void hf_input_set_clipboard(const char* text);
 
-b8 hf_input_get_mouse_button();
+b8 hf_input_get_mouse_button(u32 button);
 b8 hf_input_get_mouse_button_down(u32 button);
-b8 hf_input_get_mouse_button_up();
+b8 hf_input_get_mouse_button_up(u32 button);
 
 v2f hf_input_get_mouse_movement();
 
