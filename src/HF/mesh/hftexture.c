@@ -51,7 +51,6 @@ void hf_texture_create(hf_texture* texture){
             glTexImage2D(textureType, 0, internalFormat, image.width, image.height, 0, format, dataType, image.data);
         else
             glTexImage2D(textureType, 0, internalFormat, image.width, image.height, 0, format, dataType, 0);*/
-        
         glTexImage2D(texture->texture_type, 0, texture->internal_format, texture->image.width, texture->image.height, 0, texture->format, texture->data_type, texture->image.data);
         
         if(texture->generate_mipmap)

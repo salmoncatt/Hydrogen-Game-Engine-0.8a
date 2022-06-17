@@ -99,7 +99,7 @@ int main(void){
             }
             
             
-            hf_gui_image(10, 100, 50, 50, &gui_image_test);
+            hf_gui_image(10, 100, 250, 250, &font.atlas_texture);
             
             hf_gui_panel_end();
         }

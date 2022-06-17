@@ -53,14 +53,21 @@ hf_font hf_font_from_file(const char* path){
     
     v2f offset = {};
     
-    unsigned char* blank_color = malloc(width * height);
+    unsigned char* blank_color = calloc(width * height, sizeof(char));
     
-    for (u32 i = 0; i < (width * height); i++) {
-        blank_color[i] = 0x0;
-    }
+    /* 
+        for (u32 i = 0; i < (width * height); i++) {
+            blank_color[i] = 0x0;
+        }
+     */
     
     hf_image image_data = {};
-    hf_image_create(&image_data, width, height, 1, blank_color);
+    //printf("works here\n");
+    image_data.width = width;
+    image_data.height = height;
+    image_data.channels = 1;
+    image_data.data = blank_color;
+    //hf_image_create(&image_data, width, height, 1, blank_color);
     
     font.atlas_texture = hf_texture_from_image(image_data);
     font.atlas_texture.byte_alignment = 1;
@@ -69,9 +76,9 @@ hf_font hf_font_from_file(const char* path){
     font.atlas_texture.format = GL_RED;
     font.atlas_texture.generate_mipmap = 0;
     font.atlas_texture.wrap_mode = (v2f){GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE};
+    font.atlas_texture.texture_unit = 2;
     
     hf_texture_create(&font.atlas_texture);
-    printf("works here\n");
     for (int i = 0; i < 128; ++i) {
         //super sophisticated error checking algorithm
         if (FT_Load_Char(face, i, FT_LOAD_RENDER)) {
