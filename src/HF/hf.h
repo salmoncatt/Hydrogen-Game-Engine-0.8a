@@ -53,5 +53,6 @@
 #include "gui/hfguipanel.h"
 
 #include "text/hffreetype.h"
+#include "text/hf_font.h"
 
 #endif //HF_H

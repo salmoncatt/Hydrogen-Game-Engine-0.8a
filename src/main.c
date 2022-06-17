@@ -72,6 +72,9 @@ int main(void){
     hf_texture gui_image_test = hf_texture_from_file("../res/images/patrick.png");
     hf_texture_create(&gui_image_test);
     
+    hf_font font = hf_font_from_file("../res/fonts/oxygen/Oxygen-Regular.ttf");
+    
+    
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
         
         char* title = hf_format_string("HF Engine test [%u] [%u, %u] [%i, %i]", (u32)hf_get_fps(), (u32)hf_input_cursor_pos.x, (u32)hf_input_cursor_pos.y, (i32)hf_input_get_mouse_movement().x, (i32)hf_input_get_mouse_movement().y);
@@ -79,7 +82,6 @@ int main(void){
         hf_set_window_title(&app.window, title);
         
         hf_render_mesh((hf_mesh*)(hf_ecs_get_component(ecs, mesh_test, hf_mesh)), &shader, (hf_transform*)(hf_ecs_get_component(ecs, mesh_test, hf_transform)));
-        
         
         //transform.pos.x += 0.0001f;
         //transform.pos = hf_add_v3f(transform.pos, hf_v3f(hf_input_get_mouse_movement().x, hf_input_get_mouse_movement().y, 0));
@@ -96,10 +98,13 @@ int main(void){
                 printf("clicked\n");
             }
             
+            
             hf_gui_image(10, 100, 50, 50, &gui_image_test);
             
             hf_gui_panel_end();
         }
+        
+        
         
         hf_free(title);
         

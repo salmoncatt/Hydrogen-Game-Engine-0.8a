@@ -28,4 +28,5 @@ FT_Face hf_load_face(const char* path){
         hf_err("[HF FT] couldn't load font : [%s]\n", path);
     }
     
+    return face;
 }
