@@ -9,7 +9,7 @@ hf_font hf_font_from_file(const char* path){
     font.name = hf_remove_file_path(path);
     
     FT_Face face = hf_load_face(path);
-    FT_Set_Pixel_Sizes(face, 0, font.max_texture_width);
+    FT_Set_Pixel_Sizes(face, 0, font.glyph_height);
     FT_GlyphSlot glyph = face->glyph;
     
     u32 width = 0;
@@ -53,8 +53,6 @@ hf_font hf_font_from_file(const char* path){
     
     v2f offset = {};
     
-    unsigned char* blank_color = calloc(width * height, sizeof(char));
-    
     /* 
         for (u32 i = 0; i < (width * height); i++) {
             blank_color[i] = 0x0;
@@ -66,7 +64,7 @@ hf_font hf_font_from_file(const char* path){
     image_data.width = width;
     image_data.height = height;
     image_data.channels = 1;
-    image_data.data = blank_color;
+    image_data.data = calloc(width * height, sizeof(char));;
     //hf_image_create(&image_data, width, height, 1, blank_color);
     
     font.atlas_texture = hf_texture_from_image(image_data);
@@ -76,9 +74,10 @@ hf_font hf_font_from_file(const char* path){
     font.atlas_texture.format = GL_RED;
     font.atlas_texture.generate_mipmap = 0;
     font.atlas_texture.wrap_mode = (v2f){GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE};
-    font.atlas_texture.texture_unit = 2;
     
     hf_texture_create(&font.atlas_texture);
+    
+    
     for (int i = 0; i < 128; ++i) {
         //super sophisticated error checking algorithm
         if (FT_Load_Char(face, i, FT_LOAD_RENDER)) {
@@ -88,12 +87,15 @@ hf_font hf_font_from_file(const char* path){
             
             continue;
         }
+        //printf("%c\n", (char)(i));
         
         if (offset.x + glyph->bitmap.width + 1 >= font.max_texture_width) {
             offset.y += row_height;
             row_height = 0;
             offset.x = 0;
         }
+        
+        //printf("%u\n", (u32)glyph->bitmap.width);
         
         hf_texture_set_sub_image(&font.atlas_texture, 0, offset, hf_v2f(glyph->bitmap.width, glyph->bitmap.rows), glyph->bitmap.buffer);
         
@@ -106,7 +108,7 @@ hf_font hf_font_from_file(const char* path){
         offset.x += glyph->bitmap.width + 2;
     }
     
-    free(blank_color);
+    //free(blank_color);
     
     /* 
         if (font.log_status) {
@@ -116,4 +118,6 @@ hf_font hf_font_from_file(const char* path){
      */
     
     FT_Done_Face(face);
+    
+    return font;
 }
