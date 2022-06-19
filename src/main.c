@@ -137,7 +137,7 @@ int main(void){
     
     hf_texture_destroy(&texture);
     hf_texture_destroy(&gui_image_test);
-    
+    hf_font_destroy(&font);
     
     hf_mesh_destroy(&mesh);
     hf_app_stop(&app);

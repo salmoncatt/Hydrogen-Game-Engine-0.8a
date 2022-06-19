@@ -3,6 +3,8 @@
 #ifndef HFGUIPANEL_H
 #define HFGUIPANEL_H
 
+#include "../text/hf_font.h"
+
 typedef struct hf_gui_panel{
     
     v4f color;
@@ -22,5 +24,7 @@ b8 hf_gui_panel_end();
 
 b8 hf_gui_button(u32 x, u32 y, u32 w, u32 h, v4f color);
 void hf_gui_image(u32 x, u32 y, u32 w, u32 h, hf_texture* texture);
+
+void hf_gui_text(u32 x, u32 y, u32 w, b8 centered, hf_font* font);
 
 #endif //HFGUIPANEL_H

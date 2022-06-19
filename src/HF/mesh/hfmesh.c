@@ -9,20 +9,20 @@ void hf_mesh_create(hf_mesh* mesh){
     
     if(mesh->vertices){
         if(hf_array_size(mesh->vertices) > 0){
-            hf_push_data_to_VBO(0, mesh->type, mesh->vertices, hf_array_size(mesh->vertices));
+            hf_push_data_to_VBO(0, mesh->type, mesh->vertices, hf_array_size(mesh->vertices), GL_STATIC_DRAW);
         }
     }
     
     if(mesh->texture_coords){
         if(hf_array_size(mesh->texture_coords) > 0){
-            hf_push_data_to_VBO(1, 2, mesh->texture_coords, hf_array_size(mesh->texture_coords));
+            hf_push_data_to_VBO(1, 2, mesh->texture_coords, hf_array_size(mesh->texture_coords), GL_STATIC_DRAW);
         }
     }
     
     if(mesh->indices){
         if(hf_array_size(mesh->indices) > 0){
             mesh->ibo = hf_generate_VBO();
-            hf_push_data_to_IBO(mesh->indices, hf_array_size(mesh->indices), mesh->ibo);
+            hf_push_data_to_IBO(mesh->indices, hf_array_size(mesh->indices), mesh->ibo, GL_STATIC_DRAW);
         }
     }
     

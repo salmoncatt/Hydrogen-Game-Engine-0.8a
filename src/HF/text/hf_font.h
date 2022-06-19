@@ -27,9 +27,14 @@ typedef struct hf_font{
     const char* path;
     const char* name;
     
+    f32* vertices;
+    f32* texture_coords;
+    u32 vao;
+    b8 created;
     
 }hf_font;
 
 hf_font hf_font_from_file(const char* path);
+void hf_font_destroy(hf_font* font);
 
 #endif //HF_FONT_H

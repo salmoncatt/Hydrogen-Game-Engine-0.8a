@@ -80,9 +80,9 @@ u32 hf_generate_VBO();
 void hf_gl_get_version(u32* major, u32* minor);
 
 // NOTE(salmoncatt): has to be float data
-void hf_push_data_to_VBO(u32 index, u32 type, float* data, u32 length);
+void hf_push_data_to_VBO(u32 index, u32 type, float* data, u32 length, GLenum draw_mode);
 
-void hf_push_data_to_IBO(const void* data, u32 size, u32 IBO);
+void hf_push_data_to_IBO(const void* data, u32 size, u32 IBO, GLenum draw_mode);
 
 //void hf_opengl_cleanup();
 

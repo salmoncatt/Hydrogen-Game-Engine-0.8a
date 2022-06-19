@@ -116,22 +116,22 @@ u32 hf_generate_VBO(){
     
 }
 
-void hf_push_data_to_VBO(u32 index, u32 type, float* data, u32 length){
+void hf_push_data_to_VBO(u32 index, u32 type, float* data, u32 length, GLenum draw_mode){
     
     u32 vbo = hf_generate_VBO();
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     
-    glBufferData(GL_ARRAY_BUFFER, length * sizeof(float), data, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, length * sizeof(float), data, draw_mode);
     glVertexAttribPointer(index, type, GL_FLOAT, GL_FALSE, sizeof(float) * type, 0);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
 }
 
-void hf_push_data_to_IBO(const void* data, u32 size, u32 IBO){
+void hf_push_data_to_IBO(const void* data, u32 size, u32 IBO, GLenum draw_mode){
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
     
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, size * sizeof(unsigned int), data, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, size * sizeof(unsigned int), data, draw_mode);
     
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }

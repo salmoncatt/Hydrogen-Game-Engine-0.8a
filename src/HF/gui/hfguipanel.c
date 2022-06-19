@@ -83,3 +83,7 @@ void hf_gui_image(u32 x, u32 y, u32 w, u32 h, hf_texture* texture){
     
     hf_render_rect_texture(ss_x, ss_y, w, h, texture);
 }
+
+void hf_gui_text(u32 x, u32 y, u32 w, b8 centered, hf_font* font){
+    
+}

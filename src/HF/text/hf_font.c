@@ -78,7 +78,7 @@ hf_font hf_font_from_file(const char* path){
     hf_texture_create(&font.atlas_texture);
     
     
-    for (int i = 0; i < 128; ++i) {
+    for (u32 i = 0; i < 128; ++i) {
         //super sophisticated error checking algorithm
         if (FT_Load_Char(face, i, FT_LOAD_RENDER)) {
             char character = (char)(i);
@@ -99,10 +99,10 @@ hf_font hf_font_from_file(const char* path){
         
         hf_texture_set_sub_image(&font.atlas_texture, 0, offset, hf_v2f(glyph->bitmap.width, glyph->bitmap.rows), glyph->bitmap.buffer);
         
-        font.characters[i].advance = hf_v2f((float)(glyph->advance.x >> 6), (float)(glyph->advance.y >> 6));
-        font.characters[i].bitmap_left_top = hf_v2f((float)glyph->bitmap_left, (float)glyph->bitmap_top);
-        font.characters[i].size = hf_v2f((float)(glyph->bitmap.width), (float)(glyph->bitmap.rows));
-        font.characters[i].texture_offset = hf_v2f((float)(offset.x / width), (float)(offset.y / height));
+        font.characters[i].advance = hf_v2f((f32)(glyph->advance.x >> 6), (f32)(glyph->advance.y >> 6));
+        font.characters[i].bitmap_left_top = hf_v2f((f32)glyph->bitmap_left, (f32)glyph->bitmap_top);
+        font.characters[i].size = hf_v2f((f32)(glyph->bitmap.width), (f32)(glyph->bitmap.rows));
+        font.characters[i].texture_offset = hf_v2f((f32)(offset.x / width), (f32)(offset.y / height));
         
         row_height = hf_max(row_height, glyph->bitmap.rows);
         offset.x += glyph->bitmap.width + 2;
@@ -117,7 +117,16 @@ hf_font hf_font_from_file(const char* path){
         }
      */
     
+    font.vertices = hf_array_create(f32);
+    font.texture_coords = hf_array_create(f32);
+    
     FT_Done_Face(face);
     
     return font;
+}
+
+void hf_font_destroy(hf_font* font){
+    hf_array_free(font->vertices);
+    hf_array_free(font->texture_coords);
+    hf_texture_destroy(&font->atlas_texture);
 }
