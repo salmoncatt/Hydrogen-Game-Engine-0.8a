@@ -100,7 +100,7 @@ int main(void){
             
             hf_gui_image(10, 100, 100, 100, &font.atlas_texture);
             
-            hf_gui_text(10, 210, 100, 48, 0, "the big", &font);
+            hf_gui_text(10, 210, 100, 48, 0, "the quick brown fox jumped over the lazy dog", &font);
             
             hf_gui_panel_end();
         }

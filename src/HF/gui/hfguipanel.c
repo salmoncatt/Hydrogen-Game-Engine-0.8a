@@ -145,6 +145,8 @@ void hf_gui_text(u32 x, u32 y, u32 max_w, u32 height, b8 centered, char* text, h
         hf_array_push_back(font->vertices, char_pos.x); hf_array_push_back(font->vertices, char_pos.y + char_size.y);
         hf_array_push_back(font->vertices, char_pos.x + char_size.x); hf_array_push_back(font->vertices, char_pos.y + char_size.y);
         
+        //printf("%f %u\n", char_pos.x, i);
+        
         f32 tex_x = font->characters[char_num].texture_offset.x;
         f32 tex_y = font->characters[char_num].texture_offset.y;
         

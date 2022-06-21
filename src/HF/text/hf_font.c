@@ -148,8 +148,8 @@ hf_font hf_font_from_file(const char* path){
     
     
     font.vao = hf_generate_VAO();
-    font.vbo_vert = hf_push_data_to_VBO(0, 0, 2, NULL, 100, GL_DYNAMIC_DRAW);
-    font.vbo_tex = hf_push_data_to_VBO(0, 1, 2, NULL, 100, GL_DYNAMIC_DRAW);
+    font.vbo_vert = hf_push_data_to_VBO(0, 0, 2, NULL, 5000, GL_DYNAMIC_DRAW);
+    font.vbo_tex = hf_push_data_to_VBO(0, 1, 2, NULL, 5000, GL_DYNAMIC_DRAW);
     
     FT_Done_Face(face);
     
