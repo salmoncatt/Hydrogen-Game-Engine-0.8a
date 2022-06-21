@@ -1,4 +1,4 @@
 #include "src/HF/hfres.h"
 
 
-HF_ICON ICON "res/icon.ico"
+HF_ICON ICON "res/logo.ico"

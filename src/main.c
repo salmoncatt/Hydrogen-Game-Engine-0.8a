@@ -73,6 +73,9 @@ int main(void){
     hf_texture_create(&gui_image_test);
     
     hf_font font = hf_font_from_file("../res/fonts/oxygen/Oxygen-Regular.ttf");
+    font.color = (v3f){0.9, 0.9, 0.9};
+    
+    panel.font = &font;
     
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
         
@@ -91,16 +94,16 @@ int main(void){
         
         //hf_render_rect(0, 0, 100, 100, (v4f){1, 1, 1, 1});
         
-        if(hf_gui_panel_begin(&panel, 110, 180, 150, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
+        if(hf_gui_panel_begin(&panel, "panel", 110, 180, 150, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
             
             if(hf_gui_button(10, 50, 80, 30, hf_v4f(0.9, 0.6, 0, 1))){
                 printf("clicked\n");
             }
             
             
-            hf_gui_image(10, 100, 100, 100, &font.atlas_texture);
+            hf_gui_image(10, 100, 100, 100, &gui_image_test);
             
-            hf_gui_text(10, 210, 100, 24, 0, "the quick brown fox jumped over the lazy dog", &font);
+            hf_gui_text(10, 215, 100, 15, 0, "the quick brown fox jumped over the lazy dog", &font);
             
             hf_gui_panel_end();
         }

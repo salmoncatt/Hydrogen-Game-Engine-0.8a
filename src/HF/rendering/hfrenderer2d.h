@@ -12,8 +12,12 @@
 
 extern hf_mesh hf_renderer_quad;
 extern hf_shader hf_gui_rect_shader;
+extern hf_shader hf_gui_text_shader;
 
 void hf_renderer_init_2d(hf_app* app);
+
+void hf_set_alpha_blending(b8 in);
+void hf_set_depth_test(b8 in);
 
 void hf_render_mesh_2d(hf_mesh* mesh, hf_shader* shader, hf_transform* transform);
 

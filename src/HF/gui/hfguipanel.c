@@ -2,7 +2,7 @@
 
 hf_gui_panel* hf_current_gui_panel = NULL;
 
-b8 hf_gui_panel_begin(hf_gui_panel* panel, u32 x, u32 y, u32 w, u32 h, u32 flags, u32 title_bar_height){
+b8 hf_gui_panel_begin(hf_gui_panel* panel, char* text, u32 x, u32 y, u32 w, u32 h, u32 flags, u32 title_bar_height){
     
     if(flags & HF_MOVEABLE){
         if(!panel->selected){
@@ -34,7 +34,9 @@ b8 hf_gui_panel_begin(hf_gui_panel* panel, u32 x, u32 y, u32 w, u32 h, u32 flags
         }else{
             color = panel->title_bar_color;
         }
+        
         hf_render_rect(panel->x, panel->y, panel->w, title_bar_height, color);
+        //hf_gui_text(panel->x + 10, panel->y + title_bar_height - 5, panel->w, 15, 0, text, panel->font);
     }
     
     
@@ -128,10 +130,11 @@ void hf_gui_text(u32 x, u32 y, u32 max_w, u32 height, b8 centered, char* text, h
         
         v2f char_size = (v2f){font->characters[char_num].size.x * scale_ratio, font->characters[char_num].size.y * scale_ratio};
         
+        v2f char_pos = (v2f){cursor_pos.x + font->characters[char_num].bitmap_left_top.x * scale_ratio, cursor_pos.y - font->characters[char_num].bitmap_left_top.y * scale_ratio};
+        
         cursor_pos.x += font->characters[char_num].advance.x * scale_ratio;
         cursor_pos.y += font->characters[char_num].advance.y * scale_ratio;
         
-        v2f char_pos = (v2f){cursor_pos.x + font->characters[char_num].bitmap_left_top.x * scale_ratio, cursor_pos.y - font->characters[char_num].bitmap_left_top.y * scale_ratio};
         
         if(!char_size.x || !char_size.y){
             continue;

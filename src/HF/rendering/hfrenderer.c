@@ -91,7 +91,7 @@ void hf_render_mesh(hf_mesh* mesh, hf_shader* shader, hf_transform* transform){
         glDrawArrays(GL_TRIANGLES, 0, (int)(hf_array_size(mesh->vertices) / mesh->type));
     
     
-    hf_shader_unbind(shader);
+    hf_shader_unbind();
     
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);

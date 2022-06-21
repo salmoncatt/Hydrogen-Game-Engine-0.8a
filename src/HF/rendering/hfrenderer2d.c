@@ -2,6 +2,7 @@
 
 hf_mesh hf_renderer_quad = {};
 hf_shader hf_gui_rect_shader = {};
+hf_shader hf_gui_text_shader = {};
 
 
 void hf_renderer_init_2d(hf_app* app) {
@@ -16,12 +17,32 @@ void hf_renderer_init_2d(hf_app* app) {
     hf_gui_rect_shader.name = "gui rect shader";
     hf_shader_create(&hf_gui_rect_shader, "../res/shaders/gui_rect_vertex.glsl", "../res/shaders/gui_rect_fragment.glsl");
     
+    hf_gui_text_shader.name = "gui text shader";
+    hf_shader_create(&hf_gui_text_shader, "../res/shaders/gui_text_vertex.glsl", "../res/shaders/gui_text_fragment.glsl");
+    
     hf_log("[HF] initialized HF Renderer 2D\n\n");
 }
 
 void hf_renderer_destroy_2d(hf_app* app) {
     hf_mesh_destroy(&hf_renderer_quad);
+    hf_shader_destroy(&hf_gui_rect_shader);
+    hf_shader_destroy(&hf_gui_text_shader);
     hf_log("[HF] destroyed HF Renderer 2D\n");
+}
+
+void hf_set_alpha_blending(b8 in){
+    if(in){
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }else
+        glDisable(GL_BLEND);
+}
+
+void hf_set_depth_test(b8 in){
+    if(in)
+        glEnable(GL_DEPTH_TEST);
+    else
+        glDisable(GL_DEPTH_TEST);
 }
 
 void hf_render_mesh_2d(hf_mesh* mesh, hf_shader* shader, hf_transform* transform){
@@ -51,7 +72,7 @@ void hf_render_mesh_2d(hf_mesh* mesh, hf_shader* shader, hf_transform* transform
         glDrawArrays(GL_TRIANGLES, 0, (int)(hf_array_size(mesh->vertices) / mesh->type));
     
     
-    hf_shader_unbind(shader);
+    hf_shader_unbind();
     
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
@@ -93,7 +114,7 @@ void hf_render_rect(u32 x, u32 y, u32 w, u32 h, v4f color){
     glDrawArrays(GL_TRIANGLE_STRIP, 0, (u32)(hf_array_size(hf_renderer_quad.vertices)) / 2);
     
     
-    hf_shader_unbind(&hf_renderer_quad);
+    hf_shader_unbind();
     
     glEnable(GL_CULL_FACE);//very important
     glEnable(GL_DEPTH_TEST);
@@ -137,7 +158,7 @@ void hf_render_rect_texture(u32 x, u32 y, u32 w, u32 h, hf_texture* texture){
     glDrawArrays(GL_TRIANGLE_STRIP, 0, (u32)(hf_array_size(hf_renderer_quad.vertices)) / 2);
     
     
-    hf_shader_unbind(&hf_renderer_quad);
+    hf_shader_unbind();
     
     glEnable(GL_CULL_FACE);//very important
     glEnable(GL_DEPTH_TEST);
@@ -164,7 +185,7 @@ void hf_render_font(hf_font* font){
     glBufferSubData(GL_ARRAY_BUFFER, 0, hf_array_size(font->texture_coords) * sizeof(f32), font->texture_coords);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
-    
+    hf_set_alpha_blending(1);
     
     
     //render all the characters
@@ -173,10 +194,10 @@ void hf_render_font(hf_font* font){
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     
-    hf_shader_bind(&hf_gui_rect_shader);
+    hf_shader_bind(&hf_gui_text_shader);
     
     glDisable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);//very important
+    //glDisable(GL_CULL_FACE);//very important
     
     
     if(font->atlas_texture.image.data != NULL){
@@ -187,13 +208,14 @@ void hf_render_font(hf_font* font){
     
     //m4f transformation = hf_transformation_m4f_2d(hf_v2f(x, y), 0, hf_v2f(w, h));
     //m4f model_proj = hf_mul_m4f(hf_renderer_pixel_ortho, transformation);
-    hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "transform", &hf_renderer_pixel_ortho);
-    hf_shader_set_uniform_b8(&hf_gui_rect_shader, "has_texture", 1);
+    hf_shader_set_uniform_m4f(&hf_gui_text_shader, "proj", &hf_renderer_pixel_ortho);
+    hf_shader_set_uniform_v3f(&hf_gui_text_shader, "color", &font->color);
+    //hf_shader_set_uniform_b8(&hf_gui_text_shader, "has_texture", 1);
     
     glDrawArrays(GL_TRIANGLES, 0, (u32)(hf_array_size(font->vertices)) / 2);
     
     
-    hf_shader_unbind(&hf_renderer_quad);
+    hf_shader_unbind();
     
     glEnable(GL_CULL_FACE);//very important
     glEnable(GL_DEPTH_TEST);
@@ -203,8 +225,9 @@ void hf_render_font(hf_font* font){
     glDisableVertexAttribArray(1);
     glBindVertexArray(0);
     
+    hf_set_alpha_blending(0);
     
-    
+    //reset the array
     hf_array_free(font->vertices);
     hf_array_free(font->texture_coords);
     font->vertices = hf_array_create(f32);

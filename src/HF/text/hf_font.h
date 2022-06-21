@@ -15,6 +15,7 @@ typedef struct hf_font_character{
 typedef struct hf_font{
     u32 glyph_height; //48 gives pretty good resolution
     v2f atlas_size;
+    v3f color;
     
     hf_texture atlas_texture;
     
