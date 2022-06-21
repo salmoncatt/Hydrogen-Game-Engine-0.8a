@@ -128,14 +128,14 @@ void hf_gui_text(u32 x, u32 y, u32 max_w, u32 height, b8 centered, char* text, h
         
         v2f char_size = (v2f){font->characters[char_num].size.x * scale_ratio, font->characters[char_num].size.y * scale_ratio};
         
-        //printf("%u", height);
-        if(!char_size.x || !char_size.y)
-            continue;
-        
-        v2f char_pos = (v2f){cursor_pos.x + font->characters[char_num].bitmap_left_top.x * scale_ratio, cursor_pos.y + font->characters[char_num].bitmap_left_top.y * scale_ratio};
-        
         cursor_pos.x += font->characters[char_num].advance.x * scale_ratio;
         cursor_pos.y += font->characters[char_num].advance.y * scale_ratio;
+        
+        v2f char_pos = (v2f){cursor_pos.x + font->characters[char_num].bitmap_left_top.x * scale_ratio, cursor_pos.y - font->characters[char_num].bitmap_left_top.y * scale_ratio};
+        
+        if(!char_size.x || !char_size.y){
+            continue;
+        }
         
         hf_array_push_back(font->vertices, char_pos.x); hf_array_push_back(font->vertices, char_pos.y);
         hf_array_push_back(font->vertices, char_pos.x); hf_array_push_back(font->vertices, char_pos.y + char_size.y);
