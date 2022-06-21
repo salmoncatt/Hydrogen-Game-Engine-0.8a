@@ -28,7 +28,9 @@ typedef struct hf_font{
     const char* name;
     
     f32* vertices;
+    u32 vbo_vert;
     f32* texture_coords;
+    u32 vbo_tex;
     u32 vao;
     b8 created;
     

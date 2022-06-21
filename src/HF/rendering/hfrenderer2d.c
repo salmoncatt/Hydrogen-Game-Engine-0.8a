@@ -148,6 +148,70 @@ void hf_render_rect_texture(u32 x, u32 y, u32 w, u32 h, hf_texture* texture){
     glBindVertexArray(0);
 }
 
+void hf_render_font(hf_font* font){
+    if(!font->vertices || !font->texture_coords){
+        return;
+    }else if(hf_array_size(&font->vertices) == 0 || hf_array_size(&font->vertices) == 0 ){
+        return;
+    }
+    
+    //copy all characters into the vbo
+    
+    
+    glBindBuffer(GL_ARRAY_BUFFER, font->vbo_vert);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, hf_array_size(font->vertices) * sizeof(f32), font->vertices);
+    glBindBuffer(GL_ARRAY_BUFFER, font->vbo_tex);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, hf_array_size(font->texture_coords) * sizeof(f32), font->texture_coords);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    
+    
+    
+    //render all the characters
+    
+    glBindVertexArray(font->vao);
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    
+    hf_shader_bind(&hf_gui_rect_shader);
+    
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);//very important
+    
+    
+    if(font->atlas_texture.image.data != NULL){
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, font->atlas_texture.texture_id);
+    }
+    
+    
+    //m4f transformation = hf_transformation_m4f_2d(hf_v2f(x, y), 0, hf_v2f(w, h));
+    //m4f model_proj = hf_mul_m4f(hf_renderer_pixel_ortho, transformation);
+    hf_shader_set_uniform_m4f(&hf_gui_rect_shader, "transform", &hf_renderer_pixel_ortho);
+    hf_shader_set_uniform_b8(&hf_gui_rect_shader, "has_texture", 1);
+    
+    glDrawArrays(GL_TRIANGLES, 0, (u32)(hf_array_size(font->vertices)) / 2);
+    
+    
+    hf_shader_unbind(&hf_renderer_quad);
+    
+    glEnable(GL_CULL_FACE);//very important
+    glEnable(GL_DEPTH_TEST);
+    
+    
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glBindVertexArray(0);
+    
+    
+    
+    hf_array_free(font->vertices);
+    hf_array_free(font->texture_coords);
+    font->vertices = hf_array_create(f32);
+    font->texture_coords = hf_array_create(f32);
+    
+}
+
 /* 
 void hf_render_rect_ss(hf_button* button){
     

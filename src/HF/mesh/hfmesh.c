@@ -9,13 +9,13 @@ void hf_mesh_create(hf_mesh* mesh){
     
     if(mesh->vertices){
         if(hf_array_size(mesh->vertices) > 0){
-            hf_push_data_to_VBO(0, mesh->type, mesh->vertices, hf_array_size(mesh->vertices), GL_STATIC_DRAW);
+            hf_push_data_to_VBO(0, 0, mesh->type, mesh->vertices, hf_array_size(mesh->vertices), GL_STATIC_DRAW);
         }
     }
     
     if(mesh->texture_coords){
         if(hf_array_size(mesh->texture_coords) > 0){
-            hf_push_data_to_VBO(1, 2, mesh->texture_coords, hf_array_size(mesh->texture_coords), GL_STATIC_DRAW);
+            hf_push_data_to_VBO(0, 1, 2, mesh->texture_coords, hf_array_size(mesh->texture_coords), GL_STATIC_DRAW);
         }
     }
     
@@ -45,7 +45,6 @@ void hf_mesh_destroy(hf_mesh* mesh){
     hf_array_free(mesh->texture_coords);
     hf_array_free(mesh->indices);
     mesh->created = 0;
-    glDeleteVertexArrays(1, &mesh->vao);
 }
 
 hf_mesh hf_mesh_load_from_file(const char* file_path){
@@ -216,7 +215,7 @@ hf_mesh hf_mesh_load_from_file(const char* file_path){
                     //texture coords
                     u32 uv = (uvIndex[i] - 1) * 2;
                     hf_array_push_back(texture_coords, texture_coords_buffer[uv]); //x
-                    hf_array_push_back_val(texture_coords, 1 - texture_coords_buffer[uv + 1]); //y
+                    hf_array_push_back(texture_coords, 1 - texture_coords_buffer[uv + 1]); //y
                     
                     //normals
                     u32 normal = (normalIndex[i] - 1) * 3;
@@ -239,7 +238,7 @@ hf_mesh hf_mesh_load_from_file(const char* file_path){
                     //texture coords
                     u32 uv = (uvIndex[i] - 1) * 2;
                     hf_array_push_back(texture_coords, texture_coords_buffer[uv]); //x
-                    hf_array_push_back_val(texture_coords, 1 - texture_coords_buffer[uv + 1]); //y
+                    hf_array_push_back(texture_coords, 1 - texture_coords_buffer[uv + 1]); //y
                 }
                 break;
                 

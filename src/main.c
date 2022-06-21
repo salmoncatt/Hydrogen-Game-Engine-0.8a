@@ -28,7 +28,6 @@ int main(void){
     
     // NOTE(salmoncatt): please put all opengl things after this thaaaanks
     
-    
     hf_shader shader = {};
     shader.name = "goober shader";
     
@@ -68,6 +67,7 @@ int main(void){
     
     hf_gui_panel panel = {};
     panel.color = hf_v4f(0.3, 0.3, 0.3, 1);
+    panel.title_bar_color = hf_v4f(0.9, 0.5, 0, 1);
     
     hf_texture gui_image_test = hf_texture_from_file("../res/images/patrick.png");
     hf_texture_create(&gui_image_test);
@@ -98,7 +98,9 @@ int main(void){
             }
             
             
-            hf_gui_image(10, 100, 250, 250, &font.atlas_texture);
+            hf_gui_image(10, 100, 100, 100, &font.atlas_texture);
+            
+            hf_gui_text(10, 210, 100, 48, 0, "the big", &font);
             
             hf_gui_panel_end();
         }
@@ -130,6 +132,8 @@ int main(void){
         
         
         //hf_update_debug_camera(&hf_renderer_cam);
+        
+        hf_render_font(&font);
         
         hf_limit_fps(300);
     }

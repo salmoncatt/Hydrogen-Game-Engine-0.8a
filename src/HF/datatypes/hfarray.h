@@ -16,9 +16,11 @@ void* hf_internal_array_create_from_data(void* data, u64 stride, u64 length);
 #define hf_array_create_from_data(data, type, length) hf_internal_array_create_from_data((void*)data, sizeof(type), length)
 
 void* hf_internal_array_push_back(void* array, void* value);
-#define hf_array_push_back(array, value) array = hf_internal_array_push_back(array, &value)
-#define hf_array_push_back_val(array, value) do {\
-__auto_type temp = value;\
+//#define hf_array_push_back(array, value) array = hf_internal_array_push_back(array, &value)
+//if you use a value like 100 then typeof value will not always be the same as array so just use the type of the array for this3
+#define hf_array_push_back(array, value)\
+do {\
+typeof (array[0]) temp = value;\
 array = hf_internal_array_push_back(array, &temp);\
 } while(0)
 

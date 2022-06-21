@@ -99,10 +99,10 @@ hf_font hf_font_from_file(const char* path){
         
         hf_texture_set_sub_image(&font.atlas_texture, 0, offset, hf_v2f(glyph->bitmap.width, glyph->bitmap.rows), glyph->bitmap.buffer);
         
-        font.characters[i].advance = hf_v2f((f32)(glyph->advance.x >> 6), (f32)(glyph->advance.y >> 6));
-        font.characters[i].bitmap_left_top = hf_v2f((f32)glyph->bitmap_left, (f32)glyph->bitmap_top);
-        font.characters[i].size = hf_v2f((f32)(glyph->bitmap.width), (f32)(glyph->bitmap.rows));
-        font.characters[i].texture_offset = hf_v2f((f32)(offset.x / width), (f32)(offset.y / height));
+        font.characters[i].advance = (v2f){(f32)(glyph->advance.x >> 6), (f32)(glyph->advance.y >> 6)};
+        font.characters[i].bitmap_left_top = (v2f){(f32)glyph->bitmap_left, (f32)glyph->bitmap_top};
+        font.characters[i].size = (v2f){(f32)(glyph->bitmap.width), (f32)(glyph->bitmap.rows)};
+        font.characters[i].texture_offset = (v2f){(f32)(offset.x / width), (f32)(offset.y / height)};
         
         row_height = hf_max(row_height, glyph->bitmap.rows);
         offset.x += glyph->bitmap.width + 2;
@@ -116,9 +116,40 @@ hf_font hf_font_from_file(const char* path){
             Debug::systemSuccess(Util::removePathFromFilePathAndName(path) + " atlas size is " + std::to_string(width) + " x " + std::to_string(height) + " pixels and is " + std::to_string(width * height / 1024) + " kb", DebugColor::Blue);
         }
      */
-    
+    //f32 hf_quad_vertices[] = {0, 100, 0, 0, 100, 100, 100, 0};
+    //f32 hf_quad_texture_coords[] = {0, 1, 0, 0, 1, 1, 1, 0};
+    /* 
+        font.vertices = hf_array_create_from_data(&hf_quad_vertices, f32, 8);
+        font.texture_coords = hf_array_create_from_data(&hf_quad_texture_coords, f32, 8);
+     */
     font.vertices = hf_array_create(f32);
     font.texture_coords = hf_array_create(f32);
+    
+    /* 
+        f32 test = 100;
+        hf_array_push_back_val(font.vertices, 0);
+        hf_array_push_back_val(font.vertices, 100);
+        hf_array_push_back_val(font.vertices, 0);
+        hf_array_push_back_val(font.vertices, 0);
+        hf_array_push_back_val(font.vertices, 100);
+        hf_array_push_back_val(font.vertices, 100);
+        hf_array_push_back_val(font.vertices, 100);
+        hf_array_push_back_val(font.vertices, 0);
+        
+        hf_array_push_back_val(font.texture_coords, 0);
+        hf_array_push_back_val(font.texture_coords, 1);
+        hf_array_push_back_val(font.texture_coords, 0);
+        hf_array_push_back_val(font.texture_coords, 0);
+        hf_array_push_back_val(font.texture_coords, 1);
+        hf_array_push_back_val(font.texture_coords, 1);
+        hf_array_push_back_val(font.texture_coords, 1);
+        hf_array_push_back_val(font.texture_coords, 0);
+     */
+    
+    
+    font.vao = hf_generate_VAO();
+    font.vbo_vert = hf_push_data_to_VBO(0, 0, 2, NULL, 100, GL_DYNAMIC_DRAW);
+    font.vbo_tex = hf_push_data_to_VBO(0, 1, 2, NULL, 100, GL_DYNAMIC_DRAW);
     
     FT_Done_Face(face);
     

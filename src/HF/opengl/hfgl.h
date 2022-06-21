@@ -12,6 +12,7 @@
 
 extern b8 hf_gl_created;
 extern u32* hf_gl_vbos;
+extern u32* hf_gl_vaos;
 
 //used these resources: https://github.com/ApoorvaJ/Papaya/blob/3808e39b0f45d4ca4972621c847586e4060c042a/src/libs/gl_lite.h
 //http://www.rastertek.com/gl40tut03.html
@@ -25,6 +26,7 @@ HF_WGL(BOOL,  ChoosePixelFormatARB);\
 HF_GLE(void,   BindBuffer, GLenum target, GLuint buffer)\
 HF_GLE(void,   GenBuffers, GLsizei n, GLuint* buffers)\
 HF_GLE(void,   BufferData, GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage)\
+HF_GLE(void,   BufferSubData, GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid* data)\
 HF_GLE(void,   VertexAttribPointer, GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer)\
 HF_GLE(void,   DeleteBuffers, GLsizei n, const GLuint *buffers)\
 HF_GLE(void,   GenVertexArrays, GLsizei n, GLuint *arrays);\
@@ -80,7 +82,7 @@ u32 hf_generate_VBO();
 void hf_gl_get_version(u32* major, u32* minor);
 
 // NOTE(salmoncatt): has to be float data
-void hf_push_data_to_VBO(u32 index, u32 type, float* data, u32 length, GLenum draw_mode);
+u32 hf_push_data_to_VBO(u32 vbo, u32 index, u32 type, f32* data, u32 length, GLenum draw_mode);
 
 void hf_push_data_to_IBO(const void* data, u32 size, u32 IBO, GLenum draw_mode);
 

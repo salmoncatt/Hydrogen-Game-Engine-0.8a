@@ -7,7 +7,7 @@
 
 typedef struct hf_gui_panel{
     
-    v4f color;
+    v4f color, title_bar_color;
     u32 x, y, w, h;
     b8 selected; //for dragging
     
@@ -25,6 +25,6 @@ b8 hf_gui_panel_end();
 b8 hf_gui_button(u32 x, u32 y, u32 w, u32 h, v4f color);
 void hf_gui_image(u32 x, u32 y, u32 w, u32 h, hf_texture* texture);
 
-void hf_gui_text(u32 x, u32 y, u32 w, b8 centered, hf_font* font);
+void hf_gui_text(u32 x, u32 y, u32 max_w, u32 height, b8 centered, char* text, hf_font* font);
 
 #endif //HFGUIPANEL_H

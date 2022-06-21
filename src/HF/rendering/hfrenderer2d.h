@@ -7,6 +7,7 @@
 #include "../mesh/hfmesh.h"
 #include "../math/hfmath.h"
 #include "../gui/hfgui.h"
+#include "../text/hf_font.h"
 #include "hfshader.h"
 
 extern hf_mesh hf_renderer_quad;
@@ -22,7 +23,6 @@ void hf_renderer_destroy_2d(hf_app* app);
 void hf_render_rect(u32 x, u32 y, u32 w, u32 h, v4f color);
 void hf_render_rect_texture(u32 x, u32 y, u32 w, u32 h, hf_texture* texture);
 
-// NOTE(salmoncatt): screen space coords (this is faster)
-//void hf_render_rect_ss(hf_button* button);
+void hf_render_font(hf_font* font);
 
 #endif //HFRENDERER2D_H

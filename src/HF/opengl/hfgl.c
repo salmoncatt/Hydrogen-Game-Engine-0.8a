@@ -2,6 +2,7 @@
 
 b8 hf_gl_created = 0;
 u32* hf_gl_vbos;
+u32* hf_gl_vaos;
 
 // NOTE(salmoncatt): give definitions to opengl extenion functions
 #define HF_GLE(type, name, ...) name##proc* gl##name;
@@ -22,6 +23,7 @@ b8 hf_gl_init(){
         hf_log("[HF GL] version: [%u.%u]\n", major, minor);
         
         hf_gl_vbos = hf_array_create(u32);
+        hf_gl_vaos = hf_array_create(u32);
         
         hf_log("[HF GL] initialized\n\n");
         
@@ -104,7 +106,7 @@ u32 hf_generate_VAO(){
     u32 vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
-    // TODO(salmoncatt): add vao to list
+    hf_array_push_back(hf_gl_vaos, vao);
     return vao;
 }
 
@@ -116,16 +118,16 @@ u32 hf_generate_VBO(){
     
 }
 
-void hf_push_data_to_VBO(u32 index, u32 type, float* data, u32 length, GLenum draw_mode){
-    
-    u32 vbo = hf_generate_VBO();
+u32 hf_push_data_to_VBO(u32 vbo, u32 index, u32 type, f32* data, u32 length, GLenum draw_mode){
+    if(vbo == 0)
+        vbo = hf_generate_VBO();
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     
-    glBufferData(GL_ARRAY_BUFFER, length * sizeof(float), data, draw_mode);
-    glVertexAttribPointer(index, type, GL_FLOAT, GL_FALSE, sizeof(float) * type, 0);
+    glBufferData(GL_ARRAY_BUFFER, length * sizeof(f32), data, draw_mode);
+    glVertexAttribPointer(index, type, GL_FLOAT, GL_FALSE, sizeof(f32) * type, 0);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    
+    return vbo;
 }
 
 void hf_push_data_to_IBO(const void* data, u32 size, u32 IBO, GLenum draw_mode){
@@ -177,11 +179,12 @@ void hf_gl_link_and_validate_shader(u32 program_id){
 }
 
 void hf_gl_close(){
-    for(u32 i = 0; i < hf_array_size(hf_gl_vbos); i++){
-        glDeleteBuffers(1, &hf_gl_vbos[i]);
-    }
-    hf_log("[HF GL] successfully deleted %u vbos\n", hf_array_size(hf_gl_vbos));
+    glDeleteBuffers(hf_array_size(hf_gl_vbos), hf_gl_vbos);
+    glDeleteVertexArrays(hf_array_size(hf_gl_vaos), hf_gl_vaos);
+    
+    hf_log("[HF GL] deleted: (vbos: [%u], vaos: [%u])\n", hf_array_size(hf_gl_vbos), hf_array_size(hf_gl_vaos));
     hf_array_free(hf_gl_vbos);
+    hf_array_free(hf_gl_vaos);
 }
 
 

@@ -28,7 +28,13 @@ b8 hf_gui_panel_begin(hf_gui_panel* panel, u32 x, u32 y, u32 w, u32 h, u32 flags
     hf_render_rect(panel->x, panel->y, panel->w, panel->h, panel->color);
     
     if(flags & HF_TITLE_BAR){
-        hf_render_rect(panel->x, panel->y, panel->w, title_bar_height, hf_v4f(panel->color.r - 0.1, panel->color.g - 0.1, panel->color.b - 0.1, panel->color.a));
+        v4f color = {};
+        if(panel->title_bar_color.r == 0 && panel->title_bar_color.g == 0 && panel->title_bar_color.b == 0 && panel->title_bar_color.a == 0){
+            color = hf_v4f(panel->color.r - 0.1, panel->color.g - 0.1, panel->color.b - 0.1, panel->color.a);
+        }else{
+            color = panel->title_bar_color;
+        }
+        hf_render_rect(panel->x, panel->y, panel->w, title_bar_height, color);
     }
     
     
@@ -84,6 +90,77 @@ void hf_gui_image(u32 x, u32 y, u32 w, u32 h, hf_texture* texture){
     hf_render_rect_texture(ss_x, ss_y, w, h, texture);
 }
 
-void hf_gui_text(u32 x, u32 y, u32 w, b8 centered, hf_font* font){
+void hf_gui_text(u32 x, u32 y, u32 max_w, u32 height, b8 centered, char* text, hf_font* font){
+    
+    
+    
+    /* 
+        hf_array_push_back(font->vertices, 0);
+        hf_array_push_back(font->vertices, 100);
+        hf_array_push_back(font->vertices, 0);
+        hf_array_push_back(font->vertices, 0);
+        hf_array_push_back(font->vertices, 100);
+        hf_array_push_back(font->vertices, 100);
+        hf_array_push_back(font->vertices, 100);
+        hf_array_push_back(font->vertices, 0);
+        
+        hf_array_push_back(font->texture_coords, 0);
+        hf_array_push_back(font->texture_coords, 1);
+        hf_array_push_back(font->texture_coords, 0);
+        hf_array_push_back(font->texture_coords, 0);
+        hf_array_push_back(font->texture_coords, 1);
+        hf_array_push_back(font->texture_coords, 1);
+        hf_array_push_back(font->texture_coords, 1);
+        hf_array_push_back(font->texture_coords, 0);
+     */
+    
+    
+    
+    
+    v2f cursor_pos = {x + hf_current_gui_panel->x, y + hf_current_gui_panel->y};
+    u32 length = hf_strlen(text);
+    f32 scale_ratio = (f32)((f32)(height) / (f32)(font->glyph_height));
+    
+    
+    for(u32 i = 0; i < length; i++){
+        char current_char = text[i];
+        u32 char_num = (u32)(current_char);
+        
+        v2f char_size = (v2f){font->characters[char_num].size.x * scale_ratio, font->characters[char_num].size.y * scale_ratio};
+        
+        //printf("%u", height);
+        if(!char_size.x || !char_size.y)
+            continue;
+        
+        v2f char_pos = (v2f){cursor_pos.x + font->characters[char_num].bitmap_left_top.x * scale_ratio, cursor_pos.y + font->characters[char_num].bitmap_left_top.y * scale_ratio};
+        
+        cursor_pos.x += font->characters[char_num].advance.x * scale_ratio;
+        cursor_pos.y += font->characters[char_num].advance.y * scale_ratio;
+        
+        hf_array_push_back(font->vertices, char_pos.x); hf_array_push_back(font->vertices, char_pos.y);
+        hf_array_push_back(font->vertices, char_pos.x); hf_array_push_back(font->vertices, char_pos.y + char_size.y);
+        hf_array_push_back(font->vertices, char_pos.x + char_size.x); hf_array_push_back(font->vertices, char_pos.y);
+        
+        hf_array_push_back(font->vertices, char_pos.x + char_size.x); hf_array_push_back(font->vertices, char_pos.y);
+        hf_array_push_back(font->vertices, char_pos.x); hf_array_push_back(font->vertices, char_pos.y + char_size.y);
+        hf_array_push_back(font->vertices, char_pos.x + char_size.x); hf_array_push_back(font->vertices, char_pos.y + char_size.y);
+        
+        f32 tex_x = font->characters[char_num].texture_offset.x;
+        f32 tex_y = font->characters[char_num].texture_offset.y;
+        
+        f32 tex_max_x = font->characters[char_num].texture_offset.x + (font->characters[char_num].size.x / font->atlas_size.x);
+        f32 tex_max_y = font->characters[char_num].texture_offset.y + (font->characters[char_num].size.y / font->atlas_size.y);
+        
+        hf_array_push_back(font->texture_coords, tex_x); hf_array_push_back(font->texture_coords, tex_y);
+        hf_array_push_back(font->texture_coords, tex_x); hf_array_push_back(font->texture_coords, tex_max_y);
+        hf_array_push_back(font->texture_coords, tex_max_x); hf_array_push_back(font->texture_coords, tex_y);
+        
+        hf_array_push_back(font->texture_coords, tex_max_x); hf_array_push_back(font->texture_coords, tex_y);
+        hf_array_push_back(font->texture_coords, tex_x); hf_array_push_back(font->texture_coords, tex_max_y);
+        hf_array_push_back(font->texture_coords, tex_max_x); hf_array_push_back(font->texture_coords, tex_max_y);
+        
+    }
+    
+    
     
 }
