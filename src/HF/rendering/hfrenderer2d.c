@@ -195,7 +195,7 @@ void hf_render_font(hf_font* font){
     glEnableVertexAttribArray(1);
     
     hf_shader_bind(&hf_gui_text_shader);
-    
+    glDepthMask(GL_FALSE); // Don't write into the depth buffer
     glDisable(GL_DEPTH_TEST);
     //glDisable(GL_CULL_FACE);//very important
     
@@ -219,7 +219,7 @@ void hf_render_font(hf_font* font){
     
     glEnable(GL_CULL_FACE);//very important
     glEnable(GL_DEPTH_TEST);
-    
+    glDepthMask(GL_TRUE);
     
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);

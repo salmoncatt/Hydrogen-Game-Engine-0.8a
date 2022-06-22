@@ -8,6 +8,7 @@ f64 hf_fps_smoothing;
 f64 hf_frame_time;
 f64 hf_last_frame_time;
 f64 hf_last_fps;
+f64 hf_sleep_time;
 
 
 void hf_time_init(f64 fps_smoothing){
@@ -52,10 +53,10 @@ u32 hf_get_fps(){
 
 void hf_limit_fps(f64 fps){
     f64 wait_time = (f64)(1000 / fps);
-    f64 sleep_time = wait_time - hf_get_delta_time();
+    hf_sleep_time = wait_time - hf_get_delta_time();
     
-    if(sleep_time > 0)
-        hf_sleep(sleep_time);
+    if(hf_sleep_time > 0)
+        hf_sleep(hf_sleep_time);
 }
 
 void hf_sleep(f64 milli){

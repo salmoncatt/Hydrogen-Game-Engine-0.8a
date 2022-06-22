@@ -13,6 +13,7 @@ extern f64 hf_fps_smoothing;
 extern f64 hf_frame_time;
 extern f64 hf_last_frame_time;
 extern f64 hf_last_fps;
+extern f64 hf_sleep_time;
 
 void hf_time_init(f64 fps_smoothing);
 

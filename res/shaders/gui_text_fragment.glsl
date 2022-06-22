@@ -12,8 +12,17 @@ uniform sampler2D sampler;
 void main(void){
 	//out_Color = vec4(1.0, 1.0, 1.0, 1.0);
 	//out_Color = v4f(1, 1, 0, 1);
-	vec4 sampled = vec4(1, 1, 1, texture(sampler, pass_texture_coord).r);
-	out_Color = sampled * vec4(color, 1);
+	//vec4 sampled = vec4(1, 1, 1, texture(sampler, pass_texture_coord).r);
+	
+
+	float glyph_color = texture(sampler, pass_texture_coord).r;
+
+    if (glyph_color < 0.5)
+        discard;
+
+    //vec4 sampled = vec4(glyph_color, 1.0);
+	out_Color = vec4(color, 1);
+
 
 	//out_Color = vec4(pass_texture_coord.x, pass_texture_coord.y, 0, 1);
 

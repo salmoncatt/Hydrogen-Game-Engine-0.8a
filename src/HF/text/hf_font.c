@@ -29,6 +29,8 @@ hf_font hf_font_from_file(const char* path){
             continue;
         }
         
+        FT_Render_Glyph(glyph, FT_RENDER_MODE_SDF);
+        
         if (row_width + glyph->bitmap.width + 1 >= font.max_texture_width) {
             width = max(width, row_width);
             height += row_height;
@@ -77,6 +79,7 @@ hf_font hf_font_from_file(const char* path){
     
     hf_texture_create(&font.atlas_texture);
     
+    //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     
     for (u32 i = 0; i < 128; ++i) {
         //super sophisticated error checking algorithm

@@ -68,6 +68,7 @@ int main(void){
     hf_gui_panel panel = {};
     panel.color = hf_v4f(0.3, 0.3, 0.3, 1);
     panel.title_bar_color = hf_v4f(0.9, 0.5, 0, 1);
+    panel.element_spacing = 20;
     
     hf_texture gui_image_test = hf_texture_from_file("../res/images/patrick.png");
     hf_texture_create(&gui_image_test);
@@ -96,14 +97,19 @@ int main(void){
         
         if(hf_gui_panel_begin(&panel, "panel", 110, 180, 150, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
             
-            if(hf_gui_button(10, 50, 80, 30, hf_v4f(0.9, 0.6, 0, 1))){
+            if(hf_gui_button(80, 30, hf_v4f(0.9, 0.6, 0, 1))){
                 printf("clicked\n");
             }
             
             
-            hf_gui_image(10, 100, 100, 100, &gui_image_test);
+            hf_gui_image(100, 100, &gui_image_test);
             
-            hf_gui_text(10, 215, 100, 15, 0, "the quick brown fox jumped over the lazy dog", &font);
+            char fps[40];
+            //f32 percentage = ((hf_get_delta_time() / hf_sleep_time)) * 100;
+            //sprintf(fps, "gpu: %u%%", (u32)percentage);
+            sprintf(fps, "fps: %u", (u32)hf_get_fps());
+            
+            hf_gui_text(10, 215, 100, 15, 0, fps, &font);
             
             hf_gui_panel_end();
         }
