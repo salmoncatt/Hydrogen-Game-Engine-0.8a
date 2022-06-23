@@ -42,11 +42,11 @@ b8 hf_gui_panel_begin(hf_gui_panel* panel, char* text, u32 x, u32 y, u32 w, u32 
         }
         
         hf_render_rect(panel->x, panel->y, panel->w, title_bar_height, color);
-        panel->cursor_pos = (v2f){10, 10};
-        hf_gui_text(panel->w, 15, 0, text, panel->font);
+        panel->cursor_pos = (v2f){5, 16};
+        hf_gui_text(panel->w, 16, 0, text, panel->font);
     }
     
-    hf_current_gui_panel->cursor_pos = (v2f){10, title_bar_height + hf_current_gui_panel->element_spacing};
+    hf_current_gui_panel->cursor_pos = (v2f){10, title_bar_height};
     
     return 1;
 }
@@ -72,10 +72,13 @@ void hf_gui_set_cursor_pos(v2f in){
 
 
 b8 hf_gui_button(u32 w, u32 h, v4f color){
+    hf_current_gui_panel->cursor_pos.y += hf_current_gui_panel->element_spacing;
     
     // NOTE(salmoncatt): screen space (pixel) coords
     u32 ss_x = hf_current_gui_panel->cursor_pos.x + hf_current_gui_panel->x;
     u32 ss_y = hf_current_gui_panel->cursor_pos.y + hf_current_gui_panel->y;
+    
+    hf_current_gui_panel->cursor_pos.y += h;
     
     b8 clicked = 0;
     
@@ -87,7 +90,6 @@ b8 hf_gui_button(u32 w, u32 h, v4f color){
         
     }
     
-    hf_current_gui_panel->cursor_pos.y += h + hf_current_gui_panel->element_spacing;
     
     hf_render_rect(ss_x, ss_y, w, h, color);
     //hf_gui_text(x + 10, y + h - h / 2 + 15 / 2, 100, 15, 0, text, hf_current_gui_panel->font);
@@ -141,10 +143,12 @@ b8 hf_gui_button_text_advanced(u32 w, u32 h, v4f color, char* normal, char* hove
 
 void hf_gui_image(u32 w, u32 h, hf_texture* texture){
     // NOTE(salmoncatt): screen space (pixel) coords
+    hf_current_gui_panel->cursor_pos.y += hf_current_gui_panel->element_spacing;
+    
     u32 ss_x = hf_current_gui_panel->cursor_pos.x + hf_current_gui_panel->x;
     u32 ss_y = hf_current_gui_panel->cursor_pos.y + hf_current_gui_panel->y;
     
-    hf_current_gui_panel->cursor_pos.y += h + hf_current_gui_panel->element_spacing;
+    hf_current_gui_panel->cursor_pos.y += h;
     
     hf_render_rect_texture(ss_x, ss_y, w, h, texture);
 }
@@ -161,11 +165,12 @@ void hf_gui_image(u32 w, u32 h, hf_texture* texture){
 //------------------Text-----------------
 
 void hf_gui_text(u32 max_w, u32 height, b8 centered, char* text, hf_font* font){
-    v2f cursor_pos = {hf_current_gui_panel->cursor_pos.x + hf_current_gui_panel->x, hf_current_gui_panel->cursor_pos.y + hf_current_gui_panel->y + (height / 2)};
     u32 length = hf_strlen(text);
-    f32 scale_ratio = (f32)((f32)(height) / (f32)(font->glyph_height));
+    f32 scale_ratio = (f32)(height) / (f32)(font->size);
+    f32 scaled_height = (f32)(font->line_spacing) * scale_ratio;
+    v2f cursor_pos = {hf_current_gui_panel->x + hf_current_gui_panel->cursor_pos.x, hf_current_gui_panel->y + hf_current_gui_panel->cursor_pos.y};
     
-    
+    hf_current_gui_panel->cursor_pos.y += scaled_height;
     
     for(u32 i = 0; i < length; i++){
         char current_char = text[i];
@@ -206,6 +211,11 @@ void hf_gui_text(u32 max_w, u32 height, b8 centered, char* text, hf_font* font){
         hf_array_push_back(font->texture_coords, tex_max_x); hf_array_push_back(font->texture_coords, tex_y);
         hf_array_push_back(font->texture_coords, tex_x); hf_array_push_back(font->texture_coords, tex_max_y);
         hf_array_push_back(font->texture_coords, tex_max_x); hf_array_push_back(font->texture_coords, tex_max_y);
+        
+        font->char_count += 1;
+        if(font->char_count >= 5000){
+            hf_render_font(font);
+        }
         
     }
     

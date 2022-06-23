@@ -13,15 +13,16 @@ typedef struct hf_font_character{
 }hf_font_character;
 
 typedef struct hf_font{
-    u32 glyph_height; //48 gives pretty good resolution
+    u32 size;
+    u32 line_spacing;
     v2f atlas_size;
     v3f color;
     
     hf_texture atlas_texture;
     
-    u32 max_texture_width; //default 1024 if left 0, glyph moves to next row in atlas after this
+    //u32 max_texture_width; //default 1024 if left 0, glyph moves to next row in atlas after this
     
-    b8 log_status;
+    //b8 log_status;
     
     hf_font_character characters[128];
     
@@ -35,9 +36,11 @@ typedef struct hf_font{
     u32 vao;
     b8 created;
     
+    u32 char_count;
+    
 }hf_font;
 
-hf_font hf_font_from_file(const char* path);
+hf_font hf_font_from_file(const char* path, u32 font_size);
 void hf_font_destroy(hf_font* font);
 
 #endif //HF_FONT_H

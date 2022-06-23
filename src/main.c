@@ -73,7 +73,7 @@ int main(void){
     hf_texture gui_image_test = hf_texture_from_file("../res/images/patrick.png");
     hf_texture_create(&gui_image_test);
     
-    hf_font font = hf_font_from_file("../res/fonts/oxygen/Oxygen-Regular.ttf");
+    hf_font font = hf_font_from_file("../res/fonts/oxygen/Oxygen-Regular.ttf", 64);
     font.color = (v3f){0.9, 0.9, 0.9};
     
     panel.font = &font;
@@ -86,6 +86,8 @@ int main(void){
         
         hf_render_mesh((hf_mesh*)(hf_ecs_get_component(ecs, mesh_test, hf_mesh)), &shader, (hf_transform*)(hf_ecs_get_component(ecs, mesh_test, hf_transform)));
         
+        //printf("%u\n", font.line_spacing);
+        
         //transform.pos.x += 0.0001f;
         //transform.pos = hf_add_v3f(transform.pos, hf_v3f(hf_input_get_mouse_movement().x, hf_input_get_mouse_movement().y, 0));
         
@@ -95,21 +97,24 @@ int main(void){
         
         //hf_render_rect(0, 0, 100, 100, (v4f){1, 1, 1, 1});
         
-        if(hf_gui_panel_begin(&panel, "panel", 110, 180, 150, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
+        if(hf_gui_panel_begin(&panel, "HF Engine Test", 110, 180, 150, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
             
             if(hf_gui_button(80, 30, hf_v4f(0.9, 0.6, 0, 1))){
                 printf("clicked\n");
             }
             
             
-            hf_gui_image(1001, 1001, &font.atlas_texture);
+            hf_gui_image(100, 100, &gui_image_test);
             
             char fps[40];
             //f32 percentage = ((hf_get_delta_time() / hf_sleep_time)) * 100;
             //sprintf(fps, "gpu: %u%%", (u32)percentage);
             sprintf(fps, "fps: %u", (u32)hf_get_fps());
             
-            hf_gui_text(100, 15, 0, fps, &font);
+            hf_gui_text(100, 96, 0, fps, &font);
+            hf_gui_text(100, 96, 0, "The quick brown fox jumps over the lazy dog", &font);
+            hf_gui_text(100, 96, 0, "The quick brown fox jumps over the lazy dog", &font);
+            hf_gui_text(100, 96, 0, "the quick brown fox jumps over the lazy dog", &font);
             
             hf_gui_panel_end();
         }

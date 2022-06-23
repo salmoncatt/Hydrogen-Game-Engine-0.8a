@@ -172,7 +172,7 @@ void hf_render_rect_texture(u32 x, u32 y, u32 w, u32 h, hf_texture* texture){
 void hf_render_font(hf_font* font){
     if(!font->vertices || !font->texture_coords){
         return;
-    }else if(hf_array_size(&font->vertices) == 0 || hf_array_size(&font->vertices) == 0 ){
+    }else if(hf_array_size(&font->vertices) == 0){
         return;
     }
     
@@ -232,7 +232,7 @@ void hf_render_font(hf_font* font){
     hf_array_free(font->texture_coords);
     font->vertices = hf_array_create(f32);
     font->texture_coords = hf_array_create(f32);
-    
+    font->char_count = 0;
 }
 
 /* 
