@@ -42,8 +42,8 @@ b8 hf_gui_panel_begin(hf_gui_panel* panel, char* text, u32 x, u32 y, u32 w, u32 
         }
         
         hf_render_rect(panel->x, panel->y, panel->w, title_bar_height, color);
-        panel->cursor_pos = (v2f){5, 16};
-        hf_gui_text(panel->w, 16, 0, text, panel->font);
+        panel->cursor_pos = (v2f){5, 32};
+        hf_gui_text(panel->w, 64, 0, text, panel->font);
     }
     
     hf_current_gui_panel->cursor_pos = (v2f){10, title_bar_height};

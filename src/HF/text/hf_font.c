@@ -10,7 +10,6 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
     
     FT_Face face = hf_load_face(path);
     FT_Set_Pixel_Sizes(face, 0, font.size);
-    font.line_spacing = face->ascender >> 5;
     
     FT_GlyphSlot glyph = face->glyph;
     
@@ -134,6 +133,7 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
     font.vbo_vert = hf_push_data_to_VBO(0, 0, 2, NULL, 5000 * 6 * 2, GL_DYNAMIC_DRAW);
     font.vbo_tex = hf_push_data_to_VBO(0, 1, 2, NULL, 5000 * 6 * 2, GL_DYNAMIC_DRAW);
     
+    font.line_spacing = face->ascender >> 5;
     FT_Done_Face(face);
     
     return font;
