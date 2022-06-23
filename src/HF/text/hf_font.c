@@ -79,7 +79,7 @@ hf_font hf_font_from_file(const char* path){
     
     hf_texture_create(&font.atlas_texture);
     
-    //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    //glPixelStorei(GL_UNPCK_ALIGNMENT, 1);
     
     for (u32 i = 0; i < 128; ++i) {
         //super sophisticated error checking algorithm

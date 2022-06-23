@@ -68,7 +68,7 @@ int main(void){
     hf_gui_panel panel = {};
     panel.color = hf_v4f(0.3, 0.3, 0.3, 1);
     panel.title_bar_color = hf_v4f(0.9, 0.5, 0, 1);
-    panel.element_spacing = 20;
+    panel.element_spacing = 10;
     
     hf_texture gui_image_test = hf_texture_from_file("../res/images/patrick.png");
     hf_texture_create(&gui_image_test);
@@ -102,14 +102,14 @@ int main(void){
             }
             
             
-            hf_gui_image(100, 100, &gui_image_test);
+            hf_gui_image(1001, 1001, &font.atlas_texture);
             
             char fps[40];
             //f32 percentage = ((hf_get_delta_time() / hf_sleep_time)) * 100;
             //sprintf(fps, "gpu: %u%%", (u32)percentage);
             sprintf(fps, "fps: %u", (u32)hf_get_fps());
             
-            hf_gui_text(10, 215, 100, 15, 0, fps, &font);
+            hf_gui_text(100, 15, 0, fps, &font);
             
             hf_gui_panel_end();
         }

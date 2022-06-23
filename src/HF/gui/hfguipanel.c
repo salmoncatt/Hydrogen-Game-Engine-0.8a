@@ -30,6 +30,7 @@ b8 hf_gui_panel_begin(hf_gui_panel* panel, char* text, u32 x, u32 y, u32 w, u32 
     
     hf_render_rect(panel->x, panel->y, panel->w, panel->h, panel->color);
     
+    panel->cursor_pos = (v2f){0, 0};
     hf_current_gui_panel = panel;
     
     if(flags & HF_TITLE_BAR){
@@ -41,7 +42,8 @@ b8 hf_gui_panel_begin(hf_gui_panel* panel, char* text, u32 x, u32 y, u32 w, u32 
         }
         
         hf_render_rect(panel->x, panel->y, panel->w, title_bar_height, color);
-        hf_gui_text(10, title_bar_height - 7, panel->w, 15, 0, text, panel->font);
+        panel->cursor_pos = (v2f){10, 10};
+        hf_gui_text(panel->w, 15, 0, text, panel->font);
     }
     
     hf_current_gui_panel->cursor_pos = (v2f){10, title_bar_height + hf_current_gui_panel->element_spacing};
@@ -94,6 +96,7 @@ b8 hf_gui_button(u32 w, u32 h, v4f color){
     return clicked;
 }
 
+/* 
 b8 hf_gui_button_smart(u32 w, u32 h, v4f color, char* text, b8* pressed_last){
     
     u32 ss_x = hf_current_gui_panel->cursor_pos.x + hf_current_gui_panel->x;
@@ -125,6 +128,7 @@ b8 hf_gui_button_text_simple(u32 w, u32 h, v4f color, char* text){
 b8 hf_gui_button_text_advanced(u32 w, u32 h, v4f color, char* normal, char* hovered, char* pressed){
     
 }
+ */
 
 
 
@@ -156,10 +160,11 @@ void hf_gui_image(u32 w, u32 h, hf_texture* texture){
 
 //------------------Text-----------------
 
-void hf_gui_text(u32 x, u32 y, u32 max_w, u32 height, b8 centered, char* text, hf_font* font){
-    v2f cursor_pos = {x + hf_current_gui_panel->x, y + hf_current_gui_panel->y};
+void hf_gui_text(u32 max_w, u32 height, b8 centered, char* text, hf_font* font){
+    v2f cursor_pos = {hf_current_gui_panel->cursor_pos.x + hf_current_gui_panel->x, hf_current_gui_panel->cursor_pos.y + hf_current_gui_panel->y + (height / 2)};
     u32 length = hf_strlen(text);
     f32 scale_ratio = (f32)((f32)(height) / (f32)(font->glyph_height));
+    
     
     
     for(u32 i = 0; i < length; i++){

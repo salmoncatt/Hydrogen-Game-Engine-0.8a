@@ -29,12 +29,14 @@ v2f hf_gui_get_cursor_pos();
 void hf_gui_set_cursor_pos(v2f in);
 
 b8 hf_gui_button(u32 w, u32 h, v4f color);
+/* 
 b8 hf_gui_button_smart(u32 w, u32 h, v4f color, char* text, b8* pressed_last);
 b8 hf_gui_button_text_simple(u32 w, u32 h, v4f color, char* text);
 b8 hf_gui_button_text_advanced(u32 w, u32 h, v4f color, char* normal, char* hovered, char* pressed);
+ */
 void hf_gui_image(u32 w, u32 h, hf_texture* texture);
 
-void hf_gui_text(u32 x, u32 y, u32 max_w, u32 height, b8 centered, char* text, hf_font* font);
+void hf_gui_text(u32 max_w, u32 height, b8 centered, char* text, hf_font* font);
 
 
 
