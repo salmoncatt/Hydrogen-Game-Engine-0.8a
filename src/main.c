@@ -73,7 +73,7 @@ int main(void){
     hf_texture gui_image_test = hf_texture_from_file("../res/images/patrick.png");
     hf_texture_create(&gui_image_test);
     
-    hf_font font = hf_font_from_file("../res/fonts/oxygen/Oxygen-Regular.ttf", 48);
+    hf_font font = hf_font_from_file("../res/fonts/oxygen/Oxygen-Regular.ttf", 64);
     font.color = (v3f){0.9, 0.9, 0.9};
     
     panel.font = &font;

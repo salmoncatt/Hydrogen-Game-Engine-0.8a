@@ -24,7 +24,7 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
      */
     
     
-    for(unsigned char c = 32; c < 128; c++){
+    for(unsigned char c = 32; c < 127; c++){
         //super sophisticated error checking algorithm
         if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
             //char character = (char)(i);
@@ -51,7 +51,7 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
                 row_height = max(height, glyph->bitmap.rows);
                  */
         
-        width += glyph->bitmap.width + 1;
+        width += glyph->bitmap.width;
         height = hf_max(height, glyph->bitmap.rows);
     }
     
@@ -95,7 +95,7 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
     
     //glPixelStorei(GL_UNPCK_ALIGNMENT, 1);
     
-    for (unsigned char c = 32; c < 128; c++) {
+    for (unsigned char c = 32; c < 127; c++) {
         //super sophisticated error checking algorithm
         if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
             //char character = (char)(i);
@@ -113,7 +113,7 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
                     offset.x = 0;
                 }
          */
-        //FT_Render_Glyph(glyph, FT_RENDER_MODE_SDF);
+        FT_Render_Glyph(glyph, FT_RENDER_MODE_SDF);
         
         //printf("%u\n", (u32)glyph->bitmap.width);
         
@@ -125,7 +125,7 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
         font.characters[c].texture_offset = (v2f){(f32)(offset.x / width), (f32)(offset.y / height)};
         
         //height = hf_max(height, glyph->bitmap.rows);
-        offset.x += glyph->bitmap.width + 2;
+        offset.x += glyph->bitmap.width;
     }
     
     font.vertices = hf_array_create(f32);
