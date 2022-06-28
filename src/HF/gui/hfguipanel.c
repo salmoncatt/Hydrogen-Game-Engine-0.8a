@@ -42,8 +42,8 @@ b8 hf_gui_panel_begin(hf_gui_panel* panel, char* text, u32 x, u32 y, u32 w, u32 
         }
         
         hf_render_rect(panel->x, panel->y, panel->w, title_bar_height, color);
-        panel->cursor_pos = (v2f){5, 32};
-        hf_gui_text(panel->w, 64, 0, text, panel->font);
+        panel->cursor_pos = (v2f){5, title_bar_height / 2};
+        hf_gui_text(panel->w, 32, 0, text, panel->font, HF_TEXT_CENTERED);
     }
     
     hf_current_gui_panel->cursor_pos = (v2f){10, title_bar_height};
@@ -164,11 +164,18 @@ void hf_gui_image(u32 w, u32 h, hf_texture* texture){
 
 //------------------Text-----------------
 
-void hf_gui_text(u32 max_w, u32 height, b8 centered, char* text, hf_font* font){
+void hf_gui_text(u32 max_w, u32 height, b8 centered, char* text, hf_font* font, u32 render_type){
     u32 length = hf_strlen(text);
     f32 scale_ratio = (f32)(height) / (f32)(font->size);
-    f32 scaled_height = (f32)(font->line_spacing) * scale_ratio;
-    v2f cursor_pos = {hf_current_gui_panel->x + hf_current_gui_panel->cursor_pos.x, hf_current_gui_panel->y + hf_current_gui_panel->cursor_pos.y};
+    f32 scaled_height = (f32)(font->glyph_height) * scale_ratio;
+    
+    v2f cursor_pos;
+    
+    if(render_type & HF_TEXT_CENTERED){
+        cursor_pos = (v2f){hf_current_gui_panel->x + hf_current_gui_panel->cursor_pos.x, hf_current_gui_panel->y + hf_current_gui_panel->cursor_pos.y + scaled_height / 2};
+    }else if(render_type & HF_TEXT_BOTTOM){
+        cursor_pos = (v2f){hf_current_gui_panel->x + hf_current_gui_panel->cursor_pos.x, hf_current_gui_panel->y + hf_current_gui_panel->cursor_pos.y};
+    }
     
     hf_current_gui_panel->cursor_pos.y += scaled_height;
     

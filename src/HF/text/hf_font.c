@@ -16,6 +16,8 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
     u32 width = 0;
     u32 height = 0;
     
+    font.glyph_height = (face->size->metrics.ascender - face->size->metrics.descender) >> 6;
+    
     /* 
         u32 row_width = 0;
         u32 row_height = 0;
@@ -50,7 +52,7 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
                  */
         
         width += glyph->bitmap.width + 1;
-        height = max(height, glyph->bitmap.rows);
+        height = hf_max(height, glyph->bitmap.rows);
     }
     
     
@@ -87,7 +89,7 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
     font.atlas_texture.internal_format = GL_RED;
     font.atlas_texture.format = GL_RED;
     font.atlas_texture.generate_mipmap = 0;
-    font.atlas_texture.wrap_mode = (v2f){GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE};
+    font.atlas_texture.wrap_mode = (v2f){GL_CLAMP_TO_BORDER, GL_CLAMP_TO_BORDER};
     
     hf_texture_create(&font.atlas_texture);
     
@@ -111,6 +113,7 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
                     offset.x = 0;
                 }
          */
+        //FT_Render_Glyph(glyph, FT_RENDER_MODE_SDF);
         
         //printf("%u\n", (u32)glyph->bitmap.width);
         

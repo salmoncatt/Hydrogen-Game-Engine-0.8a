@@ -36,7 +36,10 @@ b8 hf_gui_button_text_advanced(u32 w, u32 h, v4f color, char* normal, char* hove
  */
 void hf_gui_image(u32 w, u32 h, hf_texture* texture);
 
-void hf_gui_text(u32 max_w, u32 height, b8 centered, char* text, hf_font* font);
+#define HF_TEXT_CENTERED 0x01
+#define HF_TEXT_BOTTOM 0x02
+
+void hf_gui_text(u32 max_w, u32 height, b8 centered, char* text, hf_font* font, u32 render_type);
 
 
 
