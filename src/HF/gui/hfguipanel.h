@@ -36,8 +36,10 @@ b8 hf_gui_button_text_advanced(u32 w, u32 h, v4f color, char* normal, char* hove
  */
 void hf_gui_image(u32 w, u32 h, hf_texture* texture);
 
+//anchoring styles
 #define HF_TEXT_CENTERED 0x01
 #define HF_TEXT_BOTTOM 0x02
+#define HF_TEXT_DONT_USE_SPACING 0x04 // not using this lets you specify exactly where to render text with set_cursor_pos without worrying about element spacing
 
 void hf_gui_text(u32 max_w, u32 height, b8 centered, char* text, hf_font* font, u32 render_type);
 

@@ -16,7 +16,7 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
     u32 width = 0;
     u32 height = 0;
     
-    font.glyph_height = (face->size->metrics.ascender - face->size->metrics.descender) >> 6;
+    font.glyph_height = face->size->metrics.height >> 6;
     
     /* 
         u32 row_width = 0;

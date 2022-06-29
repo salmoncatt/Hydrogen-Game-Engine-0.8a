@@ -73,10 +73,12 @@ int main(void){
     hf_texture gui_image_test = hf_texture_from_file("../res/images/patrick.png");
     hf_texture_create(&gui_image_test);
     
-    hf_font font = hf_font_from_file("../res/fonts/oxygen/Oxygen-Regular.ttf", 64);
+    hf_font font = hf_font_from_file("../res/fonts/oxygen/Oxygen-Regular.ttf", 32);
     font.color = (v3f){0.9, 0.9, 0.9};
     
     panel.font = &font;
+    
+    //printf("%f\n", (f32)font.glyph_height);
     
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
         
@@ -103,18 +105,18 @@ int main(void){
                 printf("clicked\n");
             }
             
-            hf_gui_text(100, 16, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_BOTTOM);
+            hf_gui_text(100, 16, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_CENTERED);
             
-            hf_gui_image(1000, 100, &font.atlas_texture);
+            hf_gui_image(100, 100, &font.atlas_texture);
             
             char fps[40];
             //f32 percentage = ((hf_get_delta_time() / hf_sleep_time)) * 100;
             //sprintf(fps, "gpu: %u%%", (u32)percentage);
             sprintf(fps, "fps: %u", (u32)hf_get_fps());
             
-            hf_gui_text(100, 16, 0, fps, &font, HF_TEXT_BOTTOM);
+            hf_gui_text(100, 16, 0, fps, &font, HF_TEXT_CENTERED);
             hf_gui_text(100, 16, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_BOTTOM);
-            hf_gui_text(100, 16, 0, "the quick brown fox jumps over the lazy dog", &font, HF_TEXT_BOTTOM);
+            hf_gui_text(100, 48, 0, "the quick brown fox jumps over the lazy dog", &font, HF_TEXT_BOTTOM);
             
             hf_gui_panel_end();
         }
