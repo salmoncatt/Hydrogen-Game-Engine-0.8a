@@ -105,9 +105,15 @@ int main(void){
                 printf("clicked\n");
             }
             
+            f32 y_pos_gui = hf_gui_get_cursor_pos().y;
+            
+            //hf_gui_rect(100, 10, (v4f){0, 0, 0, 1});
+            
+            hf_gui_set_cursor_pos((v2f){hf_gui_get_cursor_pos().x, y_pos_gui});
             hf_gui_text(100, 16, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_CENTERED);
             
-            hf_gui_image(100, 100, &font.atlas_texture);
+            
+            hf_gui_image(100, 100, &gui_image_test);
             
             char fps[40];
             //f32 percentage = ((hf_get_delta_time() / hf_sleep_time)) * 100;

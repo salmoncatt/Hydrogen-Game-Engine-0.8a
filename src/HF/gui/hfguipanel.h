@@ -34,6 +34,7 @@ b8 hf_gui_button_smart(u32 w, u32 h, v4f color, char* text, b8* pressed_last);
 b8 hf_gui_button_text_simple(u32 w, u32 h, v4f color, char* text);
 b8 hf_gui_button_text_advanced(u32 w, u32 h, v4f color, char* normal, char* hovered, char* pressed);
  */
+void hf_gui_rect(u32 w, u32 h, v4f color);
 void hf_gui_image(u32 w, u32 h, hf_texture* texture);
 
 //anchoring styles
