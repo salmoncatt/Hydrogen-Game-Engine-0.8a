@@ -10,13 +10,22 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
     
     FT_Face face = hf_load_face(path);
     FT_Set_Pixel_Sizes(face, 0, font.size);
+    //FT_Set_Char_Size(face, 0, font.size, 0, 0);
     
     FT_GlyphSlot glyph = face->glyph;
     
     u32 width = 0;
     u32 height = 0;
     
-    font.glyph_height = face->size->metrics.height >> 6;
+    //u32 bbox_ymax = FT_MulFix(face->bbox.yMax, face->size->metrics.y_scale) >> 6;
+    //u32 bbox_ymin = FT_MulFix(face->bbox.yMin, face->size->metrics.y_scale) >> 6;
+    //font.glyph_height= face->glyph->metrics.vertAdvance - bbox_ymin;
+    
+    //font.glyph_height = face->size->metrics.ascender >> 6;
+    font.glyph_height = (face->size->metrics.ascender + face->size->metrics.descender) >> 6;
+    printf("%u %u\n", font.size, font.glyph_height);
+    //font.descender = (face->size->metrics.descender >> 6) >> 6;
+    //font.glyph_height = face->size->metrics->height >> 6;
     
     /* 
         u32 row_width = 0;
@@ -54,8 +63,7 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
         width += glyph->bitmap.width;
         height = hf_max(height, glyph->bitmap.rows);
     }
-    
-    
+    //font.glyph_height = 0;
     
     /* 
         width = max(width, row_width);
@@ -121,6 +129,7 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
         
         font.characters[c].advance = (v2f){(f32)(glyph->advance.x >> 6), (f32)(glyph->advance.y >> 6)};
         font.characters[c].bitmap_left_top = (v2f){(f32)glyph->bitmap_left, (f32)glyph->bitmap_top};
+        printf("[%f] [%c]\n", (f32)(glyph->bitmap.rows), c);
         font.characters[c].size = (v2f){(f32)(glyph->bitmap.width), (f32)(glyph->bitmap.rows)};
         font.characters[c].texture_offset = (v2f){(f32)(offset.x / width), (f32)(offset.y / height)};
         

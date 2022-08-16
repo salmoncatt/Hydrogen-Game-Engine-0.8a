@@ -73,7 +73,10 @@ int main(void){
     hf_texture gui_image_test = hf_texture_from_file("../res/images/patrick.png");
     hf_texture_create(&gui_image_test);
     
-    hf_font font = hf_font_from_file("../res/fonts/oxygen/Oxygen-Regular.ttf", 32);
+    //hf_font font = hf_font_from_file("../res/fonts/oxygen/Oxygen-Regular.ttf", 18);
+    hf_font font = hf_font_from_file("../res/fonts/munro.ttf", 18);
+    //hf_font font = hf_font_from_file("../res/fonts/liberation-mono.ttf", 18);
+    //hf_font font = hf_font_from_file("../res/fonts/Inconsolata-Regular.ttf", 18);
     font.color = (v3f){0.9, 0.9, 0.9};
     
     panel.font = &font;
@@ -99,7 +102,7 @@ int main(void){
         
         //hf_render_rect(0, 0, 100, 100, (v4f){1, 1, 1, 1});
         
-        if(hf_gui_panel_begin(&panel, "HF Engine Test", 110, 180, 150, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
+        if(hf_gui_panel_begin(&panel, "The quick brown fox jumps over the lazy dog. 1234567890", 110, 180, 150, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
             
             if(hf_gui_button(80, 30, hf_v4f(0.9, 0.6, 0, 1))){
                 printf("clicked\n");
@@ -113,7 +116,7 @@ int main(void){
             hf_gui_text(100, 16, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_CENTERED);
             
             
-            hf_gui_image(100, 100, &gui_image_test);
+            hf_gui_image(100, 100, &font.atlas_texture);
             
             char fps[40];
             //f32 percentage = ((hf_get_delta_time() / hf_sleep_time)) * 100;

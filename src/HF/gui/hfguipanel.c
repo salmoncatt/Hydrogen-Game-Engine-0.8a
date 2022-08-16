@@ -42,8 +42,8 @@ b8 hf_gui_panel_begin(hf_gui_panel* panel, char* text, u32 x, u32 y, u32 w, u32 
         }
         
         hf_render_rect(panel->x, panel->y, panel->w, title_bar_height, color);
-        panel->cursor_pos = (v2f){5, title_bar_height / 2};
-        hf_gui_text(panel->w, 32, 0, text, panel->font, HF_TEXT_CENTERED | HF_TEXT_DONT_USE_SPACING);
+        panel->cursor_pos = (v2f){5, title_bar_height};
+        hf_gui_text(panel->w, 18, 0, text, panel->font, HF_TEXT_BOTTOM | HF_TEXT_DONT_USE_SPACING);
     }
     
     hf_current_gui_panel->cursor_pos = (v2f){10, title_bar_height};
@@ -180,8 +180,10 @@ void hf_gui_rect(u32 w, u32 h, v4f color){
 
 void hf_gui_text(u32 max_w, u32 height, b8 centered, char* text, hf_font* font, u32 render_type){
     u32 length = hf_strlen(text);
-    f32 scale_ratio = (f32)(height) / (f32)(font->size);
-    f32 scaled_height = (f32)(font->glyph_height) * scale_ratio;
+    //f32 scale_ratio = (f32)(height) / (f32)(font->size);
+    f32 scale_ratio = 1;
+    f32 scaled_height = font->glyph_height * scale_ratio;
+    //height = (u32)(scaled_height);
     
     v2f screen_pos = (v2f){hf_current_gui_panel->x + hf_current_gui_panel->cursor_pos.x, hf_current_gui_panel->y + hf_current_gui_panel->cursor_pos.y};
     v2f cursor_pos;
@@ -197,7 +199,8 @@ void hf_gui_text(u32 max_w, u32 height, b8 centered, char* text, hf_font* font, 
         cursor_pos.y += hf_current_gui_panel->element_spacing;
     
     hf_render_rect(cursor_pos.x, cursor_pos.y - height, max_w, height, (v4f){0, 0, 0, 1});
-    
+    hf_render_rect(cursor_pos.x, cursor_pos.y - scaled_height, max_w, scaled_height, (v4f){0.9f, 0.7f, 0, 0.5f});
+    //printf("%u\n", font->descender);
     hf_current_gui_panel->cursor_pos.y += scaled_height;
     
     for(u32 i = 0; i < length; i++){

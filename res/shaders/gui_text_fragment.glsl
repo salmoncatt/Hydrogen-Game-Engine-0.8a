@@ -20,7 +20,7 @@ void main(void){
     if (glyph_color < 0.5)
         discard;
 
-    //vec4 sampled = vec4(glyph_color, 1.0);
+    //vec4 sampled = vec4(glyph_color);
 	out_Color = vec4(color, 1);
 
 

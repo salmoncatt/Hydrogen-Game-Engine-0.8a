@@ -37,6 +37,8 @@ typedef struct hf_font{
     b8 created;
     
     u32 glyph_height;
+    u32 descender;
+    u32 ascender;
     
     u32 char_count;
     
