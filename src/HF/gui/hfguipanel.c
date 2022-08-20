@@ -280,11 +280,13 @@ void hf_gui_text(char* text, hf_font* font, u32 flags){
     u32 length = hf_strlen(text);
     //f32 scale_ratio = (f32)(height) / (f32)(font->size);
     f32 scale_ratio = 1;
-    f32 scaled_height = font->glyph_height;
+    //f32 scaled_height = font->glyph_height;
     //height = (u32)(scaled_height);
     
-    v2f screen_pos = (v2f){(u32)(hf_current_gui_panel->x + hf_current_gui_panel->cursor_pos.x), (u32)(hf_current_gui_panel->y + hf_current_gui_panel->cursor_pos.y)};
-    v2f cursor_pos;
+    v2f screen_pos = (v2f){(u32)(hf_current_gui_panel->x + hf_current_gui_panel->cursor_pos.x), (u32)(hf_current_gui_panel->y + hf_current_gui_panel->cursor_pos.y + font->glyph_height)};
+    v2f cursor_pos = screen_pos;
+    cursor_pos.y += hf_current_gui_panel->element_spacing;
+    hf_current_gui_panel->cursor_pos.y += font->glyph_height + hf_current_gui_panel->element_spacing;
     
     /* 
         if(render_type & HF_TEXT_CENTERED){
@@ -294,11 +296,9 @@ void hf_gui_text(char* text, hf_font* font, u32 flags){
         }
      */
     
-    cursor_pos = screen_pos;
     
     /* 
         if(!(render_type & HF_TEXT_DONT_USE_SPACING))
-            cursor_pos.y += hf_current_gui_panel->element_spacing;
      */
     
     //hf_render_rect(panel->x - 5, panel->y + (f32)title_bar_height / 2 - (f32)panel->font->glyph_height / 2, 200, panel->font->glyph_height, (v4f){0, 0, 1, 1});

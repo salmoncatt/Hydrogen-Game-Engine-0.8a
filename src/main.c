@@ -68,7 +68,7 @@ int main(void){
     hf_gui_panel panel = {};
     panel.color = hf_v4f(0.3, 0.3, 0.3, 1);
     panel.title_bar_color = hf_v4f(0.9, 0.5, 0, 1);
-    panel.element_spacing = 10;
+    panel.element_spacing = 4;
     
     hf_texture gui_image_test = hf_texture_from_file("../res/images/patrick.png");
     hf_texture_create(&gui_image_test);
@@ -77,7 +77,7 @@ int main(void){
     //hf_font font = hf_font_from_file("../res/fonts/munro.ttf", 18);
     //hf_font font = hf_font_from_file("../res/fonts/liberation-mono.ttf", 18);
     //hf_font font = hf_font_from_file("../res/fonts/Inconsolata-Regular.ttf", 18);
-    hf_font font = hf_font_from_file("../res/fonts/ProggyClean.ttf", 12);
+    hf_font font = hf_font_from_file("../res/fonts/ProggyClean.ttf", 24);
     font.color = (v3f){0.9, 0.9, 0.9};
     
     panel.font = &font;
@@ -105,21 +105,21 @@ int main(void){
         //hf_render_rect(0, 0, 100, 100, (v4f){1, 1, 1, 1});
         
         if(hf_gui_panel_begin(&panel, "HF Engine test", 110, 180, 150, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
+            hf_gui_text("The quick brown fox jumps over the lazy dog", &font, 0);
             
             if(hf_gui_button(80, 30, hf_v4f(0.9, 0.6, 0, 1))){
                 printf("clicked\n");
             }
+            hf_gui_image(100, 100, &font.atlas_texture);
             
-            f32 y_pos_gui = hf_gui_get_cursor_pos().y;
+            //f32 y_pos_gui = hf_gui_get_cursor_pos().y;
             
             //hf_gui_rect(100, 10, (v4f){0, 0, 0, 1});
             
-            hf_gui_set_cursor_pos((v2f){hf_gui_get_cursor_pos().x, y_pos_gui});
+            //hf_gui_set_cursor_pos((v2f){hf_gui_get_cursor_pos().x, y_pos_gui});
             //hf_gui_text(100, 36, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_CENTERED);
-            hf_gui_text("The quick brown fox jumps over the lazy dog", &font, 0);
             
             
-            hf_gui_image(100, 100, &font.atlas_texture);
             
             char fps[64];
             //f32 percentage = ((hf_get_delta_time() / hf_sleep_time)) * 100;
