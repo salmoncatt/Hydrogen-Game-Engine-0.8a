@@ -8,7 +8,8 @@
 typedef struct hf_gui_panel{
     
     v4f color, title_bar_color;
-    u32 x, y, w, h;
+    i32 x, y;
+    u32 w, h;
     b8 selected; //for dragging
     hf_font* font;
     u32 element_spacing; //distance between gui elements (10 pixels is default)
@@ -42,7 +43,9 @@ void hf_gui_image(u32 w, u32 h, hf_texture* texture);
 #define HF_TEXT_BOTTOM 0x02
 #define HF_TEXT_DONT_USE_SPACING 0x04 // not using this lets you specify exactly where to render text with set_cursor_pos without worrying about element spacing
 
-void hf_gui_text(u32 max_w, u32 height, b8 centered, char* text, hf_font* font, u32 render_type);
+void hf_gui_text(char* text, hf_font* font, u32 flags);
+void hf_gui_title_text(char* text, hf_font* font, i32 x, i32 y);
+void hf_gui_text_advanced(u32 max_w, u32 height, b8 centered, char* text, hf_font* font, u32 render_type);
 
 
 

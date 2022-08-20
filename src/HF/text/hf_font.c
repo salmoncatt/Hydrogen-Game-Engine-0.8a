@@ -1,6 +1,8 @@
 #include "hf_font.h"
 #include "hffreetype.h"
 
+#define FT_CEIL(X)  (((X + 63) & -64) / 64)
+
 hf_font hf_font_from_file(const char* path, u32 font_size){
     hf_font font = {};
     font.size = font_size;
@@ -9,29 +11,37 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
     font.name = hf_remove_file_path(path);
     
     //SetProcessDPIAware(); //true
-    HDC screen = GetDC(NULL);
-    double hSize = GetDeviceCaps(screen, HORZSIZE);
-    double vSize = GetDeviceCaps(screen, VERTSIZE);
-    double hRes = GetDeviceCaps(screen, HORZRES);
-    double vRes = GetDeviceCaps(screen, VERTRES);
-    
-    double aspect_ratio = vSize / hSize;
+    /* 
+        HDC screen = GetDC(NULL);
+        double hSize = GetDeviceCaps(screen, HORZSIZE);
+        double vSize = GetDeviceCaps(screen, VERTSIZE);
+        double hRes = GetDeviceCaps(screen, HORZRES);
+        double vRes = GetDeviceCaps(screen, VERTRES);
+        
+        double aspect_ratio = vSize / hSize;
+     */
     
     FT_Face face = hf_load_face(path);
     //FT_Set_Pixel_Sizes(face, 0, font.size);
     //FT_Set_Char_Size(face, 0, font.size * 96, 0, 0);
     
+    
     FT_Size_RequestRec req;
-    req.type = FT_SIZE_REQUEST_TYPE_REAL_DIM;
+    req.type = FT_SIZE_REQUEST_TYPE_NOMINAL;
     req.width = 0;
     req.height = font_size * 64;
     //req.horiResolution = (u32)(hRes);
-    req.horiResolution = 0;
+    req.horiResolution = 96;
     //req.vertResolution = (u32)(vRes);
-    req.vertResolution = 0;
+    req.vertResolution = 96;
     FT_Request_Size(face, &req);
     
     FT_GlyphSlot glyph = face->glyph;
+    
+    //https://github.com/ocornut/imgui/issues/4780
+    
+    //font.glyph_height = face->size->metrics.height >> 6;
+    font.glyph_height = font_size * 72 / 96;
     
     u32 width = 0;
     u32 height = 0;
@@ -41,11 +51,11 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
     //font.glyph_height= face->glyph->metrics.vertAdvance - bbox_ymin;
     
     //font.glyph_height = face->size->metrics.ascender >> 6;
-    font.glyph_height = (face->size->metrics.ascender + face->size->metrics.descender) >> 6;
-    printf("%u %u\n", font.size, font.glyph_height);
+    //font.glyph_height = (face->size->metrics.ascender + face->size->metrics.descender) >> 6;
+    //font.glyph_height = (u32)((f32)FT_CEIL(face->size->metrics.ascender) + (f32)FT_CEIL(face->size->metrics.descender));
     //font.descender = (face->size->metrics.descender >> 6) >> 6;
-    //font.glyph_height = face->size->metrics->height >> 6;
     
+    printf("%u %u\n", font.size, font.glyph_height);
     /* 
         u32 row_width = 0;
         u32 row_height = 0;
@@ -144,13 +154,22 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
         
         //printf("%u\n", (u32)glyph->bitmap.width);
         
+        
+        
         hf_texture_set_sub_image(&font.atlas_texture, 0, offset, hf_v2f(glyph->bitmap.width, glyph->bitmap.rows), glyph->bitmap.buffer);
         
         font.characters[c].advance = (v2f){(f32)(glyph->advance.x >> 6), (f32)(glyph->advance.y >> 6)};
         font.characters[c].bitmap_left_top = (v2f){(f32)glyph->bitmap_left, (f32)glyph->bitmap_top};
-        printf("[%f] [%c]\n", (f32)(glyph->bitmap.rows), c);
+        //printf("[%f] [%c]\n", (f32)(c), c);
+        //printf("[%f] [%c]\n", (f32)(glyph->bitmap.rows), c);
         font.characters[c].size = (v2f){(f32)(glyph->bitmap.width), (f32)(glyph->bitmap.rows)};
         font.characters[c].texture_offset = (v2f){(f32)(offset.x / width), (f32)(offset.y / height)};
+        
+        /* 
+                if((u32)(c) == 72){
+                    font.glyph_height = (u32)glyph->bitmap.rows;
+                }
+         */
         
         //height = hf_max(height, glyph->bitmap.rows);
         offset.x += glyph->bitmap.width;

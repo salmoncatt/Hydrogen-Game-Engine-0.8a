@@ -77,12 +77,12 @@ int main(void){
     //hf_font font = hf_font_from_file("../res/fonts/munro.ttf", 18);
     //hf_font font = hf_font_from_file("../res/fonts/liberation-mono.ttf", 18);
     //hf_font font = hf_font_from_file("../res/fonts/Inconsolata-Regular.ttf", 18);
-    hf_font font = hf_font_from_file("../res/fonts/ProggyClean.ttf", 13);
+    hf_font font = hf_font_from_file("../res/fonts/ProggyClean.ttf", 12);
     font.color = (v3f){0.9, 0.9, 0.9};
     
     panel.font = &font;
     
-    
+    //printf("apsuhntat: %u", (u32)-1);
     
     
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
@@ -104,7 +104,7 @@ int main(void){
         
         //hf_render_rect(0, 0, 100, 100, (v4f){1, 1, 1, 1});
         
-        if(hf_gui_panel_begin(&panel, "The quick brown fox jumps over the lazy dog", 110, 180, 150, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
+        if(hf_gui_panel_begin(&panel, "HF Engine test", 110, 180, 150, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
             
             if(hf_gui_button(80, 30, hf_v4f(0.9, 0.6, 0, 1))){
                 printf("clicked\n");
@@ -115,19 +115,22 @@ int main(void){
             //hf_gui_rect(100, 10, (v4f){0, 0, 0, 1});
             
             hf_gui_set_cursor_pos((v2f){hf_gui_get_cursor_pos().x, y_pos_gui});
-            hf_gui_text(100, 36, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_CENTERED);
+            //hf_gui_text(100, 36, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_CENTERED);
+            hf_gui_text("The quick brown fox jumps over the lazy dog", &font, 0);
             
             
             hf_gui_image(100, 100, &font.atlas_texture);
             
-            char fps[40];
+            char fps[64];
             //f32 percentage = ((hf_get_delta_time() / hf_sleep_time)) * 100;
             //sprintf(fps, "gpu: %u%%", (u32)percentage);
-            sprintf(fps, "fps: %u", (u32)hf_get_fps());
+            sprintf(fps, "fps: %u [%u][%u]", (u32)hf_get_fps(), (u32)panel.x, (u32)panel.y);
+            //printf("[%u][%u]\n", (u32)panel.x, (u32)panel.y);
             
-            hf_gui_text(100, 16, 0, fps, &font, HF_TEXT_CENTERED);
-            hf_gui_text(100, 16, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_BOTTOM);
-            hf_gui_text(100, 48, 0, "the quick brown fox jumps over the lazy dog", &font, HF_TEXT_BOTTOM);
+            
+            //hf_gui_text(100, 16, 0, fps, &font, HF_TEXT_CENTERED);
+            //hf_gui_text(100, 16, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_BOTTOM);
+            //hf_gui_text(100, 48, 0, "the quick brown fox jumps over the lazy dog", &font, HF_TEXT_BOTTOM);
             
             hf_gui_panel_end();
         }
