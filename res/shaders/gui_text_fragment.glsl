@@ -17,11 +17,11 @@ void main(void){
 
 	float glyph_color = texture(sampler, pass_texture_coord).r;
 
-    if (glyph_color < 0.5)
-        discard;
+    //if (glyph_color < 0.5)
+    //    discard;
 
     //vec4 sampled = vec4(glyph_color);
-	out_Color = vec4(color, 1);
+	out_Color = vec4(color, glyph_color * 2);
 
 
 	//out_Color = vec4(pass_texture_coord.x, pass_texture_coord.y, 0, 1);

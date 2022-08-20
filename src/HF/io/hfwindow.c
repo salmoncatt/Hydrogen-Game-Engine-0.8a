@@ -294,6 +294,9 @@ b8 hf_create_window(hf_window* w){
     
     hf_log("[HF] created window: [%s], size: [%u, %u], pos: [%u, %u]\n\n", w->title, w->width, w->height, w->x, w->y);
     
+    
+    //printf("dpi: %f\n", (f32)GetDpiForWindow(w->hwnd));
+    
     return 1;
 }
 

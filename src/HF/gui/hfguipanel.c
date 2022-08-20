@@ -199,7 +199,7 @@ void hf_gui_text(u32 max_w, u32 height, b8 centered, char* text, hf_font* font, 
         cursor_pos.y += hf_current_gui_panel->element_spacing;
     
     hf_render_rect(cursor_pos.x, cursor_pos.y - height, max_w, height, (v4f){0, 0, 0, 1});
-    hf_render_rect(cursor_pos.x, cursor_pos.y - scaled_height, max_w, scaled_height, (v4f){0.9f, 0.7f, 0, 0.5f});
+    hf_render_rect(cursor_pos.x + 5, cursor_pos.y - scaled_height, max_w, scaled_height, (v4f){0.9f, 0.7f, 0, 0.5f});
     //printf("%u\n", font->descender);
     hf_current_gui_panel->cursor_pos.y += scaled_height;
     

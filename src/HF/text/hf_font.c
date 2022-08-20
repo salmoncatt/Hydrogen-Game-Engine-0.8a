@@ -8,9 +8,28 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
     font.path = path;
     font.name = hf_remove_file_path(path);
     
+    //SetProcessDPIAware(); //true
+    HDC screen = GetDC(NULL);
+    double hSize = GetDeviceCaps(screen, HORZSIZE);
+    double vSize = GetDeviceCaps(screen, VERTSIZE);
+    double hRes = GetDeviceCaps(screen, HORZRES);
+    double vRes = GetDeviceCaps(screen, VERTRES);
+    
+    double aspect_ratio = vSize / hSize;
+    
     FT_Face face = hf_load_face(path);
-    FT_Set_Pixel_Sizes(face, 0, font.size);
-    //FT_Set_Char_Size(face, 0, font.size, 0, 0);
+    //FT_Set_Pixel_Sizes(face, 0, font.size);
+    //FT_Set_Char_Size(face, 0, font.size * 96, 0, 0);
+    
+    FT_Size_RequestRec req;
+    req.type = FT_SIZE_REQUEST_TYPE_REAL_DIM;
+    req.width = 0;
+    req.height = font_size * 64;
+    //req.horiResolution = (u32)(hRes);
+    req.horiResolution = 0;
+    //req.vertResolution = (u32)(vRes);
+    req.vertResolution = 0;
+    FT_Request_Size(face, &req);
     
     FT_GlyphSlot glyph = face->glyph;
     
@@ -43,7 +62,7 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
             continue;
         }
         
-        FT_Render_Glyph(glyph, FT_RENDER_MODE_SDF);
+        //FT_Render_Glyph(glyph, FT_RENDER_MODE_SDF);
         
         /* 
                 if (row_width + glyph->bitmap.width + 1 >= font.max_texture_width) {
@@ -121,7 +140,7 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
                     offset.x = 0;
                 }
          */
-        FT_Render_Glyph(glyph, FT_RENDER_MODE_SDF);
+        //FT_Render_Glyph(glyph, FT_RENDER_MODE_SDF);
         
         //printf("%u\n", (u32)glyph->bitmap.width);
         
