@@ -77,7 +77,7 @@ int main(void){
     //hf_font font = hf_font_from_file("../res/fonts/munro.ttf", 18);
     //hf_font font = hf_font_from_file("../res/fonts/liberation-mono.ttf", 18);
     //hf_font font = hf_font_from_file("../res/fonts/Inconsolata-Regular.ttf", 18);
-    hf_font font = hf_font_from_file("../res/fonts/ProggyClean.ttf", 24);
+    hf_font font = hf_font_from_file("../res/fonts/ProggyClean.ttf", 12);
     font.color = (v3f){0.9, 0.9, 0.9};
     
     panel.font = &font;
