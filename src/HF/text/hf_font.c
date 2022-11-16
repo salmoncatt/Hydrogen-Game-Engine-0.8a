@@ -194,3 +194,16 @@ void hf_font_destroy(hf_font* font){
     hf_array_free(font->texture_coords);
     hf_texture_destroy(&font->atlas_texture);
 }
+
+u32 hf_font_get_bitmap_length(hf_font* font, char* text){
+    u32 length = hf_strlen(text);
+    u32 size = 0;
+    
+    
+    for(u32 i = 0; i < length; i++){
+        char c = text[i];
+        size += (u32)font->characters[c].advance.x;
+    }
+    
+    return size;
+}

@@ -45,6 +45,7 @@ typedef struct hf_font{
 }hf_font;
 
 hf_font hf_font_from_file(const char* path, u32 font_size);
+u32 hf_font_get_bitmap_length(hf_font* font, char* text);
 void hf_font_destroy(hf_font* font);
 
 #endif //HF_FONT_H

@@ -32,6 +32,7 @@ v2f hf_gui_get_cursor_pos();
 void hf_gui_set_cursor_pos(v2f in);
 
 b8 hf_gui_button(u32 w, u32 h, v4f color);
+b8 hf_gui_button_text(u32 w, u32 h, v4f color, char* text);
 /* 
 b8 hf_gui_button_smart(u32 w, u32 h, v4f color, char* text, b8* pressed_last);
 b8 hf_gui_button_text_simple(u32 w, u32 h, v4f color, char* text);

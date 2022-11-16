@@ -121,6 +121,14 @@ b8 hf_gui_button(u32 w, u32 h, v4f color){
     return clicked;
 }
 
+b8 hf_gui_button_text(u32 w, u32 h, v4f color, char* text){
+    b8 clicked = hf_gui_button(w, h, color);
+    
+    hf_gui_title_text(text, hf_current_gui_panel->font, hf_current_gui_panel->cursor_pos.x + w / 2 - hf_font_get_bitmap_length(hf_current_gui_panel->font, text) / 2, hf_current_gui_panel->cursor_pos.y - h / 2 + ((f32)hf_current_gui_panel->font->glyph_height / 2));
+    
+    return clicked;
+}
+
 /* 
 b8 hf_gui_button_smart(u32 w, u32 h, v4f color, char* text, b8* pressed_last){
     
