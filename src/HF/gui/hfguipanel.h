@@ -14,6 +14,8 @@ typedef struct hf_gui_panel{
     hf_font* font;
     u32 element_spacing; //distance between gui elements (10 pixels is default)
     
+    b8 clicked_last_frame; //for making buttons go dark when clicked
+    
     v2f cursor_pos;
     
 }hf_gui_panel;

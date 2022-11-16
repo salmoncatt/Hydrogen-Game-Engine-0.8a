@@ -101,10 +101,17 @@ b8 hf_gui_button(u32 w, u32 h, v4f color){
     if((u32)hf_input_cursor_pos.x > ss_x && (u32)hf_input_cursor_pos.y > ss_y && (u32)hf_input_cursor_pos.x < ss_x + w && (u32)hf_input_cursor_pos.y < ss_y + h){
         //color = hf_v4f(1, 1, 1, 1);
         clicked = hf_input_get_mouse_button_down(HF_MOUSE_BUTTON_LEFT);
+        hf_current_gui_panel->clicked_last_frame = (clicked || hf_current_gui_panel->clicked_last_frame);
         
-        color = hf_v4f(color.r + 0.1, color.g + 0.1, color.b + 0.1, color.a); //highlight if hovered 
+        if(hf_current_gui_panel->clicked_last_frame)
+            color = hf_v4f(color.r - 0.1, color.g - 0.1, color.b - 0.1, color.a);
+        else
+            color = hf_v4f(color.r + 0.1, color.g + 0.1, color.b + 0.1, color.a); //highlight if hovered 
         
     }
+    
+    if(hf_input_get_mouse_button_up(HF_MOUSE_BUTTON_LEFT))
+        hf_current_gui_panel->clicked_last_frame = 0;
     
     
     hf_render_rect(ss_x, ss_y, w, h, color);

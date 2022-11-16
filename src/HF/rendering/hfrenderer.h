@@ -20,8 +20,8 @@ extern u32 hf_window_h;
 
 
 // NOTE(salmoncatt): i guess having these here tells amd and nvidia to select most powerful gpu for this application, needs testing tho
-DWORD NvOptimusEnablement = 1;
-int AmdPowerXpressRequestHighPerformance = 1;
+//DWORD NvOptimusEnablement = 1;
+//int AmdPowerXpressRequestHighPerformance = 1;
 
 void hf_renderer_init(hf_app* app);
 
