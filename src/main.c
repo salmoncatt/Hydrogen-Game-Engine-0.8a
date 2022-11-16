@@ -113,7 +113,7 @@ int main(void){
             if(hf_gui_button_text(60, 30, hf_v4f(0.9, 0.6, 0, 1), "test")){
                 printf("clicked but with text\n");
             }
-            hf_gui_image(1000, 100, &font.atlas_texture);
+            hf_gui_image(100, 100, &font.atlas_texture);
             
             //f32 y_pos_gui = hf_gui_get_cursor_pos().y;
             
