@@ -33,6 +33,10 @@ void hf_gui_set_cursor_pos(v2f in);
 
 b8 hf_gui_button(u32 w, u32 h, v4f color);
 b8 hf_gui_button_text(u32 w, u32 h, v4f color, char* text);
+
+void hf_gui_progress_bar(u32 w, u32 h, u32 percent, v4f foreground_color, v4f background_color);
+void hf_gui_progress_bar_text(u32 w, u32 h, u32 percent, v4f foreground_color, v4f background_color, char* text);
+
 /* 
 b8 hf_gui_button_smart(u32 w, u32 h, v4f color, char* text, b8* pressed_last);
 b8 hf_gui_button_text_simple(u32 w, u32 h, v4f color, char* text);

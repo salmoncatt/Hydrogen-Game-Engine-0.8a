@@ -129,6 +129,23 @@ b8 hf_gui_button_text(u32 w, u32 h, v4f color, char* text){
     return clicked;
 }
 
+void hf_gui_progress_bar(u32 w, u32 h, u32 percent, v4f foreground_color, v4f background_color){
+    hf_current_gui_panel->cursor_pos.y += hf_current_gui_panel->element_spacing;
+    
+    // NOTE(salmoncatt): screen space (pixel) coords
+    u32 ss_x = hf_current_gui_panel->cursor_pos.x + hf_current_gui_panel->x;
+    u32 ss_y = hf_current_gui_panel->cursor_pos.y + hf_current_gui_panel->y;
+    
+    hf_current_gui_panel->cursor_pos.y += h;
+    
+    hf_render_rect(ss_x, ss_y, w, h, background_color);
+    hf_render_rect(ss_x + 1, ss_y + 1, (u32)((f32)w * ((f32)percent / 100)) - 2, h - 2, foreground_color);
+}
+
+void hf_gui_progress_bar_text(u32 w, u32 h, u32 percent, v4f foreground_color, v4f background_color, char* text){
+    
+}
+
 /* 
 b8 hf_gui_button_smart(u32 w, u32 h, v4f color, char* text, b8* pressed_last){
     

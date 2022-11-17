@@ -114,7 +114,7 @@ int main(void){
                 printf("clicked but with text\n");
             }
             hf_gui_image(100, 100, &font.atlas_texture);
-            
+            hf_gui_progress_bar(100, 20, 10, hf_v4f(0.9, 0.6, 0, 1), hf_v4f(0.4, 0.4, 0.4, 1));
             //f32 y_pos_gui = hf_gui_get_cursor_pos().y;
             
             //hf_gui_rect(100, 10, (v4f){0, 0, 0, 1});
