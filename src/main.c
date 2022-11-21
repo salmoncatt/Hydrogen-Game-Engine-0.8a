@@ -84,6 +84,8 @@ int main(void){
     
     //printf("apsuhntat: %u", (u32)-1);
     
+    f32 progress_percent = 0;
+    char progress_title[64];
     
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
         
@@ -104,7 +106,7 @@ int main(void){
         
         //hf_render_rect(0, 0, 100, 100, (v4f){1, 1, 1, 1});
         
-        if(hf_gui_panel_begin(&panel, "HF Engine test", 110, 180, 150, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
+        if(hf_gui_panel_begin(&panel, "HF Engine test", 110, 180, 200, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
             hf_gui_text("The quick brown fox jumps over the lazy dog", &font, 0);
             
             if(hf_gui_button(80, 30, hf_v4f(0.9, 0.6, 0, 1))){
@@ -113,8 +115,14 @@ int main(void){
             if(hf_gui_button_text(60, 30, hf_v4f(0.9, 0.6, 0, 1), "test")){
                 printf("clicked but with text\n");
             }
-            hf_gui_image(100, 100, &font.atlas_texture);
-            hf_gui_progress_bar(100, 20, 10, hf_v4f(0.9, 0.6, 0, 1), hf_v4f(0.4, 0.4, 0.4, 1));
+            hf_gui_image(100, 100, &gui_image_test);
+            
+            sprintf(progress_title, "progress: [%.1f%%]", progress_percent);
+            hf_gui_progress_bar_text(150, 20, progress_percent, hf_v4f(0.9, 0.6, 0, 1), hf_v4f(0.4, 0.4, 0.4, 1), progress_title);
+            if(progress_percent > 100)
+                progress_percent = 0;
+            else
+                progress_percent += 0.1;
             //f32 y_pos_gui = hf_gui_get_cursor_pos().y;
             
             //hf_gui_rect(100, 10, (v4f){0, 0, 0, 1});
