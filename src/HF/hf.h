@@ -34,6 +34,9 @@
 #include "io/hfinput.h"
 #include "io/hfserial.h" //for arduino n stuff
 #include "io/hf3dprint.h"
+
+
+#include "ai/machine_learning.h"
 //#endif
 
 #include "time/hfprofiler.h"
