@@ -87,7 +87,8 @@ int main(void){
     f32 progress_percent = 0;
     char progress_title[64];
     
-    hf_test_machine_learning();
+    //test machine learning dawg
+    //hf_test_machine_learning();
     
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
         
