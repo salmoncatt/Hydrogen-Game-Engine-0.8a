@@ -29,8 +29,12 @@
 
 #include "debug/hfdebug.h"
 
-//#ifdef _WIN32 || _WIN64
-#include "io/hfwindow.h"
+#ifdef _WIN32
+#include "io/hfwindow_win.h"
+#elif __unix__
+#include "io/hfwindow_linux.h"
+#endif
+
 #include "io/hfinput.h"
 #include "io/hfserial.h" //for arduino n stuff
 #include "io/hf3dprint.h"

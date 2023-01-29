@@ -11,16 +11,21 @@
 #include "datatypes/hfdatatypes.h"
 #include "util/hfmemutil.h"
 
+#ifdef _WIN32
+#include <windows.h>
+//for cpuid
+#include <intrin.h>
+#elif __unix__
+
+#endif
+
 #include <GL/gl.h>
 //#include <GL/glext.h>
-#include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <immintrin.h>
 #include <time.h>
 #include <math.h>
-//for cpuid
-#include <intrin.h>
 
 //for __debugbreak();
 #include <signal.h>

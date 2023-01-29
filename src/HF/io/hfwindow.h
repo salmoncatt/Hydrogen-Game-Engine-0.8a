@@ -47,6 +47,8 @@ typedef struct hf_window{
     
     void* allocated;
     
+#ifdef _WIN32
+    
     HINSTANCE hInstance;
     HWND hwnd;
     WNDCLASSEX wc;
@@ -95,7 +97,7 @@ typedef struct hf_window{
     DWORD dwLayerMask;
     DWORD dwVisibleMask;
     DWORD dwDamageMask;
-    
+#endif
     
     
     
@@ -111,7 +113,7 @@ typedef struct hf_window{
         }callbacks;
      */
     
-    void (*key_callback)(struct hf_window*, u32, u32);
+    //void (*key_callback)(struct hf_window*, u32, u32);
     
 } hf_window;
 
@@ -130,9 +132,9 @@ void hf_window_set_icon(hf_window* w, i32 icon_id);
 
 //void hf_window_set_ups(hf_window* window, u32 ups);
 //void hf_window_remove_ups_constraint(hf_window* window);
-
+#ifdef _WIN32
 LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
+#endif
 
 // NOTE(salmoncatt): input handling and callbacks
 
