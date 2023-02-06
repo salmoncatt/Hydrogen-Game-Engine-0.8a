@@ -3,12 +3,15 @@
 #ifndef HFGL_H
 #define HFGL_H
 
-#define GLDECL WINAPI
 
 //#define GL_GLEXT_PROTOTYPES
 //#include "../../ext/glext.h"
+
+#ifdef _WIN32
+#define GLDECL WINAPI
 #include <GL/glext.h>
 #include <GL/wglext.h>
+#endif
 
 extern b8 hf_gl_created;
 extern u32* hf_gl_vbos;
