@@ -1,5 +1,7 @@
 #include "hfutil.h"
-#include <dbghelp.h>
+#ifdef _WIN32
+#include <dbghelp.h> //for printing the stack
+#endif
 
 const u64 hf_string_npos = -1;
 
@@ -254,6 +256,7 @@ char* hf_vformat_string(const char* msg, va_list args){
 }
 
 void hf_print_stack() {
+#ifdef _WIN32
     unsigned int   i;
     void         * stack[ 100 ];
     unsigned short frames;
@@ -300,6 +303,7 @@ void hf_print_stack() {
     printf("\n");
     
     __real_free(symbol);
+#endif
 }
 
 /* 
@@ -371,6 +375,7 @@ char* hf_remove_file_path(const char* file_path){
 }
 
 char* hf_get_cpu_name(){
+#ifdef _WIN32
     int CPUInfo[4] = { -1 };
     char* CPUBrandString = hf_malloc(sizeof(char) * 65);
     __cpuid(CPUInfo, 0x80000000);
@@ -394,4 +399,5 @@ char* hf_get_cpu_name(){
     CPUBrandString[64] = '\0';
     
     return CPUBrandString;
+#endif
 }

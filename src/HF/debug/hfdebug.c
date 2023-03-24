@@ -5,8 +5,10 @@ void hf_debug_init(){
 }
 
 void hf_debug_set_text_color(hf_debug_color foregroundColor, hf_debug_color backgroundColor){
+#ifdef _WIN32
     HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hStdOut, (foregroundColor | backgroundColor));
+#endif
 }
 
 void hf_log(const char* msg, ...){
@@ -151,6 +153,7 @@ void hf_debug_err(const char* msg, ...){
     va_end(args);
 }
 
+#ifdef _WIN32
 void hf_print_windows_last_error(){
     DWORD errorID = GetLastError();
     if(!errorID){
@@ -171,6 +174,8 @@ void hf_print_windows_last_error(){
     LocalFree(message);
     //free(message);
 }
+#endif
+
 
 void hf_print_gcc_last_error(){
     

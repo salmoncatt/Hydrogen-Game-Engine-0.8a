@@ -54,13 +54,17 @@ b8 hf_input_get_mouse_button_up(u32 button){
 
 
 void hf_input_show_cursor(b8 visibility){
+#ifdef _WIN32
     ShowCursor(visibility ? TRUE : FALSE);
+#endif
     hf_input_cursor_visibility = visibility;
 }
 
 void hf_input_toggle_cursor(){
     hf_input_cursor_visibility = !hf_input_cursor_visibility;
+#ifdef _WIN32
     ShowCursor(hf_input_cursor_visibility ? TRUE : FALSE);
+#endif
 }
 
 b8 hf_input_get_cursor_visibility(){

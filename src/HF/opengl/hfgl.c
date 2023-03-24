@@ -5,11 +5,13 @@ u32* hf_gl_vbos;
 u32* hf_gl_vaos;
 
 // NOTE(salmoncatt): give definitions to opengl extenion functions
+#ifdef _WIN32
 #define HF_GLE(type, name, ...) name##proc* gl##name;
 #define HF_WGL(type, name, ...) name##proc* wgl##name;
 HF_GL_FUNC_LIST
 #undef HF_GLE
 #undef HF_WGL
+#endif
 
 
 b8 hf_gl_init(){
@@ -57,6 +59,9 @@ void hf_gl_get_version(u32* major, u32* minor){
 
 b8 hf_gl_load_extensions(){
     //hf_log("[HF GL] loading opengl32.dll\n");
+    u32 i = 0;
+    
+#ifdef _WIN32
     HINSTANCE gl_dll = LoadLibraryA("opengl32.dll");
     typedef PROC WINAPI wglGetProcAddressproc(LPCSTR lpszProc);
     if(gl_dll){
@@ -74,7 +79,6 @@ b8 hf_gl_load_extensions(){
         return 0;
     }
     
-    u32 i = 0;
     
     // NOTE(salmoncatt): load the function of the opengl extension
 #define HF_GLE(type, name, ...)\
@@ -97,6 +101,10 @@ return 0;\
         
 #undef HF_GLE
 #undef HF_WGL
+    
+#endif
+    
+    
     
     hf_log("[HF GL] loaded %u extensions\n", i);
     return 1;

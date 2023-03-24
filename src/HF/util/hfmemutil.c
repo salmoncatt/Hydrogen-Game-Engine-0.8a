@@ -1,7 +1,9 @@
 #include "hfmemutil.h"
 //#include "../datatypes/hfvector.h"
-#include <malloc.h>
+//#include <malloc.h>
+#ifdef _WIN32
 #include <dbghelp.h>
+#endif
 
 //hf_app* hf_MLD_current_app;
 //u32 called_amount;
@@ -37,7 +39,7 @@ extern void* __wrap_malloc(u64  bytes){
     void* out = __real_malloc(bytes);
     
     if(out){
-#ifdef HF_DEBUG
+#if defined(HF_DEBUG) && defined(_WIN32)
         //printf("malloc: 0x%pS\n", out);
         void* stack[ 100 ];
         u16 frames;
@@ -120,7 +122,7 @@ extern void* __wrap_malloc(u64  bytes){
 
 extern void __wrap_free(void* pointer){
     
-#ifdef HF_DEBUG
+#if defined(HF_DEBUG) && defined(_WIN32)
     //printf("freed: 0x%pS\n", pointer);
     
     if(hf_MLD_allocations.capacity > 0){

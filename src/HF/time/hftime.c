@@ -12,6 +12,7 @@ f64 hf_sleep_time;
 
 
 void hf_time_init(f64 fps_smoothing){
+#ifdef _WIN32
     LARGE_INTEGER query; 
     
     if(!QueryPerformanceFrequency(&query))
@@ -25,14 +26,17 @@ void hf_time_init(f64 fps_smoothing){
     hf_fps_smoothing = fps_smoothing;
     
     timeBeginPeriod(1); //this increases sleeps resolution to 1ms
+#endif
 }
 
 
 f64 hf_get_time(){
+#ifdef _WIN32
     LARGE_INTEGER query;
     QueryPerformanceCounter(&query);
     
     return (f64)((query.QuadPart - hf_time_start) / hf_cpu_freq);
+#endif
 }
 
 void hf_time_update(){
@@ -65,8 +69,10 @@ void hf_sleep(f64 milli){
     
     //hf_log("%u\n", (DWORD)milli);
     
+#ifdef _WIN32
     if(milli >= 1)
         Sleep((DWORD)milli);
+#endif
     
     while(hf_get_time() < end){
         

@@ -1,3 +1,5 @@
+#ifdef _WIN32
+
 #include "hfwindow.h"
 #include "hfinput.h"
 //#include <stdio.h>
@@ -478,3 +480,7 @@ void hf_window_set_cursor_pos(hf_window* window, v2f pos){
     ClientToScreen(window->hwnd, &p);
     SetCursorPos(p.x, p.y);
 }
+
+
+
+#endif

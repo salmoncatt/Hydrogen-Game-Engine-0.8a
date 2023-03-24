@@ -191,7 +191,8 @@ int main(void){
     hf_app_stop(&app);
     //hf_ecs_destroy(&ecs);
     
-    return app.window.msg.wParam;
+    return 1;
+    //return app.window.msg.wParam;
 }
 
 

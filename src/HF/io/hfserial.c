@@ -7,6 +7,7 @@ void hf_serial_list_open_ports(){
     
     hf_log("[HF SERIAL] finding all open ports...\n");
     
+#ifdef _WIN32
     // NOTE(salmoncatt): loop through all ports and get avaible ports
     for(u32 i = 0; i < 255; i++){
         sprintf_s(com, 20, "COM%u", i);
@@ -19,11 +20,13 @@ void hf_serial_list_open_ports(){
             hf_log("[HF SERIAL] found port: [COM%u]\n", i);
         }
     }
+#endif
     
     hf_log("[HF SERIAL] found all open ports\n\n");
 }
 
 hf_serial_port hf_serial_open_port(const char* port_name, u32 baud_rate){
+#ifdef _WIN32
     hf_serial_port out = {};
     out.connected = 0;
     
@@ -69,9 +72,11 @@ hf_serial_port hf_serial_open_port(const char* port_name, u32 baud_rate){
     }
     
     return out;
+#endif
 }
 
 b8 hf_serial_write(hf_serial_port* port, const char* buffer, u32 length){
+#ifdef _WIN32
     /* 
         if(!port->connected){
             hf_log("[HF SERIAL] error, trying to read from port: %s but it's closed\n", port->name);
@@ -85,9 +90,11 @@ b8 hf_serial_write(hf_serial_port* port, const char* buffer, u32 length){
         return 0;
     }else
         return 1;
+#endif
 }
 
 u32 hf_serial_read(hf_serial_port* port, char* buffer, u32 length, const char ending_character){
+#ifdef _WIN32
     /* 
         if(!port->connected){
             hf_log("[HF SERIAL] error, trying to read from port: %s but it's closed\n", port->name);
@@ -113,21 +120,26 @@ u32 hf_serial_read(hf_serial_port* port, char* buffer, u32 length, const char en
     }
     
     return 0;
+#endif
 }
 
 u32 hf_serial_read_data_waiting(hf_serial_port* port){
     if(!port->connected)
         return 0;
     
+#ifdef _WIN32
     ClearCommError(port->port, &port->errors, &port->status);
     
     return (u32)(port->status.cbInQue);
+#endif
 }
 
 b8 hf_serial_wait_for_data(hf_serial_port* port){
+#ifdef _WIN32
     while(hf_serial_read_data_waiting(port) == 0){
         Sleep(10);
     }
+#endif
     
     return 1;
 }
@@ -161,7 +173,9 @@ u32 hf_serial_read_until(hf_serial_port* port, char* buffer, u32 length){
  */
 
 void hf_serial_close_port(hf_serial_port* port){
+#ifdef _WIN32
     CloseHandle(port->port);
     port->connected = 0;
+#endif
     hf_log("[HF SERIAL] closed port: %s\n", port->name);
 }

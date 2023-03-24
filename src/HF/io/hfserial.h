@@ -7,12 +7,13 @@
 
 typedef struct hf_serial_port {
     b8 connected;
+    const char* name;
+#ifdef _WIN32
     HANDLE port;
     
     COMSTAT status;
     DWORD errors;
-    
-    const char* name;
+#endif
     
 } hf_serial_port;
 
