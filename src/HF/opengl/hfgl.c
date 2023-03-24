@@ -5,13 +5,22 @@ u32* hf_gl_vbos;
 u32* hf_gl_vaos;
 
 // NOTE(salmoncatt): give definitions to opengl extenion functions
-#ifdef _WIN32
 #define HF_GLE(type, name, ...) name##proc* gl##name;
+
+#ifdef _WIN32
 #define HF_WGL(type, name, ...) name##proc* wgl##name;
+#elif defined(__linux__)
+#define HF_WGL(type, name, ...)
+#endif
+
+
 HF_GL_FUNC_LIST
+
 #undef HF_GLE
 #undef HF_WGL
-#endif
+
+//-----------------//
+
 
 
 b8 hf_gl_init(){
@@ -79,8 +88,7 @@ b8 hf_gl_load_extensions(){
         return 0;
     }
     
-    
-    // NOTE(salmoncatt): load the function of the opengl extension
+    // NOTE(salmoncatt): windows specific function loading
 #define HF_GLE(type, name, ...)\
 gl##name = (name##proc*)wglGetProcAddress("gl" #name);\
 i += 1;\
@@ -97,12 +105,25 @@ hf_err("[HF GL] couldn't load fuction: wgl" #name " from opengl lib\n");\
 return 0;\
 }\
     
+#endif
+    
+    // NOTE(salmoncatt): load the function of the opengl extension (linux)
+    
+#define HF_GLE(type, name, ...)\
+gl##name = (name##proc*)glXGetProcAddressARB("glX" #name);\
+i += 1;\
+if(!gl##name){\
+hf_err("[HF GL] couldn't load fuction: gl" #name " from opengl lib\n");\
+return 0;\
+}\
+    
+    //don't need this crap on linux lol
+    //#define HF_WGL(type, name, ...)
+    
     HF_GL_FUNC_LIST
         
 #undef HF_GLE
 #undef HF_WGL
-    
-#endif
     
     
     

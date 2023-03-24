@@ -9,17 +9,18 @@
 
 #ifdef _WIN32
 #define GLDECL WINAPI
-#include <GL/glext.h>
 #include <GL/wglext.h>
+#elif defined(__linux__)
+#define GLDECL GLAPI
 #endif
+
+#include <GL/glext.h>
 
 extern b8 hf_gl_created;
 extern u32* hf_gl_vbos;
 extern u32* hf_gl_vaos;
 
 
-
-#ifdef _WIN32
 
 //used these resources: https://github.com/ApoorvaJ/Papaya/blob/3808e39b0f45d4ca4972621c847586e4060c042a/src/libs/gl_lite.h
 //http://www.rastertek.com/gl40tut03.html
@@ -30,6 +31,7 @@ extern u32* hf_gl_vaos;
 HF_WGL(HGLRC,  CreateContextAttribsARB);\
 HF_WGL(void,  SwapIntervalEXT);\
 HF_WGL(BOOL,  ChoosePixelFormatARB);\
+\
 HF_GLE(void,   BindBuffer, GLenum target, GLuint buffer)\
 HF_GLE(void,   GenBuffers, GLsizei n, GLuint* buffers)\
 HF_GLE(void,   BufferData, GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage)\
@@ -73,13 +75,19 @@ HF_GLE(void,   ActiveTexture, GLenum target); \
 
 // NOTE(salmoncatt): give declarations of opengl extension functions
 #define HF_GLE(type, name, ...) typedef type GLDECL name##proc(__VA_ARGS__); extern name##proc* gl##name;
+
+#ifdef _WIN32
 #define HF_WGL(type, name, ...) typedef type GLDECL name##proc(__VA_ARGS__); extern name##proc* wgl##name;
+#elif defined(__linux__)
+#define HF_WGL(type, name, ...)
+#endif
+
 HF_GL_FUNC_LIST
 #undef HF_GLE
 #undef HF_WGL
 
 
-#endif
+
 
 
 
