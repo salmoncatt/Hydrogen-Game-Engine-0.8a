@@ -332,8 +332,8 @@ b8 hf_destroy_window(hf_window* w){
     hf_free(w->allocated);
     
     // NOTE(salmoncatt): free callbacks
-    if(w->key_callback)
-        free(w->key_callback);
+    //if(w->key_callback)
+    //free(w->key_callback);
     
     return 1;
 }
@@ -456,6 +456,7 @@ void hf_update_window(hf_window* w){
 
 // NOTE(salmoncatt): input handling and callbacks
 
+/* 
 void hf_window_set_key_callback(hf_window* w, void (*hf_key_callback)(hf_window*, u32, u32)){
     if(w->key_callback){
         free(w->key_callback);
@@ -463,6 +464,7 @@ void hf_window_set_key_callback(hf_window* w, void (*hf_key_callback)(hf_window*
     
     w->key_callback = hf_key_callback;
 }
+ */
 
 
 void hf_set_window_title(hf_window* window, const char* title){

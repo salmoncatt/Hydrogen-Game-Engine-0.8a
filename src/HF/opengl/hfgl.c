@@ -109,13 +109,15 @@ return 0;\
     
     // NOTE(salmoncatt): load the function of the opengl extension (linux)
     
-#define HF_GLE(type, name, ...)\
-gl##name = (name##proc*)glXGetProcAddressARB("glX" #name);\
-i += 1;\
-if(!gl##name){\
-hf_err("[HF GL] couldn't load fuction: gl" #name " from opengl lib\n");\
-return 0;\
-}\
+    /* 
+    #define HF_GLE(type, name, ...)\
+    gl##name = (name##proc*)glXGetProcAddressARB("glX" #name);\
+    i += 1;\
+    if(!gl##name){\
+    hf_err("[HF GL] couldn't load fuction: gl" #name " from opengl lib\n");\
+    return 0;\
+    }\
+     */
     
     //don't need this crap on linux lol
     //#define HF_WGL(type, name, ...)

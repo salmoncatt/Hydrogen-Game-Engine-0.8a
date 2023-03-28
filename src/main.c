@@ -92,7 +92,7 @@ int main(void){
     
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
         
-        char* title = hf_format_string("HF Engine test [%u] [%u, %u] [%i, %i]", (u32)hf_get_fps(), (u32)hf_input_cursor_pos.x, (u32)hf_input_cursor_pos.y, (i32)hf_input_get_mouse_movement().x, (i32)hf_input_get_mouse_movement().y);
+        char* title = hf_format_string("HF Engine test [%u] [%u, %u] [%i, %i] [%i %i %i]", (u32)hf_get_fps(), (u32)hf_input_cursor_pos.x, (u32)hf_input_cursor_pos.y, (i32)hf_input_get_mouse_movement().x, (i32)hf_input_get_mouse_movement().y, (i32)hf_renderer_cam.camera.pos.x, (i32)hf_renderer_cam.camera.pos.y, (i32)hf_renderer_cam.camera.pos.z);
         
         hf_set_window_title(&app.window, title);
         
@@ -127,6 +127,8 @@ int main(void){
             else
                 progress_percent += 0.1;
             //f32 y_pos_gui = hf_gui_get_cursor_pos().y;
+            
+            //printf("%f\n", hf_renderer_cam.dir_x);
             
             //hf_gui_rect(100, 10, (v4f){0, 0, 0, 1});
             

@@ -139,7 +139,7 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 // NOTE(salmoncatt): input handling and callbacks
 
 // NOTE(salmoncatt):     window handle      [callback function]         [keycode] [key up or down]
-void hf_window_set_key_callback(hf_window* window, void (*hf_key_callback)(hf_window*, u32, u32));
+//void hf_window_set_key_callback(hf_window* window, void (*hf_key_callback)(hf_window*, u32, u32));
 
 // NOTE(salmoncatt): vsync
 void hf_swap_interval(b8 vsync);

@@ -9,7 +9,7 @@ typedef struct hf_debug_camera{
     
     hf_camera camera;
     hf_transform transform;
-    f32 sensitivity, movement_speed;
+    f32 sensitivity, movement_speed, dir_x, dir_z;
     v3f direction;
     
 }hf_debug_camera;
