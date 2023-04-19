@@ -26,13 +26,15 @@ int main(void){
     
     hf_ecs* ecs = &app.ecs;
     
+    // TODO(not-set): fix hf_err for linux
+    
+    
     // NOTE(salmoncatt): please put all opengl things after this thaaaanks
     
     hf_shader shader = {};
     shader.name = "goober shader";
     
     hf_shader_create(&shader, "../res/shaders/vertex.glsl", "../res/shaders/fragment.glsl");
-    
     
     
     glEnable(GL_BACK);

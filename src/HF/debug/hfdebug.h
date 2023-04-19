@@ -101,6 +101,11 @@ MessageBox(NULL, msg, __FILE__, MB_OK | MB_ICONERROR)
 
 #define hf_exit(exit_code) do{hf_log("$hfcc{red}[$hfcc{yellow}HF$hfcc{red}] ($hfcc{yellow}exiting with error code:$hfcc{aqua} %i$hfcc{red})\n", exit_code); exit(exit_code);} while(0)
 
+
+#elif defined(__linux__)
+
+#define hf_err(msg, ...) printf(msg, ##__VA_ARGS__);
+
 #endif
 
 #endif //HFDEBUG_H

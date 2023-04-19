@@ -8,9 +8,10 @@ u32* hf_gl_vaos;
 #define HF_GLE(type, name, ...) name##proc* gl##name;
 
 #ifdef _WIN32
+
 #define HF_WGL(type, name, ...) name##proc* wgl##name;
-#elif defined(__linux__)
-#define HF_WGL(type, name, ...)
+HF_GL_WIN_FUNC_LIST
+
 #endif
 
 
@@ -21,6 +22,10 @@ HF_GL_FUNC_LIST
 
 //-----------------//
 
+
+
+//this was perfect for linux addition tysm
+//https://github.com/ApoorvaJ/Papaya/blob/3808e39b0f45d4ca4972621c847586e4060c042a/src/libs/gl_lite.h
 
 
 b8 hf_gl_init(){
@@ -102,6 +107,26 @@ wgl##name = (name##proc*)wglGetProcAddress("wgl" #name);\
 i += 1;\
 if(!wgl##name){\
 hf_err("[HF GL] couldn't load fuction: wgl" #name " from opengl lib\n");\
+return 0;\
+}\
+    
+    HF_GL_WIN_FUNC_LIST
+        
+#elif defined(__linux__)
+    
+    void* libGL = dlopen("libGL.so", RTLD_LAZY);
+    if(libGL){
+        hf_log("[HF GL] loaded opengl32.dll\n");
+    }else{
+        hf_err("[HF GL] couldn't load opengl32.dll\n");
+        return 0;
+    }
+    
+#define HF_GLE(type, name, ...)\
+gl##name = (name##proc*)dlsym(libGL, "gl" #name);\
+i += 1;\
+if(!gl##name){\
+hf_err("[HF GL] couldn't load fuction: gl" #name " from opengl lib\n");\
 return 0;\
 }\
     

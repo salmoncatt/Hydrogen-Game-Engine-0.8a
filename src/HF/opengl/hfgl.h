@@ -8,11 +8,16 @@
 //#include "../../ext/glext.h"
 
 #ifdef _WIN32
+
 #define GLDECL WINAPI
 #include <GL/wglext.h>
+
 #elif defined(__linux__)
-#define GLDECL GLAPI
-#endif
+
+#include <dlfcn.h>
+#define GLDECL
+
+#endif //WIN32
 
 #include <GL/glext.h>
 
@@ -28,10 +33,6 @@ extern u32* hf_gl_vaos;
 
 // NOTE(salmoncatt): these are the opengl extension functions that are going to be loaded (add more as needed)
 #define HF_GL_FUNC_LIST \
-HF_WGL(HGLRC,  CreateContextAttribsARB);\
-HF_WGL(void,  SwapIntervalEXT);\
-HF_WGL(BOOL,  ChoosePixelFormatARB);\
-\
 HF_GLE(void,   BindBuffer, GLenum target, GLuint buffer)\
 HF_GLE(void,   GenBuffers, GLsizei n, GLuint* buffers)\
 HF_GLE(void,   BufferData, GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage)\
@@ -70,19 +71,58 @@ HF_GLE(void,   Uniform4f, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GL
 HF_GLE(void,   UniformMatrix4fv, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) \
 \
 HF_GLE(void,   GenerateMipmap, GLenum target); \
-HF_GLE(void,   ActiveTexture, GLenum target); \
+
 
 
 // NOTE(salmoncatt): give declarations of opengl extension functions
-#define HF_GLE(type, name, ...) typedef type GLDECL name##proc(__VA_ARGS__); extern name##proc* gl##name;
+
 
 #ifdef _WIN32
+
+
+//windows specific stuff, including fxns for wgl and for some reason glActiveTexture
+
+#define HF_GL_WIN_FUNC_LIST \
+HF_WGL(HGLRC,  CreateContextAttribsARB);\
+HF_WGL(void,  SwapIntervalEXT);\
+HF_WGL(BOOL,  ChoosePixelFormatARB);\
+HF_GLE(void,   ActiveTexture, GLenum target); \
+
+
+
+#define HF_GLE(type, name, ...) typedef type GLDECL name##proc(__VA_ARGS__); extern name##proc* gl##name;
+
 #define HF_WGL(type, name, ...) typedef type GLDECL name##proc(__VA_ARGS__); extern name##proc* wgl##name;
+
+HF_GL_WIN_FUNC_LIST
+
+
+
+
+
 #elif defined(__linux__)
-#define HF_WGL(type, name, ...)
+
+
+
+
+//linux ignores WGL fxns and the HF_GL_WIN_FUNC_LIST entirely
+
+#define HF_GLE(type, name, ...) typedef type GLDECL name##proc(__VA_ARGS__); extern name##proc* gl##name;
+
+//this one has a silly proc address on linux so manual input for this one
+typedef void (APIENTRYP PFNGLACTIVETEXTUREPROC) (GLenum texture);
+
+
+
+
+
+
 #endif
 
+
+
 HF_GL_FUNC_LIST
+
 #undef HF_GLE
 #undef HF_WGL
 
