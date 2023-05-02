@@ -13,13 +13,13 @@ HF_RES = bin/hf_res.res
 #PCH_OUT = bin/hfpch/hfpch.h.gch
 
 main: $(SRC)
-	 $(CC) -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober $^ $(CFLAGS) $(LIBS)
+	 $(CC) -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin/goober $^ $(CFLAGS) $(LIBS)
 
 main_debug: $(SRC)
-	 $(CC) -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober_debug $^ $(CFLAGS) $(LIBS) -g
+	 $(CC) -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin/goober_debug $^ $(CFLAGS) $(LIBS) -g
 
 main_release: $(SRC)
-	 $(CC) -O2 -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober_debug $^ $(CFLAGS) $(LIBS)
+	 $(CC) -O2 -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin/goober_debug $^ $(CFLAGS) $(LIBS)
 
 # compile precompiled header file here
 
