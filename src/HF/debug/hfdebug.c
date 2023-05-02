@@ -153,8 +153,9 @@ void hf_debug_err(const char* msg, ...){
     va_end(args);
 }
 
+void hf_print_errors(){
 #ifdef _WIN32
-void hf_print_windows_last_error(){
+    
     DWORD errorID = GetLastError();
     if(!errorID){
         hf_debug_err("$hfcc{red}[$hfcc{yellow}HF Error$hfcc{red}] $hfcc{yellow}windows error returned with $hfcc{aqua}0\n");
@@ -173,14 +174,6 @@ void hf_print_windows_last_error(){
     
     LocalFree(message);
     //free(message);
-}
-#endif
-
-
-void hf_print_gcc_last_error(){
     
-}
-
-void hf_print_errors(){
-    hf_print_windows_last_error();
+#endif
 }

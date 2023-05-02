@@ -1,5 +1,5 @@
 #! /bin/sh
 
-echo "[HGE] compiling..."
+echo "[HGE] compiling [Linux]..."
 
-make
+make -f make_file.linux
