@@ -1,5 +1,5 @@
 CC=gcc
-LIBS  = -lopengl32
+LIBS  = -lGL -lfreetype -lm
 CFLAGS = -mavx -m64 -Isrc/HF -Iext/include -Iext/include/FreeType -Lext/lib -L/usr/X11R6/lib -I/usr/X11R6/include/
 #TODO: (salmoncatt) dont make me write * for every new sub directory added
 SRC=$(wildcard src/*.c) $(wildcard src/*/*.c) $(wildcard src/*/*/*.c)
@@ -13,13 +13,13 @@ HF_RES = bin/hf_res.res
 #PCH_OUT = bin/hfpch/hfpch.h.gch
 
 main: $(SRC)
-	 $(CC) -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober $^ $(CFLAGS) $(LIBS) -limagehlp $(HF_RES)
+	 $(CC) -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober $^ $(CFLAGS) $(LIBS)
 
 main_debug: $(SRC)
-	 $(CC) -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober_debug $^ $(CFLAGS) $(LIBS) -limagehlp -g
+	 $(CC) -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober_debug $^ $(CFLAGS) $(LIBS) -g
 
 main_release: $(SRC)
-	 $(CC) -O2 -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober_debug $^ $(CFLAGS) $(LIBS) -limagehlp
+	 $(CC) -O2 -include $(PCH_SRC) -Wl,--wrap=malloc -Wl,--wrap=free -o bin\goober_debug $^ $(CFLAGS) $(LIBS)
 
 # compile precompiled header file here
 

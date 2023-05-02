@@ -483,6 +483,42 @@ void hf_window_set_cursor_pos(hf_window* window, v2f pos){
     SetCursorPos(p.x, p.y);
 }
 
+#elif defined(__linux__)
+
+void hf_window_defaults(hf_window* window){
+    
+}
+
+b8 hf_create_window(hf_window* window){
+    return 0;
+}
+b8 hf_gl_load_extenstions(){
+    return 0;
+}
+b8 hf_destroy_window(hf_window* window){
+    return 0;
+}
+
+b8 hf_should_window_update(hf_window* window){
+    return 0;
+}
+void hf_update_window(hf_window* window){
+    
+}
+
+void hf_set_window_title(hf_window* window, const char* title){
+    
+}
+void hf_window_set_icon(hf_window* w, i32 icon_id){
+    
+}
+void hf_swap_interval(b8 vsync){
+    
+}
+
+void hf_window_set_cursor_pos(hf_window* window, v2f pos){
+    
+}
 
 
 #endif
