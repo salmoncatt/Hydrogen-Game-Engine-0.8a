@@ -1,8 +1,17 @@
 #include "hftime.h"
 
+#ifdef __linux__
+#include <time.h>
+#endif
 
-f64 hf_cpu_freq;
+#ifdef _WIN32
+f64 hf_cpu_freq; //only for windows
 i64 hf_time_start;
+#elif defined(__linux__)
+clock_t hf_time_start;
+
+#endif
+
 f64 hf_fps_smoothing;
 
 f64 hf_frame_time;
@@ -26,7 +35,13 @@ void hf_time_init(f64 fps_smoothing){
     hf_fps_smoothing = fps_smoothing;
     
     timeBeginPeriod(1); //this increases sleeps resolution to 1ms
+#elif defined(__linux__)
+    
+    hf_time_start = clock();
+    
 #endif
+    
+    printf("[HF TIME] intialized time functions\n");
 }
 
 
@@ -36,6 +51,8 @@ f64 hf_get_time(){
     QueryPerformanceCounter(&query);
     
     return (f64)((query.QuadPart - hf_time_start) / hf_cpu_freq);
+#elif defined(__linux__)
+    return (f64)((clock() - hf_time_start) / CLOCKS_PER_SEC);
 #endif
 }
 
