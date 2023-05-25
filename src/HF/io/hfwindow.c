@@ -335,12 +335,12 @@ b8 hf_create_window(hf_window* w){
     
     devices[0].usUsagePage = 0x01;
     devices[0].usUsage = 0x06;
-    devices[0].dwFlags = RIDEV_NOLEGACY;        // do not generate legacy messages such as WM_KEYDOWN
+    devices[0].dwFlags = 0;        // do not generate legacy messages such as WM_KEYDOWN
     devices[0].hwndTarget = w->hwnd;
     
     devices[1].usUsagePage = 0x01;          // HID_USAGE_PAGE_GENERIC
     devices[1].usUsage = 0x02;              // HID_USAGE_GENERIC_MOUSE
-    //devices[1].dwFlags = RIDEV_NOLEGACY;    // adds mouse and also ignores legacy mouse messages
+    devices[1].dwFlags = 0;    // adds mouse and also ignores legacy mouse messages
     devices[1].hwndTarget = w->hwnd;
     
     

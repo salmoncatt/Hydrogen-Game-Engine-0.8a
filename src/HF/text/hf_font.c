@@ -199,6 +199,8 @@ u32 hf_font_get_bitmap_length(hf_font* font, char* text){
     u32 length = hf_strlen(text);
     u32 size = 0;
     
+    if(length == 0)
+        return 0;
     
     for(u32 i = 0; i < length; i++){
         char c = text[i];

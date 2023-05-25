@@ -138,7 +138,6 @@ int main(void){
             //hf_gui_text(100, 36, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_CENTERED);
             
             
-            
             char fps[64];
             //f32 percentage = ((hf_get_delta_time() / hf_sleep_time)) * 100;
             //sprintf(fps, "gpu: %u%%", (u32)percentage);

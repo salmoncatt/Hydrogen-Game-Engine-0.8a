@@ -143,8 +143,14 @@ void hf_gui_progress_bar(u32 w, u32 h, u32 percent, v4f foreground_color, v4f ba
 }
 
 void hf_gui_progress_bar_text(u32 w, u32 h, u32 percent, v4f foreground_color, v4f background_color, char* text){
+    if(text == NULL)
+        return;
     hf_gui_progress_bar(w, h, percent, foreground_color, background_color);
-    hf_gui_title_text(text, hf_current_gui_panel->font, hf_current_gui_panel->cursor_pos.x + w / 2 - hf_font_get_bitmap_length(hf_current_gui_panel->font, text) / 2, hf_current_gui_panel->cursor_pos.y - h / 2 + ((f32)hf_current_gui_panel->font->glyph_height / 2));
+    
+    // NOTE(salmoncatt): WHY THE FUCK DOES LEAVING X & Y AS THEIR OWN VARIABLES AND NOT PLUGGING THE EQUATIONS DIRECTLY INTO THE FUNCTION FIX THE ISSUE OF THE CAMERA INPUT RANDOMLY REVERSING AFTER ABOUT 3 SECONDS
+    float x = (hf_current_gui_panel->cursor_pos.x + (w / 2)) - (hf_font_get_bitmap_length(hf_current_gui_panel->font, text) / 2);
+    float y = (hf_current_gui_panel->cursor_pos.y - (h / 2)) + ((f32)(hf_current_gui_panel->font->glyph_height) / 2);
+    hf_gui_title_text(text, hf_current_gui_panel->font, x, y);
 }
 
 /* 
