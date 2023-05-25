@@ -10,54 +10,42 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
     i8 is_down =   !(l_param & (1 << 31));
     u64 key = w_param;
     
-    if(msg == WM_SYSKEYDOWN || msg == WM_SYSKEYUP || msg == WM_KEYDOWN || msg == WM_KEYUP){
-        //hf_input_keys[key] = is_down;
-        
-        // NOTE(salmoncatt): https://handmade.network/forums/articles/t/2823-keyboard_inputs_-_scancodes%252C_raw_input%252C_text_input%252C_key_names
-        
-        u32 scancode = ( l_param >> 16 ) & 0xff;
-        u32 extended = ( l_param >> 24 ) & 0x1;
-        
-        if ( extended ) {
+    /* 
+        if(msg == WM_SYSKEYDOWN || msg == WM_SYSKEYUP || msg == WM_KEYDOWN || msg == WM_KEYUP){
+            //hf_input_keys[key] = is_down;
             
-            if ( scancode != 0x45 ) {
-                scancode |= 0xE000;
+            // NOTE(salmoncatt): https://handmade.network/forums/articles/t/2823-keyboard_inputs_-_scancodes%252C_raw_input%252C_text_input%252C_key_names
+            
+            u32 scancode = ( l_param >> 16 ) & 0xff;
+            u32 extended = ( l_param >> 24 ) & 0x1;
+            
+            if ( extended ) {
+                
+                if ( scancode != 0x45 ) {
+                    scancode |= 0xE000;
+                }
+                
+            } else {
+                
+                if ( scancode == 0x45 ) {
+                    scancode = 0xE11D45;
+                } else if ( scancode == 0x54 ) {
+                    scancode = 0xE037;
+                }
             }
+            hf_input_keys[scancode] = is_down;
             
-        } else {
             
-            if ( scancode == 0x45 ) {
-                scancode = 0xE11D45;
-            } else if ( scancode == 0x54 ) {
-                scancode = 0xE037;
-            }
+        }else if(msg == WM_LBUTTONDOWN){
+            hf_input_buttons[HF_MOUSE_BUTTON_LEFT] = 1;
+        }else if(msg == WM_LBUTTONUP){
+            hf_input_buttons[HF_MOUSE_BUTTON_LEFT] = 0;
+        }else if(msg == WM_RBUTTONDOWN){
+            hf_input_buttons[HF_MOUSE_BUTTON_RIGHT] = 1;
+        }else if(msg == WM_RBUTTONUP){
+            hf_input_buttons[HF_MOUSE_BUTTON_RIGHT] = 0;
         }
-        hf_input_keys[scancode] = is_down;
-        
-        
-        
-        /* 
-                                        if(key == HF_KEY_SHIFT){
-                                            u32 state = GetKeyState(VK_SHIFT);
-                                            if(state & 0x80000000){
-                                                printf("l shift %u\n", is_down);
-                                                hf_input_keys[HF_KEY_LEFT_SHIFT] = is_down;
-                                            }else{
-                                                printf("r shift %u\n", is_down);
-                                                hf_input_keys[HF_KEY_RIGHT_SHIFT] = is_down;
-                                            }
-                                        }
-                                 */
-        
-    }else if(msg == WM_LBUTTONDOWN){
-        hf_input_buttons[HF_MOUSE_BUTTON_LEFT] = 1;
-    }else if(msg == WM_LBUTTONUP){
-        hf_input_buttons[HF_MOUSE_BUTTON_LEFT] = 0;
-    }else if(msg == WM_RBUTTONDOWN){
-        hf_input_buttons[HF_MOUSE_BUTTON_RIGHT] = 1;
-    }else if(msg == WM_RBUTTONUP){
-        hf_input_buttons[HF_MOUSE_BUTTON_RIGHT] = 0;
-    }
+     */
     
     /* 
         if(key == VK_SHIFT){
@@ -74,15 +62,79 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
         }
      */
     
+    // NOTE(salmoncatt): i literally stole 90% of input code from here: [https://blog.molecular-matters.com/2011/09/05/properly-handling-keyboard-input/] bc im so done with this shit lmao, it's been MONTHS
+    
     switch(msg)
     {
         case WM_CLOSE:
         PostQuitMessage(0);
         break;
-        
+        case WM_INPUT:
+        {
+            char buffer[sizeof(RAWINPUT)] = {};
+            UINT size = sizeof(RAWINPUT);
+            GetRawInputData((HRAWINPUT)(l_param), RID_INPUT, buffer, &size, sizeof(RAWINPUTHEADER));
+            
+            // extract keyboard raw input data
+            RAWINPUT* raw = (RAWINPUT*)(buffer);
+            if (raw->header.dwType == RIM_TYPEKEYBOARD)
+            {
+                RAWKEYBOARD rawKB = raw->data.keyboard;
+                // do something with the data here
+                
+                UINT virtualKey = rawKB.VKey;
+                UINT scanCode = rawKB.MakeCode;
+                UINT flags = rawKB.Flags;
+                
+                if (virtualKey == 255)
+                {
+                    // discard "fake keys" which are part of an escaped sequence
+                    return 0;
+                }
+                else if (virtualKey == VK_SHIFT)
+                {
+                    // correct left-hand / right-hand SHIFT
+                    virtualKey = MapVirtualKey(scanCode, MAPVK_VSC_TO_VK_EX);
+                }
+                else if (virtualKey == VK_NUMLOCK)
+                {
+                    // correct PAUSE/BREAK and NUM LOCK silliness, and set the extended bit
+                    scanCode = (MapVirtualKey(virtualKey, MAPVK_VK_TO_VSC) | 0x100);
+                }
+                
+                
+                
+                // a key can either produce a "make" or "break" scancode. this is used to differentiate between down-presses and releases
+                // see http://www.win.tue.nl/~aeb/linux/kbd/scancodes-1.html
+                b8 wasUp = ((flags & RI_KEY_BREAK) != 0);
+                
+                
+                hf_input_keys[scanCode] = is_down & !wasUp;
+                
+            }else if(raw->header.dwType == RIM_TYPEMOUSE){
+                raw->data.mouse.usFlags;
+                
+                if(raw->data.mouse.usButtonFlags == RI_MOUSE_LEFT_BUTTON_DOWN){
+                    hf_input_buttons[HF_MOUSE_BUTTON_LEFT] = 1;
+                }else if(raw->data.mouse.usButtonFlags == RI_MOUSE_LEFT_BUTTON_UP){
+                    hf_input_buttons[HF_MOUSE_BUTTON_LEFT] = 0;
+                }
+                
+                if(raw->data.mouse.usButtonFlags == RI_MOUSE_RIGHT_BUTTON_DOWN){
+                    hf_input_buttons[HF_MOUSE_BUTTON_RIGHT] = 1;
+                }else if(raw->data.mouse.usButtonFlags == RI_MOUSE_RIGHT_BUTTON_UP){
+                    hf_input_buttons[HF_MOUSE_BUTTON_RIGHT] = 0;
+                }
+            }
+            
+        }
         default:
         return DefWindowProc(hwnd, msg, w_param, l_param);
     }
+    
+    
+    
+    
 }
 
 // TODO(salmoncatt): add focusing support    focus(hf_window*)
@@ -279,6 +331,21 @@ b8 hf_create_window(hf_window* w){
         hf_err("unable to make OpenGL rendering context current for window: $hfcc{aqua}%s$hfcc{red}", w->title);
     
     
+    RAWINPUTDEVICE devices[2];
+    
+    devices[0].usUsagePage = 0x01;
+    devices[0].usUsage = 0x06;
+    devices[0].dwFlags = RIDEV_NOLEGACY;        // do not generate legacy messages such as WM_KEYDOWN
+    devices[0].hwndTarget = w->hwnd;
+    
+    devices[1].usUsagePage = 0x01;          // HID_USAGE_PAGE_GENERIC
+    devices[1].usUsage = 0x02;              // HID_USAGE_GENERIC_MOUSE
+    //devices[1].dwFlags = RIDEV_NOLEGACY;    // adds mouse and also ignores legacy mouse messages
+    devices[1].hwndTarget = w->hwnd;
+    
+    
+    RegisterRawInputDevices(devices, 2, sizeof(devices[0]));
+    
     
     // NOTE(salmoncatt): set the window size (and pos aparently)
     SetWindowPos(w->hwnd, NULL, w->x, w->y, w->width, w->height, SWP_SHOWWINDOW);
@@ -289,6 +356,7 @@ b8 hf_create_window(hf_window* w){
     
     u32 major, minor;
     hf_gl_get_version(&major, &minor);
+    
     
     
     
@@ -483,42 +551,6 @@ void hf_window_set_cursor_pos(hf_window* window, v2f pos){
     SetCursorPos(p.x, p.y);
 }
 
-#elif defined(__linux__)
-
-void hf_window_defaults(hf_window* window){
-    
-}
-
-b8 hf_create_window(hf_window* window){
-    return 0;
-}
-b8 hf_gl_load_extenstions(){
-    return 0;
-}
-b8 hf_destroy_window(hf_window* window){
-    return 0;
-}
-
-b8 hf_should_window_update(hf_window* window){
-    return 0;
-}
-void hf_update_window(hf_window* window){
-    
-}
-
-void hf_set_window_title(hf_window* window, const char* title){
-    
-}
-void hf_window_set_icon(hf_window* w, i32 icon_id){
-    
-}
-void hf_swap_interval(b8 vsync){
-    
-}
-
-void hf_window_set_cursor_pos(hf_window* window, v2f pos){
-    
-}
 
 
 #endif
