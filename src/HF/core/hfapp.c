@@ -32,7 +32,7 @@ void hf_app_init(hf_app* app){
         }
         
     }else
-        hf_err("[HF APP] app: [%s] doesn't have any parameters set, please set some\n", app->name);
+        hf_err("[HF APP] app: [%s] doesn't have any parameters, using no HF utilities\n", app->name);
     
     //app->window = {0};
     

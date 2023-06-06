@@ -1,13 +1,14 @@
 #include "hftime.h"
 
-#ifdef __linux__
-#include <time.h>
-#endif
 
 #ifdef _WIN32
+
 f64 hf_cpu_freq; //only for windows
 i64 hf_time_start;
+
 #elif defined(__linux__)
+
+#include <time.h>
 clock_t hf_time_start;
 
 #endif
@@ -52,7 +53,7 @@ f64 hf_get_time(){
     
     return (f64)((query.QuadPart - hf_time_start) / hf_cpu_freq);
 #elif defined(__linux__)
-    return (f64)((clock() - hf_time_start) / CLOCKS_PER_SEC);
+    return (f64)((clock() - hf_time_start) / (f64)(1000));
 #endif
 }
 

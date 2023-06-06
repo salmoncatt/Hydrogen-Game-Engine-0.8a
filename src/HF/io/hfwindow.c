@@ -1,7 +1,8 @@
-#ifdef _WIN32
-
 #include "hfwindow.h"
 #include "hfinput.h"
+
+#ifdef _WIN32
+
 //#include <stdio.h>
 //#include "hfpch.h"
 //#include "../util/hfutil.h"
@@ -551,6 +552,40 @@ void hf_window_set_cursor_pos(hf_window* window, v2f pos){
     SetCursorPos(p.x, p.y);
 }
 
+#elif defined(__linux__)
+
+b8 hf_gl_load_extenstions(){
+}
+
+b8 hf_create_window(hf_window* w){
+    return 1;
+}
+
+b8 hf_destroy_window(hf_window* w){
+    return 1;
+}
+
+void hf_window_defaults(hf_window* window){
+}
+
+void hf_window_set_icon(hf_window* w, i32 icon_id){
+}
+
+b8 hf_should_window_update(hf_window* w){
+    return 1;
+}
+
+void hf_update_window(hf_window* w){
+}
+
+void hf_set_window_title(hf_window* window, const char* title){
+}
+
+void hf_swap_interval(b8 vsync){ 
+}
+
+void hf_window_set_cursor_pos(hf_window* window, v2f pos){
+}
 
 
 #endif

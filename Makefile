@@ -2,7 +2,10 @@ CC=gcc
 LIBS  = -lopengl32 -lgdi32 -lwinmm -lfreetype
 CFLAGS = -mavx -m64 -Isrc/HF -Iext/include -Iext/include/FreeType -Lext/lib
 #TODO: (salmoncatt) dont make me write * for every new sub directory added
-SRC=$(wildcard src/*.c) $(wildcard src/*/*.c) $(wildcard src/*/*/*.c)
+#SRC=$(wildcard src/*.c) $(wildcard src/*/*.c) $(wildcard src/*/*/*.c)
+
+#only compile only windows main.c version in src folder
+SRC= src/main.c $(wildcard src/*/*.c) $(wildcard src/*/*/*.c)
 OBJS = $(SRC:.c=.o)
 
 

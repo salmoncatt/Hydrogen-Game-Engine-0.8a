@@ -2,7 +2,10 @@ CC=gcc
 LIBS  = -lGL -lfreetype -lm
 CFLAGS = -mavx -m64 -Isrc/HF -Iext/include -Iext/include/FreeType -Lext/lib -L/usr/X11R6/lib -I/usr/X11R6/include/
 #TODO: (salmoncatt) dont make me write * for every new sub directory added
-SRC=$(wildcard src/*.c) $(wildcard src/*/*.c) $(wildcard src/*/*/*.c)
+#SRC=$(wildcard src/*.c) $(wildcard src/*/*.c) $(wildcard src/*/*/*.c)
+
+#only compile linux version of main file
+SRC= src/main_linux.c $(wildcard src/*/*.c) $(wildcard src/*/*/*.c)
 OBJS = $(SRC:.c=.o)
 
 
