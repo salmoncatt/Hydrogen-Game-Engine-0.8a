@@ -33,7 +33,6 @@ b8 hf_gl_init(){
         b8 result = 0;
         hf_log("[HF GL] initializing...\n");
         result = hf_gl_load_extensions();
-        
         u32 major, minor;
         hf_gl_get_version(&major, &minor);
         hf_log("[HF GL] version: [%u.%u]\n", major, minor);
@@ -66,13 +65,12 @@ void hf_gl_get_version(u32* major, u32* minor){
     {
         *minor = ver[2] - '0';
     }
-    
     // GLSL
     ver = (char*)glGetString(GL_SHADING_LANGUAGE_VERSION); // ver = "1.50 NVIDIA via Cg compiler"
 }
 
 b8 hf_gl_load_extensions(){
-    //hf_log("[HF GL] loading opengl32.dll\n");
+    hf_log("[HF GL] loading OpenGL\n");
     u32 i = 0;
     
 #ifdef _WIN32
@@ -116,9 +114,9 @@ return 0;\
     
     void* libGL = dlopen("libGL.so", RTLD_LAZY);
     if(libGL){
-        hf_log("[HF GL] loaded opengl32.dll\n");
+        printf("[HF GL] loaded OpenGL\n");
     }else{
-        hf_err("[HF GL] couldn't load opengl32.dll\n");
+        printf("[HF GL] couldn't load OpenGL\n");
         return 0;
     }
     

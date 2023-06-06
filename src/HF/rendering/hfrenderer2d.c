@@ -9,10 +9,12 @@ void hf_renderer_init_2d(hf_app* app) {
     f32 hf_quad_vertices[] = {0, 1, 0, 0, 1, 1, 1, 0};
     f32 hf_quad_texture_coords[] = {0, 1, 0, 0, 1, 1, 1, 0};
     
+    
     hf_renderer_quad.type = 2; //2d
     hf_renderer_quad.vertices = hf_array_create_from_data(&hf_quad_vertices, f32, 8);
     hf_renderer_quad.texture_coords = hf_array_create_from_data(&hf_quad_texture_coords, f32, 8);
     hf_mesh_create(&hf_renderer_quad);
+    
     
     hf_gui_rect_shader.name = "gui rect shader";
     hf_shader_create(&hf_gui_rect_shader, "../res/shaders/gui_rect_vertex.glsl", "../res/shaders/gui_rect_fragment.glsl");

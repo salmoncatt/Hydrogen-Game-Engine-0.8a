@@ -6,7 +6,7 @@
 int main(void){
     hf_app app = hf_app_defaults();
     app.name = "linux womp womp";
-    app.parameters = HF_APP_CREATE_WINDOW;
+    app.parameters = HF_APP_CREATE_WINDOW | HF_APP_USE_OPENGL;
     
     hf_app_init(&app);
     app.window.title = "linux nerrrrd";

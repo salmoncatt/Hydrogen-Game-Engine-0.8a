@@ -44,15 +44,28 @@ void hf_app_init(hf_app* app){
 }
 
 void hf_app_start(hf_app* app){
+#ifdef _WIN32
     //needs to be weird like this in case of testing a window without opengl
     if(app->parameters & HF_APP_USE_OPENGL){
-        hf_gl_load_extenstions(); //creates an empty window to load gl extensions from
-        hf_create_window(&app->window);
+        hf_gl_init(); //creates an empty window to load gl extensions from
+        //hf_create_window(&app->window);
     }
     
     if(app->parameters & HF_APP_CREATE_WINDOW){
         hf_create_window(&app->window);
     }
+#elif defined(__linux__)
+    if(app->parameters & HF_APP_CREATE_WINDOW){
+        hf_create_window(&app->window);
+    }
+    
+    //needs to be weird like this in case of testing a window without opengl
+    if(app->parameters & HF_APP_USE_OPENGL){
+        hf_gl_init(); //creates an empty window to load gl extensions from
+        //hf_create_window(&app->window);
+    }
+    
+#endif
     
     if(app->parameters & HF_APP_USE_OPENGL){
         hf_renderer_init(app);

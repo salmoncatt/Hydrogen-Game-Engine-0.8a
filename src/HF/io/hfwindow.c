@@ -572,6 +572,7 @@ void hf_window_set_cursor_pos(hf_window* window, v2f pos){
 
 
 b8 hf_gl_load_extenstions(){
+    
 }
 
 b8 hf_create_window(hf_window* w){
@@ -602,11 +603,14 @@ b8 hf_create_window(hf_window* w){
 }
 
 b8 hf_destroy_window(hf_window* w){
-    XDestroyWindow(w->display, w->window);
-    XCloseDisplay(w->display);
+    printf("[HF] destorying window: [%s]\n", w->title);
     glXMakeCurrent(w->display, None, NULL);
     glXDestroyContext(w->display, w->glc);
+    XDestroyWindow(w->display, w->window);
+    XCloseDisplay(w->display);
+    //printf("test\n");
     
+    printf("[HF] destroyed window: [%s]\n", w->title);
     return 1;
 }
 
@@ -627,6 +631,7 @@ void hf_window_defaults(hf_window* window){
 }
 
 void hf_window_set_icon(hf_window* w, i32 icon_id){
+    
 }
 
 b8 hf_should_window_update(hf_window* w){
