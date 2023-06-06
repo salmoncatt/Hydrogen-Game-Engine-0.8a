@@ -24,10 +24,11 @@ void hf_app_init(hf_app* app){
     
     if(app->parameters){
         //hf_log("[HF APP] app: [%s] is using parameters: [");
-        
+        if(app->parameters & HF_APP_CREATE_WINDOW){
+            hf_window_defaults(&app->window);
+        }
         
         if(app->parameters & HF_APP_USE_ECS){
-            hf_window_defaults(&app->window);
             hf_ecs_init(&app->ecs);
         }
         
@@ -43,9 +44,17 @@ void hf_app_init(hf_app* app){
 }
 
 void hf_app_start(hf_app* app){
+    //needs to be weird like this in case of testing a window without opengl
     if(app->parameters & HF_APP_USE_OPENGL){
         hf_gl_load_extenstions(); //creates an empty window to load gl extensions from
         hf_create_window(&app->window);
+    }
+    
+    if(app->parameters & HF_APP_CREATE_WINDOW){
+        hf_create_window(&app->window);
+    }
+    
+    if(app->parameters & HF_APP_USE_OPENGL){
         hf_renderer_init(app);
         hf_renderer_init_2d(app);
         hf_free_type_init();
@@ -67,10 +76,13 @@ b8 hf_app_should_update(hf_app* app){
 }
 
 void hf_app_stop(hf_app* app){
+    hf_log("[HF APP] closing app: [%s]\n", app->name);
     
     if(app->parameters & HF_APP_USE_ECS){
-        hf_destroy_window(&app->window);
         hf_ecs_destroy(&app->ecs);
+    }
+    if(app->parameters & HF_APP_CREATE_WINDOW){
+        hf_destroy_window(&app->window);
     }
     
     if(app->parameters & HF_APP_USE_OPENGL){
@@ -79,6 +91,7 @@ void hf_app_stop(hf_app* app){
         hf_gl_close();
         hf_free_type_close();
     }
+    hf_log("[HF APP] closed app [%s]\n", app->name);
     
     //hf_MLD_close(app);
 }

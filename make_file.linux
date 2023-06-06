@@ -1,5 +1,5 @@
 CC=gcc
-LIBS  = -lGL -lfreetype -lm
+LIBS  = -lGL -lfreetype -lm -lX11
 CFLAGS = -mavx -m64 -Isrc/HF -Iext/include -Iext/include/FreeType -Lext/lib -L/usr/X11R6/lib -I/usr/X11R6/include/
 #TODO: (salmoncatt) dont make me write * for every new sub directory added
 #SRC=$(wildcard src/*.c) $(wildcard src/*/*.c) $(wildcard src/*/*/*.c)

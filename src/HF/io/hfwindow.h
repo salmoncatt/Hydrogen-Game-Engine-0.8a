@@ -35,6 +35,10 @@
 // TODO(salmoncatt): get this to not error in console pls
 //typedef (*hf_key_callback)(hf_window*, u32, u32);
 
+
+//https://www.khronos.org/opengl/wiki/Programming_OpenGL_in_Linux:_GLX_and_Xlib yoink for linux
+
+
 // TODO(salmoncatt): come up with a better solution for callbacks than (typedef struct hf_def_window_struct)
 typedef struct hf_window{
     u32 width;
@@ -97,6 +101,18 @@ typedef struct hf_window{
     DWORD dwLayerMask;
     DWORD dwVisibleMask;
     DWORD dwDamageMask;
+#elif defined(__linux__)
+    
+    Display* display;
+    i32 screen;
+    Window root;
+    Window window;
+    i32 attributes[5];
+    XVisualInfo* visual_info;
+    Colormap color_map;
+    XSetWindowAttributes set_win_att;
+    GLXContext glc;
+    
 #endif
     
     

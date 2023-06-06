@@ -553,26 +553,108 @@ void hf_window_set_cursor_pos(hf_window* window, v2f pos){
 }
 
 #elif defined(__linux__)
+//http://mech.math.msu.su/~vvb/2course/Borisenko/CppProjects/GWindow/xintro.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 b8 hf_gl_load_extenstions(){
 }
 
 b8 hf_create_window(hf_window* w){
+    printf("[HF] creating window: [%s]\n", w->title);
+    
+    //printf("test\n");
+    w->display = XOpenDisplay(NULL);
+    w->root = DefaultRootWindow(w->display);
+    
+    w->visual_info = glXChooseVisual(w->display, 0, w->attributes);
+    w->color_map = XCreateColormap(w->display, w->root, w->visual_info->visual, AllocNone);
+    w->set_win_att.colormap = w->color_map;
+    w->set_win_att.event_mask = ExposureMask | KeyPressMask;
+    
+    w->window = XCreateWindow(w->display, w->root, w->x, w->y, w->width, w->height, 0, w->visual_info->depth, InputOutput, w->visual_info->visual, CWColormap | CWEventMask, &w->set_win_att);
+    XMapWindow(w->display, w->window);
+    XStoreName(w->display, w->window, w->title);
+    
+    w->glc = glXCreateContext(w->display, w->visual_info, NULL, GL_TRUE);
+    glXMakeCurrent(w->display, w->window, w->glc);
+    glEnable(GL_DEPTH_TEST);
+    
+    
+    
+    printf("[HF] created window: [%s], size: [%u, %u], pos: [%u, %u]\n\n", w->title, w->width, w->height, w->x, w->y);
+    
     return 1;
 }
 
 b8 hf_destroy_window(hf_window* w){
+    XDestroyWindow(w->display, w->window);
+    XCloseDisplay(w->display);
+    glXMakeCurrent(w->display, None, NULL);
+    glXDestroyContext(w->display, w->glc);
+    
     return 1;
 }
 
 void hf_window_defaults(hf_window* window){
+    window->width = 1000;
+    window->height = 600;
+    window->x = 300;
+    window->y = 200;
+    window->bits_per_pixel = 32;
+    window->title = "HF window";
+    window->vsync = 1;
+    
+    window->attributes[0] = GLX_RGBA;
+    window->attributes[1] = GLX_DEPTH_SIZE;
+    window->attributes[2] = 24;
+    window->attributes[3] = GLX_DOUBLEBUFFER;
+    window->attributes[4] = None;
 }
 
 void hf_window_set_icon(hf_window* w, i32 icon_id){
 }
 
 b8 hf_should_window_update(hf_window* w){
-    return 1;
+    XEvent xev;
+    XWindowAttributes gwa;
+    XNextEvent(w->display, &xev);
+    
+    
+    if(xev.type == Expose) {
+        XGetWindowAttributes(w->display, w->window, &gwa);
+        glViewport(0, 0, gwa.width, gwa.height);
+        //DrawAQuad(); 
+        glXSwapBuffers(w->display, w->window);
+    }
+    
+    
+    /* 
+        else if(xev.type == KeyPress) {
+            //glXMakeCurrent(dpy, None, NULL);
+            //glXDestroyContext(dpy, glc);
+            //XDestroyWindow(dpy, win);
+            //XCloseDisplay(dpy);
+            //exit(0);
+        }
+     */
+    
+    hf_update_window(w);
+    return !(xev.type == KeyPress);
 }
 
 void hf_update_window(hf_window* w){

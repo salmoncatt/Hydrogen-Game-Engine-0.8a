@@ -11,15 +11,20 @@
 #include "datatypes/hfdatatypes.h"
 #include "util/hfmemutil.h"
 
+
+#include <GL/gl.h>
+
 #ifdef _WIN32
 #include <windows.h>
 //for cpuid
 #include <intrin.h>
-#elif __unix__
-
+#elif defined(__linux__)
+#include<X11/X.h>
+#include<X11/Xlib.h>
+#include<GL/glx.h>
+#include<GL/glu.h>
 #endif
 
-#include <GL/gl.h>
 //#include <GL/glext.h>
 #include <stdio.h>
 #include <stdlib.h>

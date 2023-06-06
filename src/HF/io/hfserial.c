@@ -1,6 +1,11 @@
 #include "hfserial.h"
 // NOTE(salmoncatt): bro i literally just stole from this: https://playground.arduino.cc/Interfacing/CPPWindows/
 
+
+
+#include <fcntl.h> 
+
+
 void hf_serial_list_open_ports(){
     char buffer[5000];
     char com[20];
@@ -21,6 +26,18 @@ void hf_serial_list_open_ports(){
         }
     }
 #endif
+    
+    for(u32 i = 0; i < 255; i++){
+        sprintf(com, "COM%u", i);
+        
+        int result = open(com, O_RDWR | O_NOCTTY | O_SYNC);
+        
+        //hf_log("%s\n", com);
+        
+        if(result >= 0){
+            hf_log("[HF SERIAL] found port: [COM%u]\n", i);
+        }
+    }
     
     hf_log("[HF SERIAL] found all open ports\n\n");
 }
