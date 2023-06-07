@@ -47,7 +47,7 @@ void hf_app_start(hf_app* app){
 #ifdef _WIN32
     //needs to be weird like this in case of testing a window without opengl
     if(app->parameters & HF_APP_USE_OPENGL){
-        hf_gl_init(); //creates an empty window to load gl extensions from
+        hf_gl_load_context(); //creates an empty window to load gl extensions from
         //hf_create_window(&app->window);
     }
     
@@ -61,7 +61,7 @@ void hf_app_start(hf_app* app){
     
     //needs to be weird like this in case of testing a window without opengl
     if(app->parameters & HF_APP_USE_OPENGL){
-        hf_gl_init(); //creates an empty window to load gl extensions from
+        hf_gl_init();
         //hf_create_window(&app->window);
     }
     
@@ -88,7 +88,7 @@ b8 hf_app_should_update(hf_app* app){
     return hf_should_window_update(&app->window);
 }
 
-void hf_app_stop(hf_app* app){
+i32 hf_app_stop(hf_app* app){
     hf_log("[HF APP] closing app: [%s]\n", app->name);
     
     if(app->parameters & HF_APP_USE_ECS){
@@ -106,5 +106,6 @@ void hf_app_stop(hf_app* app){
     }
     hf_log("[HF APP] closed app [%s]\n", app->name);
     
+    return 1;
     //hf_MLD_close(app);
 }

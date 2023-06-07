@@ -141,7 +141,7 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM w_param, LPARAM
 // TODO(salmoncatt): add focusing support    focus(hf_window*)
 
 //https://gist.github.com/nickrolfe/1127313ed1dbf80254b614a721b3ee9c yoink
-b8 hf_gl_load_extenstions(){
+b8 hf_gl_load_context(){
     WNDCLASSA window_class = {
         .style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC,
         .lpfnWndProc = DefWindowProcA,
@@ -571,9 +571,11 @@ void hf_window_set_cursor_pos(hf_window* window, v2f pos){
 
 
 
+/* 
 b8 hf_gl_load_extenstions(){
     
 }
+ */
 
 b8 hf_create_window(hf_window* w){
     printf("[HF] creating window: [%s]\n", w->title);
@@ -635,34 +637,23 @@ void hf_window_set_icon(hf_window* w, i32 icon_id){
 }
 
 b8 hf_should_window_update(hf_window* w){
-    XEvent xev;
-    XWindowAttributes gwa;
-    XNextEvent(w->display, &xev);
+    //XNextEvent(w->display, &w->xev);
+    while(XPending(w->display))
+        XNextEvent(w->display, &w->xev);
     
-    
-    if(xev.type == Expose) {
-        XGetWindowAttributes(w->display, w->window, &gwa);
-        glViewport(0, 0, gwa.width, gwa.height);
-        //DrawAQuad(); 
+    if(w->xev.type == Expose) {
+        XGetWindowAttributes(w->display, w->window, &w->gwa);
+        glViewport(0, 0, w->gwa.width, w->gwa.height);
         glXSwapBuffers(w->display, w->window);
     }
     
-    
-    /* 
-        else if(xev.type == KeyPress) {
-            //glXMakeCurrent(dpy, None, NULL);
-            //glXDestroyContext(dpy, glc);
-            //XDestroyWindow(dpy, win);
-            //XCloseDisplay(dpy);
-            //exit(0);
-        }
-     */
-    
     hf_update_window(w);
-    return !(xev.type == KeyPress);
+    return !(w->xev.type == KeyPress);
 }
 
 void hf_update_window(hf_window* w){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //printf("test\n");
 }
 
 void hf_set_window_title(hf_window* window, const char* title){

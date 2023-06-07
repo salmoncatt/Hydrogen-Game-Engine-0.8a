@@ -1,4 +1,6 @@
 
 #! /bin/sh
 
-./bin/goober
+cd "${PWD}/bin/"
+
+./goober

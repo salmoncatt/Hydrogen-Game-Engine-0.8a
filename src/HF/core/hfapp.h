@@ -56,6 +56,6 @@ void hf_app_update(hf_app* app);
 
 b8 hf_app_should_update(hf_app* app);
 
-void hf_app_stop(hf_app* app);
+i32 hf_app_stop(hf_app* app);
 
 #endif //HFAPP_H

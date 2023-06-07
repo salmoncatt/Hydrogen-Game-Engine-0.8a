@@ -54,12 +54,12 @@ f64 hf_get_time(){
     
     return (f64)((query.QuadPart - hf_time_start) / hf_cpu_freq);
 #elif defined(__linux__)
-    return (f64)((clock() - hf_time_start) / (f64)(1000));
+    return (f64)((f64)(clock() - hf_time_start) / (f64)(1000));
 #endif
 }
 
 void hf_time_update(){
-    hf_frame_time = (f64)((hf_get_time() - hf_last_frame_time) / 1000);
+    hf_frame_time = (f64)((hf_get_time() - hf_last_frame_time));
     hf_last_frame_time = hf_get_time();
 }
 

@@ -339,14 +339,14 @@ char* hf_load_file_as_string(const char* file_path){
             fread(out, 1, length, file);
             out[length] = '\0';
         }else{
-            hf_err("couldn't allocated buffer for file: %s", file_path);
+            hf_err("couldn't allocated buffer for file: %s\n", file_path);
             fclose(file);
             return NULL;
         }
         
         fclose(file);
     }else{
-        hf_err("couldn't read file: %s", file_path);
+        hf_err("couldn't read file: %s\n", file_path);
         return NULL;
     }
     
