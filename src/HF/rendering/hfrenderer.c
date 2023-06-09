@@ -55,6 +55,8 @@ void hf_renderer_update(hf_app* app){
     
     glViewport(0, 0, app->window.width, app->window.height);
     
+    //printf("[%f %f %f]\n", hf_renderer_cam.transform.pos.x, hf_renderer_cam.transform.pos.y, hf_renderer_cam.transform.pos.z);
+    
     hf_update_debug_camera(&hf_renderer_cam);
 }
 

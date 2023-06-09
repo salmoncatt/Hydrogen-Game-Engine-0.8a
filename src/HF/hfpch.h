@@ -23,6 +23,8 @@
 #include<X11/Xlib.h>
 #include<GL/glx.h>
 #include<GL/glu.h>
+
+#include <unistd.h>
 #endif
 
 //#include <GL/glext.h>

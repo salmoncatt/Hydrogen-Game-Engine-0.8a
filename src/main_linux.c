@@ -38,6 +38,7 @@ int main(void){
     hf_texture_create(&texture);
     mesh.texture = texture;
     
+    
     hf_entity mesh_test = hf_ecs_create_entity(ecs);
     hf_tag tag = {"mesh", "patrick les go"};
     hf_ecs_add_component(ecs, mesh_test, hf_tag, &tag);
@@ -45,22 +46,31 @@ int main(void){
     hf_ecs_add_component(ecs, mesh_test, hf_transform, &transform);
     
     
+    
     //hf_serial_list_open_ports();
     
-    while(hf_app_should_update(&app)){
+    //fix key_last in input.h
+    
+    glClearColor(0.5, 0.5, 0.5, 1);
+    
+    
+    
+    while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
         
-        //hf_render_mesh((hf_mesh*)(hf_ecs_get_component(ecs, mesh_test, hf_mesh)), &shader, (hf_transform*)(hf_ecs_get_component(ecs, mesh_test, hf_transform)));
-        
-        glClearColor(1.0, 1.0, 1.0, 1.0);
-        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        hf_render_mesh((hf_mesh*)(hf_ecs_get_component(ecs, mesh_test, hf_mesh)), &shader, (hf_transform*)(hf_ecs_get_component(ecs, mesh_test, hf_transform)));
+        //hf_render_mesh(&mesh, &shader, &transform);
         
         
-        glBegin(GL_QUADS);
-        glColor3f(1., 0., 0.); glVertex3f(-.75, -.75, 0.);
-        glColor3f(0., 1., 0.); glVertex3f( .75, -.75, 0.);
-        glColor3f(0., 0., 1.); glVertex3f( .75,  .75, 0.);
-        glColor3f(1., 1., 0.); glVertex3f(-.75,  .75, 0.);
-        glEnd();
+        
+        if(hf_input_get_key_down(HF_KEY_BACKSLASH)){
+            hf_renderer_toggle_wireframe();
+            printf("test\n");
+        }
+        //printf("%f\n", transform.pos.y);
+        //hf_renderer_cam.transform.pos.z += 0.01f;
+        
+        usleep(16000);
+        //hf_limit_fps(300);
         
     }
     

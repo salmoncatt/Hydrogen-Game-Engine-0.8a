@@ -39,6 +39,7 @@ void hf_time_init(f64 fps_smoothing){
 #elif defined(__linux__)
     
     hf_time_start = clock();
+    //clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &hf_time_start);
     
 #endif
     
@@ -91,6 +92,10 @@ void hf_sleep(f64 milli){
 #ifdef _WIN32
     if(milli >= 1)
         Sleep((DWORD)milli);
+#elif defined(__linux__)
+    if (milli >= 1000)
+        sleep(milli / 1000);
+    usleep(((i64)milli % (i64)1000) * 1000);
 #endif
     
     while(hf_get_time() < end){

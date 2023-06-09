@@ -44,6 +44,9 @@ void hf_update_debug_camera(hf_debug_camera* camera){
         camera->transform.pos = hf_add_v3f(camera->transform.pos, hf_v3f(0, -speed, 0));
     }
     
+    
+    //camera->transform.pos = hf_add_v3f(camera->transform.pos, hf_v3f(camera->dir_x * 0.001f, 0, camera->dir_z * 0.001f));
+    
     //printf("%f %f\n", -dir_x, 0, -dir_z);
     //v2f rotation_amount = !hf_input_get_cursor_visibility() ? hf_mul_v2f_f(hf_input_get_mouse_movement(), -camera->sensitivity) : hf_v2f(0, 0);
     
@@ -59,6 +62,7 @@ void hf_update_debug_camera(hf_debug_camera* camera){
     else if (camera->transform.rot.x > 90)
         camera->transform.rot.x = 90;
     
+    //printf("[%f %f %f]\n", camera->transform.pos.x, camera->transform.pos.y, camera->transform.pos.z);
     
     //this is the camera in the debug camera
     camera->camera.pos = camera->transform.pos;

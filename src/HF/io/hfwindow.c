@@ -587,9 +587,10 @@ b8 hf_create_window(hf_window* w){
     w->visual_info = glXChooseVisual(w->display, 0, w->attributes);
     w->color_map = XCreateColormap(w->display, w->root, w->visual_info->visual, AllocNone);
     w->set_win_att.colormap = w->color_map;
-    w->set_win_att.event_mask = ExposureMask | KeyPressMask;
+    w->set_win_att.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask;
     
     w->window = XCreateWindow(w->display, w->root, w->x, w->y, w->width, w->height, 0, w->visual_info->depth, InputOutput, w->visual_info->visual, CWColormap | CWEventMask, &w->set_win_att);
+    XSelectInput(w->display, w->window, ExposureMask | KeyPressMask | KeyReleaseMask) ;
     XMapWindow(w->display, w->window);
     XStoreName(w->display, w->window, w->title);
     
@@ -638,21 +639,104 @@ void hf_window_set_icon(hf_window* w, i32 icon_id){
 
 b8 hf_should_window_update(hf_window* w){
     //XNextEvent(w->display, &w->xev);
-    while(XPending(w->display))
-        XNextEvent(w->display, &w->xev);
     
-    if(w->xev.type == Expose) {
-        XGetWindowAttributes(w->display, w->window, &w->gwa);
-        glViewport(0, 0, w->gwa.width, w->gwa.height);
-        glXSwapBuffers(w->display, w->window);
+    while(XPending(w->display) > 0){
+        XNextEvent(w->display, &w->xev);
+        
+        KeySym key;
+        
+        switch(w->xev.type){
+            
+            
+            
+            case Expose:{
+                XGetWindowAttributes(w->display, w->window, &w->gwa);
+                
+            }
+            break;
+            
+            
+            
+            case KeyPress: {
+                key = XLookupKeysym(&w->xev.xkey, 0);
+                hf_input_keys[key] = 1;
+                
+            }
+            //hf_input_keys[w->xev.xkey.keycode] = 1;
+            
+            
+            /* 
+                    if(key == XK_backslash){
+                        printf("backslash pressed\n");
+                        //hf_renderer_toggle_wireframe();
+                    }
+             */
+            
+            break;
+            case KeyRelease:{
+                key = XLookupKeysym(&w->xev.xkey, 0);
+                hf_input_keys[key] = 0;
+                
+            }
+            //hf_input_keys[w->xev.xkey.keycode] = 0;
+            
+            
+            /* 
+                    if(key == XK_backslash){
+                        printf("backslash pressed\n");
+                        //hf_renderer_toggle_wireframe();
+                    }
+             */
+            
+            break;
+            /* 
+                        case ClientMessage:
+                        if (w->xev.xclient.data.l[0] == atomWmDeleteWindow) {
+                            return 0;
+                        }
+                        break;
+             */
+            case DestroyNotify:
+            return 0;
+            break;
+            
+            case MotionNotify:
+            //omx = mx;
+            //omy = my;
+            break;
+            
+            /* 
+                        default:
+                        XGetWindowAttributes(w->display, w->window, &w->gwa);
+                        glViewport(0, 0, w->gwa.width, w->gwa.height);
+                        glXSwapBuffers(w->display, w->window);
+                        break;
+             */
+            
+        }
     }
     
+    /* 
+        if(w->xev.type == Expose){
+            XGetWindowAttributes(w->display, w->window, &w->gwa);
+            glViewport(0, 0, w->gwa.width, w->gwa.height);
+            glXSwapBuffers(w->display, w->window);
+        }
+     */
+    
     hf_update_window(w);
-    return !(w->xev.type == KeyPress);
+    return 1;
 }
 
 void hf_update_window(hf_window* w){
+    
+    glViewport(0, 0, w->gwa.width, w->gwa.height);
+    w->width = w->gwa.width;
+    w->height = w->gwa.height;
+    glXSwapBuffers(w->display, w->window);
+    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
     //printf("test\n");
 }
 

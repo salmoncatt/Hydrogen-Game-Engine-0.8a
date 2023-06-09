@@ -3,7 +3,8 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#define HF_KEY_LAST 348
+//#define HF_KEY_LAST 348
+#define HF_KEY_LAST 34800
 
 #define HF_MOUSE_BUTTON_0 0
 #define HF_MOUSE_BUTTON_1 2
@@ -57,7 +58,7 @@ b8 hf_input_get_cursor_visibility();
 
 void hf_input_destroy();
 
-
+#ifdef _WIN32
 
 
 #define HF_KEY_ESCAPE 0x01
@@ -223,6 +224,71 @@ void hf_input_destroy();
 #define HF_KEY_LAUNCH_MEDIA 0xE06D
 
 #define HF_KEY_PAUSE 0xE11D45
+
+#elif defined(__linux__)
+
+
+#define HF_KEY_ESCAPE XK_Escape
+#define HF_KEY_1 XK_1
+#define HF_KEY_2 XK_2
+#define HF_KEY_3 XK_3
+#define HF_KEY_4 XK_4
+#define HF_KEY_5 XK_5
+#define HF_KEY_6 XK_6
+#define HF_KEY_7 XK_7
+#define HF_KEY_8 XK_8
+#define HF_KEY_9 XK_9
+#define HF_KEY_0 XK_0
+#define HF_KEY_MINUS XK_minus
+#define HF_KEY_EQUALS XK_equal
+#define HF_KEY_BACKSPACE XK_backspace
+#define HF_KEY_TAB XK_tab
+#define HF_KEY_Q XK_q
+#define HF_KEY_W XK_w
+#define HF_KEY_E XK_e
+#define HF_KEY_R XK_r
+#define HF_KEY_T XK_t
+#define HF_KEY_Y XK_y
+#define HF_KEY_U XK_u
+#define HF_KEY_I XK_i
+#define HF_KEY_O XK_o
+#define HF_KEY_P XK_p
+//#define HF_KEY_LEFT_BRACKET 0x1A
+//#define HF_KEY_RIGHT_BRACKET 0x1B
+//#define HF_KEY_ENTER 0x1C
+#define HF_KEY_LEFT_CONTROL XK_Control_L
+#define HF_KEY_A XK_a
+#define HF_KEY_S XK_s
+#define HF_KEY_D XK_d
+#define HF_KEY_F XK_f
+#define HF_KEY_G XK_g
+#define HF_KEY_H XK_h
+#define HF_KEY_J XK_j
+#define HF_KEY_K XK_k
+#define HF_KEY_L XK_l
+//#define HF_KEY_SEMICOLON 0x27
+//#define HF_KEY_APOSTROPHE 0x28
+//#define HF_KEY_GRAVE 0x29 // `
+#define HF_KEY_LEFT_SHIFT XK_Shift_L
+#define HF_KEY_BACKSLASH XK_backslash
+#define HF_KEY_Z XK_z
+#define HF_KEY_X XK_x
+#define HF_KEY_C XK_c
+#define HF_KEY_V XK_v
+#define HF_KEY_B XK_b
+#define HF_KEY_N XK_n
+#define HF_KEY_M XK_m
+
+
+
+
+#define HF_KEY_SPACE XK_space
+
+#endif
+
+
+
+
 /*
 sc_pause:
 - make: 0xE11D 45 0xE19D C5
