@@ -587,10 +587,10 @@ b8 hf_create_window(hf_window* w){
     w->visual_info = glXChooseVisual(w->display, 0, w->attributes);
     w->color_map = XCreateColormap(w->display, w->root, w->visual_info->visual, AllocNone);
     w->set_win_att.colormap = w->color_map;
-    w->set_win_att.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask;
+    w->set_win_att.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask | PointerMotionMask;
     
-    w->window = XCreateWindow(w->display, w->root, w->x, w->y, w->width, w->height, 0, w->visual_info->depth, InputOutput, w->visual_info->visual, CWColormap | CWEventMask, &w->set_win_att);
-    XSelectInput(w->display, w->window, ExposureMask | KeyPressMask | KeyReleaseMask) ;
+    w->window = XCreateWindow(w->display, w->root, w->x, w->y, w->width, w->height, 0, w->visual_info->depth, InputOutput, w->visual_info->visual, CWColormap | CWEventMask | CWCursor, &w->set_win_att);
+    XSelectInput(w->display, w->window, ExposureMask | KeyPressMask | KeyReleaseMask | PointerMotionMask) ;
     XMapWindow(w->display, w->window);
     XStoreName(w->display, w->window, w->title);
     
@@ -655,7 +655,24 @@ b8 hf_should_window_update(hf_window* w){
             }
             break;
             
-            
+            case MotionNotify:{
+                XDeviceMotionEvent *m = (XDeviceMotionEvent *)&w->xev;
+                
+                hf_input_cursor_pos.x = (f32)m->axis_data[0];
+                hf_input_cursor_pos.y = (f32)m->axis_data[1];
+                
+                //hf_input_cursor_pos.x = (f32)((XMotionEvent)w->xev).x;
+                //hf_input_cursor_pos.y = (f32)((XMotionEvent)w->xev).y;
+                
+                //printf("[%f %f]\n", hf_input_cursor_pos.x, hf_input_cursor_pos.y);
+                
+                /*                 
+                                if(hf_input_cursor_pos.x < 0)
+                                    hf_input_cursor_pos.x = 0;
+                                if(hf_input_cursor_pos.y < 0)
+                                    hf_input_cursor_pos.y = 0;
+                 */
+            }
             
             case KeyPress: {
                 key = XLookupKeysym(&w->xev.xkey, 0);
@@ -700,10 +717,12 @@ b8 hf_should_window_update(hf_window* w){
             return 0;
             break;
             
-            case MotionNotify:
-            //omx = mx;
-            //omy = my;
-            break;
+            /* 
+                        case MotionNotify:
+                        //omx = mx;
+                        //omy = my;
+                        break;
+             */
             
             /* 
                         default:
@@ -730,7 +749,7 @@ b8 hf_should_window_update(hf_window* w){
 
 void hf_update_window(hf_window* w){
     
-    glViewport(0, 0, w->gwa.width, w->gwa.height);
+    //glViewport(0, 0, w->gwa.width, w->gwa.height);
     w->width = w->gwa.width;
     w->height = w->gwa.height;
     glXSwapBuffers(w->display, w->window);

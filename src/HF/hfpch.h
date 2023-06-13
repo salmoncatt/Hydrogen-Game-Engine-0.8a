@@ -24,6 +24,9 @@
 #include<GL/glx.h>
 #include<GL/glu.h>
 
+//for XDeviceMotionEvent
+#include <X11/extensions/XInput.h>
+
 #include <unistd.h>
 #endif
 

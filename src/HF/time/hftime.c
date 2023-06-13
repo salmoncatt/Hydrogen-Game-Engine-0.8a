@@ -55,7 +55,7 @@ f64 hf_get_time(){
     
     return (f64)((query.QuadPart - hf_time_start) / hf_cpu_freq);
 #elif defined(__linux__)
-    return (f64)((f64)(clock() - hf_time_start) / (f64)(1000));
+    return (f64)((f64)(clock() - hf_time_start) / (f64)(CLOCKS_PER_SEC) * 10);
 #endif
 }
 
