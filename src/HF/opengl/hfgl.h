@@ -103,15 +103,18 @@ HF_GL_WIN_FUNC_LIST
 #elif defined(__linux__)
 
 
-
+#define HF_GL_LINUX_FUNC_LIST \
+HF_GLX(void,  SwapIntervalEXT);\
 
 //linux ignores WGL fxns and the HF_GL_WIN_FUNC_LIST entirely
 
 #define HF_GLE(type, name, ...) typedef type GLDECL name##proc(__VA_ARGS__); extern name##proc* gl##name;
 
+#define HF_GLX(type, name, ...) typedef type GLDECL name##proc(__VA_ARGS__); extern name##proc* glX##name;
+
 //this one has a silly proc address on linux so manual input for this one
 typedef void (APIENTRYP PFNGLACTIVETEXTUREPROC) (GLenum texture);
-
+extern PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT;
 
 
 

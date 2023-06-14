@@ -161,7 +161,7 @@ LRESULT CALLBACK hf_window_procedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 //void hf_window_set_key_callback(hf_window* window, void (*hf_key_callback)(hf_window*, u32, u32));
 
 // NOTE(salmoncatt): vsync
-void hf_swap_interval(b8 vsync);
+void hf_swap_interval(hf_window* window, b8 vsync);
 
 void hf_window_set_cursor_pos(hf_window* window, v2f pos);
 

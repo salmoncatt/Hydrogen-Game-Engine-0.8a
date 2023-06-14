@@ -5,9 +5,13 @@
 
 #include "../core/hfapp.h"
 
-
 extern f64 hf_cpu_freq;
+
+#ifdef _WIN32
 extern i64 hf_time_start;
+#elif defined(__linux__)
+extern struct timeval hf_time_start;
+#endif
 
 extern f64 hf_fps_smoothing;
 extern f64 hf_frame_time;
@@ -23,7 +27,7 @@ void hf_time_update();
 
 f64 hf_get_delta_time();
 
-u32 hf_get_fps();
+f64 hf_get_fps();
 
 void hf_limit_fps(f64 fps);
 

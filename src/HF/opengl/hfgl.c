@@ -1,5 +1,7 @@
 #include "hfgl.h"
 
+PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = NULL;
+
 b8 hf_gl_created = 0;
 u32* hf_gl_vbos;
 u32* hf_gl_vaos;
@@ -128,19 +130,25 @@ hf_err("[HF GL] couldn't load fuction: gl" #name " from opengl lib\n");\
 return 0;\
 }\
     
-#endif
-    
-    // NOTE(salmoncatt): load the function of the opengl extension (linux)
+    glXSwapIntervalEXT = (PFNGLXSWAPINTERVALEXTPROC)glXGetProcAddressARB("glXSwapIntervalEXT");
     
     /* 
-    #define HF_GLE(type, name, ...)\
+    #define HF_GLX(type, name, ...)\
     gl##name = (name##proc*)glXGetProcAddressARB("glX" #name);\
     i += 1;\
     if(!gl##name){\
-    hf_err("[HF GL] couldn't load fuction: gl" #name " from opengl lib\n");\
+    hf_err("[HF GL] couldn't load fuction: glX" #name " from opengl lib\n");\
     return 0;\
     }\
+        
+        HF_GL_LINUX_FUNC_LIST
      */
+    
+#endif
+    
+    
+    // NOTE(salmoncatt): load the function of the opengl extension (linux)
+    
     
     //don't need this crap on linux lol
     //#define HF_WGL(type, name, ...)

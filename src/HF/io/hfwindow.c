@@ -598,7 +598,7 @@ b8 hf_create_window(hf_window* w){
     glXMakeCurrent(w->display, w->window, w->glc);
     glEnable(GL_DEPTH_TEST);
     
-    
+    //hf_swap_interval(w, 0);
     
     printf("[HF] created window: [%s], size: [%u, %u], pos: [%u, %u]\n\n", w->title, w->width, w->height, w->x, w->y);
     
@@ -655,24 +655,25 @@ b8 hf_should_window_update(hf_window* w){
             }
             break;
             
-            case MotionNotify:{
-                XDeviceMotionEvent *m = (XDeviceMotionEvent *)&w->xev;
-                
-                hf_input_cursor_pos.x = (f32)m->axis_data[0];
-                hf_input_cursor_pos.y = (f32)m->axis_data[1];
-                
-                //hf_input_cursor_pos.x = (f32)((XMotionEvent)w->xev).x;
-                //hf_input_cursor_pos.y = (f32)((XMotionEvent)w->xev).y;
-                
-                //printf("[%f %f]\n", hf_input_cursor_pos.x, hf_input_cursor_pos.y);
-                
-                /*                 
-                                if(hf_input_cursor_pos.x < 0)
-                                    hf_input_cursor_pos.x = 0;
-                                if(hf_input_cursor_pos.y < 0)
-                                    hf_input_cursor_pos.y = 0;
-                 */
-            }
+            /* 
+                        case MotionNotify:{
+                            XDeviceMotionEvent *m = (XDeviceMotionEvent *)&w->xev;
+                            
+                            hf_input_cursor_pos.x = (f32)m->axis_data[0];
+                            hf_input_cursor_pos.y = (f32)m->axis_data[1];
+                            
+                            //hf_input_cursor_pos.x = (f32)((XMotionEvent)w->xev).x;
+                            //hf_input_cursor_pos.y = (f32)((XMotionEvent)w->xev).y;
+                            
+                            //printf("[%f %f]\n", hf_input_cursor_pos.x, hf_input_cursor_pos.y);
+                            
+                                            if(hf_input_cursor_pos.x < 0)
+                                                hf_input_cursor_pos.x = 0;
+                                            if(hf_input_cursor_pos.y < 0)
+                                                hf_input_cursor_pos.y = 0;
+                             
+                        }
+             */
             
             case KeyPress: {
                 key = XLookupKeysym(&w->xev.xkey, 0);
@@ -753,19 +754,64 @@ void hf_update_window(hf_window* w){
     w->width = w->gwa.width;
     w->height = w->gwa.height;
     glXSwapBuffers(w->display, w->window);
-    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    i32 x = 0, y = 0;
+    
+    
+    Window r, c;
+    i32 rx, ry;
+    u32 m;
+    XQueryPointer(w->display, w->window, &r, &c, &rx, &ry, &x, &y, &m);
+    
+    hf_input_cursor_pos.x = x;
+    hf_input_cursor_pos.y = y;
+    
+    //printf("[%f %f]\n", hf_input_cursor_pos.x, hf_input_cursor_pos.y);
+    
+    
+    
+    
+    
+    
+    // NOTE(salmoncatt): i dont understand how but i managed to ooga booga this shit into working with so little code
+    
+    hf_input_center = hf_v2f(w->width / 2, w->height / 2);
+    hf_input_cursor_movement = hf_sub_v2f(hf_input_cursor_pos, hf_input_cursor_pos_last);
+    
+    if(hf_input_cursor_visibility){
+        hf_input_cursor_pos_last = hf_input_cursor_pos;
+    }else{
+        v2f input_movement = hf_v2f(hf_abs(hf_input_cursor_movement.x), hf_abs(hf_input_cursor_movement.y));
+        
+        if(input_movement.x > 0 || input_movement.y > 0){
+            hf_window_set_cursor_pos(w, hf_input_center);
+            //POINT point;
+            //GetCursorPos(&point);
+            
+            hf_input_cursor_pos_last = hf_input_center;
+        }
+        
+    }
+    
+    hf_input_cursor_visibility_last = hf_input_cursor_visibility;
+    
+    
+    
     
     //printf("test\n");
 }
 
-void hf_set_window_title(hf_window* window, const char* title){
+void hf_set_window_title(hf_window* w, const char* title){
+    XStoreName(w->display, w->window, title);
 }
 
-void hf_swap_interval(b8 vsync){ 
+void hf_swap_interval(hf_window* w, b8 vsync){ 
+    glXSwapIntervalEXT(w->display, w->window, vsync);
 }
 
-void hf_window_set_cursor_pos(hf_window* window, v2f pos){
+void hf_window_set_cursor_pos(hf_window* w, v2f pos){
+    XWarpPointer(w->display, None, w->window, 0, 0, 0, 0, pos.x, pos.y);
 }
 
 

@@ -47,6 +47,11 @@ int main(void){
     
     
     
+    //printf("time ran: [%lf] millis\n", hf_get_time());
+    //sleep(1);
+    //printf("time ran: [%lf] millis\n", hf_get_time());
+    
+    
     //hf_serial_list_open_ports();
     
     //fix key_last in input.h
@@ -64,13 +69,26 @@ int main(void){
         
         if(hf_input_get_key_down(HF_KEY_BACKSLASH)){
             hf_renderer_toggle_wireframe();
-            printf("test\n");
         }
+        
+        if(hf_input_get_key_down(HF_KEY_T)){
+            hf_input_toggle_cursor();
+        }
+        
         //printf("%f\n", transform.pos.y);
         //hf_renderer_cam.transform.pos.z += 0.01f;
         
-        usleep(16000);
-        //hf_limit_fps(300);
+        
+        
+        
+        char fps[64];
+        sprintf(fps, "fps: %f", hf_get_fps());
+        hf_set_window_title(&app.window, fps);
+        
+        
+        
+        //usleep(100000);
+        hf_limit_fps(30);
         
     }
     
