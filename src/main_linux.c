@@ -88,7 +88,7 @@ int main(void){
         
         
         //usleep(100000);
-        hf_limit_fps(30);
+        //hf_limit_fps(30);
         
     }
     

@@ -1,6 +1,8 @@
 #! /bin/sh
 
 echo "[HGE] compiling [Linux]..."
+echo "[HGE] creating directories..."
+mkdir bin
 
 #make -f make_file.linux
 

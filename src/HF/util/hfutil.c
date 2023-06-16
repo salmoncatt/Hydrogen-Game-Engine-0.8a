@@ -6,8 +6,18 @@
 const u64 hf_string_npos = -1;
 
 extern void* hf_memcpy(void* destination, const void* source, u64 size){
+    /*if(destination == NULL){
+        destination = hf_malloc(size);
+    }*/
+    
     char* dest = (char*)destination;
     const char* src = (const char*)source;
+    
+    /* 
+        if(destination == NULL){
+            destination = hf_malloc(size);
+        }
+         */
     
     u64 length = size;
     
@@ -114,8 +124,34 @@ extern u64 hf_strfind(const char d, const char* data, u64 startingIndex, u64 end
 }
 
 extern char* hf_strcpy(char* destination, const char* source, u64 offset){
+    /* 
+        if(!destination){
+            destination = hf_malloc(hf_strlen(source) + 1 - offset);
+        }
+     */
+    
     return (char*)hf_memcpy(destination, source + offset, hf_strlen(source) + 1 - offset);
 }
+
+
+extern char* hf_strcpy_with_index(char* destination, const char* source, u64 offset, u64 end_index){
+    /*
+        if(!destination){
+            destination = hf_malloc(end_index - offset + 1);
+        }
+     */
+    
+    char* out = (char*)hf_memcpy(destination, source + offset, end_index - offset);
+    out[end_index - offset] = '\0';
+    
+    return out;
+}
+
+/* 
+extern char* hf_strcpy_with_end(char* destination, const char* source, u64 offset){
+    return (char*)hf_memcpy(destination, source + offset, hf_strlen(source) + 1 - offset);
+}
+ */
 
 extern b8 hf_memcmp(const void* aPointer, const void* bPointer, size_t bytes){
     /* 
@@ -399,5 +435,38 @@ char* hf_get_cpu_name(){
     CPUBrandString[64] = '\0';
     
     return CPUBrandString;
+    
+#elif defined(__linux__)
+    
+    FILE* file = fopen("/proc/cpuinfo", "rb");
+    char line[512];
+    u64 size = 0;
+    
+    
+    while(fgets(line, 512, file) != NULL)
+    {
+        
+        if(hf_strcmp(line, "model name")){
+            u64 start_index = hf_string_find(":", line, 0);
+            u64 end_index = hf_string_find("\n", line, 0);
+            
+            char* name = hf_malloc(256);
+            
+            hf_strcpy_with_index(name, line, start_index + 2, end_index);
+            fclose(file);
+            
+            return name;
+        }
+        
+        
+    }
+    
+    
+    
+    fclose(file);
+    
+    char* goober = "shitass";
+    return goober;
+    
 #endif
 }

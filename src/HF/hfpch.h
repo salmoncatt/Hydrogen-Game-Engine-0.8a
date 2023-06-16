@@ -27,6 +27,9 @@
 //#include <time.h>
 #include <sys/time.h>
 
+//for scancodes
+#include <X11/XKBlib.h>
+
 //for XDeviceMotionEvent
 #include <X11/extensions/XInput.h>
 

@@ -116,6 +116,10 @@ typedef struct hf_window{
     XEvent xev;
     XWindowAttributes gwa;
     
+    
+    
+    
+    XkbDescPtr keyboard_descriptor;
 #endif
     
     

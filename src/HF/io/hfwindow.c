@@ -598,6 +598,12 @@ b8 hf_create_window(hf_window* w){
     glXMakeCurrent(w->display, w->window, w->glc);
     glEnable(GL_DEPTH_TEST);
     
+    w->keyboard_descriptor = XkbGetMap(w->display, 0, XkbUseCoreKbd);
+    XkbGetNames(w->display, XkbKeyNamesMask, w->keyboard_descriptor);
+    
+    
+    
+    
     //hf_swap_interval(w, 0);
     
     printf("[HF] created window: [%s], size: [%u, %u], pos: [%u, %u]\n\n", w->title, w->width, w->height, w->x, w->y);

@@ -32,6 +32,7 @@ extern u64 hf_strfind(const char delimiter, const char* data, u64 startingIndex,
 //extern u64 hfstrfind(const char delimiter, const char* data, u64 startingIndex);
 
 extern char* hf_strcpy(char* destination, const char* source, u64 offset);
+extern char* hf_strcpy_with_index(char* destination, const char* source, u64 offset, u64 end_index);
 
 char* hf_concat(const char* a, const char* b);
 

@@ -273,6 +273,8 @@ hf_mesh hf_mesh_load_from_file(const char* file_path){
         //hf_free(header);
     }
     
+    fclose(file);
+    
     //printf("%f %f\n", texture_coords[2], texture_coords[3]);
     
     //hf_array_free(vertices_buffer);
