@@ -83,6 +83,13 @@ int main(void){
     
     panel.font = &font;
     
+    
+    //hf_serial_list_open_ports();
+    
+    hf_serial_port port = hf_serial_open_port("/dev/ttyACM0", 9600);
+    
+    
+    
     //printf("apsuhntat: %u", (u32)-1);
     
     f32 progress_percent = 0;
@@ -171,9 +178,11 @@ int main(void){
             //printf("key pressed\n");
         }
         
-        if(hf_input_get_key(HF_KEY_LEFT_CONTROL)){
-            printf("PRESSED %u\n", HF_KEY_LEFT_CONTROL);
-        }
+        /* 
+                if(hf_input_get_key(HF_KEY_LEFT_CONTROL)){
+                    printf("PRESSED %u\n", HF_KEY_LEFT_CONTROL);
+                }
+                 */
         
         //hf_log("[%f %f %f]\n", hf_renderer_cam.transform.rot.x, hf_renderer_cam.transform.rot.y, hf_renderer_cam.transform.rot.z);
         

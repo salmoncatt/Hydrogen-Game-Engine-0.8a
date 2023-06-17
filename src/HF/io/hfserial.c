@@ -25,19 +25,32 @@ void hf_serial_list_open_ports(){
             hf_log("[HF SERIAL] found port: [COM%u]\n", i);
         }
     }
-#endif
     
-    for(u32 i = 0; i < 255; i++){
-        sprintf(com, "COM%u", i);
-        
-        int result = open(com, O_RDWR | O_NOCTTY | O_SYNC);
-        
-        //hf_log("%s\n", com);
-        
-        if(result >= 0){
-            hf_log("[HF SERIAL] found port: [COM%u]\n", i);
+#elif defined(__linux__)
+    
+    
+    const char* usb_dirs[] = {"/dev/tty%u", "/dev/ttyS%u", "/dev/ttyACM%u"};
+    
+    for(u32 dir_num = 0; dir_num < 3; dir_num++){
+        for(u32 i = 0; i < 255; i++){
+            
+            sprintf(com, usb_dirs[dir_num], i);
+            
+            
+            
+            int result = open(com, O_RDWR | O_NOCTTY | O_SYNC);
+            
+            //hf_log("%s\n", com);
+            
+            if(result >= 0){
+                hf_log("[HF SERIAL] found port: [%s]\n", com);
+            }
         }
     }
+    
+    
+    
+#endif
     
     hf_log("[HF SERIAL] found all open ports\n\n");
 }
