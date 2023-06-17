@@ -590,7 +590,7 @@ b8 hf_create_window(hf_window* w){
     w->set_win_att.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask | PointerMotionMask;
     
     w->window = XCreateWindow(w->display, w->root, w->x, w->y, w->width, w->height, 0, w->visual_info->depth, InputOutput, w->visual_info->visual, CWColormap | CWEventMask | CWCursor, &w->set_win_att);
-    XSelectInput(w->display, w->window, ExposureMask | KeyPressMask | KeyReleaseMask | PointerMotionMask) ;
+    XSelectInput(w->display, w->window, ExposureMask | KeyPressMask | KeyReleaseMask | PointerMotionMask | ButtonPressMask | ButtonReleaseMask) ;
     XMapWindow(w->display, w->window);
     XStoreName(w->display, w->window, w->title);
     
@@ -659,6 +659,13 @@ b8 hf_should_window_update(hf_window* w){
                 XGetWindowAttributes(w->display, w->window, &w->gwa);
                 
             }
+            break;
+            
+            case ButtonPress:
+            hf_input_buttons[w->xev.xbutton.button] = 1;
+            break;
+            case ButtonRelease:
+            hf_input_buttons[w->xev.xbutton.button] = 0;
             break;
             
             /* 

@@ -18,7 +18,7 @@ int main(void){
     //hf_MLD_start();
     hf_app app = hf_app_defaults();
     app.name = "haha, what a goober";
-    app.parameters = HF_APP_USE_OPENGL | HF_APP_USE_ECS;
+    app.parameters = HF_APP_USE_OPENGL | HF_APP_USE_ECS | HF_APP_CREATE_WINDOW;
     
     hf_app_init(&app);
     app.window.title = "what a goober";
@@ -39,7 +39,6 @@ int main(void){
     
     glEnable(GL_BACK);
     glEnable(GL_CULL_FACE);
-    
     
     v3f pos = {0.2f, 0, -1};
     v3f rot = {0, 0, 0};
@@ -170,6 +169,10 @@ int main(void){
             
             //printf("key pressed: %u %u\n", hf_input_keys[HF_KEY_MINUS], hf_input_keys_old[HF_KEY_MINUS]);
             //printf("key pressed\n");
+        }
+        
+        if(hf_input_get_key(HF_KEY_LEFT_CONTROL)){
+            printf("PRESSED %u\n", HF_KEY_LEFT_CONTROL);
         }
         
         //hf_log("[%f %f %f]\n", hf_renderer_cam.transform.rot.x, hf_renderer_cam.transform.rot.y, hf_renderer_cam.transform.rot.z);

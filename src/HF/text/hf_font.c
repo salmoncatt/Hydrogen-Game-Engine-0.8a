@@ -55,7 +55,7 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
     //font.glyph_height = (u32)((f32)FT_CEIL(face->size->metrics.ascender) + (f32)FT_CEIL(face->size->metrics.descender));
     //font.descender = (face->size->metrics.descender >> 6) >> 6;
     
-    printf("%u %u\n", font.size, font.glyph_height);
+    //printf("%u %u\n", font.size, font.glyph_height);
     /* 
         u32 row_width = 0;
         u32 row_height = 0;

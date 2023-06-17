@@ -58,6 +58,8 @@ int main(void){
     
     glClearColor(0.5, 0.5, 0.5, 1);
     
+    hf_font font = hf_font_from_file("../res/fonts/ProggyClean.ttf", 12);
+    
     
     
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){

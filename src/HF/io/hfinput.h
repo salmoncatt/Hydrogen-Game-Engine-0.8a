@@ -4,21 +4,9 @@
 #define INPUT_H
 
 //#define HF_KEY_LAST 348
-#define HF_KEY_LAST 34800
+#define HF_KEY_LAST 348000
 
-#define HF_MOUSE_BUTTON_0 0
-#define HF_MOUSE_BUTTON_1 2
-#define HF_MOUSE_BUTTON_2 1
-#define HF_MOUSE_BUTTON_3 3
-#define HF_MOUSE_BUTTON_4 4
-#define HF_MOUSE_BUTTON_5 5
-#define HF_MOUSE_BUTTON_6 6
-#define HF_MOUSE_BUTTON_7 7
-
-#define HF_MOUSE_BUTTON_LEFT HF_MOUSE_BUTTON_0
-#define HF_MOUSE_BUTTON_RIGHT HF_MOUSE_BUTTON_1
-#define HF_MOUSE_BUTTON_MIDDLE HF_MOUSE_BUTTON_2
-#define HF_MOUSE_BUTTON_LAST HF_MOUSE_BUTTON_7
+#define HF_MOUSE_BUTTON_LAST 10
 
 #include "../core/hfapp.h"
 #include "../math/hfmath.h"
@@ -59,6 +47,19 @@ b8 hf_input_get_cursor_visibility();
 void hf_input_destroy();
 
 #ifdef _WIN32
+
+#define HF_MOUSE_BUTTON_0 0
+#define HF_MOUSE_BUTTON_1 2
+#define HF_MOUSE_BUTTON_2 1
+#define HF_MOUSE_BUTTON_3 3
+#define HF_MOUSE_BUTTON_4 4
+#define HF_MOUSE_BUTTON_5 5
+#define HF_MOUSE_BUTTON_6 6
+#define HF_MOUSE_BUTTON_7 7
+
+#define HF_MOUSE_BUTTON_LEFT HF_MOUSE_BUTTON_0
+#define HF_MOUSE_BUTTON_RIGHT HF_MOUSE_BUTTON_1
+#define HF_MOUSE_BUTTON_MIDDLE HF_MOUSE_BUTTON_2
 
 
 #define HF_KEY_ESCAPE 0x01
@@ -226,6 +227,11 @@ void hf_input_destroy();
 #define HF_KEY_PAUSE 0xE11D45
 
 #elif defined(__linux__)
+
+#define HF_MOUSE_BUTTON_LEFT 1
+#define HF_MOUSE_BUTTON_RIGHT 3
+#define HF_MOUSE_BUTTON_MIDDLE 2
+
 
 
 #define HF_KEY_ESCAPE XK_Escape
