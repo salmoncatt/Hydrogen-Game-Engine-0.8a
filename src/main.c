@@ -86,7 +86,7 @@ int main(void){
     
     //hf_serial_list_open_ports();
     
-    hf_serial_port port = hf_serial_open_port("/dev/ttyACM0", 9600);
+    //hf_serial_port port = hf_serial_open_port("/dev/ttyACM0", 9600);
     
     
     
