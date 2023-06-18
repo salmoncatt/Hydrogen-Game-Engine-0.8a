@@ -21,6 +21,7 @@ b8 hf_gui_panel_begin(hf_gui_panel* panel, char* text, u32 x, u32 y, u32 w, u32 
             panel->y += hf_input_get_mouse_movement().y;
             
         }
+        
     }
     
     //if values have not been initialized, do so (only do this when we can move the panel
