@@ -1,7 +1,5 @@
 #include "hfgl.h"
 
-PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = NULL;
-
 b8 hf_gl_created = 0;
 u32* hf_gl_vbos;
 u32* hf_gl_vaos;
@@ -13,6 +11,10 @@ u32* hf_gl_vaos;
 
 #define HF_WGL(type, name, ...) name##proc* wgl##name;
 HF_GL_WIN_FUNC_LIST
+
+#elif defined(__linux__)
+
+PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = NULL;
 
 #endif
 

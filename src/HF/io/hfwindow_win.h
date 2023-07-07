@@ -8,7 +8,7 @@
 void _hf_win_window_defaults(hf_window* window);
 
 b8 _hf_win_create_window(hf_window* window);
-//b8 _hf_win_gl_load_context();
+b8 _hf_win_gl_load_context();
 b8 _hf_win_destroy_window(hf_window* window);
 
 b8 _hf_win_should_window_update(hf_window* window);

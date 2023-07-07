@@ -53,7 +53,8 @@ f64 hf_get_time(){
     LARGE_INTEGER query;
     QueryPerformanceCounter(&query);
     
-    return (f64)((query.QuadPart - hf_time_start) / hf_cpu_freq);
+    return (f64)((query.QuadPart - hf_time_start) / hf_cpu_freq) / 1000.0;
+    
 #elif defined(__linux__)
     
     struct timeval current_time, elapsed_time;
@@ -79,8 +80,8 @@ f64 hf_get_delta_time(){
 }
 
 f64 hf_get_fps(){
-    hf_last_fps = 1.0 / hf_get_delta_time();
-    //hf_last_fps = hf_lerp(hf_last_fps, 1.0 / hf_get_delta_time(), hf_fps_smoothing);
+    //hf_last_fps = 1.0 / hf_get_delta_time();
+    hf_last_fps = hf_lerp(hf_last_fps, 1.0 / hf_get_delta_time(), hf_fps_smoothing);
     
     return hf_last_fps;
 }

@@ -540,7 +540,7 @@ void _hf_win_set_window_title(hf_window* window, const char* title){
     SetWindowText(window->hwnd, title);
 }
 
-void _hf_win_swap_interval(b8 vsync){
+void _hf_win_swap_interval(hf_window* window, b8 vsync){
     wglSwapIntervalEXT(vsync);
 }
 
