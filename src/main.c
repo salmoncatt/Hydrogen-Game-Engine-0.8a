@@ -84,7 +84,20 @@ int main(void){
     panel.font = &font;
     
     
-    //hf_serial_list_open_ports();
+    
+    //for marlin connection tests
+    /*hf_serial_list_open_ports();
+    
+    hf_serial_port port = hf_serial_open_port("COM4", 115200);
+    
+    hf_serial_wait_for_data(&port);
+    
+    
+    char read_data[200];
+    hf_serial_read(&port, read_data, 200, '\n');
+    
+    printf(read_data);*/
+    
     
     //hf_serial_port port = hf_serial_open_port("/dev/ttyACM0", 9600);
     
