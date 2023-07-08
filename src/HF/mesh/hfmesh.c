@@ -9,12 +9,14 @@ void hf_mesh_create(hf_mesh* mesh){
     
     if(mesh->vertices){
         if(hf_array_size(mesh->vertices) > 0){
+            printf("paudnrgpuandrgpnu\n");
             hf_push_data_to_VBO(0, 0, mesh->type, mesh->vertices, hf_array_size(mesh->vertices), GL_STATIC_DRAW);
         }
     }
     
     if(mesh->texture_coords){
         if(hf_array_size(mesh->texture_coords) > 0){
+            printf("paudnrgpuandrgpnu2\n");
             hf_push_data_to_VBO(0, 1, 2, mesh->texture_coords, hf_array_size(mesh->texture_coords), GL_STATIC_DRAW);
         }
     }

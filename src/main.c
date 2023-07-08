@@ -45,6 +45,71 @@ int main(void){
     v3f scale = {1, 1, 1};
     hf_transform transform = {pos, rot, scale};
     
+    
+    /* 
+        hf_mesh mesh = {};
+        f32 vert[] = {-0.5f,0.5f,-0.5f,	
+            -0.5f,-0.5f,-0.5f,	
+            0.5f,-0.5f,-0.5f,	
+            0.5f,0.5f,-0.5f,		
+            
+            -0.5f,0.5f,0.5f,	
+            -0.5f,-0.5f,0.5f,	
+            0.5f,-0.5f,0.5f,	
+            0.5f,0.5f,0.5f,
+            
+            0.5f,0.5f,-0.5f,	
+            0.5f,-0.5f,-0.5f,	
+            0.5f,-0.5f,0.5f,	
+            0.5f,0.5f,0.5f,
+            
+            -0.5f,0.5f,-0.5f,	
+            -0.5f,-0.5f,-0.5f,	
+            -0.5f,-0.5f,0.5f,	
+            -0.5f,0.5f,0.5f,
+            
+            -0.5f,0.5f,0.5f,
+            -0.5f,0.5f,-0.5f,
+            0.5f,0.5f,-0.5f,
+            0.5f,0.5f,0.5f,
+            
+            -0.5f,-0.5f,0.5f,
+            -0.5f,-0.5f,-0.5f,
+            0.5f,-0.5f,-0.5f,
+            0.5f,-0.5f,0.5f};
+        mesh.vertices = hf_array_create_from_data(vert, f32, 72);
+        
+        f32 text[] = {0,0,
+            0,1,
+            1,1,
+            1,0,			
+            0,0,
+            0,1,
+            1,1,
+            1,0,			
+            0,0,
+            0,1,
+            1,1,
+            1,0,
+            0,0,
+            0,1,
+            1,1,
+            1,0,
+            0,0,
+            0,1,
+            1,1,
+            1,0,
+            0,0,
+            0,1,
+            1,1,
+            1,0
+        };
+        mesh.texture_coords = hf_array_create_from_data(text, f32, 24);
+        mesh.indices = hf_array_create(u32);
+        
+        hf_mesh_create(&mesh);
+     */
+    
     hf_mesh mesh = hf_mesh_load_from_file("../res/models/stall/stall.obj");
     hf_texture texture = hf_texture_from_file("../res/models/stall/stallTexture.bmp");
     hf_texture_create(&texture);
@@ -104,7 +169,9 @@ int main(void){
         
         hf_set_window_title(&app.window, title);
         
-        hf_render_mesh((hf_mesh*)(hf_ecs_get_component(ecs, mesh_test, hf_mesh)), &shader, (hf_transform*)(hf_ecs_get_component(ecs, mesh_test, hf_transform)));
+        hf_render_mesh(&mesh, &shader, &transform);
+        
+        //hf_render_mesh((hf_mesh*)(hf_ecs_get_component(ecs, mesh_test, hf_mesh)), &shader, (hf_transform*)(hf_ecs_get_component(ecs, mesh_test, hf_transform)));
         
         //printf("%u\n", font.line_spacing);
         
