@@ -68,6 +68,11 @@ extern b8 hf_strcmp(const char* a, const char* b){
 }
 
 extern u64 hf_strlen(const char* data){
+    if(data == NULL){
+        return 0;
+    }
+    
+    
     // TODO(salmoncatt): make this faster pls (and hfStringFind too)
     const __m128i zeros = _mm_setzero_si128();
     __m128i* pointer = (__m128i*)(data);

@@ -5,6 +5,9 @@ hf_gui_panel* hf_current_gui_panel = NULL;
 b8 hf_gui_panel_begin(hf_gui_panel* panel, char* text, u32 x, u32 y, u32 w, u32 h, u32 flags, u32 title_bar_height){
     
     if(flags & HF_MOVEABLE){
+        
+        //moving
+        
         if(!panel->selected){
             panel->selected = ((u32)hf_input_cursor_pos.x > panel->x && (u32)hf_input_cursor_pos.y > panel->y && (u32)hf_input_cursor_pos.x < panel->x + panel->w && (u32)hf_input_cursor_pos.y < panel->y + title_bar_height) && hf_input_get_mouse_button_down(HF_MOUSE_BUTTON_LEFT);
             //panel->select_x = panel->x - (u32)hf_input_cursor_pos.x;
@@ -22,7 +25,31 @@ b8 hf_gui_panel_begin(hf_gui_panel* panel, char* text, u32 x, u32 y, u32 w, u32 
             
         }
         
+        if(!panel->sizing){
+            u32 min_x = panel->x + panel->w - 10;
+            u32 min_y = panel->y + panel->h - 10;
+            u32 max_x = panel->x + panel->w;
+            u32 max_y = panel->y + panel->h;
+            
+            panel->sizing = ((u32)hf_input_cursor_pos.x > min_x && (u32)hf_input_cursor_pos.y > min_y && (u32)hf_input_cursor_pos.x < max_x && (u32)hf_input_cursor_pos.y < max_y) && hf_input_get_mouse_button_down(HF_MOUSE_BUTTON_LEFT);
+            
+        }else{
+            panel->sizing = !hf_input_get_mouse_button_up(HF_MOUSE_BUTTON_LEFT);
+        }
+        
+        if(panel->sizing){
+            //panel->x = (u32)hf_input_cursor_pos.x + panel->select_x;
+            //panel->y = (u32)hf_input_cursor_pos.y + panel->select_y;
+            
+            panel->w += hf_input_get_mouse_movement().x;
+            panel->h += hf_input_get_mouse_movement().y;
+            
+        }
+        
+        
+        
     }
+    
     
     //if values have not been initialized, do so (only do this when we can move the panel
     if((panel->x == 0 && panel->y == 0 && panel->w == 0 && panel->h == 0) || !(flags & HF_MOVEABLE)){
@@ -61,6 +88,11 @@ b8 hf_gui_panel_begin(hf_gui_panel* panel, char* text, u32 x, u32 y, u32 w, u32 
         hf_render_rect(panel->x, panel->y, panel->w, title_bar_height, color);
         hf_gui_title_text(text, panel->font, 5, ((f32)title_bar_height / 2) + ((f32)panel->font->glyph_height / 2));
         //hf_gui_text(panel->w, 13, 0, text, panel->font, HF_TEXT_CENTERED | HF_TEXT_DONT_USE_SPACING);
+        
+        
+        //sizing indicator
+        u32 sizing_size = 10;
+        hf_render_rect(panel->x + panel->w - sizing_size, panel->y + panel->h - sizing_size, sizing_size, sizing_size, color);
     }
     
     hf_current_gui_panel->cursor_pos = (v2f){10, title_bar_height};

@@ -83,6 +83,11 @@ void hf_gui_title_text(char* text, hf_font* font, i32 x, i32 y){
 
 void hf_gui_text(char* text, hf_font* font, u32 flags){
     u32 length = hf_strlen(text);
+    if(!length){
+        return;
+    }
+    
+    
     //f32 scale_ratio = (f32)(height) / (f32)(font->size);
     f32 scale_ratio = 1;
     //f32 scaled_height = font->glyph_height;
@@ -116,6 +121,13 @@ void hf_gui_text(char* text, hf_font* font, u32 flags){
     
     for(u32 i = 0; i < length; i++){
         char current_char = text[i];
+        
+        if(current_char == '\n'){
+            cursor_pos.y += font->line_spacing * scale_ratio - font->glyph_height;
+            cursor_pos.x = screen_pos.x;
+        }
+        
+        
         u32 char_num = (u32)(current_char);
         
         v2f char_size = (v2f){font->characters[char_num].size.x * scale_ratio, font->characters[char_num].size.y * scale_ratio};

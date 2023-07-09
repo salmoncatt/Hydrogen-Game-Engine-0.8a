@@ -17,6 +17,7 @@ typedef struct hf_gui_panel{
     i32 x, y;
     u32 w, h;
     b8 selected; //for dragging
+    b8 sizing; //for sizing
     hf_font* font;
     u32 element_spacing; //distance between gui elements (10 pixels is default)
     

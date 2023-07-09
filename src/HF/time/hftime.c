@@ -48,6 +48,8 @@ void hf_time_init(f64 fps_smoothing){
 }
 
 
+
+//returns time elapsed in milli
 f64 hf_get_time(){
 #ifdef _WIN32
     LARGE_INTEGER query;

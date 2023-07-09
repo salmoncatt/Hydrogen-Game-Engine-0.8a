@@ -17,7 +17,9 @@ typedef struct hf_serial_port {
     
 } hf_serial_port;
 
-void hf_serial_list_open_ports();
+void hf_serial_print_open_ports();
+
+char* hf_serial_list_open_ports();
 
 hf_serial_port hf_serial_open_port(const char* port_name, u32 baud_rate);
 

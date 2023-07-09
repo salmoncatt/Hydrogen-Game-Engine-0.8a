@@ -6,7 +6,7 @@
 #include <fcntl.h> 
 
 
-void hf_serial_list_open_ports(){
+void hf_serial_print_open_ports(){
     char buffer[5000];
     char com[20];
     
@@ -53,6 +53,35 @@ void hf_serial_list_open_ports(){
 #endif
     
     hf_log("[HF SERIAL] found all open ports\n\n");
+}
+
+char* hf_serial_list_open_ports(){
+    char buffer[5000];
+    char* out = hf_malloc(1024);
+    char com[20];
+    
+    strcpy(out, "[HF SERIAL] finding all open ports...\n");
+    //strcat(out, "test\n");
+    
+#ifdef _WIN32
+    // NOTE(salmoncatt): loop through all ports and get avaible ports
+    for(u32 i = 0; i < 255; i++){
+        sprintf_s(com, 20, "COM%u", i);
+        
+        DWORD result = QueryDosDevice(com, buffer, 5000);
+        
+        //hf_log("%s\n", com);
+        
+        if(result != 0){
+            sprintf_s(com, 20, " COM%u \n", i);
+            strcat(out, com);
+        }
+    }
+    
+#endif 
+    
+    
+    return out;
 }
 
 hf_serial_port hf_serial_open_port(const char* port_name, u32 baud_rate){

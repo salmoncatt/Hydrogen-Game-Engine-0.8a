@@ -42,6 +42,7 @@
 #include <immintrin.h>
 #include <time.h>
 #include <math.h>
+#include <string.h>
 
 //for __debugbreak();
 #include <signal.h>

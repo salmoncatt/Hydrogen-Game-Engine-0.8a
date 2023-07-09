@@ -88,7 +88,7 @@ int main(void){
     
     
     //for marlin connection tests
-    /*hf_serial_list_open_ports();
+    /*hf_serial_print_open_ports();
     
     hf_serial_port port = hf_serial_open_port("COM4", 115200);
     
@@ -112,6 +112,11 @@ int main(void){
     
     //test machine learning dawg
     //hf_test_machine_learning();
+    
+    
+    
+    char* text = NULL;
+    //text[0] = '\0';
     
     while(hf_app_should_update(&app) && !hf_input_get_key(HF_KEY_ESCAPE)){
         
@@ -137,11 +142,41 @@ int main(void){
         if(hf_gui_panel_begin(&panel, "HF Engine test", 110, 180, 200, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
             hf_gui_text("The quick brown fox jumps over the lazy dog", &font, 0);
             
+            
+            
             if(hf_gui_button(80, 30, hf_v4f(0.9, 0.6, 0, 1))){
-                printf("clicked\n");
+                //printf("clicked\n");
             }
-            if(hf_gui_button_text(60, 30, hf_v4f(0.9, 0.6, 0, 1), "test")){
-                printf("clicked but with text\n");
+            if(hf_gui_button_text(120, 30, hf_v4f(0.9, 0.6, 0, 1), "check com ports")){
+                //text = "test";
+                //printf(hf_serial_list_open_ports());
+                
+                
+                text = hf_serial_list_open_ports();
+                //hf_serial_print_open_ports();
+                //printf("clicked but with text\n");
+            }
+            if(hf_gui_button_text(120, 30, hf_v4f(0.9, 0.2, 0.6, 1), "connect printer")){
+                //text = "test";
+                //printf(hf_serial_list_open_ports());
+                
+                hf_serial_port port = hf_serial_open_port("COM4", 115200);
+                
+                hf_serial_wait_for_data(&port);
+                
+                
+                char read_data[200];
+                hf_serial_read(&port, read_data, 200, '\n');
+                
+                //printf(read_data);
+                //hf_free(text);
+                strcpy(text, read_data);
+                
+                //text = read_data;
+                
+                //text = hf_serial_list_open_ports();
+                //hf_serial_print_open_ports();
+                //printf("clicked but with text\n");
             }
             hf_gui_image(100, 100, &gui_image_test);
             
@@ -161,15 +196,12 @@ int main(void){
             //hf_gui_text(100, 36, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_CENTERED);
             
             
-            char fps[64];
             //f32 percentage = ((hf_get_delta_time() / hf_sleep_time)) * 100;
-            //sprintf(fps, "gpu: %u%%", (u32)percentage);
-            //sprintf(fps, "fps: %u [%u][%u]", (u32)hf_get_fps(), (u32)panel.x, (u32)panel.y);
-            sprintf(fps, "frame time: [%.1f], delta time: [%.5f]", hf_get_time(), hf_get_delta_time());
-            //printf("[%u][%u]\n", (u32)panel.x, (u32)panel.y);
+            //sprintf(text, "gpu: %u%%", (u32)percentage);
+            //sprintf(text, "fps: %u [%u][%u]", (u32)hf_get_fps(), (u32)panel.x, (u32)panel.y);
+            //sprintf(text, "frame time: [%.1f], delta time: [%.5f]", hf_get_time(), hf_get_delta_time());
             
-            
-            hf_gui_text(fps, &font, 0);
+            hf_gui_text(text, &font, 0);
             
             //hf_gui_text(100, 16, 0, fps, &font, HF_TEXT_CENTERED);
             //hf_gui_text(100, 16, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_BOTTOM);
