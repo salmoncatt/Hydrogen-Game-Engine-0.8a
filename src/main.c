@@ -46,69 +46,6 @@ int main(void){
     hf_transform transform = {pos, rot, scale};
     
     
-    /* 
-        hf_mesh mesh = {};
-        f32 vert[] = {-0.5f,0.5f,-0.5f,	
-            -0.5f,-0.5f,-0.5f,	
-            0.5f,-0.5f,-0.5f,	
-            0.5f,0.5f,-0.5f,		
-            
-            -0.5f,0.5f,0.5f,	
-            -0.5f,-0.5f,0.5f,	
-            0.5f,-0.5f,0.5f,	
-            0.5f,0.5f,0.5f,
-            
-            0.5f,0.5f,-0.5f,	
-            0.5f,-0.5f,-0.5f,	
-            0.5f,-0.5f,0.5f,	
-            0.5f,0.5f,0.5f,
-            
-            -0.5f,0.5f,-0.5f,	
-            -0.5f,-0.5f,-0.5f,	
-            -0.5f,-0.5f,0.5f,	
-            -0.5f,0.5f,0.5f,
-            
-            -0.5f,0.5f,0.5f,
-            -0.5f,0.5f,-0.5f,
-            0.5f,0.5f,-0.5f,
-            0.5f,0.5f,0.5f,
-            
-            -0.5f,-0.5f,0.5f,
-            -0.5f,-0.5f,-0.5f,
-            0.5f,-0.5f,-0.5f,
-            0.5f,-0.5f,0.5f};
-        mesh.vertices = hf_array_create_from_data(vert, f32, 72);
-        
-        f32 text[] = {0,0,
-            0,1,
-            1,1,
-            1,0,			
-            0,0,
-            0,1,
-            1,1,
-            1,0,			
-            0,0,
-            0,1,
-            1,1,
-            1,0,
-            0,0,
-            0,1,
-            1,1,
-            1,0,
-            0,0,
-            0,1,
-            1,1,
-            1,0,
-            0,0,
-            0,1,
-            1,1,
-            1,0
-        };
-        mesh.texture_coords = hf_array_create_from_data(text, f32, 24);
-        mesh.indices = hf_array_create(u32);
-        
-        hf_mesh_create(&mesh);
-     */
     
     hf_mesh mesh = hf_mesh_load_from_file("../res/models/stall/stall.obj");
     hf_texture texture = hf_texture_from_file("../res/models/stall/stallTexture.bmp");
@@ -122,7 +59,7 @@ int main(void){
     hf_ecs_add_component(ecs, mesh_test, hf_transform, &transform);
     //hf_log("%s\n", ((hf_tag*)(hf_ecs_get_component(ecs, mesh_test, hf_tag)))->name);
     
-    printf("time: %lf\n", hf_get_time());
+    printf("time: %.1lf ms\n", hf_get_time());
     
     //hf_vector_free(&vector);
     //hf_window_set_key_callback(&window, &test_callback);
@@ -227,9 +164,12 @@ int main(void){
             char fps[64];
             //f32 percentage = ((hf_get_delta_time() / hf_sleep_time)) * 100;
             //sprintf(fps, "gpu: %u%%", (u32)percentage);
-            sprintf(fps, "fps: %u [%u][%u]", (u32)hf_get_fps(), (u32)panel.x, (u32)panel.y);
+            //sprintf(fps, "fps: %u [%u][%u]", (u32)hf_get_fps(), (u32)panel.x, (u32)panel.y);
+            sprintf(fps, "frame time: [%.1f], delta time: [%.5f]", hf_get_time(), hf_get_delta_time());
             //printf("[%u][%u]\n", (u32)panel.x, (u32)panel.y);
             
+            
+            hf_gui_text(fps, &font, 0);
             
             //hf_gui_text(100, 16, 0, fps, &font, HF_TEXT_CENTERED);
             //hf_gui_text(100, 16, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_BOTTOM);

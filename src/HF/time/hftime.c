@@ -53,7 +53,7 @@ f64 hf_get_time(){
     LARGE_INTEGER query;
     QueryPerformanceCounter(&query);
     
-    return (f64)((query.QuadPart - hf_time_start) / hf_cpu_freq) / 1000.0;
+    return (f64)((query.QuadPart - hf_time_start) / hf_cpu_freq);
     
 #elif defined(__linux__)
     
@@ -71,7 +71,7 @@ f64 hf_get_time(){
 }
 
 void hf_time_update(){
-    hf_frame_time = (f64)((hf_get_time() - hf_last_frame_time));
+    hf_frame_time = (f64)((hf_get_time() - hf_last_frame_time) / 1000);
     hf_last_frame_time = hf_get_time();
 }
 
@@ -87,7 +87,7 @@ f64 hf_get_fps(){
 }
 
 void hf_limit_fps(f64 fps){
-    f64 wait_time = (f64)(1 / fps);
+    f64 wait_time = (f64)(1000 / fps);
     hf_sleep_time = wait_time - hf_get_delta_time();
     
     if(hf_sleep_time > 0)
