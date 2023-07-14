@@ -1,5 +1,8 @@
 #include "hftexture.h"
 
+u32* hf_texture_ids;
+
+
 hf_texture hf_texture_from_image(hf_image image){
     hf_texture out = hf_texture_default;
     
@@ -40,6 +43,8 @@ void hf_texture_create(hf_texture* texture){
         glGenTextures(1, &texture->texture_id);
         glBindTexture(texture->texture_type, texture->texture_id);
         
+        hf_array_push_back(hf_texture_ids, texture->texture_id);
+        
         glPixelStorei(GL_UNPACK_ALIGNMENT, texture->byte_alignment);
         
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, texture->filter_mode.x);
@@ -64,8 +69,19 @@ void hf_texture_create(hf_texture* texture){
     }
 }
 
+/* 
 void hf_texture_destroy(hf_texture* texture){
     glDeleteTextures(1, &texture->texture_id);
     hf_image_destroy(&texture->image);
 }
+ */
 
+/* 
+void hf_texture_destroy_all(){
+    glDeleteTextures(hf_array_size(hf_texture_ids), hf_texture_ids);
+    
+    hf_log("[HF] deleted: (textures: [%u])\n", hf_array_size(hf_gl_vbos), hf_array_size(hf_gl_vaos));
+    
+    hf_array_free(hf_texture_ids);
+}
+ */

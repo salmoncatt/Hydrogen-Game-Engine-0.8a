@@ -43,6 +43,7 @@ b8 hf_gl_init(){
         
         hf_gl_vbos = hf_array_create(u32);
         hf_gl_vaos = hf_array_create(u32);
+        hf_texture_ids = hf_array_create(u32);
         
         hf_log("[HF GL] initialized\n\n");
         
@@ -245,10 +246,13 @@ void hf_gl_link_and_validate_shader(u32 program_id){
 void hf_gl_close(){
     glDeleteBuffers(hf_array_size(hf_gl_vbos), hf_gl_vbos);
     glDeleteVertexArrays(hf_array_size(hf_gl_vaos), hf_gl_vaos);
+    glDeleteTextures(hf_array_size(hf_texture_ids), hf_texture_ids);
     
-    hf_log("[HF GL] deleted: (vbos: [%u], vaos: [%u])\n", hf_array_size(hf_gl_vbos), hf_array_size(hf_gl_vaos));
+    hf_log("[HF GL] deleted: (vbos: [%u], vaos: [%u], textures: [%u])\n", hf_array_size(hf_gl_vbos), hf_array_size(hf_gl_vaos), hf_array_size(hf_texture_ids));
+    
     hf_array_free(hf_gl_vbos);
     hf_array_free(hf_gl_vaos);
+    hf_array_free(hf_texture_ids);
 }
 
 

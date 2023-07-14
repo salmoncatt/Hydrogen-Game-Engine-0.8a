@@ -97,7 +97,6 @@ int main(void){
     printf("time ran: [%lf] millis\n", hf_get_time());
     
     
-    hf_texture_destroy(&texture);
     hf_mesh_destroy(&mesh);
     
     return hf_app_stop(&app);;

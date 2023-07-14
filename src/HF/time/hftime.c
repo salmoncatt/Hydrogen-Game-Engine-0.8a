@@ -64,7 +64,7 @@ f64 hf_get_time(){
     gettimeofday(&current_time, NULL);
     timersub(&current_time, &hf_time_start, &elapsed_time);
     
-    f64 time = (((f64)elapsed_time.tv_sec) + ((f64)elapsed_time.tv_usec / 1000000.0));
+    f64 time = (((f64)elapsed_time.tv_sec) + ((f64)elapsed_time.tv_usec / 1000000.0)) * 1000.0;
     
     return time;
     //return ((f64)clock() - hf_time_start) / (f64)(CLOCKS_PER_SEC) * 1000;

@@ -31,11 +31,6 @@ int main(void){
     
     // NOTE(salmoncatt): please put all opengl things after this thaaaanks
     
-    hf_shader shader = {};
-    shader.name = "goober shader";
-    
-    hf_shader_create(&shader, "../res/shaders/vertex.glsl", "../res/shaders/fragment.glsl");
-    
     
     glEnable(GL_BACK);
     glEnable(GL_CULL_FACE);
@@ -124,7 +119,7 @@ int main(void){
         
         hf_set_window_title(&app.window, title);
         
-        hf_render_mesh(&mesh, &shader, &transform);
+        hf_render_mesh(&mesh, &hf_default_shader, &transform);
         
         //hf_render_mesh((hf_mesh*)(hf_ecs_get_component(ecs, mesh_test, hf_mesh)), &shader, (hf_transform*)(hf_ecs_get_component(ecs, mesh_test, hf_transform)));
         
@@ -250,8 +245,8 @@ int main(void){
     }
     
     
-    hf_texture_destroy(&texture);
-    hf_texture_destroy(&gui_image_test);
+    //hf_texture_destroy(&texture);
+    //hf_texture_destroy(&gui_image_test);
     hf_font_destroy(&font);
     
     hf_mesh_destroy(&mesh);

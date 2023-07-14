@@ -192,7 +192,7 @@ hf_font hf_font_from_file(const char* path, u32 font_size){
 void hf_font_destroy(hf_font* font){
     hf_array_free(font->vertices);
     hf_array_free(font->texture_coords);
-    hf_texture_destroy(&font->atlas_texture);
+    //hf_texture_destroy(&font->atlas_texture);
 }
 
 u32 hf_font_get_bitmap_length(hf_font* font, char* text){

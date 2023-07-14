@@ -10,13 +10,17 @@
 #include "../camera/hfdebugcamera.h"
 
 extern hf_debug_camera hf_renderer_cam;
+
 extern m4f hf_renderer_proj_mat;
 extern m4f hf_renderer_ortho;
 extern m4f hf_renderer_pixel_ortho;
+
 extern b8 hf_renderer_wireframe_active;
 extern f32 hf_aspect_ratio;
 extern u32 hf_window_w;
 extern u32 hf_window_h;
+
+extern hf_shader hf_default_shader;
 
 
 // NOTE(salmoncatt): i guess having these here tells amd and nvidia to select most powerful gpu for this application, needs testing tho

@@ -30,6 +30,10 @@ typedef struct hf_texture{
 
 #define hf_texture_default {{}, 0, 0, {GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE}, {GL_NEAREST_MIPMAP_LINEAR, GL_NEAREST}, 4, GL_TEXTURE_2D, GL_RGBA8, GL_RGBA, GL_UNSIGNED_BYTE, 1, 0}
 
+
+extern u32* hf_texture_ids;
+
+
 hf_texture hf_texture_from_image(hf_image image);
 void hf_texture_copy(hf_texture* dest, hf_texture* src);
 hf_texture hf_texture_from_file(const char* file);
@@ -37,6 +41,10 @@ hf_texture hf_texture_from_file(const char* file);
 void hf_texture_set_sub_image(hf_texture* texture, u32 level, v2f offset, v2f size, const void* pixels);
 
 void hf_texture_create(hf_texture* texture);
-void hf_texture_destroy(hf_texture* texture);
+//void hf_texture_destroy(hf_texture* texture);
+
+//void hf_texture_init();
+//void hf_texture_destroy_all();
+
 
 #endif //HFTEXTURE_H
