@@ -241,4 +241,8 @@ hf_inline f64 hf_to_degrees(f64 radians);
 
 hf_inline f64 hf_lerp(f64 a, f64 b, f64 percentage);
 
+hf_inline b8 hf_2d_aabb_intersect(u32 a_x, u32 a_y, u32 a_w, u32 a_h, u32 b_x, u32 b_y, u32 b_w, u32 b_h);
+
+
+
 #endif //HFMATH_H

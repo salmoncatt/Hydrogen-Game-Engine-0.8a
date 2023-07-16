@@ -287,6 +287,13 @@ void hf_input_destroy();
 
 
 
+#define HF_KEY_UP XK_Up
+#define HF_KEY_DOWN XK_Down
+#define HF_KEY_LEFT XK_Left
+#define HF_KEY_RIGHT XK_Right
+
+
+
 
 #define HF_KEY_SPACE XK_space
 

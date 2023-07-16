@@ -81,9 +81,14 @@ void hf_gui_title_text(char* text, hf_font* font, i32 x, i32 y){
     }
 }
 
-void hf_gui_text(char* text, hf_font* font, u32 flags){
+void hf_gui_text(char* text, u32 flags){
     u32 length = hf_strlen(text);
     if(!length){
+        return;
+    }
+    
+    hf_font* font = hf_current_gui_panel->font;
+    if(font == NULL){
         return;
     }
     

@@ -15,7 +15,7 @@ typedef struct hf_gui_panel{
     
     v4f color, title_bar_color;
     i32 x, y;
-    u32 w, h;
+    u32 w, h, title_bar_height;
     b8 selected; //for dragging
     b8 sizing; //for sizing
     hf_font* font;
@@ -33,8 +33,10 @@ extern hf_gui_panel* hf_current_gui_panel;
 #define HF_SIZEABLE 0x02
 #define HF_MOVEABLE 0x04
 
-b8 hf_gui_panel_begin(hf_gui_panel* panel, char* text, u32 x, u32 y, u32 w, u32 h, u32 flags, u32 title_bar_height);
+b8 hf_gui_panel_begin(hf_gui_panel* panel, char* title, u32 flags);
 b8 hf_gui_panel_end();
+
+hf_gui_panel hf_gui_panel_defaults();
 
 v2f hf_gui_get_cursor_pos();
 void hf_gui_set_cursor_pos(v2f in);

@@ -63,10 +63,10 @@ int main(void){
     
     glClearColor(0.5, 0.5, 0.5, 1);
     
-    hf_gui_panel panel = {};
-    panel.color = hf_v4f(0.3, 0.3, 0.3, 1);
-    panel.title_bar_color = hf_v4f(0.9, 0.5, 0, 1);
-    panel.element_spacing = 4;
+    hf_gui_panel panel = hf_gui_panel_defaults();
+    //panel.color = hf_v4f(0.3, 0.3, 0.3, 1);
+    //panel.title_bar_color = hf_v4f(0.9, 0.5, 0, 1);
+    //panel.element_spacing = 4;
     
     hf_texture gui_image_test = hf_texture_from_file("../res/images/patrick.png");
     hf_texture_create(&gui_image_test);
@@ -75,10 +75,11 @@ int main(void){
     //hf_font font = hf_font_from_file("../res/fonts/munro.ttf", 18);
     //hf_font font = hf_font_from_file("../res/fonts/liberation-mono.ttf", 18);
     //hf_font font = hf_font_from_file("../res/fonts/Inconsolata-Regular.ttf", 18);
-    hf_font font = hf_font_from_file("../res/fonts/ProggyClean.ttf", 12);
-    font.color = (v3f){0.9, 0.9, 0.9};
     
-    panel.font = &font;
+    //hf_font font = hf_font_from_file("../res/fonts/ProggyClean.ttf", 12);
+    //font.color = (v3f){0.9, 0.9, 0.9};
+    
+    //panel.font = &font;
     
     
     
@@ -135,7 +136,7 @@ int main(void){
         //hf_render_rect(0, 0, 100, 100, (v4f){1, 1, 1, 1});
         
         if(hf_gui_panel_begin(&panel, "HF Engine test", 110, 180, 200, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
-            hf_gui_text("The quick brown fox jumps over the lazy dog", &font, 0);
+            hf_gui_text("The quick brown fox jumps over the lazy dog", &hf_main_font, 0);
             
             
             
@@ -196,7 +197,7 @@ int main(void){
             //sprintf(text, "fps: %u [%u][%u]", (u32)hf_get_fps(), (u32)panel.x, (u32)panel.y);
             //sprintf(text, "frame time: [%.1f], delta time: [%.5f]", hf_get_time(), hf_get_delta_time());
             
-            hf_gui_text(text, &font, 0);
+            hf_gui_text(text, &hf_main_font, 0);
             
             //hf_gui_text(100, 16, 0, fps, &font, HF_TEXT_CENTERED);
             //hf_gui_text(100, 16, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_BOTTOM);
@@ -239,7 +240,7 @@ int main(void){
         
         //hf_update_debug_camera(&hf_renderer_cam);
         
-        hf_render_font(&font);
+        //hf_render_font(&font);
         
         hf_limit_fps(300);
     }
@@ -247,7 +248,7 @@ int main(void){
     
     //hf_texture_destroy(&texture);
     //hf_texture_destroy(&gui_image_test);
-    hf_font_destroy(&font);
+    hf_font_destroy(&hf_main_font);
     
     hf_mesh_destroy(&mesh);
     hf_app_stop(&app);

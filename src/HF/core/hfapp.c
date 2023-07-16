@@ -68,9 +68,9 @@ void hf_app_start(hf_app* app){
 #endif
     
     if(app->parameters & HF_APP_USE_OPENGL){
+        hf_free_type_init();
         hf_renderer_init(app);
         hf_renderer_init_2d(app);
-        hf_free_type_init();
     }
 }
 

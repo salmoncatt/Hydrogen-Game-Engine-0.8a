@@ -46,6 +46,8 @@ void hf_renderer_init(hf_app* app) {
 }
 
 void hf_renderer_update(hf_app* app){
+    hf_renderer_update_2d();
+    
     hf_renderer_proj_mat = hf_perspective_m4f(app->window.width, app->window.height, 90, 0.1f, 1000);
     hf_renderer_pixel_ortho = hf_ortho_m4f(0, app->window.width, app->window.height, 0, -1, 1);
     

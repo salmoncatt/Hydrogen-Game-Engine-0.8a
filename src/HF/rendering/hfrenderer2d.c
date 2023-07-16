@@ -4,6 +4,7 @@ hf_mesh hf_renderer_quad = {};
 hf_shader hf_gui_rect_shader = {};
 hf_shader hf_gui_text_shader = {};
 
+hf_font hf_main_font = {};
 
 void hf_renderer_init_2d(hf_app* app) {
     f32 hf_quad_vertices[] = {0, 1, 0, 0, 1, 1, 1, 0};
@@ -21,6 +22,11 @@ void hf_renderer_init_2d(hf_app* app) {
     
     hf_gui_text_shader.name = "gui text shader";
     hf_shader_create(&hf_gui_text_shader, "../res/shaders/gui_text_vertex.glsl", "../res/shaders/gui_text_fragment.glsl");
+    
+    hf_main_font = hf_font_from_file("../res/fonts/ProggyClean.ttf", 12);
+    hf_main_font.color = (v3f){0.9, 0.9, 0.9};
+    
+    
     
     hf_log("[HF] initialized HF Renderer 2D\n\n");
 }
@@ -236,6 +242,13 @@ void hf_render_font(hf_font* font){
     font->texture_coords = hf_array_create(f32);
     font->char_count = 0;
 }
+
+
+void hf_renderer_update_2d(){
+    hf_render_font(&hf_main_font);
+}
+
+
 
 /* 
 void hf_render_rect_ss(hf_button* button){
