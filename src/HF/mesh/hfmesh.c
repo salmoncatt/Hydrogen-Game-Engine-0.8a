@@ -51,6 +51,27 @@ hf_mesh hf_mesh_load_from_file(const char* file_path){
     char* file_name = hf_remove_file_path(file_path);
     FILE* file = fopen(file_path, "r");
     
+    fseek(file, 0, SEEK_END);//go to end
+    f64 file_size = (f64)(ftell(file));//get pointer
+    fseek(file, 0, SEEK_SET);//go back to start
+    char size_type[16];
+    
+    
+    if(file_size > 1073741824){ //GB
+        strcpy(size_type, "GB");
+        file_size /= 1073741824.0;
+    }else if(file_size > 1048576){ //MB
+        strcpy(size_type, "MB");
+        file_size /= 1048576.0;
+    }else if(file_size > 1024){ //KB
+        strcpy(size_type, "KB");
+        file_size /= 1024.0;
+    }else{
+        strcpy(size_type, "B");
+    }
+    
+    
+    
     hf_mesh mesh = {};;
     
     if(file == NULL){
@@ -291,7 +312,7 @@ hf_mesh hf_mesh_load_from_file(const char* file_path){
     
     hf_mesh_create(&mesh);
     
-    hf_log("[HF] loaded obj model: [%s]\n\n", file_name);
+    hf_log("[HF] loaded obj model: [%s] (%.2f %s)\n\n", file_name, file_size, size_type);
     
     return mesh;
 }

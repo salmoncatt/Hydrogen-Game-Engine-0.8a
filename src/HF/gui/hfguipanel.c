@@ -71,7 +71,7 @@ b8 hf_gui_panel_begin(hf_gui_panel* panel, char* text, u32 flags){
     }
     
     if(panel->element_spacing == 0)
-        panel->element_spacing = 4;
+        panel->element_spacing = 8;
     
     hf_render_rect(panel->x, panel->y, panel->w, panel->h, panel->color);
     
@@ -110,7 +110,7 @@ hf_gui_panel hf_gui_panel_defaults(){
     
     out.color = hf_v4f(0.3, 0.3, 0.3, 1);
     out.title_bar_color = hf_v4f(0.9, 0.5, 0, 1);
-    out.element_spacing = 4;
+    out.element_spacing = 8;
     //out.title_bar_height = 16; //might want to not auto set this tbh
     out.font = &hf_main_font;
     

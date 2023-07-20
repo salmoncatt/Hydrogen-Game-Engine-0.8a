@@ -12,8 +12,8 @@ void hf_shader_create(hf_shader* shader, const char* vertex_path, const char* fr
     shader->vertex_name = hf_remove_file_path(vertex_path);
     shader->fragment_name = hf_remove_file_path(fragment_path);
     
-    hf_gl_compile_shader(shader->vertex_id, shader->vertex_shader, shader->vertex_name);
-    hf_gl_compile_shader(shader->fragment_id, shader->fragment_shader, shader->fragment_name);
+    hf_gl_compile_shader(shader->vertex_id, shader->vertex_shader, shader->vertex_name, shader->verbose_compiling);
+    hf_gl_compile_shader(shader->fragment_id, shader->fragment_shader, shader->fragment_name, shader->verbose_compiling);
     
     glAttachShader(shader->program_id, shader->vertex_id);
     glAttachShader(shader->program_id, shader->fragment_id);
@@ -21,7 +21,7 @@ void hf_shader_create(hf_shader* shader, const char* vertex_path, const char* fr
     hf_gl_link_and_validate_shader(shader->program_id);
     
     
-    hf_log("[HF] compiled shader: [%s]\n\n", shader->name);
+    hf_log("[HF] compiled shader: [(%s), vertex: (%s), fragment: (%s)]\n", shader->name, shader->vertex_name, shader->fragment_name);
 }
 
 void hf_shader_bind(hf_shader* shader){

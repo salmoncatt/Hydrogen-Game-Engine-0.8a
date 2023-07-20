@@ -153,7 +153,7 @@ void hf_push_data_to_IBO(const void* data, u32 size, u32 IBO, GLenum draw_mode);
 
 void hf_gl_close();
 
-void hf_gl_compile_shader(u32 id, const char* shader_code, const char* shader_name);
+void hf_gl_compile_shader(u32 id, const char* shader_code, const char* shader_name, b8 verbose_compiling);
 
 void hf_gl_link_and_validate_shader(u32 program_id);
 

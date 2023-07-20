@@ -58,11 +58,11 @@ char* hf_format_string(const char* msg, ...);
 char* hf_vformat_string(const char* msg, va_list args);
 
 void hf_print_stack();
+char* hf_get_cpu_name();
 
 char* hf_load_file_as_string(const char* file_path);
-
 char* hf_remove_file_path(const char* file_path);
 
-char* hf_get_cpu_name();
+//u64 hf_get_file_size();
 
 #endif //HFUTIL_H

@@ -5,7 +5,7 @@ CFLAGS = -mavx -m64 -Isrc/HF -Iext/include -Iext/include/FreeType -Lext/lib -L/u
 #SRC=$(wildcard src/*.c) $(wildcard src/*/*.c) $(wildcard src/*/*/*.c)
 
 #only compile linux version of main file
-SRC= src/pong.c $(wildcard src/*/*.c) $(wildcard src/*/*/*.c)
+SRC= src/main.c $(wildcard src/*/*.c) $(wildcard src/*/*/*.c)
 OBJS = $(SRC:.c=.o)
 
 

@@ -27,7 +27,7 @@ b8 hf_gl_load_extenstions(){
  */
 
 b8 _hf_linux_create_window(hf_window* w){
-    printf("[HF] creating window: [%s]\n", w->title);
+    //printf("[HF] creating window: [%s]\n", w->title);
     
     //printf("test\n");
     w->display = XOpenDisplay(NULL);
@@ -61,7 +61,7 @@ b8 _hf_linux_create_window(hf_window* w){
 }
 
 b8 _hf_linux_destroy_window(hf_window* w){
-    printf("[HF] destorying window: [%s]\n", w->title);
+    //printf("[HF] destorying window: [%s]\n", w->title);
     glXMakeCurrent(w->display, None, NULL);
     glXDestroyContext(w->display, w->glc);
     XDestroyWindow(w->display, w->window);

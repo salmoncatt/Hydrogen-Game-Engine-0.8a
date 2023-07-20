@@ -75,7 +75,7 @@ void hf_gl_get_version(u32* major, u32* minor){
 }
 
 b8 hf_gl_load_extensions(){
-    hf_log("[HF GL] loading OpenGL\n");
+    //hf_log("[HF GL] loading OpenGL\n");
     u32 i = 0;
     
 #ifdef _WIN32
@@ -203,7 +203,7 @@ void hf_push_data_to_IBO(const void* data, u32 size, u32 IBO, GLenum draw_mode){
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void hf_gl_compile_shader(u32 id, const char* shader_code, const char* shader_name){
+void hf_gl_compile_shader(u32 id, const char* shader_code, const char* shader_name, b8 verbose_compiling){
     glShaderSource(id, 1, &shader_code, NULL);
     glCompileShader(id);
     
@@ -217,7 +217,9 @@ void hf_gl_compile_shader(u32 id, const char* shader_code, const char* shader_na
         return;
     }
     
-    hf_log("[HF] compiled shader code: [%s]\n", shader_name);
+    if(verbose_compiling){
+        hf_log("[HF] compiled shader code: [%s]\n", shader_name);
+    }
 }
 
 void hf_gl_link_and_validate_shader(u32 program_id){

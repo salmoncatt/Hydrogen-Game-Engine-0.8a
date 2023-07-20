@@ -16,6 +16,8 @@ typedef struct hf_shader{
     
     char* name;
     
+    b8 verbose_compiling; //will print when the vertex shader is compiled along with fragment shader (takes up a lot of space so disabled by default)
+    
 }hf_shader;
 
 void hf_shader_create(hf_shader* shader, const char* vertex_path, const char* fragment_path);

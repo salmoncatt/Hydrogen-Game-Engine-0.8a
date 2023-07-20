@@ -6,13 +6,13 @@ int main(void){
     
     hf_app app = hf_app_defaults();
     app.name = "pong";
-    app.parameters = HF_APP_USE_OPENGL | HF_APP_USE_ECS | HF_APP_CREATE_WINDOW;
+    app.parameters = HF_APP_USE_OPENGL | HF_APP_CREATE_WINDOW;
     hf_app_init(&app);
     
     app.window.title = "pong";
     hf_app_start(&app);
     
-    hf_ecs* ecs = &app.ecs;
+    //hf_ecs* ecs = &app.ecs;
     
     
     glClearColor(0, 0, 0, 1);
@@ -44,6 +44,7 @@ int main(void){
     u32 l_score = 0, r_score = 0;
     
     f32 bot_speed = 0.03f;
+    f32 dot_speed = 1;
     
     b8 debug_enable = 0;
     
@@ -61,13 +62,14 @@ int main(void){
         sprintf(text2, "  [bot speed: %.3f]", bot_speed);
         
         char text3[64];
-        sprintf(text3, "  [dot speed: (%.3f, %.3f)]", dot_vel.x, dot_vel.y);
+        sprintf(text3, "  [dot speed: (%.3f, %.3f)]", dot_vel.x * dot_speed, dot_vel.y * dot_speed);
         
         hf_gui_text(text, 0);
         
         if(debug_enable){
             hf_gui_text(text2, 0);
             hf_gui_text(text3, 0);
+            hf_gui_slider(80, 15, hf_v4f(0.9, 0.6, 0, 1), hf_v4f(0.5, 0.5, 0.5, 1), &dot_speed, 0, 5);
         }
         
         if(hf_input_get_key_down(HF_KEY_BACKSLASH)){
@@ -118,7 +120,7 @@ int main(void){
         }
         
         //someone loses
-        if((dot_pos.x + dot_size > (paddle_r_pos.x + 1))){
+        if((dot_pos.x + dot_size > (paddle_r_pos.x + 3))){
             dot_pos.x = app.window.width / 2;
             dot_pos.y = app.window.height / 2;
             l_score += 1;
@@ -126,7 +128,7 @@ int main(void){
                 bot_speed -= 0.005f;
             }
             
-        }else if((dot_pos.x < (paddle_l_pos.x + 9))){
+        }else if((dot_pos.x < (paddle_l_pos.x + 7))){
             dot_pos.x = app.window.width / 2;
             dot_pos.y = app.window.height / 2;
             r_score += 1;
@@ -159,7 +161,7 @@ int main(void){
         hf_render_rect(dot_pos.x, dot_pos.y, dot_size, dot_size, (frame_index > 0) ? (v4f){1, 0, 0, 1} : (v4f){0, 1, 0, 1});
         
         
-        dot_pos = hf_add_v2f(dot_pos, dot_vel);
+        dot_pos = hf_add_v2f(dot_pos, hf_mul_v2f(dot_vel, (v2f){dot_speed, dot_speed}));
         
         if(collided){
             frame_index = 1;

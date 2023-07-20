@@ -23,6 +23,7 @@ void hf_renderer_init_2d(hf_app* app) {
     hf_gui_text_shader.name = "gui text shader";
     hf_shader_create(&hf_gui_text_shader, "../res/shaders/gui_text_vertex.glsl", "../res/shaders/gui_text_fragment.glsl");
     
+    //hf_main_font = hf_font_from_file("../res/fonts/ProggyClean.ttf", 16);
     hf_main_font = hf_font_from_file("../res/fonts/ProggyClean.ttf", 12);
     hf_main_font.color = (v3f){0.9, 0.9, 0.9};
     
@@ -35,6 +36,7 @@ void hf_renderer_destroy_2d(hf_app* app) {
     hf_mesh_destroy(&hf_renderer_quad);
     hf_shader_destroy(&hf_gui_rect_shader);
     hf_shader_destroy(&hf_gui_text_shader);
+    hf_font_destroy(&hf_main_font);
     hf_log("[HF] destroyed HF Renderer 2D\n");
 }
 

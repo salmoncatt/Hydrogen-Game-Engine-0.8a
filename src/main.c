@@ -64,6 +64,10 @@ int main(void){
     glClearColor(0.5, 0.5, 0.5, 1);
     
     hf_gui_panel panel = hf_gui_panel_defaults();
+    panel.x = 100;
+    panel.y = 100;
+    panel.w = 200;
+    panel.h = 400;
     //panel.color = hf_v4f(0.3, 0.3, 0.3, 1);
     //panel.title_bar_color = hf_v4f(0.9, 0.5, 0, 1);
     //panel.element_spacing = 4;
@@ -110,7 +114,7 @@ int main(void){
     //hf_test_machine_learning();
     
     
-    
+    f32 value = 0;
     char* text = NULL;
     //text[0] = '\0';
     
@@ -135,8 +139,8 @@ int main(void){
         
         //hf_render_rect(0, 0, 100, 100, (v4f){1, 1, 1, 1});
         
-        if(hf_gui_panel_begin(&panel, "HF Engine test", 110, 180, 200, 250, HF_TITLE_BAR | HF_MOVEABLE, 25)){
-            hf_gui_text("The quick brown fox jumps over the lazy dog", &hf_main_font, 0);
+        if(hf_gui_panel_begin(&panel, "HF Engine test", HF_TITLE_BAR | HF_MOVEABLE)){
+            hf_gui_text("The quick brown fox jumps over the lazy dog", 0);
             
             
             
@@ -174,6 +178,7 @@ int main(void){
                 //hf_serial_print_open_ports();
                 //printf("clicked but with text\n");
             }
+            
             hf_gui_image(100, 100, &gui_image_test);
             
             sprintf(progress_title, "progress: [%.1f%%]", progress_percent);
@@ -182,6 +187,11 @@ int main(void){
                 progress_percent = 0;
             else
                 progress_percent += 0.1;
+            
+            
+            hf_gui_slider(80, 15, hf_v4f(0.9, 0.6, 0, 1), hf_v4f(0.5, 0.5, 0.5, 1), &value, 0, 5);
+            
+            
             //f32 y_pos_gui = hf_gui_get_cursor_pos().y;
             
             //printf("%f\n", hf_renderer_cam.dir_x);
@@ -197,7 +207,7 @@ int main(void){
             //sprintf(text, "fps: %u [%u][%u]", (u32)hf_get_fps(), (u32)panel.x, (u32)panel.y);
             //sprintf(text, "frame time: [%.1f], delta time: [%.5f]", hf_get_time(), hf_get_delta_time());
             
-            hf_gui_text(text, &hf_main_font, 0);
+            hf_gui_text(text, 0);
             
             //hf_gui_text(100, 16, 0, fps, &font, HF_TEXT_CENTERED);
             //hf_gui_text(100, 16, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_BOTTOM);
@@ -248,7 +258,7 @@ int main(void){
     
     //hf_texture_destroy(&texture);
     //hf_texture_destroy(&gui_image_test);
-    hf_font_destroy(&hf_main_font);
+    //hf_font_destroy(&hf_main_font);
     
     hf_mesh_destroy(&mesh);
     hf_app_stop(&app);

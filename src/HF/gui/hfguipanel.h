@@ -9,6 +9,7 @@
 #include "hf_gui_progress_bar.h"
 #include "hf_gui_rectangle.h"
 #include "hf_gui_text.h"
+#include "hf_gui_slider.h"
 
 
 typedef struct hf_gui_panel{
