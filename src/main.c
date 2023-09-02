@@ -42,8 +42,8 @@ int main(void){
     
     
     
-    hf_mesh mesh = hf_mesh_load_from_file("../res/models/stall/stall.obj");
-    hf_texture texture = hf_texture_from_file("../res/models/stall/stallTexture.bmp");
+    hf_mesh mesh = hf_mesh_load_from_file("../res/models/propane tank/tank model final.obj");
+    hf_texture texture = hf_texture_from_file("../res/models/propane tank/Material_BaseColor.png");
     hf_texture_create(&texture);
     mesh.texture = texture;
     
@@ -130,7 +130,7 @@ int main(void){
         
         //printf("%u\n", font.line_spacing);
         
-        //transform.pos.x += 0.0001f;
+        transform.pos.x += 0.001f;
         //transform.pos = hf_add_v3f(transform.pos, hf_v3f(hf_input_get_mouse_movement().x, hf_input_get_mouse_movement().y, 0));
         
         //hf_log("[%i %i]\n", app.window.width, app.window.height);
@@ -139,82 +139,84 @@ int main(void){
         
         //hf_render_rect(0, 0, 100, 100, (v4f){1, 1, 1, 1});
         
-        if(hf_gui_panel_begin(&panel, "HF Engine test", HF_TITLE_BAR | HF_MOVEABLE)){
-            hf_gui_text("The quick brown fox jumps over the lazy dog", 0);
-            
-            
-            
-            if(hf_gui_button(80, 30, hf_v4f(0.9, 0.6, 0, 1))){
-                //printf("clicked\n");
-            }
-            if(hf_gui_button_text(120, 30, hf_v4f(0.9, 0.6, 0, 1), "check com ports")){
-                //text = "test";
-                //printf(hf_serial_list_open_ports());
-                
-                
-                text = hf_serial_list_open_ports();
-                //hf_serial_print_open_ports();
-                //printf("clicked but with text\n");
-            }
-            if(hf_gui_button_text(120, 30, hf_v4f(0.9, 0.2, 0.6, 1), "connect printer")){
-                //text = "test";
-                //printf(hf_serial_list_open_ports());
-                
-                hf_serial_port port = hf_serial_open_port("COM4", 115200);
-                
-                hf_serial_wait_for_data(&port);
-                
-                
-                char read_data[200];
-                hf_serial_read(&port, read_data, 200, '\n');
-                
-                //printf(read_data);
-                //hf_free(text);
-                strcpy(text, read_data);
-                
-                //text = read_data;
-                
-                //text = hf_serial_list_open_ports();
-                //hf_serial_print_open_ports();
-                //printf("clicked but with text\n");
-            }
-            
-            hf_gui_image(100, 100, &gui_image_test);
-            
-            sprintf(progress_title, "progress: [%.1f%%]", progress_percent);
-            hf_gui_progress_bar_text(150, 20, progress_percent, hf_v4f(0.9, 0.6, 0, 1), hf_v4f(0.4, 0.4, 0.4, 1), progress_title);
-            if(progress_percent > 100)
-                progress_percent = 0;
-            else
-                progress_percent += 0.1;
-            
-            
-            hf_gui_slider(80, 15, hf_v4f(0.9, 0.6, 0, 1), hf_v4f(0.5, 0.5, 0.5, 1), &value, 0, 5);
-            
-            
-            //f32 y_pos_gui = hf_gui_get_cursor_pos().y;
-            
-            //printf("%f\n", hf_renderer_cam.dir_x);
-            
-            //hf_gui_rect(100, 10, (v4f){0, 0, 0, 1});
-            
-            //hf_gui_set_cursor_pos((v2f){hf_gui_get_cursor_pos().x, y_pos_gui});
-            //hf_gui_text(100, 36, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_CENTERED);
-            
-            
-            //f32 percentage = ((hf_get_delta_time() / hf_sleep_time)) * 100;
-            //sprintf(text, "gpu: %u%%", (u32)percentage);
-            //sprintf(text, "fps: %u [%u][%u]", (u32)hf_get_fps(), (u32)panel.x, (u32)panel.y);
-            //sprintf(text, "frame time: [%.1f], delta time: [%.5f]", hf_get_time(), hf_get_delta_time());
-            
-            hf_gui_text(text, 0);
-            
-            //hf_gui_text(100, 16, 0, fps, &font, HF_TEXT_CENTERED);
-            //hf_gui_text(100, 16, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_BOTTOM);
-            //hf_gui_text(100, 48, 0, "the quick brown fox jumps over the lazy dog", &font, HF_TEXT_BOTTOM);
-            
-            hf_gui_panel_end();
-        }
+        /* 
+                if(hf_gui_panel_begin(&panel, "HF Engine test", HF_TITLE_BAR | HF_MOVEABLE)){
+                    hf_gui_text("The quick brown fox jumps over the lazy dog", 0);
+                    
+                    
+                    
+                    if(hf_gui_button(80, 30, hf_v4f(0.9, 0.6, 0, 1))){
+                        //printf("clicked\n");
+                    }
+                    if(hf_gui_button_text(120, 30, hf_v4f(0.9, 0.6, 0, 1), "check com ports")){
+                        //text = "test";
+                        //printf(hf_serial_list_open_ports());
+                        
+                        
+                        text = hf_serial_list_open_ports();
+                        //hf_serial_print_open_ports();
+                        //printf("clicked but with text\n");
+                    }
+                    if(hf_gui_button_text(120, 30, hf_v4f(0.9, 0.2, 0.6, 1), "connect printer")){
+                        //text = "test";
+                        //printf(hf_serial_list_open_ports());
+                        
+                        hf_serial_port port = hf_serial_open_port("COM4", 115200);
+                        
+                        hf_serial_wait_for_data(&port);
+                        
+                        
+                        char read_data[200];
+                        hf_serial_read(&port, read_data, 200, '\n');
+                        
+                        //printf(read_data);
+                        //hf_free(text);
+                        strcpy(text, read_data);
+                        
+                        //text = read_data;
+                        
+                        //text = hf_serial_list_open_ports();
+                        //hf_serial_print_open_ports();
+                        //printf("clicked but with text\n");
+                    }
+                    
+                    hf_gui_image(100, 100, &gui_image_test);
+                    
+                    sprintf(progress_title, "progress: [%.1f%%]", progress_percent);
+                    hf_gui_progress_bar_text(150, 20, progress_percent, hf_v4f(0.9, 0.6, 0, 1), hf_v4f(0.4, 0.4, 0.4, 1), progress_title);
+                    if(progress_percent > 100)
+                        progress_percent = 0;
+                    else
+                        progress_percent += 0.1;
+                    
+                    
+                    hf_gui_slider(80, 15, hf_v4f(0.9, 0.6, 0, 1), hf_v4f(0.5, 0.5, 0.5, 1), &value, 0, 5);
+                    
+                    
+                    //f32 y_pos_gui = hf_gui_get_cursor_pos().y;
+                    
+                    //printf("%f\n", hf_renderer_cam.dir_x);
+                    
+                    //hf_gui_rect(100, 10, (v4f){0, 0, 0, 1});
+                    
+                    //hf_gui_set_cursor_pos((v2f){hf_gui_get_cursor_pos().x, y_pos_gui});
+                    //hf_gui_text(100, 36, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_CENTERED);
+                    
+                    
+                    //f32 percentage = ((hf_get_delta_time() / hf_sleep_time)) * 100;
+                    //sprintf(text, "gpu: %u%%", (u32)percentage);
+                    //sprintf(text, "fps: %u [%u][%u]", (u32)hf_get_fps(), (u32)panel.x, (u32)panel.y);
+                    //sprintf(text, "frame time: [%.1f], delta time: [%.5f]", hf_get_time(), hf_get_delta_time());
+                    
+                    hf_gui_text(text, 0);
+                    
+                    //hf_gui_text(100, 16, 0, fps, &font, HF_TEXT_CENTERED);
+                    //hf_gui_text(100, 16, 0, "The quick brown fox jumps over the lazy dog", &font, HF_TEXT_BOTTOM);
+                    //hf_gui_text(100, 48, 0, "the quick brown fox jumps over the lazy dog", &font, HF_TEXT_BOTTOM);
+                    
+                    hf_gui_panel_end();
+                }
+         */
         
         
         
